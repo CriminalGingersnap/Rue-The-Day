@@ -24,17 +24,17 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
 
     if answer == "Movement":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)
-        if stationary: Moves.execute(fighter, fighter, "Set")
+        if stationary: Moves.execute(fighter, groups, "Set")
     elif answer in Moves.stationaryAbilities:
-        Moves.execute(fighter, fighter, answer)
+        Moves.execute(fighter, groups, answer)
     elif answer in Area.areaAbilities:
         Movement.moveFighter(fighter, battleMap, None, None, False)       
-        Area.execute(fighter, groups[2], answer, battleMap)
+        Area.execute(fighter, groups["fightingEnemies"], answer, battleMap)
 
 
 def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
-    reachable, fightingAllies, fightingEnemies = groups[0], groups[1], groups[2]
-    reachableAllies, reachableEnemies = reachable[0], reachable[1] + reachable[2] + reachable[3]
+    reachable, fightingAllies, fightingEnemies = groups["reachable"], groups["fightingAllies"], groups["fightingEnemies"]
+    reachableAllies, reachableEnemies = reachable["boonReachable"], reachable["attackReachable"] + reachable["hinderReachable"]
     stationary, choice = True, ""
 
     if fighter.atrb["cur_sp"] > 0:
@@ -59,5 +59,5 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             Movement.moveFighter(fighter, battleMap, target, getClose)
                 
     if stationary: choice = random.choice(posOptions)
-    if choice in Area.areaAbilities: Area.execute(fighter, groups[2], choice, battleMap)
-    elif choice in Moves.stationaryBoons: Moves.execute(fighter, fighter, choice)
+    if choice in Area.areaAbilities: Area.execute(fighter, groups["fightingEnemies"], choice, battleMap)
+    elif choice in Moves.stationaryBoons: Moves.execute(fighter, groups, choice)

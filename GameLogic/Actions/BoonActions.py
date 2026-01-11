@@ -14,26 +14,13 @@ def pcSelectBoon(fighter):
         answer = Select.makeSelection(boonOptions + ["None"]) 
         return answer
 
+def pcSelectBoonTarget(allies):
+    choice = "None"
 
-def pcSelectBoonTarget(fighter, allies, boonChoice):
-    choice, candidates = "None", allies
-
-    validTargets = winnowTargets(fighter, candidates, boonChoice)
-    if validTargets == []: Select.waitPrint("No valid targets remaining.")
-    else: choice = Select.targetSelect(validTargets)
+    if allies == []: Select.waitPrint("No valid targets remaining.")
+    else: choice = Select.targetSelect(allies)
 
     return choice
-
-
-def winnowTargets(fighter, candidates, ability) -> list:
-    validTargets = []
-    if ability in Boons.selfBoons: validTargets = [fighter]
-    else:
-        for candidate in candidates:
-            if any(source == candidate.effects[ability]["source"] for source in [fighter, None]):
-                validTargets += [candidate]
-
-    return validTargets
 
 
 def npcSelectBoon(fighter, enemies):
@@ -87,10 +74,10 @@ def usableBoons(fighter):
 
     if fighter.atrb["cur_mag"] > 0:
         if AttackActions.weaponAllows(fighter, "Bring"):
-            affordableBoons += Boons.magicSelfBoons + Boons.magicBoons
+            affordableBoons += Boons.magicBoons
         if fighter.atrb["cur_mag"] > 1: affordableBoons += ["Convert"]
     if fighter.atrb["cur_mar"] > 0:
-        affordableBoons += Boons.martialBoons + Boons.martialSelfBoons
+        affordableBoons += Boons.martialBoons
     
     for boon in fighter.abl["boons"]:
         if (boon in affordableBoons): usableBoons += [boon]
@@ -99,19 +86,19 @@ def usableBoons(fighter):
 
 
 def npcSelectBoonTarget(fighter, allies, boon):
-    target, validAllies = "None", winnowTargets(fighter, allies, boon)
+    target = "None"
 
     if fighter.type not in ["human", "elemental"]:
-        if fighter in validAllies: target = fighter
-    elif len(validAllies) > 0:
-        lowestAVAlly = Assess.findLowestAV(fighter, validAllies)
-        lowestHPAlly = Assess.findLowestHP(validAllies)
-        lowestResBurnAlly = Assess.findLowestRes(validAllies, "Burn")
-        lowestResCrushAlly = Assess.findLowestRes(validAllies, "Crush")
-        lowestResDreamAlly = Assess.findLowestRes(validAllies, "Dream")
-        lowestResFreezeAlly = Assess.findLowestRes(validAllies, "Freeze")
-        lowestResPierceAlly = Assess.findLowestRes(validAllies, "Pierce")
-        lowestResRotAlly = Assess.findLowestRes(validAllies, "Rot")
+        if fighter in allies: target = fighter
+    elif len(allies) > 0:
+        lowestAVAlly = Assess.findLowestAV(fighter, allies)
+        lowestHPAlly = Assess.findLowestHP(allies)
+        lowestResBurnAlly = Assess.findLowestRes(allies, "Burn")
+        lowestResCrushAlly = Assess.findLowestRes(allies, "Crush")
+        lowestResDreamAlly = Assess.findLowestRes(allies, "Dream")
+        lowestResFreezeAlly = Assess.findLowestRes(allies, "Freeze")
+        lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
+        lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         
         if boon in ["Convert", "Evade", "Regenerate", "Slip"]: target = fighter
         else:

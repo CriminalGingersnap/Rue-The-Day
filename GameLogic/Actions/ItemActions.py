@@ -44,7 +44,7 @@ def npcSelectItem(fighter, groups):
 
     if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): objectPreferences += ["Vigor"]
 
-    for enemy in groups[2]: enemyDmgTypes += Boons.enemyDamageTypes(enemy)
+    for enemy in groups["fightingEnemies"]: enemyDmgTypes += Boons.enemyDamageTypes(enemy)
     
     if fighter.atrb["base_mag"] > 0:
         weaponDmgTypes = fighter.equipment["weapon"]["dmgTypes"]

@@ -7,7 +7,7 @@ from Systems import PlayerSelect as Select
 def getGroups(fighter, allies, enemies) -> list:
     fightingEnemies, fightingAllies = Sort.sortLiving(enemies)[0], Sort.sortLiving(allies)[0]
     reachable = Sort.sortReachable(fighter, fightingEnemies, fightingAllies)
-    return [reachable, fightingAllies, fightingEnemies]
+    return {"reachable": reachable, "fightingAllies": fightingAllies, "fightingEnemies": fightingEnemies}
 
 def setAlive(fighter, fightingAllies) -> bool:
     if fighter.atrb["cur_hp"] <= 0:
@@ -65,7 +65,8 @@ def sortReachable(fighter, fightingEnemies, fightingAllies) -> list:
         if distance <= attackReach: attackReachable += [enemy]
         if distance <= hindReach: hinderReachable += [enemy]
 
-    return [boonReachable, attackReachable, hinderReachable, visibleAllies, visibleEnemies]
+    return {"boonReachable": boonReachable, "attackReachable": attackReachable, "hinderReachable": hinderReachable,
+            "visibleAllies": visibleAllies, "visibleEnemies": visibleEnemies}
 
 def setRange(fighter, contingent) -> list:
     range = {}

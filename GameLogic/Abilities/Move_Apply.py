@@ -5,9 +5,9 @@ from . import Attacks_Martial as Martial
 stationaryAbilities = ["Inventory", "Examine", "Set", "Tap"]
 
 
-def execute(fighter, principal, ability) -> None: 
+def execute(fighter, visibleTargets, ability) -> None: 
     match ability:
-        case "Examine": applyExamine(fighter)
+        case "Examine": applyExamine(fighter, visibleTargets)
         case "Inventory": applyInventory(fighter)
         case "Set": applySet(fighter)
         case "Tap": applyTap(fighter)

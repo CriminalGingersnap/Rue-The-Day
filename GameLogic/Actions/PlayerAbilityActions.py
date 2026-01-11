@@ -1,12 +1,12 @@
 from Systems import PlayerSelect as Select
-from . import AttackActions as Attack, BoonActions as Boon, HindranceActions as Hindrance, DonateActions as Donate
+from . import AttackActions as Attack, BoonActions as Boon, HindranceActions as Hindrance
 from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
 
 
 def chooseAction(fighter, reachable) -> str:
-    usableAttacks = Attack.usableAttacks(fighter, reachable[1])
+    usableAttacks = Attack.usableAttacks(fighter, reachable["attackReachable"])
     usableBoons = Boon.usableBoons(fighter)
-    usableHindrances = Hindrance.usableHindrances(fighter, reachable[2])
+    usableHindrances = Hindrance.usableHindrances(fighter, reachable["hinderReachable"])
 
     actionOptions = []
 
@@ -20,10 +20,7 @@ def chooseAction(fighter, reachable) -> str:
         if len(usableHindrances) > 0:
             if len(usableHindrances) == 1: actionOptions += ["Hindrance -> " + usableHindrances[0]]
             else: actionOptions += ["Hinder"]
-        
-        donateOptions = Donate.checkOptions(fighter, reachable[0], reachable[1] + reachable[2])
-        if len(donateOptions) > 0: actionOptions += ["Donate"]
-
+       
     Select.waitPrint("\nChoose " + fighter.name + "'s Ability Action:")
     choice =  Select.makeSelection(actionOptions + ["End Turn"])
     
@@ -37,21 +34,16 @@ def chooseAction(fighter, reachable) -> str:
 def takeAction(fighter, actionChoice, reachable) -> None:
     match actionChoice:
         case "Attack":
-            attackChoice = Attack.pcSelectAttack(fighter, reachable[1], True)
-            attackTarget = Select.targetSelect(reachable[1])
+            attackChoice = Attack.pcSelectAttack(fighter, reachable["attackReachable"], True)
+            attackTarget = Select.targetSelect(reachable["attackReachable"])
             Attacks.commitDice(attackChoice, fighter, attackTarget)
 
         case "Boon":
             boonChoice = Boon.pcSelectBoon(fighter)
-            boonTarget = Boon.pcSelectBoonTarget(fighter, reachable[0], boonChoice)
-            Boons.execute(fighter, boonTarget, boonChoice)
+            boonTarget = Boon.pcSelectBoonTarget(fighter)
+            Boons.commitDice(fighter, boonTarget, boonChoice)
         
         case "Hinder":
-            hindranceChoice = Hindrance.pcSelectHindrance(fighter, reachable[2])
-            hindranceTarget = Select.targetSelect(reachable[2])
-            Hinder.execute(fighter, hindranceTarget, hindranceChoice)
-
-        case "Donate":
-            donateOptions = Donate.checkOptions(fighter, reachable[0], reachable[1] + reachable[2])
-            donateChoice = Donate.chooseDonation(fighter, donateOptions)
-            Donate.donate(fighter, donateChoice[0], donateChoice[1])
+            hindranceChoice = Hindrance.pcSelectHindrance(fighter, reachable["hinderReachable"])
+            hindranceTarget = Select.targetSelect(reachable["hinderReachable"])
+            Hinder.commitDice(fighter, hindranceTarget, hindranceChoice)

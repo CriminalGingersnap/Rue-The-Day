@@ -19,7 +19,7 @@ def createSightMap(fighter, battleMap):
     Fill.fillVisibilityMap(fighter.position, fighterRow, fighterColumn, viewHeight, battleMap, sightMap, shadows)
     for shadow in shadows:
         row, column = shadow[0], shadow[1]
-        if "/" not in sightMap[row][column]: sightMap[row][column] = unseen
+        if "/" not in sightMap[row][column]: sightMap[row][column] = unseen + sightMap[row][column][-1]
 
     return sightMap
 
@@ -30,8 +30,8 @@ def checkHeight(position, row, column, viewHeight, obstructionPeak, battleMap):
     spaceHeight = mOpts.heightDict[space[-1]]
 
     obstructed = any(occlusion in space for occlusion in ["/"] + Map.majorHazards)
-    fogged = any(fog in space for fog in ["="] + Map.minorHazards) and ((abs(position[0] - row) > 4) or (abs(position[1] - column) > 4))
-    misted = any(mist in space for mist in ["-"] + Map.lingeringHazards) and ((abs(position[0] - row) > 8) or (abs(position[1] - column) > 8))
+    fogged = any(fog in space for fog in ["="] + Map.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
+    misted = any(mist in space for mist in ["-"] + Map.lingeringHazards) and ((abs(position[0] - row) > 7) or (abs(position[1] - column) > 7))
     sunken = (spaceHeight - viewHeight) > 1
 
     if spaceHeight <= obstructionPeak: visible = False

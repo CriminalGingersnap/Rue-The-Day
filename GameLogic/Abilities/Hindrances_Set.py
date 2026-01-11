@@ -7,88 +7,40 @@ martialHindrance = ["Bind", "Harry"]
 magicHindrance = ["Compel", "Disorient", "Misdirect", "Seal"]
 
 
-def execute(fighter, target, ability) -> None:
-    phrase = ""
+def commitDice(fighter, target, hindrance) -> None:
+    newDice = 0
 
-    match ability:
-        case "Bind" | "Misdirect": phrase = setMisdirect(fighter, target, ability)
-        case "Compel": phrase = setCompel(fighter, target, ability)
-        case "Disorient" | "Harry": phrase = setDisorient(fighter, target, ability)
-        case "Seal": phrase = setSeal(fighter, target)
+    if hindrance in martialHindrance: newDice = fighter.atrb["cur_mar"]
+    elif hindrance in magicHindrance: newDice = fighter.atrb["cur_mag"]
 
-    Select.waitPrint(phrase)    
+    trueHindrance = hindranceComment(fighter, target, hindrance)
 
+    if newDice > target.effects[trueHindrance]["dice"]:
+        fighter.commitments[trueHindrance]["targets"] += [target]
+        target.effects[trueHindrance]["source"] = fighter
+        target.effects[trueHindrance]["ability"] = hindrance
 
-def setCompel(fighter, target, ability):
-    dice = fighter.atrb["cur_mag"]
-
-    fighter.commitments["Compel"]["targets"] += [target]
-    target.effects["Compel"]["source"] = fighter
-    target.effects["Compel"]["dice"] = dice
-
-    return fighter.name + " attempts to compel " + target.name + "."
+    target.effects[trueHindrance]["dice"] += newDice
 
 
-def setDisorient(fighter, target, ability):
-    dice, dType, phrase = 0, "", fighter.name
+def hindranceComment(fighter, target, hindrance) -> str:
+    phrase, end = fighter.name, target.name + "!"
+    trueHindrance = hindrance
 
-    if ability == "Disorient":
-        dice, dType = fighter.atrb["cur_mag"], "magic"
-        phrase += " disorients "
-    elif ability == "Harry":
-        dice, dType = fighter.atrb["cur_mar"], "martial"
-        phrase += " harries "
+    match hindrance:
+        case "Bind":
+            phrase += " binds with " + end
+            trueHindrance = "Misdirect"
+        case "Compel": phrase += " attempts to compel " + end
+        case "Disorient": phrase += " disorients " + end
+        case "Harry":
+            phrase += " harries " + end
+            trueHindrance = "Disorient"
+        case "Misdirect": phrase += " misdirects " + end
+        case "Seal": 
+            phrase += " attempts to seal " + end
+            trueHindrance = "Compel"
 
-    dice = fighter.atrb[dType]
+    Select.waitPrint(phrase)
+    return trueHindrance 
 
-    fighter.commitments["Disorient"]["targets"] += [target]
-    target.effects["Disorient"]["source"] = fighter
-    target.effects["Disorient"]["dice"] = dice
-    target.effects["Disorient"]["additional"] = ability
-
-    return phrase + target.name + "."
-
-
-def setMisdirect(fighter, target, ability) -> list:
-    dice, dType, phrase = 0, "", fighter.name
-
-    if ability == "Misdirect":
-        dice, dType = fighter.atrb["cur_mag"], "magic"
-        phrase += " misdirects "
-    elif ability == "Bind":
-        dice, dType = fighter.atrb["cur_mar"], "martial"
-        phrase += " binds with "
-    
-    dice = fighter.atrb[dType]
-
-    fighter.commitments["Misdirect"]["targets"] += [target]
-    target.effects["Misdirect"]["source"] = fighter
-    target.effects["Misdirect"]["dice"] = dice
-    target.effects["Misdirect"]["additional"] = ability
-
-    return phrase + target.name + "."
-
-
-def setSeal(fighter, target):
-    ability, phrase = "None", ""
-    options = target.abl["Attacks"] + target.abl["Boons"] + target.abl["Hindrances"]
-
-    if fighter.rank == "player":
-        Select.waitPrint("Choose ability:")
-        ability = Select.makeSelection(options + ["None"])
-    else: ability = random.choice(options)
-
-    if ability != "None":
-        dice = fighter.atrb["cur_mag"]
-
-        target.effects["Seal"]["dice"] = dice
-        target.effects["Seal"]["source"] = fighter
-        target.effects["Seal"]["additional"] = ability
-
-        fighter.effects["Seal"]["dice"] = dice
-        fighter.effects["Seal"]["source"] = fighter
-        fighter.effects["Seal"]["additional"] = ability
-        fighter.commitments["Seal"]["targets"] += [target, fighter]
-
-        phrase = fighter.name + " attempts to seal " + target.name + "'s " + ability + " ability."    
-    return phrase

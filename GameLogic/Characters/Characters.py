@@ -84,7 +84,7 @@ def setTraits():
 
 def setDicts():
     commitDict = {"targets": [], "additional": None}
-    effectDict = {"dice": 0, "source": None, "additional": None}
+    effectDict = {"dice": 0, "source": None, "ability": None, "additional": None}
     itemDict = {"duration": 0, "potency": 0, "additional": None}
 
     commitments = {"Compel": copy.deepcopy(commitDict),

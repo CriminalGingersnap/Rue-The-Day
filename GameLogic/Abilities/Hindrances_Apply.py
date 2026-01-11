@@ -47,7 +47,7 @@ def resistCompulsion(roll, target, ability) -> list:
 def applyDisorient(target) -> int:
     dice = target.effects["Disorient"]["dice"]
     source = target.effects["Disorient"]["source"]
-    ability = target.effects["Disorient"]["additional"]
+    ability = target.effects["Disorient"]["ability"]
 
     reduction, dType = 0, ""
     if ability == "Disorient": dType = "magic"
@@ -70,7 +70,7 @@ def applyDisorient(target) -> int:
 def applyMisdirect(target) -> int:
     dice = target.effects["Misdirect"]["dice"]
     source = target.effects["Misdirect"]["source"]
-    ability = target.effects["Misdirect"]["additional"]
+    ability = target.effects["Misdirect"]["ability"]
 
     reduction, dType = 0, ""
     if ability == "Misdirect": dType = "magic"

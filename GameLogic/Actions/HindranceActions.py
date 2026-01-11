@@ -68,9 +68,8 @@ def usableHindrances(fighter, enemies) -> list:
 
 
 def npcSelectHindranceTarget(fighter, enemies, hindrance):
-    winnowedEnemies = BoonActions.winnowTargets(fighter, enemies, hindrance)
-    if hindrance == "Compel": winnowedEnemies = compellableTargets(fighter, winnowedEnemies, hindrance) 
-    return AttackActions.npcSelectAttackTarget(fighter, winnowedEnemies)
+    if hindrance == "Compel": enemies = compellableTargets(fighter, enemies, hindrance) 
+    return AttackActions.npcSelectAttackTarget(fighter, enemies)
 
 def compellableTargets(fighter, enemies):
     compelTargets = []

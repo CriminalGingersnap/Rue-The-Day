@@ -2,92 +2,45 @@ from Systems import PlayerSelect as Select
 from . import DamageTypes as Damage
 
 
-martialBoons = ["Guard"]
-magicBoons = ["Focus", "Shroud", "Slip", "Wreath"]
-
-magicSelfBoons = ["Convert", "Regenerate"]
-martialSelfBoons = ["Bristle", "Evade"]
-selfBoons = magicSelfBoons + martialSelfBoons
+martialBoons = ["Bristle", "Evade", "Guard"]
+magicBoons = ["Focus", "Shroud", "Wreath"]
 
 
-def execute(fighter, principal, ability) -> None: 
-    phrase = ""
+def commitDice(fighter, principal, boon) -> None: 
+    newDice = 0
 
-    fighter.commitments[ability]["targets"] += [principal]
-    principal.effects[ability]["source"] = fighter
+    if boon in martialBoons: newDice = fighter.atrb["cur_mar"]
+    elif boon in magicBoons: newDice = fighter.atrb["cur_mag"]
 
-    match ability:
-        case "Bristle" | "Evade" | "Guard": phrase = setGuard(fighter, principal, ability)
-        case "Focus": phrase = setFocus(fighter, principal)
-        # case "Heal" | "Regenerate": phrase = Apply.applyRegenerate(fighter, principal, ability)
-        case "Shroud": phrase = setShroud(fighter, principal)
-        case "Slip": phrase = setSlip(fighter, principal)
-        case "Wreath": phrase = setWreath(fighter, principal, ability)
+    trueBoon = boonComment(fighter, principal, boon)
+
+    if newDice > principal.effects[trueBoon]["dice"]:
+        fighter.commitments[trueBoon]["targets"] += [principal]
+        principal.effects[trueBoon]["source"] = fighter
+        principal.effects[trueBoon]["ability"] = boon
+        if boon == "Wreath":
+            dmgType = Damage.identifyDamageType(fighter, boon)["basic"]
+            principal.effects["Wreath"]["additional"] = dmgType
+
+    principal.effects[trueBoon]["dice"] += newDice
+
+
+def boonComment(fighter, principal, boon) -> None:
+    phrase, end = fighter.name, principal.name + "!"
+    if fighter == principal: end = "self!"
+    trueBoon = boon
+
+    match boon:
+        case "Bristle":
+            phrase += " bristles!"
+            trueBoon = "Guard"
+        case "Guard": phrase += " guards " + end
+        case "Evade":
+            phrase += " evades!"
+            trueBoon = "Guard"
+        case "Focus": phrase += " focuses " + end
+        case "Shroud": phrase += " shrouds " + end
+        case "Wreath": phrase += " wreaths " + end
 
     Select.waitPrint(phrase)
-
-
-def setFocus(fighter, principal) -> list:
-    phrase = ""
-
-    principal.effects["Focus"]["dice"] = fighter.atrb["cur_mag"]
-
-    if fighter is principal: phrase = fighter.name + " focuses self."
-    else: phrase = fighter.name + " focuses " + principal.name + "."
-
-    return phrase
-
-
-def setGuard(fighter, principal, ability) -> str:
-    dice, phrase = fighter.atrb["cur_mar"], ""
-    
-    principal.effects["Guard"]["dice"] = dice
-    principal.effects["Guard"]["source"] = fighter
-    principal.effects["Guard"]["additional"] = ability
-    fighter.commitments["Guard"]["targets"] += [principal]
-
-    if ability == "Guard":
-        if fighter is principal: phrase = fighter.name + " guards self."
-        else: phrase = fighter.name + " guards " + principal.name + "."
-    elif ability == "Evade":
-        phrase = fighter.name + " evades."
-    elif ability == "Bristle":
-        phrase = fighter.name + " bristles."
-
-    return phrase
-    
-
-def setShroud(fighter, principal) -> str:
-    phrase = ""
-    dice = fighter.atrb["cur_mag"]
-
-    if fighter is principal: phrase = fighter.name + " shrouds self."
-    else: phrase = fighter.name + " shrouds " + principal.name + "."
-
-    principal.effects["Shroud"]["dice"] = dice
-    principal.effects["Shroud"]["source"] = fighter
-    fighter.commitments["Shroud"]["targets"] = principal
-    fighter.actionQueue += [["boon", "Shroud", principal, 0]]
-
-    return phrase
-
-
-def setSlip(fighter, principal) -> str:
-    # Let fighter move through obstacles but not stop on them.
-    # create a temporary movement map in which all obstacles are replaced with smoke
-    phrase = ""
-    return phrase
-
-
-def setWreath(fighter, principal, ability) -> str:
-    phrase = ""
-    dice = fighter.atrb["cur_mag"]
-    dmgType = Damage.identifyDamageType(fighter, ability)["basic"]
-
-    principal.effects["Wreath"].update({"dice": dice, "source": fighter, "additional": dmgType})
-    fighter.commitments["Wreath"]["targets"] += [principal]
-
-    if fighter is principal: phrase = fighter.name + " wreaths self."
-    else: phrase = fighter.name + " wreaths " + principal.name + "."
-
-    return phrase
+    return trueBoon

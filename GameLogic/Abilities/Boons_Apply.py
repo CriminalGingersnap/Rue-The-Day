@@ -11,8 +11,7 @@ def expend(source, dice, ability, dType) -> int:
         elif source.rank == "player":
             Select.waitPrint("Expend dice(" + str(dice) + "):")
             expenditure = Select.takeInput(1, dice)
-        else:
-            expenditure = random.randint(1, dice)
+        else: expenditure = random.randint(1, dice)
 
         roll = Roll.roll(source, expenditure, ability, dType)
         return [roll, 0]
@@ -40,7 +39,7 @@ def applyFocus(principal) -> int:
 def applyGuard(principal) -> int:
     dice = principal.effects["Guard"]["dice"]
     source = principal.effects["Guard"]["source"]
-    ability = principal.effects["Guard"]["additional"]
+    ability = principal.effects["Guard"]["ability"]
     bonus = 0
 
     if (source != None) and (dice > 0):

@@ -3,7 +3,7 @@ import copy
 
 def removeEffect(fighter, effect):
     Select.waitPrint(effect + " ends on " + fighter.name + ".")
-    fighter.effects[effect] = {"dice": 0, "source": None, "additional": None}
+    fighter.effects[effect] = {"dice": 0, "source": None, "ability": None, "additional": None}
 
 
 def updateItemEffects(fighter):

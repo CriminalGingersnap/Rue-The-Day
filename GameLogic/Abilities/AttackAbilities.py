@@ -29,12 +29,13 @@ def execute(fighter, target, attack, dice) -> dict:
 def attackComment(fighter, target, attack):
     phrase, end = fighter.name, target.name + "!"
         
-    if attack in magicAttack:
-        match attack:
-            case "Burn": phrase += " burns " + end
-            case "Dream": phrase += " spins dreams into the mind of " + end
-            case "Freeze": phrase += " freezes " + end
-            case "Rot": phrase += " rots " + end
+    if attack == "Bring":
+        match fighter.atrb["cur_elm"]:
+            case "Corpse": phrase += " rots " + end
+            case "Flame": phrase += " burns " + end
+            case "Fey": phrase += " spins dreams into the mind of " + end
+            case "Blessed": phrase += " calls holy wrath upon " + end
+            case "Ice": phrase += " freezes " + end
 
     else:
         match attack:
@@ -48,6 +49,7 @@ def attackComment(fighter, target, attack):
             case "Ram": phrase += " tries to ram " + end
             case "Sling": phrase += " slings a stone at " + end
             case "Stab": phrase += " stabs at " + end
+            case "Sting": phrase += " stings at " + end
             case "Spray": phrase += " sprays venom at " + end
 
     Select.waitPrint(phrase)

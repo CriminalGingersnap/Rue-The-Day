@@ -6,17 +6,16 @@ from . import Effects, PlayerSelect as Select
 
 def checkReach(fighter, battleMap) -> None:
     for commitment in fighter.commitments:
-        if commitment in Boons.selfBoons: continue
-        elif len(fighter.commitments[commitment]["targets"]) > 0:
+        if len(fighter.commitments[commitment]["targets"]) > 0:
             targets = fighter.commitments[commitment]["targets"]
             
             Map.hideShrouded(fighter, targets, fighter.sightMap)
             reachable = Sort.sortReachable(fighter, targets, targets)
             
             if commitment in Boons.magicBoons + Boons.martialBoons:
-                reachable = reachable[0]
-            elif commitment in Hinder.magicHindrance + Hinder.closeMartialHindrance + Hinder.meleeMartialHindrance:
-                reachable = reachable[2]
+                reachable = reachable["boonReachable"]
+            elif commitment in Hinder.magicHindrance + Hinder.martialHindrance:
+                reachable = reachable["hinderReachable"]
 
             for target in targets:
                 if target not in reachable:

@@ -42,7 +42,7 @@ def intro(fighter, enemies, allies, battleMap):
     return sightMap
 
 def outro(fighter, groups, battleMap):
-    fightingAllies = groups[1]
+    fightingAllies = groups["fightingAllies"]
 
     alive = Assess.Sort(fighter, fightingAllies)
 
@@ -73,7 +73,7 @@ def inventoryStage(fighter, enemies, allies, battleMap) -> None:
 
 def abilityStage(fighter, enemies, allies, battleMap) -> None:
     groups = Sort.getGroups(fighter, allies, enemies)
-    reachable, fightingEnemies = groups[0], groups[2]
+    reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
     if len(fightingEnemies) > 0:
         space = battleMap[fighter.position[0]][fighter.position[1]]
