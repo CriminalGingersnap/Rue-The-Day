@@ -43,7 +43,7 @@ def pcSelectAttack(fighter, enemies) -> str:
     if len(attackOptions) == 1: return attackOptions[0]
     else:
         Select.waitPrint("Choose Attack: ")
-        answer = Select.makeSelection(attackOptions + ["None"])
+        answer = Select.makeSelection(attackOptions)
         return answer
 
 

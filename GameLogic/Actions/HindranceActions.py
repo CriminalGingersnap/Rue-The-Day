@@ -10,7 +10,7 @@ def pcSelectHindrance(fighter, enemies) -> str:
     if len(hindranceOptions) == 1: return hindranceOptions[0]
     else:
         Select.waitPrint("Choose Hindrance:")
-        answer = Select.makeSelection(hindranceOptions + ["None"])
+        answer = Select.makeSelection(hindranceOptions)
         return answer
 
 
@@ -68,8 +68,8 @@ def usableHindrances(fighter, enemies) -> list:
 
 
 def npcSelectHindranceTarget(fighter, enemies, hindrance):
-    if hindrance == "Compel": enemies = compellableTargets(fighter, enemies, hindrance) 
-    return AttackActions.npcSelectAttackTarget(fighter, enemies)
+    targets = compellableTargets(fighter, enemies, hindrance) 
+    return AttackActions.npcSelectAttackTarget(fighter, targets)
 
 def compellableTargets(fighter, enemies):
     compelTargets = []

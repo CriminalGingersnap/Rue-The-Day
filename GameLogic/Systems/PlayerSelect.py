@@ -75,5 +75,5 @@ def takeInput(floor, ceiling):
                 if floor <= answer <= ceiling: return answer
                 else: raise ValueError
             except ValueError:
-                if ceiling == (floor + 1): print("Enter either " + floor + " or " + ceiling + ".")
-                else: print("Enter a number between " + floor + " and ", ceiling + ".")
+                if ceiling == (floor + 1): print("Enter either " + str(floor) + " or " + str(ceiling) + ".")
+                else: print("Enter a number between " + str(floor) + " and ", str(ceiling) + ".")

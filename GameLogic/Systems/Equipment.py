@@ -24,7 +24,9 @@ def setKit(job, twoHanded, burden) -> list:
     kit = {"name": "", "modifier": 0}
     options = []
 
-    if not twoHanded:
+    if twoHanded:
+        kit["name"] = None
+    else:
         capacity = 2 - burden
         if job == "Knight": capacity += 2
 
@@ -66,9 +68,9 @@ def setWeapon(job, element) -> list:
                 case "Blessed": dmgType = "Holy"
                 case "Toxin": dmgType = "Venom"
 
-            weapon["dmgTypes"] += dmgType
+            weapon["dmgTypes"] += [dmgType]
 
-        if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + weapon["name"] + " Banner"
+        if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
         else: weapon["name"] += " Flag"
     
     elif job == "Knight":

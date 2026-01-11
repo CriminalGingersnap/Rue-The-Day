@@ -11,12 +11,11 @@ def pcSelectBoon(fighter):
     if len(boonOptions) == 1: return boonOptions[0]
     else:
         Select.waitPrint("Choose Boon:")
-        answer = Select.makeSelection(boonOptions + ["None"]) 
+        answer = Select.makeSelection(boonOptions) 
         return answer
 
 def pcSelectBoonTarget(allies):
     choice = "None"
-
     if allies == []: Select.waitPrint("No valid targets remaining.")
     else: choice = Select.targetSelect(allies)
 
@@ -107,7 +106,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
                 case "Heal": target = lowestHPAlly
                 case "Shroud": target = random.choice([fighter, lowestHPAlly])
                 case "Wreath":
-                    dmgType = Damage.identifyDamageType(fighter, boon)["basic"]
+                    dmgType = Damage.identifyDamageType(fighter, boon)["base"]
                     match dmgType:
                         case "Burn": target = random.choice([lowestHPAlly, lowestResFreezeAlly])
                         case "Dream": target = random.choice([lowestHPAlly, lowestResCrushAlly, lowestResPierceAlly])

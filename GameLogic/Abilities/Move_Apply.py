@@ -5,9 +5,12 @@ from . import Attacks_Martial as Martial
 stationaryAbilities = ["Inventory", "Examine", "Set", "Tap"]
 
 
-def execute(fighter, visibleTargets, ability) -> None: 
+def execute(fighter, groups, ability) -> None: 
+    reachable = groups["reachable"]
+    visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
+
     match ability:
-        case "Examine": applyExamine(fighter, visibleTargets)
+        case "Examine": applyExamine(visibleTargets)
         case "Inventory": applyInventory(fighter)
         case "Set": applySet(fighter)
         case "Tap": applyTap(fighter)
@@ -49,13 +52,13 @@ def applyInventory(fighter) -> str:
     Select.waitPrint(fighter.name + " opens their inventory to " + phrase)
 
 
-def applyExamine(fighter, visibleTargets):
+def applyExamine(visibleTargets):
     examinee = Select.targetSelect(visibleTargets)
 
     if examinee != "None":
         Select.waitPrint("\n" + examinee.name + "'s base stats:")
-        av, reach = Martial.getBaseAv("Stab", "Pierce", target), fighter.equipment["weapon"]["reach"]
-        hp, stamina, speed, tolerance = examinee.atrb["cur_hp"], examinee.atrb["stamina"],  fighter.atrb["base_sp"], examinee.atrb["tolerance"]
+        av, reach = Martial.getBaseAv("Stab", "Pierce", examinee), examinee.equipment["weapon"]["reach"]
+        hp, stamina, speed, tolerance = examinee.atrb["cur_hp"], examinee.atrb["stamina"],  examinee.atrb["base_sp"], examinee.atrb["tolerance"]
         strAV, strHP, strStamina, strSpeed, strTolerance, strReach = str(av), str(hp), str(stamina), str(speed), str(tolerance), str(reach)
         
         if av < 10: strAV += " "
@@ -73,15 +76,15 @@ def applyExamine(fighter, visibleTargets):
         else: armorStatement = "Unarmored."
 
         if examinee.equipment["shield"]["name"] != None:
-            armorStatement = "Carrying a " + examinee.equipment["shield"]["name"] + " shield. "
+            shieldStatement = "Carrying a " + examinee.equipment["shield"]["name"] + " shield. "
         if examinee.equipment["weapon"]["name"] != None:
             article = "a "
             if examinee.equipment["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
             weaponStatement = "Wielding " + article + examinee.equipment["weapon"]["name"] + ". "
 
-        Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + shieldStatement + weaponStatement)
+        Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + shieldStatement)
         Select.waitPrint("Health: " + strHP)
-        Select.waitPrint("Reach: " + strReach)
+        Select.waitPrint("Reach: " + strReach + " | "  + weaponStatement)
         Select.waitPrint("Speed: " + strSpeed)
         Select.waitPrint("Stamina: " + strStamina + "   | Fatigue: " + str(examinee.atrb["fatigue"]))
         Select.waitPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))

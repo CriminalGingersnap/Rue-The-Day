@@ -40,7 +40,7 @@ def takeAction(fighter, actionChoice, reachable) -> None:
 
         case "Boon":
             boonChoice = Boon.pcSelectBoon(fighter)
-            boonTarget = Boon.pcSelectBoonTarget(fighter)
+            boonTarget = Boon.pcSelectBoonTarget(reachable["boonReachable"])
             Boons.commitDice(fighter, boonTarget, boonChoice)
         
         case "Hinder":
