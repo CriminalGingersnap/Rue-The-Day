@@ -1,0 +1,110 @@
+
+from Systems import Roll, Conditions, PlayerSelect as Select
+from . import Attacks_Martial as Martial
+
+stationaryAbilities = ["Inventory", "Examine", "Set", "Tap"]
+
+
+def execute(fighter, principal, ability) -> None: 
+    match ability:
+        case "Examine": applyExamine(fighter)
+        case "Inventory": applyInventory(fighter)
+        case "Set": applySet(fighter)
+        case "Tap": applyTap(fighter)
+
+
+def applySet(fighter) -> str:
+    fighter.atrb["cur_mar"] += 1
+    Select.waitPrint(fighter.name + " sets in place!")
+
+
+def applyTap(fighter) -> str:
+    phrase = ""
+    roll = Roll.roll(fighter, 1, "Tap", "magic")
+
+    if roll == 1:
+        phrase = " fails to obtain mana!"
+    elif 1 < roll <= 5:
+        fighter.atrb["cur_mag"] += 1
+        phrase = " draws lightly from the well of mana!"
+        Conditions.decrementTolerance(fighter, 2)
+    elif roll == 6:
+        fighter.atrb["cur_mag"] += 2
+        phrase = " draws deeply from the well of mana!"
+        Conditions.decrementTolerance(fighter, 4)
+
+    Select.waitPrint(fighter.name + phrase)
+
+
+def applyInventory(fighter) -> str:
+    phrase = ""
+
+    if "Quick Inventory" in fighter.abl["boons"]:
+        fighter.itemUse = 2
+        phrase = "access two items!"
+    else: 
+        fighter.itemUse = 1    
+        phrase = "access an item!"
+    
+    Select.waitPrint(fighter.name + " opens their inventory to " + phrase)
+
+
+def applyExamine(fighter, visibleTargets):
+    examinee = Select.targetSelect(visibleTargets)
+
+    if examinee != "None":
+        Select.waitPrint("\n" + examinee.name + "'s base stats:")
+        av, reach = Martial.getBaseAv("Stab", "Pierce", target), fighter.equipment["weapon"]["reach"]
+        hp, stamina, speed, tolerance = examinee.atrb["cur_hp"], examinee.atrb["stamina"],  fighter.atrb["base_sp"], examinee.atrb["tolerance"]
+        strAV, strHP, strStamina, strSpeed, strTolerance, strReach = str(av), str(hp), str(stamina), str(speed), str(tolerance), str(reach)
+        
+        if av < 10: strAV += " "
+        if hp < 10: strHP += " "
+        if speed < 10: strSpeed += " "
+        if stamina < 10: strStamina += " "
+        if tolerance < 10: strTolerance += " "
+
+        armorStatement, shieldStatement, weaponStatement  = "", "", ""
+        
+        if (examinee.cndt["armored"]):
+            armorStatement = "Naturally armored. "
+        elif examinee.equipment["armor"]["name"] != None:
+            armorStatement = "Wearing " + examinee.equipment["armor"]["name"] + " armor. "
+        else: armorStatement = "Unarmored."
+
+        if examinee.equipment["shield"]["name"] != None:
+            armorStatement = "Carrying a " + examinee.equipment["shield"]["name"] + " shield. "
+        if examinee.equipment["weapon"]["name"] != None:
+            article = "a "
+            if examinee.equipment["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
+            weaponStatement = "Wielding " + article + examinee.equipment["weapon"]["name"] + ". "
+
+        Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + shieldStatement + weaponStatement)
+        Select.waitPrint("Health: " + strHP)
+        Select.waitPrint("Reach: " + strReach)
+        Select.waitPrint("Speed: " + strSpeed)
+        Select.waitPrint("Stamina: " + strStamina + "   | Fatigue: " + str(examinee.atrb["fatigue"]))
+        Select.waitPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))
+
+        Select.waitPrint("\nCommitments: ")
+        for commitment in examinee.commitments:
+            if len(examinee.commitments[commitment]["targets"]) > 0:
+                print(commitment + " -> ")
+                for target in examinee[commitment]["targets"]:
+                    print(target.name, end = " | ")
+
+        Select.waitPrint("\nEffects: ")
+        for effect in examinee.effects:
+            if examinee.effects[effect]["dice"] > 0:
+                print(effect + " <- " + examinee.effects[effect]["source"].name, end = " | ")
+
+        Select.waitPrint("\nItem Effects:")
+        for effect in examinee.itemEffects:
+            if examinee.itemEffects[effect]["duration"] > 0:
+                print(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", end = " | ")
+
+        print()
+        Select.waitPrint("Pending actions: " + str(len(examinee.actionQueue)) + " | " + "Remaining movement: " + str(examinee.atrb["cur_sp"]))
+        Select.waitPrint("Element: " + examinee.atrb["cur_elm"] + " | " + "Rank: " + examinee.atrb["rank"])
+        Select.waitPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]))
+        print()
