@@ -31,9 +31,8 @@ class bear:
         if rank == "Elder": abl["boons"] += ["Shroud"]
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Bear", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, drop, rank)
 
 class hound:
     def __init__(self, element, rank) -> None:
@@ -48,9 +47,8 @@ class hound:
         if rank == "Elder": abl["boons"] += ["Focus"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Hound", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Hound", element, type, drop, rank)
 
 class ferret:
     def __init__(self, element, rank) -> None:        
@@ -64,9 +62,8 @@ class ferret:
         if rank == "Elder": abl["hindrances"] += ["Disorient"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Ferret", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ferret", element, type, drop, rank)
 
 class mole:
     def __init__(self, element, rank) -> None:        
@@ -79,9 +76,8 @@ class mole:
         dice = {"martial": 1, "magic": 1}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Mole", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, drop, rank)
 
 class moose:
     def __init__(self, element, rank) -> None:        
@@ -96,6 +92,5 @@ class moose:
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Moose", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Moose", element, type, drop, rank)

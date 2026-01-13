@@ -9,16 +9,13 @@ lingeringHazards = ["#", "@", "%", "+", "}", "&"]
 hazards = majorHazards + minorHazards
 
 def setMarker(fighter, space):
-    marker = []
-    if fighter.rank == "player": marker += fighter.name
-    else: marker += fighter.job
-    initial = marker[0]
+    marker, initial = [], fighter.initials
 
     atmosphere, elevation = space[0], space[-1]
 
-    if fighter.rank == "player": marker = atmosphere + initial + "." + "_" + elevation
-    elif fighter.cndt["massive"]: marker = atmosphere + initial + marker[-2] + "/" + elevation
-    else: marker = atmosphere + initial + marker[-2] + "!" + elevation
+    if fighter.rank == "player": marker = atmosphere + initial + "_" + elevation
+    elif fighter.cndt["massive"]: marker = atmosphere + initial + "/" + elevation
+    else: marker = atmosphere + initial + "!" + elevation
     
     return marker
 

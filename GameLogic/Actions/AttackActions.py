@@ -20,21 +20,14 @@ def usableAttacks(fighter, enemies) -> list:
     if fighter.atrb["cur_mag"] > 0: affordableAttacks += Attacks.magicAttack
 
     for attack in fighter.abl["attacks"]:
-        if (attack in affordableAttacks) and setReachable(fighter, enemies, attack):
-            if weaponAllows(fighter, attack): usableAttacks += [attack]
+        if (attack in affordableAttacks):
+            if Sort.canReachAny(fighter, enemies, attack):
+                if weaponAllows(fighter, attack):
+                    usableAttacks += [attack]
     
     return usableAttacks
 
-def setReachable(fighter, enemies, attack) -> bool:
-    reachable = False
-    attackReach = Sort.getReach(attack)
-    enemyRange = Sort.setRange(fighter, enemies)
 
-    for enemy in enemyRange:
-        if enemyRange[enemy] <= attackReach:
-            reachable = True
-
-    return reachable
 
 
 def pcSelectAttack(fighter, enemies) -> str:

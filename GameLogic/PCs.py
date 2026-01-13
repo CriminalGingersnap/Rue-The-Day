@@ -11,6 +11,7 @@ Martin = Humans.knight("Elite").ch
 Martin.rank = "player"
 # Evolutions.evolve(Martin, "FlameHeart")
 Martin.name = "Martin"
+Martin.initials = "M."
 Martin.abl["items"] += ["Loot", "Transfer"]
 # Martin.equipment["armor"] = None
 
@@ -28,12 +29,14 @@ Laura = Humans.mage("Elite", "Flame").ch
 Laura.rank = "player"
 # Evolutions.evolve(Laura, "FeyHeart")
 Laura.name = "Laura"
+Laura.initials = "L."
 Laura.abl["items"] += ["Craft", "Transfer"]
 # Laura.equipment["armor"] = None
 
 
 
-Archer = Humans.archer("Master[1]").ch
+Archer = Humans.archer("Master").ch
+Archer.initials = "A1"
 
 group1 = {"members": [Martin, Laura], "name": "questors"}
 # beetles = LowPass.randomAvoidantForestBeasts() #[Avoidant.beetleWild().ch]

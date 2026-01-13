@@ -3,11 +3,10 @@ import random, copy
 
 
 class character:
-    def __init__(self, props, job, elm, type, inv, rank)-> None:
+    def __init__(self, abl, dice, cndt, stats, job, elm, type, inv, rank)-> None:
         self.inventory, self.job, self.rank, self.type = inv, job, rank, type
         self.name = rank + " " + job + "(" + elm + ")"
 
-        abl, dice, cndt, stats = props["abl"], props["dice"], props["cndt"], props["stats"]
         self.atrb = setAttributes(rank, stats, cndt, elm, dice)
         self.abl, self.cndt = abl, cndt
 
@@ -23,6 +22,7 @@ class character:
         self.skills = {"Tracking": False, "Alchemy": False, "Augury": False}
 
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
+        self.initials = job[0] + job[-2]
 
      
 def setAbilities(type, additions) -> dict:
@@ -87,15 +87,13 @@ def setDicts():
     effectDict = {"dice": 0, "source": None, "ability": None, "additional": None}
     itemDict = {"duration": 0, "potency": 0, "additional": None}
 
-    commitments = {"Compel": copy.deepcopy(commitDict),
-                    "Disorient": copy.deepcopy(commitDict), "Distant": copy.deepcopy(commitDict),
+    commitments = {"Compel": copy.deepcopy(commitDict), "Disorient": copy.deepcopy(commitDict),
                      "Focus": copy.deepcopy(commitDict), "Guard": copy.deepcopy(commitDict),
                       "Invest": copy.deepcopy(commitDict), "Misdirect": copy.deepcopy(commitDict),
                        "Seal": copy.deepcopy(commitDict), "Shroud": copy.deepcopy(commitDict),
                         "Wreath": copy.deepcopy(commitDict)}
 
-    effects = {"Compel": copy.deepcopy(effectDict),
-                "Disorient": copy.deepcopy(effectDict), "Distant": copy.deepcopy(effectDict),
+    effects = {"Compel": copy.deepcopy(effectDict), "Disorient": copy.deepcopy(effectDict),
                  "Focus": copy.deepcopy(effectDict), "Guard": copy.deepcopy(effectDict),
                   "Invest": copy.deepcopy(effectDict), "Misdirect": copy.deepcopy(effectDict),
                    "Seal": copy.deepcopy(effectDict), "Shroud": copy.deepcopy(effectDict),

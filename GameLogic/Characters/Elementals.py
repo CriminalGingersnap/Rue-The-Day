@@ -46,9 +46,8 @@ class dancer:
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["martial"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Dancer", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Dancer", element, type, drop, rank)
         
 class hulk: # it walks on three legs like a strand beast
     def __init__(self, element, rank) -> None:
@@ -65,9 +64,8 @@ class hulk: # it walks on three legs like a strand beast
             dice["martial"] += 1
             dice["magic"] += 1
         
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Hulk", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Hulk", element, type, drop, rank)
         
 class obelisk:
     def __init__(self, element, rank) -> None:
@@ -83,9 +81,8 @@ class obelisk:
         dice = {"martial": 0, "magic": 3}
         if rank == "Greater": dice["magic"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Obelisk", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, drop, rank)
         
 
 class hive:
@@ -102,10 +99,8 @@ class hive:
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["magic"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
-
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Sprite Hive", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Sprite Hive", element, type, drop, rank)
 
 class ooze:
     def __init__(self, element, rank) -> None:
@@ -119,9 +114,8 @@ class ooze:
         dice = {"martial": 1, "magic": 2}
         if rank == "Greater": dice["magic"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Ooze", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ooze", element, type, drop, rank)
 
 class puffer:
     def __init__(self, element, rank) -> None:        
@@ -134,9 +128,8 @@ class puffer:
         dice = {"martial": 3, "magic": 2}
         if rank == "Greater": dice["magic"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Puffer Fish", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Puffer Fish", element, type, drop, rank)
 
 
 class satyr:
@@ -151,9 +144,8 @@ class satyr:
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["magic"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Satyr", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Satyr", element, type, drop, rank)
 
 class ogre:
     def __init__(self, element, rank) -> None:        
@@ -169,9 +161,8 @@ class ogre:
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["martial"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Ogre", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ogre", element, type, drop, rank)
 
 class nymph:
     def __init__(self, element, rank) -> None:        
@@ -182,9 +173,8 @@ class nymph:
         dice = {"martial": 0, "magic": 3}
         if rank == "Greater": dice["magic"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Nymph", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Nymph", element, type, drop, rank)
 
 
 class sphinx:
@@ -196,9 +186,8 @@ class sphinx:
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["martial"] += 2
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Sphinx", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Sphinx", element, type, drop, rank)
 
 
 class wisp:
@@ -212,6 +201,5 @@ class wisp:
         dice = {"martial": 0, "magic": 1}
         if rank == "Greater": dice["magic"] += 3
 
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(props, "Wisp", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wisp", element, type, drop, rank)

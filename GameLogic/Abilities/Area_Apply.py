@@ -6,41 +6,45 @@ from Abilities import DamageTypes as Damage
 def selectSpace(fighter, boarders) -> int:
     emptySpace = "___"
     sightMap = fighter.sightMap
+    leftEdge, rightEdge, topEdge, bottomEdge = boarders[0], boarders[1], boarders[2], boarders[3]
 
-    optionsMap = [[], [], [], [], [], [], [], [], [], [], [], []]
-    for row in range(12):
-        for column in range(12):
-            optionsMap[row] += [sightMap[row][column]]
-    
-    counter, optionDict = 1, {}
-    for column in range(boarders[0], boarders[1]+1):
-        for row in range(boarders[2], boarders[3]+1):
-            if (emptySpace in optionsMap[row][column]) and not ("?" == optionsMap[row][column][-1]):
-                optionDict[str(counter)] = [row, column]
-
-                atmosphere = sightMap[row][column][0]
-                elevation = sightMap[row][column][-1]
-                
-                dot = ""
-                if counter < 10: dot = "._"
-                else: dot = "."
-                
-                optionsMap[row][column] = atmosphere + str(counter) + dot + elevation
-                counter += 1
-
-    Map.printMap(optionsMap, "Options Map")
-
-    choice = ""
-    if fighter.rank == "player":
-        choice = Select.takeInput(1, counter)
+    if (leftEdge == rightEdge) and (topEdge == bottomEdge):
+        return [leftEdge, topEdge]
     else:
-        choice = "" #find highest concentration of enemies and get as central as possible.
+        optionsMap = [[], [], [], [], [], [], [], [], [], [], [], []]
+        for row in range(12):
+            for column in range(12):
+                optionsMap[row] += [sightMap[row][column]]
+        
+        counter, optionDict = 1, {}
+        for column in range(leftEdge, rightEdge+1):
+            for row in range(topEdge, bottomEdge+1):
+                if (emptySpace in optionsMap[row][column]) and not ("?" == optionsMap[row][column][-1]):
+                    optionDict[str(counter)] = [row, column]
 
-    return optionDict[str(choice)]
+                    atmosphere = sightMap[row][column][0]
+                    elevation = sightMap[row][column][-1]
+                    
+                    dot = ""
+                    if counter < 10: dot = "._"
+                    else: dot = "."
+                    
+                    optionsMap[row][column] = atmosphere + str(counter) + dot + elevation
+                    counter += 1
+
+        Map.printMap(optionsMap, "Options Map")
+
+        choice = ""
+        if fighter.rank == "player":
+            choice = Select.takeInput(1, counter)
+        else:
+            choice = "" #find highest concentration of enemies and get as central as possible.
+
+        return optionDict[str(choice)]
 
 
 def getAtmosphere(source, scale, dmgType) -> str:
-    atmosphere, big, little, lingering = "_", "", ""
+    atmosphere, big, little, lingering = "_", "", "", ""
 
     if source == "Stone":
         if "Blessed" in dmgType: dmgType = "Holy"
@@ -52,11 +56,11 @@ def getAtmosphere(source, scale, dmgType) -> str:
     
     match dmgType:
         case "Burn": big, little, lingering = "B", "b", "#"
-        case "Crush": big, little, lingering = "C", "c"
+        case "Crush": big, little = "C", "c"
         case "Dream": big, little, lingering = "D", "d", "@"
         case "Freeze": big, little, lingering = "F", "f", "%"
         case "Holy": big, little, lingering = "H", "h", "+"
-        case "Pierce": big, little, lingering = "P", "p"
+        case "Pierce": big, little = "P", "p"
         case "Rot": big, little, lingering = "R", "r", "}"
         case "Venom": big, little, lingering = "V", "v", "&"
 
@@ -68,19 +72,19 @@ def getAtmosphere(source, scale, dmgType) -> str:
     return atmosphere
 
 
-def spreadAtmosphere(atmosphere, dmgType, coverage, tossRow, tossColumn, battleMap) -> int:
-    upRow, downRow = tossRow - 1, tossColumn + 1
+def spreadAtmosphere(atmosphere, dmgType, coverage, tossRow, tossColumn, battleMap) -> None:
+    upRow, downRow = tossRow - 1, tossRow + 1
     leftColumn, rightColumn = tossColumn - 1, tossColumn + 1
     spaces = []
 
-    for step in coverage:
+    for step in range(coverage + 1):
         spaces += addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn)
         upRow -= 1
         downRow += 1
         leftColumn -= 1
         rightColumn += 1
 
-    cloud, cloudSpaces = getAtmosphere("None", 1, dmgType), False, []
+    cloud, cloudSpaces = getAtmosphere("None", 1, dmgType), []
     if dmgType not in ["Crush", "Pierce"]:
         cloudSpaces += addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn)
         
@@ -92,12 +96,12 @@ def addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn):
 
     if upRow >= 0:
         newSpaces += [[upRow, tossColumn]]
-        if leftColumn >= 0: spaces += [[upRow, leftColumn]]
-        if rightColumn <= 11: spaces += [[upRow, rightColumn]]
+        if leftColumn >= 0: newSpaces += [[upRow, leftColumn]]
+        if rightColumn <= 11: newSpaces += [[upRow, rightColumn]]
     if downRow <= 11:
         newSpaces += [[downRow, tossColumn]]
-        if leftColumn >= 0: spaces += [[downRow, leftColumn]]
-        if rightColumn <= 11: spaces += [[downRow, rightColumn]]
+        if leftColumn >= 0: newSpaces += [[downRow, leftColumn]]
+        if rightColumn <= 11: newSpaces += [[downRow, rightColumn]]
         downRow += 1
     if leftColumn >= 0:
         newSpaces += [[tossRow, leftColumn]]
@@ -109,5 +113,5 @@ def addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn):
     return newSpaces
 
 def setAtmosphere(atmosphere, row, column, battleMap):
-    if not any(obstruction in battleMap[row, column] for obstruction in [iMap.pit, iMap.wall]):
+    if not any(obstruction in battleMap[row][column] for obstruction in [iMap.pit, iMap.wall]):
         battleMap[row][column] = atmosphere + battleMap[row][column][1:]

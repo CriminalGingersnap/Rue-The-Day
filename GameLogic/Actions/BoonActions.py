@@ -27,8 +27,7 @@ def npcSelectBoon(fighter, enemies):
     useful, usable = usefulBoons(fighter, enemies), usableBoons(fighter)
 
     for option in useful:
-        if (option in usable) and (option not in boonOptions):
-            if fighter not in fighter.commitments["Guard"]["targets"]: boonOptions += [option]
+        if (option in usable) and (option not in boonOptions): boonOptions += [option]
 
     if boonOptions != []: return random.choice(boonOptions)
     else: return "None"
@@ -36,7 +35,7 @@ def npcSelectBoon(fighter, enemies):
 def enemyDamageTypes(enemy):
     damageTypes = []
     for attack in enemy.abl["attacks"]:
-        attackDmg = Damage.identifyDamageType(attack)
+        attackDmg = Damage.identifyDamageType(enemy, attack)
         damageTypes += [attackDmg["base"]] + [attackDmg["bonus"]]
     
     return damageTypes
@@ -57,9 +56,9 @@ def usefulBoons(fighter, enemies):
     # if ally hp < nat: heal
 
     for enemy in enemies:
-        damageTypes += enemyDamageTypes(enemy)        
+        dmgTypes += enemyDamageTypes(enemy)        
         if Movement.findDistance(fighter, enemy) > 2: boonPreferences += ["Shroud"]
-        if canWreath(fighter, enemyDamageTypes): boonPreferences += ["Wreath"]
+        if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
     
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Venom"]):
         boonPreferences += ["Bristle", "Evade", "Guard"]

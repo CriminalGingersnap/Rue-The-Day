@@ -45,18 +45,10 @@ class hex:
         common, hex = setCommon(job), ""
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
 
-        match element:
-            case "Flame": hex = "Hex"
-            case "Ice": hex = "Hex"
-            case "Fey": hex = "Hex"
-            case "Blessed": hex = "Hex"
-            case "Corpse": hex = "Hex"
+        abl = Characters.setAbilities(type, {"areas": ["Hex"]})
 
-        abl = Characters.setAbilities(type, {"areas": [hex]})
-
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.totemInventory(element, job).inventory
-        self.ch = Characters.character(props, job, element, type, drop, "Hex")
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Hex")
 
 
 class sentry:
@@ -64,18 +56,10 @@ class sentry:
         common, attack = setCommon(job), ""
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
 
-        match element:
-            case "Flame": attack = "Burn"
-            case "Ice": attack = "Freeze"
-            case "Fey": attack = "Dream"
-            case "Blessed": attack = "Holy"
-            case "Corpse": attack = "Rot"
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
 
-        abl = Characters.setAbilities(type, {"attacks": [attack]})
-
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.totemInventory(element, job).inventory
-        self.ch = Characters.character(props, job, element, type, drop, "Sentry")
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Sentry")
 
 
 class ward:
@@ -83,17 +67,9 @@ class ward:
         common, wreath = setCommon(job), ""
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
 
-        match element:
-            case "Flame": wreath = "Wreath"
-            case "Ice": wreath = "Wreath"
-            case "Fey": wreath = "Wreath"
-            case "Blessed": wreath = "Wreath"
-            case "Corpse": wreath = "Wreath"
-
-        abl = Characters.setAbilities(type, {"boons": [wreath]})
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
         
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.totemInventory(element, job).inventory
-        self.ch = Characters.character(props, job, element, type, drop, "Ward")
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Ward")
 
 # Agents of the king have a chance to bring this with them.

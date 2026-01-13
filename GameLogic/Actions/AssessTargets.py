@@ -56,7 +56,7 @@ def findLowestAV(fighter, targets):
     lowestAVtarget = random.choice(targets)
     prevLow, dmgType = 15, "Crush"
 
-    if any(fighter.abl["attacks"] in Damage.pierceAttacks): dmgType = "Pierce"
+    if any(attack in Damage.pierceAttacks for attack in fighter.abl["attacks"]): dmgType = "Pierce"
 
     for target in targets:
         guess = Martial.getProbableAv(fighter, dmgType, target)

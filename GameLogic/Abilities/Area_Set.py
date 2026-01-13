@@ -7,11 +7,11 @@ martialAreals = ["Mark", "Ready"]
 areaAbilities = magicAreals + martialAreals
 
 def execute(fighter, targets, ability, battleMap) -> None:
-    phrase = markSpace(fighter, targets, ability, battleMap)
+    phrase = markSpace(fighter, ability, battleMap)
     Select.waitPrint(phrase)
 
 
-def markSpace(fighter, targets, ability, battleMap) -> None:
+def markSpace(fighter, ability, battleMap) -> None:
     phrase, range, dmgType, dType = "", 10, "", "cur_mag"
 
     match ability:
@@ -23,19 +23,19 @@ def markSpace(fighter, targets, ability, battleMap) -> None:
         case "Hex": phrase, dmgType = " hexes the ground!", Damage.identifyDamageType(fighter, "Bring")
         case "Mark": phrase, dmgType = " prepares to loose an arrow at a target space!", "Pierce"
         case "Ready":
-            phrase = " readies their weapon!"
+            phrase = " readies to strike at anything that moves!"
             dmgTypes = fighter.equipment["weapon"]["dmgTypes"]
-            if len(dmgTypes == 1): dmgType = dmgTypes[0]
+            if len(dmgTypes) == 1: dmgType = dmgTypes[0]
             elif fighter.rank == "player":
                 Select.waitPrint("Choose damage type:")
-                Select.makeSelection(dmgTypes)
+                dmgType = dmgTypes[Select.makeSelection(dmgTypes) - 1]
             else: dmgType = random.choice(dmgTypes)
-            range = fighter.equipment["weapons"]["reach"]
+            range = 0
     
-    if dmgType in ["Crush", "Pierce"]: dType = "cur_mar"
+    if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
     
     boarders = setBorders(fighter, range)
-    markSpace = Apply.selectSpace(fighter, targets, boarders)
+    markSpace = Apply.selectSpace(fighter, boarders)
     affectSpace(fighter, markSpace, dmgType, dType, battleMap)
     fighter.atrb[dType] = 0
 
@@ -43,22 +43,28 @@ def markSpace(fighter, targets, ability, battleMap) -> None:
 
 def setBorders(fighter, range) -> list:
     column, row = fighter.position[1], fighter.position[0]
-    leftEdge, rightEdge = max(0, (column-range)), min(11, (column+range))
-    topEdge, bottomEdge = max(0, (row-range)), min(11, (row+range))
+    leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
+    topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
     return [leftEdge, rightEdge, topEdge, bottomEdge]
 
 
 def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> list:
     effectRow, effectColumn = markSpace[0], markSpace[1]
     scale = max(fighter.atrb[dType], 2)
+    coverage, intenseCoverage = scale - 2, scale - 4
 
-    atmosphere = Apply.getAtmosphere(fighter, min(scale, 3), dmgType)
+    atmosphere = Apply.getAtmosphere(fighter, 3, dmgType)
+    petitAtmosphere = Apply.getAtmosphere(fighter, 2, dmgType)
     battleMap[effectRow][effectColumn] = atmosphere + battleMap[effectRow][effectColumn][1:]
 
-    if scale > 3:
-        potency = scale - 1
-        Apply.spreadAtmosphere(atmosphere, dmgType, potency, effectRow, effectColumn, battleMap)
-        Apply.setAtmosphere("_", effectRow, effectColumn, battleMap)
+    if coverage > 0:
+        Apply.spreadAtmosphere(petitAtmosphere, dmgType, coverage, effectRow, effectColumn, battleMap)
+        if coverage > 2:
+            Apply.spreadAtmosphere(atmosphere, dmgType, intenseCoverage, effectRow, effectColumn, battleMap)
+
+    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
+    if any(hazard in battleMap[fighterRow][fighterColumn] for hazard in [petitAtmosphere, atmosphere]):
+        battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
 def throwStone(fighter, item, targets, battleMap) -> None:

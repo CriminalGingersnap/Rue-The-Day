@@ -21,9 +21,8 @@ class mussel:
         dice = {"martial": 1, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Mussel", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, drop, rank)
         
     
 class urchin:
@@ -36,9 +35,8 @@ class urchin:
         dice = {"martial": 1, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Urchin", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Urchin", element, type, drop, rank)
 
 class worm:
     def __init__(self, element, rank) -> None:
@@ -49,6 +47,5 @@ class worm:
         dice = {"martial": 0, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Worm", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Worm", element, type, drop, rank)

@@ -7,7 +7,7 @@ import random
 
 def moveAction(fighter, groups, battleMap) -> None:
     hasInventory = any(invAbl in fighter.abl["boons"] for invAbl in ["Inventory", "Quick Inventory"])
-    posOptions = ["Set"]
+    posOptions = ["Set"] + fighter.abl["areas"]
 
     if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
     if ("*" in battleMap[fighter.position[0]][fighter.position[1]]) and (fighter.atrb["base_mag"] > 0): posOptions += ["Tap"]
@@ -28,7 +28,6 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     elif answer in Moves.stationaryAbilities:
         Moves.execute(fighter, groups, answer)
     elif answer in Area.areaAbilities:
-        Movement.moveFighter(fighter, battleMap, None, None, False)       
         Area.execute(fighter, groups["fightingEnemies"], answer, battleMap)
 
 
@@ -60,4 +59,4 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
                 
     if stationary: choice = random.choice(posOptions)
     if choice in Area.areaAbilities: Area.execute(fighter, groups["fightingEnemies"], choice, battleMap)
-    elif choice in Moves.stationaryBoons: Moves.execute(fighter, groups, choice)
+    elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice)

@@ -36,9 +36,8 @@ class drake:
             abl["hindrances"] += ["Disorient"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Drake", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, drop, rank)
         
 class lizard:
     def __init__(self, element, rank) -> None:        
@@ -53,9 +52,8 @@ class lizard:
         if rank == "Elder": abl["boons"] += ["Shroud"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Lizard", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, drop, rank)
 
 class turtle:
     def __init__(self, element, rank) -> None:        
@@ -71,9 +69,8 @@ class turtle:
 
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Turtle", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Turtle", element, type, drop, rank)
 
 class wyrm:
     def __init__(self, element, rank) -> None:
@@ -87,6 +84,5 @@ class wyrm:
         if rank == "Elder": abl["attacks"] += ["Breath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Wyrm", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, drop, rank)

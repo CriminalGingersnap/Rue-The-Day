@@ -66,7 +66,7 @@ def yesNo(prompt) -> bool:
 
 def takeInput(floor, ceiling):
     if floor == ceiling:
-        print("Value defaults to " + floor + ".")
+        print("Value defaults to " + str(floor) + ".")
         return floor
     else:
         while True:

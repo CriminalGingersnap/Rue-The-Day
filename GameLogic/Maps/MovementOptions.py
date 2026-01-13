@@ -21,7 +21,7 @@ def setMoveOptions(fighter, instanceMap, fighterRow, fighterColumn) -> list:
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
 
-    for runs in range(fighter.atrb["cur_sp"] * 2):
+    for runs in range(fighter.atrb["cur_sp"] * 5):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 stepCount = traverse(movementMap, instanceMap, fighterRow, fighterColumn, row, column)

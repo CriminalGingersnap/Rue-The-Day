@@ -34,7 +34,7 @@ def chooseAction(fighter, reachable) -> str:
 def takeAction(fighter, actionChoice, reachable) -> None:
     match actionChoice:
         case "Attack":
-            attackChoice = Attack.pcSelectAttack(fighter, reachable["attackReachable"], True)
+            attackChoice = Attack.pcSelectAttack(fighter, reachable["attackReachable"])
             attackTarget = Select.targetSelect(reachable["attackReachable"])
             Attacks.commitDice(attackChoice, fighter, attackTarget)
 

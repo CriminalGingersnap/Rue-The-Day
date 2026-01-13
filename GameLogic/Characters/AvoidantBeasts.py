@@ -32,9 +32,8 @@ class deer:
         if rank == "Elder": abl["boons"] += ["Shroud"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Deer", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Deer", element, type, drop, rank)
 
 class gopher:
     def __init__(self, element, rank) -> None:        
@@ -46,9 +45,8 @@ class gopher:
         dice = {"martial": 1, "magic": 1}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Gopher", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Gopher", element, type, drop, rank)
 
 class rabbit:
     def __init__(self, element, rank) -> None:
@@ -63,9 +61,8 @@ class rabbit:
         if rank == "Elder": abl["hindrances"] += ["Misdirect"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Rabbit", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, drop, rank)
    
 class sheep:
     def __init__(self, element, rank) -> None:
@@ -78,6 +75,5 @@ class sheep:
         if rank  == "Elder": abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(props, "Sheep", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Sheep", element, type, drop, rank)

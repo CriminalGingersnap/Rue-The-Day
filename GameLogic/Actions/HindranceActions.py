@@ -1,4 +1,4 @@
-from . import BoonActions, AttackActions
+from . import AttackActions, Sort
 from Abilities import AttackAbilities as Attacks, Hindrances_Set as Hindrances, Hindrances_Apply as Hinder, DamageTypes as Damage
 from Systems import PlayerSelect as Select
 import random
@@ -54,7 +54,7 @@ def usableHindrances(fighter, enemies) -> list:
         affordableHindrances += Hindrances.magicHindrance
 
     for hindrance in fighter.abl["hindrances"]:
-        if (hindrance in affordableHindrances) and AttackActions.setReachable(fighter, enemies, hindrance):
+        if (hindrance in affordableHindrances) and Sort.canReachAny(fighter, enemies, hindrance):
             usable = False
 
             if hindrance in ["Compel", "Seal"]:

@@ -73,9 +73,8 @@ class archer:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         inv = Inventory.humanInventory().inventory
-        self.ch = Characters.character(props, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class knight:
     def __init__(self, rank) -> None:
@@ -88,27 +87,29 @@ class knight:
             abl["hindrances"] += ["Harry"]
 
             if rank in ["Adept", "Elite", "Master"]:
-                abl["areas"] += ["Ready"]
+                abl["reactions"] += ["Riposte"]
                 abl["specialty"] = [random.choice(["Bash", "Guard", "Harry", "Stab"])]
                 
                 if rank in ["Elite", "Master"]:
-                    abl["reactions"] += ["Riposte"]
+                    abl["areas"] += ["Ready"]
                     
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bash", "Guard", "Harry", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         inv = Inventory.humanInventory().inventory
-        self.ch = Characters.character(props, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class mage:
     def __init__(self, rank, element) -> None:
         job = "Mage"
         common = setCommon(job, rank, element)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, {"boons": ["Evade"]})
+
+        if element == "Dream": abl["boons"] += ["Focus"]
+        else: abl["attacks"] += ["Bring"]
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
@@ -116,24 +117,23 @@ class mage:
             if rank in ["Adept", "Elite", "Master"]:
                 if rank == "Dream":
                     abl["hindrances"] += ["Disorient"]
-                    abl["specialty"] = [random.choice(["Bring", "Disorient", "Evade", "Wreath"])]
+                    abl["specialty"] = [random.choice(["Disorient", "Evade", "Focus", "Wreath"])]
                 else:
                     abl["areas"] += ["Hex"]
                     abl["specialty"] = [random.choice(["Bring", "Evade", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if rank == "Dream": abl["boons"] += ["Focus"]
+                    if rank == "Dream": abl["hindrance"] += ["Misdirect"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
                         secondSpecialty = [random.choice("Bring", "Evade", "Wreath")]
-                        if rank == "Dream": secondSpecialty = [random.choice("Bring", "Disorient", "Evade", "Focus", "Wreath")]
+                        if rank == "Dream": secondSpecialty = [random.choice("Disorient", "Evade", "Focus", "Misdirect", "Wreath")]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         inv = Inventory.humanInventory().inventory
-        self.ch = Characters.character(props, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class dragonslayer:
     def __init__(self, rank, element) -> None:
@@ -157,9 +157,8 @@ class dragonslayer:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         inv = Inventory.humanInventory().inventory
-        self.ch = Characters.character(props, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
         
 class paladin:
     def __init__(self, rank) -> None:
@@ -183,6 +182,5 @@ class paladin:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        props = {"abl": abl, "cndt": cndt, "dice": dice, "stats": stats}
         inv = Inventory.humanInventory().inventory
-        self.ch = Characters.character(props, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
