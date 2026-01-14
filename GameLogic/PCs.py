@@ -15,7 +15,7 @@ Martin.initials = "M."
 Martin.abl["items"] += ["Loot", "Transfer"]
 # Martin.equipment["armor"] = None
 
-environment = {"Clubs": "", "Diamonds": "", "Hearts": "Queen", "Spades": ""}
+environment = {"Clubs": "", "Diamonds": "", "Hearts": "Jack", "Spades": ""}
 # while True: Games.tracking(Martin, environment)
 
 # biome = "Wild"
@@ -45,7 +45,8 @@ enemyGroup = {"members": [Archer], "name": "assassins"}
 
 obstructions = {"wall": 0, "trap": 0, "pit": 0}
 atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
-slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
+# slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
+slope = "flat"
 print("Slope: " + slope)
 # battleMap = dMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")
 battleMap = iMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], environment, slope)

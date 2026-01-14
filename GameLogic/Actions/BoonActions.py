@@ -1,4 +1,4 @@
-from Abilities import DamageTypes as Damage, Hindrances_Apply as Hinder, Boons_Set as Boons
+from Abilities import DamageTypes as Damage, Boons_Set as Boons, Boons_Apply
 from Systems import PlayerSelect as Select
 from Maps import Movement
 from . import AssessTargets as Assess, AttackActions
@@ -45,7 +45,7 @@ def canWreath(fighter, dmgTypes) -> bool:
     compatible = False
 
     for enemyDmgType in dmgTypes:
-        if Boons.checkCompatibility(enemyDmgType, fighterDmgType):
+        if Boons_Apply.checkCompatibility(enemyDmgType, fighterDmgType):
             compatible = True
 
     return compatible

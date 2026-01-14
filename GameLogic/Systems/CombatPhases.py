@@ -25,7 +25,7 @@ def resetFighter(fighter, battleMap) -> None:
     Effects.updateItemEffects(fighter)
 
 
-def intro(fighter, enemies, allies, battleMap):
+def setSight(fighter, enemies, allies, battleMap):
     sightMap = Visibility.createSightMap(fighter, battleMap)
     Map.hideShrouded(fighter, enemies + allies, sightMap)
 

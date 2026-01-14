@@ -1,4 +1,5 @@
 from . import Map_Populate as pMap, Elevation
+from Systems import PlayerSelect as Select
 import random
 
 wall, pit, emptySpace, manaWell = "////|", ")()(|", "____|", "*___|"
@@ -34,12 +35,17 @@ def createMap(playerGroup, enemyGroup, tileMods, environment, feature) -> list:
         for row in range(3): mainMap[row] += box
         for row in range(9): secondMap[row] += box
 
+    Select.waitPrint("Placing occlusions...")
     placeOcclusions(tileMods, mainMap, 1)
     placeOcclusions(tileMods, secondMap, 3)
     
+    Select.waitPrint("Placing PCs...")
     for fighter in playerGroup: pMap.firstPlacement(mainMap, fighter, 3)
     battleMap = combineMaps(mainMap, secondMap, 3, playerGroup)
+
+    Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, feature)
+    Select.waitPrint("Placing NPCs...")
     for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
 
     return battleMap

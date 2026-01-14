@@ -80,13 +80,14 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
             if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
             
         for fighter in validFighters:
-            fighter.sightMap = Phases.intro(fighter, foes, friends, battleMap)
+            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
             Phases.movementStage(fighter, foes, friends, battleMap)
 
         for fighter in validFighters: Map.activateHazards(fighter, battleMap)
         Map.updateHazards(battleMap)
 
         for fighter in validFighters:
+            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
             Phases.inventoryStage(fighter, foes, friends, battleMap)
             Phases.abilityStage(fighter, foes, friends, battleMap)
 

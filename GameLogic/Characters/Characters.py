@@ -1,4 +1,4 @@
-from Systems import Equipment
+from Systems import Equipment, PlayerSelect as Select
 import random, copy
 
 
@@ -23,6 +23,8 @@ class character:
 
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
         self.initials = job[0] + job[-2]
+
+        Select.waitPrint(self.name + " instantiated!")
 
      
 def setAbilities(type, additions) -> dict:
