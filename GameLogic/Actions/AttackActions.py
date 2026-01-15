@@ -28,8 +28,6 @@ def usableAttacks(fighter, enemies) -> list:
     return usableAttacks
 
 
-
-
 def pcSelectAttack(fighter, enemies) -> str:
     attackOptions = usableAttacks(fighter, enemies)
     
@@ -41,7 +39,7 @@ def pcSelectAttack(fighter, enemies) -> str:
 
 
 def npcSelectAttack(fighter, target) -> str:
-    attackOptions = usableAttacks(fighter, target)
+    attackOptions = usableAttacks(fighter, [target])
     if len(attackOptions) == 0: return "None"
     else: return random.choice(attackOptions)
 

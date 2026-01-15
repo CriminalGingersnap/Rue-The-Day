@@ -4,8 +4,8 @@ import random, time
 
 
 def roll(fighter, dice, ability, dType) -> int:
-    if dice > 0: total = castDice(dice, False)
-    total = changeTotal(fighter, dice, ability, dType)
+    if dice > 0: total = castDice(dice)
+    total += mods(fighter, ability, dType)
     
     print("Total: ", end='')
     time.sleep(Select.waitTime * 2)
@@ -14,8 +14,8 @@ def roll(fighter, dice, ability, dType) -> int:
     return total
 
 
-def changeTotal(fighter, dice, ability, dType) -> int:
-    phrase, mod = " | ", dice
+def mods(fighter, ability, dType) -> int:
+    phrase, mod = " | ", 0
     
     if ability in fighter.abl["specialty"]:
         mod += 1
@@ -46,11 +46,8 @@ def changeTotal(fighter, dice, ability, dType) -> int:
         mod -= fighter.atrb["fatigue"]
         phrase += "-" + str(fighter.atrb["fatigue"]) + " (Fatigue) | "
 
-    mod = max(0, mod)
-
     Select.waitPrint("Modifiers: " + str(mod) + phrase)
-
-    return dice * mod
+    return mod
 
 
 def castDice(dice) -> int:
@@ -60,7 +57,7 @@ def castDice(dice) -> int:
         roll = random.randint(1, 6)
         print("Roll " + str(die + 1) + ": ", end='')
         time.sleep(Select.waitTime * 2)
-        print(faces[roll - 1])
+        print(faces[roll - 1] + " | " + str(roll))
 
         total += roll
     return total    

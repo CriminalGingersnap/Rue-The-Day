@@ -13,7 +13,7 @@ def moveAction(fighter, groups, battleMap) -> None:
     if ("*" in battleMap[fighter.position[0]][fighter.position[1]]) and (fighter.atrb["base_mag"] > 0): posOptions += ["Tap"]
 
     if fighter.rank == "player":
-        posOptions += ["Examine", "Movement"]
+        posOptions += ["Examine", "Move"]
         movePlayer(fighter, groups, posOptions, battleMap)
     else: moveNPC(fighter, groups, posOptions, battleMap)
     
@@ -22,7 +22,7 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     Select.waitPrint("Choose " + fighter.name + "'s Positional Action:")
     answer = Select.makeSelection(posOptions)
 
-    if answer == "Movement":
+    if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)
         if stationary: Moves.execute(fighter, groups, "Set")
     elif answer in Moves.stationaryAbilities:

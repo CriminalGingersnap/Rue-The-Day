@@ -35,9 +35,10 @@ def setSight(fighter, enemies, allies, battleMap):
     if fighter.rank == "player":
         Map.revealOthers(fighter, allies, enemies, sightMap)
         Map.hideTraps(fighter, sightMap)
-        Map.printMap(sightMap, fighter.name + "'s Sight Map")
     else:
         Select.waitPrint(fighter.name + "'s Turn")
+
+    Map.printMap(sightMap, fighter.name + "'s Sight Map")
 
     return sightMap
 

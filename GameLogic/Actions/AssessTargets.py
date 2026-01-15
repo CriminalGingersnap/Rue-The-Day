@@ -1,4 +1,5 @@
 from Abilities import Attacks_Martial as Martial, DamageTypes as Damage, Boons_Apply as Boons
+from Maps import Movement
 import random
 
 
@@ -7,9 +8,7 @@ def findClosest(fighter, targets):
     prevProximity = 11
 
     for target in targets:
-        rowDiff = abs(target.position[0] - fighter.position[0])
-        columnDiff = abs(target.position[1] - fighter.position[1])
-        distance = rowDiff + columnDiff
+        distance = Movement.findDistance(fighter, target)
 
         if distance < prevProximity:
             prevProximity = distance

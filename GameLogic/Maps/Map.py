@@ -98,7 +98,7 @@ def updateHazards(battleMap):
     for row in range(12):
         for column in range(12):
             atmosphere = battleMap[row][column][0]
-            dmgType, newAtmosphere = identifyAtmosphere(atmosphere), ""
+            dmgType, newAtmosphere = identifyAtmosphere(atmosphere), "_"
 
             match dmgType:
                 case "Burn": newAtmosphere = "#"

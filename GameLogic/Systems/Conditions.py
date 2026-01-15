@@ -59,5 +59,4 @@ def setInjury(target):
             target.atrb["injury"] = 3
 
     Select.waitPrint(phrase1)
-    Select.waitPrint(phrase2 + "Penalty applied to martial rolls.")
-
+    Select.waitPrint(phrase2 + "Penalty applied to martial rolls.\n")

@@ -32,10 +32,9 @@ def selectSpace(fighter, boarders) -> int:
                     optionsMap[row][column] = atmosphere + str(counter) + dot + elevation
                     counter += 1
 
-        Map.printMap(optionsMap, "Options Map")
-
         choice = ""
         if fighter.rank == "player":
+            Map.printMap(optionsMap, "Options Map")
             choice = Select.takeInput(1, counter)
         else:
             choice = "" #find highest concentration of enemies and get as central as possible.
