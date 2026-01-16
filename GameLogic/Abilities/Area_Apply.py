@@ -1,9 +1,9 @@
 from Systems import PlayerSelect as Select
 from Maps import Map as Map, Map_Instantiate as iMap
-from Abilities import DamageTypes as Damage
+import random
 
 
-def selectSpace(fighter, boarders) -> int:
+def selectSpace(fighter, enemies, boarders) -> int:
     emptySpace = "___"
     sightMap = fighter.sightMap
     leftEdge, rightEdge, topEdge, bottomEdge = boarders[0], boarders[1], boarders[2], boarders[3]
@@ -37,7 +37,7 @@ def selectSpace(fighter, boarders) -> int:
             Map.printMap(optionsMap, "Options Map")
             choice = Select.takeInput(1, counter)
         else:
-            choice = "" #find highest concentration of enemies and get as central as possible.
+            choice = random.choice([1, counter]) #find highest concentration of enemies and get as central as possible.
 
         return optionDict[str(choice)]
 

@@ -56,7 +56,7 @@ class ferret:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["avoidance"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         dice = {"martial": 1, "magic": 0}
 
         if rank == "Elder": abl["hindrances"] += ["Disorient"]

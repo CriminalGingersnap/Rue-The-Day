@@ -41,22 +41,27 @@ def takeDamage(target, dmgType, damage, massive) -> None:
 
 def setInjury(target):
     phrase1, phrase2 = target.name + " is ", "Speed reduced "
+    print = False
 
     if target.atrb["quart_hp"] < target.atrb["cur_hp"] <= target.atrb["half_hp"]:
         if target.atrb["injury"] < 1:
             phrase1 += "injured!"
             phrase2 += "by a quarter. AV reduced by 1. "
             target.atrb["injury"] = 1
+            print = True
     elif 0 < target.atrb["cur_hp"] <= target.atrb["quart_hp"]:
         if target.atrb["injury"] < 2:
             phrase1 += "critically injured!"
             phrase2 += "by half. AV reduced by 2. "
             target.atrb["injury"] = 2
+            print = True
     elif target.atrb["cur_hp"] <= 0:
         if target.atrb["injury"] < 3:
             phrase1 += "mortally wounded!"
             phrase2 += "to 0. AV reduced by 3. "
             target.atrb["injury"] = 3
+            print = True
 
-    Select.waitPrint(phrase1)
-    Select.waitPrint(phrase2 + "Penalty applied to martial rolls.\n")
+    if print:
+        Select.waitPrint(phrase1)
+        Select.waitPrint(phrase2 + "Penalty applied to martial rolls.\n")

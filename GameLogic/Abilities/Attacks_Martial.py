@@ -47,7 +47,7 @@ def contact(fighter, target, dmgType, bonusSource, dice):
 
     Select.waitPrint("Attack hits!")
 
-    baseDmg = (3 + fighter.equipment["weapon"]["modifier"]) * dice
+    baseDmg = 3 * dice
     physicalAbsorption = Boons.applyWreath(target, dmgType)
     appliedDmg = max(0, baseDmg - physicalAbsorption) 
 
@@ -56,7 +56,7 @@ def contact(fighter, target, dmgType, bonusSource, dice):
     
     if bonusDmgType != "None":
         Select.waitPrint("Attack deals bonus " + bonusDmgType + " damage!")
-        bonusDmg = Roll.roll(bonusSource, dice, bonusDmgType, "magic")
+        bonusDmg = Roll.roll(bonusSource, 1, bonusDmgType, "magic")
         bonusDmg -= Boons.applyWreath(target, bonusDmgType)
 
         if bonusDmg > 0: Select.waitPrint(fighter.name + " inflicts " + str(bonusDmg) + " " + bonusDmgType + " damage!")

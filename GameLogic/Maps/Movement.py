@@ -4,15 +4,15 @@ from . import MovementOptions, Map
 import random
 
 
-def moveFighter(fighter, battleMap, target, getClose) -> None:
-    movementMap = MovementOptions.setMoveOptions(fighter, fighter.sightMap, fighter.position[0], fighter.position[1])
+def moveFighter(fighter, battleMap, target, closeRanks) -> None:
+    movementMap = MovementOptions.setMoveOptions(fighter, target, battleMap)
     moveOptions = prepareOptions(movementMap)
     spaceOptions, highestNumber = moveOptions[0], moveOptions[1]
     stationary = False
 
     moveChoice = None
     if fighter.rank == "player": moveChoice = movePlayer(movementMap, highestNumber)
-    else: moveChoice = moveNPC(fighter, target, spaceOptions, highestNumber, getClose)
+    else: moveChoice = moveNPC(fighter, target, spaceOptions, highestNumber, closeRanks)
 
     if int(moveChoice) != 1:
         if fighter.rank != "player": Select.waitPrint(fighter.name + " moves.")
@@ -37,34 +37,33 @@ def findDistance(fighter, target):
     return max(rowDiff, columnDiff)
 
 
-def moveNPC(fighter, target, spaceOptions, highestNumber, getClose) -> str:
+def moveNPC(fighter, target, spaceOptions, highestNumber, closeRanks) -> str:
     distance = findDistance(fighter, target)
+    reach = fighter.equipment["weapon"]["reach"]
 
     closestIndex = 1
     leastDistance_Target, leastDistance_Fighter = distance, distance
-    mostDistanceEffective_Target = 0
+    highestEffectiveDistance = 0
     rankedOptions, rankedIndices = {}, {}
 
-    for squareNumber in range(1, highestNumber): # key error here
+    for squareNumber in range(1, highestNumber):
         row, column = spaceOptions[str(squareNumber)][0], spaceOptions[str(squareNumber)][1]
 
-        rowDiff_Target = abs(target.position[0] - row)
-        columnDiff_Target = abs(target.position[1] - column)
-        distanceFromTarget = max(rowDiff_Target, columnDiff_Target)
+        rowDiff_Space = abs(target.position[0] - row)
+        columnDiff_Space = abs(target.position[1] - column)
+        spaceDistance = max(rowDiff_Space, columnDiff_Space)
 
-        if distanceFromTarget in rankedOptions: rankedOptions[distanceFromTarget] += [[row, column, squareNumber]]
-        else: rankedOptions[distanceFromTarget] = [[row, column, squareNumber]]
-        
-        reach = fighter.equipment["weapon"]["reach"]
+        if spaceDistance in rankedOptions: rankedOptions[spaceDistance] += [[row, column, squareNumber]]
+        else: rankedOptions[spaceDistance] = [[row, column, squareNumber]]
 
-        if distanceFromTarget < leastDistance_Target:
-            leastDistance_Target = distanceFromTarget
-        if (distanceFromTarget > mostDistanceEffective_Target) and (distanceFromTarget <= reach):
-            mostDistanceEffective_Target = distanceFromTarget
+        if spaceDistance < leastDistance_Target:
+            leastDistance_Target = spaceDistance
+        if (spaceDistance > highestEffectiveDistance) and (spaceDistance <= reach):
+            highestEffectiveDistance = spaceDistance
 
-    desiredDistance = mostDistanceEffective_Target
-    if getClose: desiredDistance = leastDistance_Target
-    elif mostDistanceEffective_Target == 0:
+    desiredDistance = highestEffectiveDistance
+    if closeRanks: desiredDistance = leastDistance_Target
+    elif highestEffectiveDistance == 0:
         desiredDistance = random.randint(leastDistance_Target, distance)
 
     for square in rankedOptions[desiredDistance]:
@@ -76,7 +75,8 @@ def moveNPC(fighter, target, spaceOptions, highestNumber, getClose) -> str:
             leastDistance_Fighter = distanceFromFighter
             rankedIndices[distanceFromFighter] = [square[2]]
         elif distanceFromFighter == leastDistance_Fighter:
-            rankedIndices[distanceFromFighter] += [square[2]]
+            if distanceFromFighter not in rankedIndices: rankedIndices[distanceFromFighter] = [square[2]]
+            else: rankedIndices[distanceFromFighter] += [square[2]]
     
     closestIndex = random.choice(rankedIndices[leastDistance_Fighter])
 

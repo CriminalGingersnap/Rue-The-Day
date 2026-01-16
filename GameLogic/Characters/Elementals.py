@@ -42,7 +42,7 @@ class dancer:
         stats["resist"]["Crush"] = "vulnerable"
         stats["speed"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "boons": ["Evade"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["martial"] += 2
 
@@ -140,7 +140,7 @@ class satyr:
         stats["avoidance"] = "high"
         stats["speed"] = "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"], "boons": ["Evade", "Shroud", "Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"], "boons": ["Shroud", "Wreath"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["magic"] += 2
 
@@ -182,7 +182,7 @@ class sphinx:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "boons": ["Evade", "Wreath"], "hindrances": ["Compel"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "boons": ["Wreath"], "hindrances": ["Compel"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["martial"] += 2
 

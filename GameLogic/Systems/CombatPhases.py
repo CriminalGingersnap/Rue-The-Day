@@ -26,7 +26,7 @@ def resetFighter(fighter, battleMap) -> None:
 
 
 def setSight(fighter, enemies, allies, battleMap):
-    sightMap = Visibility.createSightMap(fighter, battleMap)
+    sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.rank)
     Map.hideShrouded(fighter, enemies + allies, sightMap)
 
     fighter.atrb["cur_mag"] = fighter.atrb["base_mag"] + fighter.effects["Invest"]["dice"]
@@ -55,7 +55,7 @@ def outro(fighter, groups, battleMap):
         Conditions.decrementStamina(fighter, intensity)
         Reactions.applySocial(fighter, fightingAllies)
     
-    if fighter.rank != "player": input("Press Enter to end " + fighter.name + "'s turn.")    
+    if fighter.rank != "player": input("Press Enter to conclude " + fighter.name + "'s turn.")    
     
     Items.regenerate(fighter)
     Reactions.applyReinforcements(fighter, fightingAllies, battleMap)

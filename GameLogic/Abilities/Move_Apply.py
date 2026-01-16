@@ -1,8 +1,9 @@
 
 from Systems import Roll, Conditions, PlayerSelect as Select
+from Abilities import Boons_Set as Boons
 from . import Attacks_Martial as Martial
 
-stationaryAbilities = ["Inventory", "Examine", "Set", "Tap"]
+stationaryAbilities = ["Inventory", "Evade", "Examine", "Set", "Tap"]
 
 
 def execute(fighter, groups, ability) -> None: 
@@ -11,17 +12,27 @@ def execute(fighter, groups, ability) -> None:
 
     match ability:
         case "Examine": applyExamine(visibleTargets)
+        case "Evade": applyEvade(fighter)
         case "Inventory": applyInventory(fighter)
         case "Set": applySet(fighter)
         case "Tap": applyTap(fighter)
 
 
-def applySet(fighter) -> str:
+def applyEvade(fighter) -> None:
+    fighter.commitments["Guard"]["targets"] += [fighter]
+    fighter.effects["Guard"]["source"] = fighter
+    fighter.effects["Guard"]["ability"] = "Evade"
+    fighter.effects["Guard"]["dice"] += 1
+
+    Boons.boonComment(fighter, fighter, "Evade")
+
+
+def applySet(fighter) -> None:
     fighter.atrb["cur_mar"] += 1
     Select.waitPrint(fighter.name + " sets in place!")
 
 
-def applyTap(fighter) -> str:
+def applyTap(fighter) -> None:
     phrase = ""
     roll = Roll.roll(fighter, 1, "Tap", "magic")
 
@@ -39,7 +50,7 @@ def applyTap(fighter) -> str:
     Select.waitPrint(fighter.name + phrase)
 
 
-def applyInventory(fighter) -> str:
+def applyInventory(fighter) -> None:
     phrase = ""
 
     if "Quick Inventory" in fighter.abl["boons"]:
@@ -52,7 +63,7 @@ def applyInventory(fighter) -> str:
     Select.waitPrint(fighter.name + " opens their inventory to " + phrase)
 
 
-def applyExamine(visibleTargets):
+def applyExamine(visibleTargets) -> None:
     examinee = Select.targetSelect(visibleTargets)
 
     if examinee != "None":

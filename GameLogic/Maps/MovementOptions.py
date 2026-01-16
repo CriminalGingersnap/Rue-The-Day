@@ -1,13 +1,18 @@
-from Maps import Elevation, Map_Instantiate as iMap, Map
+from Maps import Elevation, Map_Instantiate as iMap, Map, Visibility
 
 heightDict = {Elevation.doubleUp: 4, Elevation.up: 3, Elevation.middle: 2,
                Elevation.down: 1, Elevation.doubleDown: 0, "]": 2, "?": 50}
 
 
-def setMoveOptions(fighter, instanceMap, fighterRow, fighterColumn) -> list:
+def setMoveOptions(fighter, target, battleMap) -> list:
+    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
     leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
     topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
-    hazards = ["B", "b", "c", "C", "D", "d", "F", "f", "H", "h", "R", "r", "V", "v"]
+    hazards = Map.majorHazards + Map.minorHazards
+
+    npc, simulation, noContact = fighter.rank != "player", None, False
+    if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.rank)
+    instanceMap = fighter.sightMap
 
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]
     for row in range(12):
@@ -21,21 +26,24 @@ def setMoveOptions(fighter, instanceMap, fighterRow, fighterColumn) -> list:
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
 
-    for runs in range(fighter.atrb["cur_sp"] * 5):
+    for runs in range(fighter.atrb["cur_sp"] * fighter.atrb["cur_sp"]):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 stepCount = traverse(movementMap, instanceMap, fighterRow, fighterColumn, row, column)
-                if stepCount <= fighter.atrb["cur_sp"]:
-                    if ("___" in instanceMap[row][column]):
+                if stepCount <= fighter.atrb["cur_sp"]:                   
+                    if npc: noContact = (Visibility.unseen in simulation[row][column]) and (Visibility.unseen not in instanceMap[row][column])
+                    if npc and (("!" in instanceMap[row][column]) or noContact):
+                        movementMap[row][column] = "_!:" + str(stepCount)
+
+                    elif ("___" in instanceMap[row][column]):
                         movementMap[row][column] = ":" + str(stepCount)
-                        
+
                     elif "/" not in instanceMap[row][column]:
-                        if (fighter.rank == "player") and ("." in instanceMap[row][column]):
+                        if ")()(" in instanceMap[row][column]:
+                            movementMap[row][column] = "_):" + str(stepCount) + "_"
+
+                        elif ("." in instanceMap[row][column]):
                             movementMap[row][column] = "_.:" + str(stepCount) + "_"
-                        elif (fighter.rank != "player") and ("!" in instanceMap[row][column]):
-                            movementMap[row][column] = "_!:" + str(stepCount) + "_"
-                        elif ")()(" in instanceMap[row][column]:
-                            movementMap[row][column] = "_):" + str(stepCount) + "_"            
 
     counter = 2
     for column in range(12):
@@ -46,9 +54,9 @@ def setMoveOptions(fighter, instanceMap, fighterRow, fighterColumn) -> list:
                 else: movementMap[row][column] = str(counter) + ":" + str(stepCount)
                 counter += 1
 
-            if "." in instanceMap[row][column]: movementMap[row][column] = "_.._"
-            elif "!" in instanceMap[row][column]: movementMap[row][column] = "/!!/"
-            elif ")" in instanceMap[row][column]: movementMap[row][column] = ")()("
+            if "." in movementMap[row][column]: movementMap[row][column] = "_.._"
+            elif "!" in movementMap[row][column]: movementMap[row][column] = "/!!/"
+            elif ")" in movementMap[row][column]: movementMap[row][column] = ")()("
 
             if any(char in movementMap[row][column] for char in [":", ".", "!", ")"]):
                 movementMap[row][column] += instanceMap[row][column][-1]

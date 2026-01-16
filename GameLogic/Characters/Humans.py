@@ -56,20 +56,20 @@ class archer:
         job, element = "Archer", "Basic"
         common = setCommon(job, rank, element)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["attacks"] += ["Bodkin"]
             
             if rank in ["Adept", "Elite", "Master"]:
                 abl["areas"] += ["Mark"]
-                abl["specialty"] = [random.choice(["Bodkin", "Broadhead", "Evade"])]
+                abl["specialty"] = [random.choice(["Bodkin", "Broadhead"])]
                 
                 if rank in ["Elite", "Master"]:
                     abl["boons"] += ["Quick Inventory"]
                 
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Bodkin", "Broadhead", "Evade"])]
+                        secondSpecialty = [random.choice(["Bodkin", "Broadhead"])]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -81,20 +81,20 @@ class knight:
         job, element = "Knight", "Basic"
         common = setCommon(job, rank, element)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["hindrances"] += ["Harry"]
+            abl["boons"] += ["Guard"]
 
             if rank in ["Adept", "Elite", "Master"]:
                 abl["reactions"] += ["Riposte"]
-                abl["specialty"] = [random.choice(["Bash", "Guard", "Harry", "Stab"])]
+                abl["specialty"] = [random.choice(["Bash", "Guard", "Stab"])]
                 
                 if rank in ["Elite", "Master"]:
                     abl["areas"] += ["Ready"]
                     
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Bash", "Guard", "Harry", "Stab"])]
+                        secondSpecialty = [random.choice(["Bash", "Guard", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -106,29 +106,27 @@ class mage:
         job = "Mage"
         common = setCommon(job, rank, element)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"boons": ["Evade"]})
-
-        if element == "Dream": abl["boons"] += ["Focus"]
-        else: abl["attacks"] += ["Bring"]
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["boons"] += ["Wreath"]
+            if element == "Dream": abl["boons"] += ["Focus"]
+            else: abl["attacks"] += ["Bring"]
             
             if rank in ["Adept", "Elite", "Master"]:
                 if rank == "Dream":
                     abl["hindrances"] += ["Disorient"]
-                    abl["specialty"] = [random.choice(["Disorient", "Evade", "Focus", "Wreath"])]
+                    abl["specialty"] = [random.choice(["Disorient", "Focus", "Wreath"])]
                 else:
                     abl["areas"] += ["Hex"]
-                    abl["specialty"] = [random.choice(["Bring", "Evade", "Wreath"])]
+                    abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
                     if rank == "Dream": abl["hindrance"] += ["Misdirect"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
-                        secondSpecialty = [random.choice("Bring", "Evade", "Wreath")]
-                        if rank == "Dream": secondSpecialty = [random.choice("Disorient", "Evade", "Focus", "Misdirect", "Wreath")]
+                        secondSpecialty = [random.choice("Bring", "Wreath")]
+                        if rank == "Dream": secondSpecialty = [random.choice("Disorient", "Focus", "Misdirect", "Wreath")]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -140,20 +138,20 @@ class dragonslayer:
         job = "Dragonslayer"
         common = setCommon(job, rank, element)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
             
             if rank in ["Adept", "Elite", "Master"]:
                 abl["areas"] += ["Mark"]
-                abl["specialty"] = [random.choice(["Bodkin", "Evade", "Wreath"])]
+                abl["specialty"] = [random.choice(["Bodkin", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
                     abl["hindrances"] += ["Misdirect"]
                     
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Bodkin", "Evade", "Misdirect", "Wreath"])]
+                        secondSpecialty = [random.choice(["Bodkin", "Misdirect", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -165,20 +163,20 @@ class paladin:
         job, element = "Paladin", "Blessed"
         common = setCommon(job, rank, element)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Sling"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Sling"]})
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
             
             if rank in ["Adept", "Elite", "Master"]:
                 abl["areas"] += ["Bless"]
-                abl["specialty"] = [random.choice(["Evade", "Sling", "Wreath"])]
+                abl["specialty"] = [random.choice(["Sling", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
                     abl["boons"] += ["Compel"]
                     
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Compel", "Evade", "Sling", "Wreath"])]
+                        secondSpecialty = [random.choice(["Compel", "Sling", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)

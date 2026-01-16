@@ -10,7 +10,7 @@ class character:
         self.atrb = setAttributes(rank, stats, cndt, elm, dice)
         self.abl, self.cndt = abl, cndt
 
-        self.equipment = Equipment.setEquipment(type, job, elm, cndt["armored"], abl, cndt)
+        self.equipment = Equipment.setEquipment(type, job, elm, cndt["armored"], cndt)
 
         dicts = setDicts()
         self.commitments = dicts[0]

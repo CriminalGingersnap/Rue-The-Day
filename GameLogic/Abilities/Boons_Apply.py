@@ -27,7 +27,7 @@ def applyFocus(principal) -> int:
         if principal in source.commitments["Focus"]["targets"]:
             Select.waitPrint("Focus triggered!")
 
-            roll = expend(source, principal, dice, "Focus", "magic")
+            roll = expend(source, dice, "Focus", "magic")
             increase = roll[0]
             principal.effects["Focus"]["dice"] -= roll[1]
 
@@ -46,7 +46,7 @@ def applyGuard(principal) -> int:
         if principal in source.commitments["Guard"]["targets"]:
             Select.waitPrint(ability + " triggered!")
 
-            roll = expend(source, principal, dice, ability, "martial")
+            roll = expend(source, dice, ability, "martial")
             bonus = roll[0]
             principal.effects["Guard"]["dice"] -= roll[1]
             
@@ -98,7 +98,7 @@ def applyWreath(principal, attackDmgType) -> int:
         if compatible and (principal in source.commitments["Wreath"]["targets"]):
             Select.waitPrint("Wreath engaged!")
                             
-            roll = expend(source, principal, dice, "Wreath", "magic")
+            roll = expend(source, dice, "Wreath", "magic")
             bonus = roll[0]
             principal.effects["Wreath"]["dice"] -= roll[1]
 

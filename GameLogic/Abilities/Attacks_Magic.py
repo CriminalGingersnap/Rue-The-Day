@@ -6,8 +6,8 @@ def attack(fighter, target, attack, dice) -> None:
     dmgType = Damage.identifyDamageType(fighter, attack)["base"]
 
     absorption = Boons.applyWreath(target, dmgType)
-    baseDmg = Roll.roll(fighter, dice, attack, "magic") + (dice * fighter.equipment["weapon"]["modifier"])
-    appliedDmg = min(0, baseDmg - absorption)
+    baseDmg = Roll.roll(fighter, dice, attack, "magic")
+    appliedDmg = max(0, baseDmg - absorption)
 
     Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
     Conditions.takeDamage(target, dmgType, appliedDmg, False)

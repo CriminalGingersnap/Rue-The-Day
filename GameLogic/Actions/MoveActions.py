@@ -7,7 +7,8 @@ import random
 
 def moveAction(fighter, groups, battleMap) -> None:
     hasInventory = any(invAbl in fighter.abl["boons"] for invAbl in ["Inventory", "Quick Inventory"])
-    posOptions = ["Set"] + fighter.abl["areas"]
+    posOptions = ["Evade"] + fighter.abl["areas"]
+    if fighter.atrb["base_mar"] > 0: posOptions += ["Set"]
 
     if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
     if ("*" in battleMap[fighter.position[0]][fighter.position[1]]) and (fighter.atrb["base_mag"] > 0): posOptions += ["Tap"]
@@ -24,7 +25,9 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
 
     if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)
-        if stationary: Moves.execute(fighter, groups, "Set")
+        if stationary:
+            if fighter.atrb["base_mar"] > 0: Moves.execute(fighter, groups, "Set")
+            else: Moves.execute(fighter, groups, "Evade")
     elif answer in Moves.stationaryAbilities:
         Moves.execute(fighter, groups, answer)
     elif answer in Area.areaAbilities:
@@ -37,10 +40,10 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
     stationary, choice = True, ""
 
     if fighter.atrb["cur_sp"] > 0:
-        target, getClose = "None", False
+        target, closeRanks = "None", False
 
         if (fighter.type == "human") and (len(reachableAllies) == 1) and (len(fightingAllies) > 1):
-            getClose = True
+            closeRanks = True
 
             fightingAlliesMinusSelf = []
             for ally in fightingAllies:
@@ -52,10 +55,11 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
 
         elif len(reachableEnemies) == 0:
             target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies)
+            print(target.name)
 
         if target != "None":
             stationary = False
-            Movement.moveFighter(fighter, battleMap, target, getClose)
+            Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
     if stationary: choice = random.choice(posOptions)
     if choice in Area.areaAbilities: Area.execute(fighter, groups["fightingEnemies"], choice, battleMap)
