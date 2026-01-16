@@ -1,214 +1,87 @@
 
-from . import Visibility, Map
-
-
-def checkTransparent(position, row, column, viewHeight, obstructionPeak, sightMap):
-    unobstructed, oneOff = False, False
-
-    if Visibility.unseen not in sightMap[row][column]:
-        lineReport = Visibility.checkHeight(position, row, column, viewHeight, viewHeight-2, sightMap)
-        oneOff, obstructionHeight = lineReport[1], lineReport[2]
-
-        if ("/" not in sightMap[row][column]) or (obstructionHeight <= viewHeight):
-            unobstructed = True
-
-        if obstructionHeight > obstructionPeak: obstructionPeak = obstructionHeight
-    
-    return [unobstructed, oneOff, obstructionPeak]
+from . import Visibility
 
 
 def fillVisibilityMap(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    if (row > 0) and (column < 10):
-        fillFirstOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row > 1) and (column < 11):
-        fillSecondOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row > 1) and (column > 0):
-        fillThirdOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row > 0) and (column > 1):
-        fillForthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row < 11) and (column > 1):
-        fillFifthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row < 10) and (column > 0):
-        fillSixthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row < 10) and (column < 11):
-        fillSeventhOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    if (row < 11) and (column < 10):
-        fillEighthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+    if (row > 0):
+        if (column < 11):
+            fillFirstOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillSecondOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+        if (column > 0):
+            fillThirdOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillForthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+    if (row < 11):
+        if (column > 0):
+            fillFifthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillSixthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+        if (column < 11):
+            fillSeventhOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillEighthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
 
 
 def fillFirstOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row - 1, column + 2
-    lookResult = []
-
-    lookResult = checkTransparent(position, newRow+1, newColumn-1, viewHeight, -1, sightMap)
-    downLeftClear, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-
-    if downLeftClear: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newColumn < 11):
-            shadows += [[newRow, newColumn+1]]
-            if newRow > 0: shadows += [[newRow-1, newColumn+1]]
-
-        # if checkTransparent(position, newRow, newColumn-1, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = 1, -1
-        
-        Visibility.lookRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak) 
-
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookUpRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, 0, columnOffset, obstructionPeak)
-        # else: sightMap[newRow][newColumn+1] = Visibility.unseen
-
+    newColumn, newRow = column + 1, row
+    if rank != "player": newRow -=1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
+            
+    Visibility.lookRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows) 
+    Visibility.lookUpRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 def fillSecondOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row - 2, column + 1
-    lookResult = []
-    
-    lookResult = checkTransparent(position, newRow+1, newColumn-1, viewHeight, -1, sightMap)
-    downLeftClear, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
+    newRow, newColumn = row - 1, column
+    if rank != "player": newColumn += 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    if downLeftClear: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newRow > 0):
-            shadows += [[newRow-1, newColumn]]
-            if newColumn < 11: shadows += [[newRow-1, newColumn+1]]            
-        
-        # if checkTransparent(position, newRow+1, newColumn, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = 1, -1
-        Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-        
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookUpRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, 0, obstructionPeak)  
-        # else: sightMap[newRow-1][newColumn] = Visibility.unseen
+    Visibility.lookUpRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)  
+    Visibility.lookUp(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 
 def fillThirdOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row - 2, column - 1
-    lookResult = []
+    newRow, newColumn = row - 1, column
+    if rank != "player": newColumn -= 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    lookResult = checkTransparent(position, newRow+1, newColumn+1, viewHeight, -1, sightMap)
-    notBlocked, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-
-    if notBlocked: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newRow > 0):
-            shadows += [[newRow-1, newColumn]]
-            if newColumn > 0: shadows += [[newRow-1, newColumn-1]]
-
-        # if checkTransparent(position, newRow+1, newColumn, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = 1, 1
-        Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookUpLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, 0, obstructionPeak)
-        # else: sightMap[newRow-1][newColumn] = Visibility.unseen 
-
+    Visibility.lookUp(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    Visibility.lookUpLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 def fillForthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row - 1, column - 2
-    lookResult = []
+    newColumn, newRow = column - 1, row
+    if rank != "player": newRow -= 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    lookResult = checkTransparent(position, newRow+1, newColumn+1, viewHeight, -1, sightMap)
-    notBlocked, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-
-    if notBlocked: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newRow > 0):
-            shadows += [[newRow, newColumn-1]]
-            if newColumn > 0: shadows += [[newRow-1, newColumn-1]]
-
-        # if checkTransparent(position, newRow, newColumn+1, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = 1, 1
-        Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-        
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookUpLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, 0, columnOffset, obstructionPeak)
-        # else: sightMap[newRow][newColumn-1] = Visibility.unseen
+    Visibility.lookUpLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 
 def fillFifthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row + 1, column - 2
-    lookResult = []
+    newColumn, newRow = column - 1, row
+    if rank != "player": newRow += 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    lookResult = checkTransparent(position, newRow-1, newColumn+1, -1, viewHeight, sightMap)
-    notBlocked, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-
-    if notBlocked: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newColumn > 0):
-            shadows += [[newRow, newColumn-1]]
-            if newRow < 11: shadows += [[newRow+1, newColumn-1]]
-            
-        # if checkTransparent(position, newRow, newColumn+1, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = -1, 1
-        Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookDownLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, 0, columnOffset, obstructionPeak)
-        # else: sightMap[newRow][newColumn-1] = Visibility.unseen
-
+    Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    Visibility.lookDownLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 def fillSixthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row + 2, column - 1
-    lookResult = []
-    
-    lookResult = checkTransparent(position, newRow-1, newColumn+1, -1, viewHeight, sightMap)
+    newRow, newColumn = row + 1, column
+    if rank != "player": newColumn -= 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    notBlocked, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-    if notBlocked: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newRow < 11):
-            shadows += [[newRow+1, newColumn]]
-            if newColumn > 0: shadows += [[newRow+1, newColumn-1]]
-
-        # if checkTransparent(position, newRow-1, newColumn, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = -1, 1
-        Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookDownLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, 0, obstructionPeak)
-        # else: sightMap[newRow+1][newColumn] = Visibility.unseen
+    Visibility.lookDownLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    Visibility.lookDown(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 
-    # fix this
 def fillSeventhOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row + 2, column + 1
-    lookResult = []
+    newRow, newColumn = row + 1, column
+    if rank != "player": newColumn += 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    lookResult = checkTransparent(position, newRow-1, newColumn-1, viewHeight, -1, sightMap)
-
-    notBlocked, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-    if notBlocked: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newRow < 11):
-            shadows += [[newRow+1, newColumn]]
-            if newColumn < 11: shadows += [[newRow+1, newColumn+1]]
-
-        # if checkTransparent(position, newRow-1, newColumn, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = -1, -1
-        Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookDownRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, 0, obstructionPeak)
-        # else: sightMap[newRow+1][newColumn] = Visibility.unseen
-
+    Visibility.lookDown(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    Visibility.lookDownRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
 def fillEighthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
-    newRow, newColumn = row + 1, column + 2
-    lookResult = []
+    newColumn, newRow = column + 1, row
+    if rank != "player": newRow += 1
+    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    lookResult = checkTransparent(position, newRow-1, newColumn-1, viewHeight, -1, sightMap)
-
-    notBlocked, applyShadow, obstructionPeak = lookResult[0], lookResult[1], lookResult[2]
-    if notBlocked: 
-        sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-        if applyShadow and (newColumn < 11):
-            shadows += [[newRow, newColumn+1]]
-            if newRow < 11: shadows += [[newRow+1, newColumn+1]]
-
-        # if checkTransparent(position, newRow, newColumn-1, viewHeight, sightMap)[0]:
-        rowOffset, columnOffset = -1, -1
-        Visibility.lookRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, rowOffset, columnOffset, obstructionPeak)
-
-        # if checkTransparent(position, newRow, newColumn, viewHeight, obstructionPeak, sightMap)[0]:
-        Visibility.lookDownRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows, 0, columnOffset, obstructionPeak)
-        # else: sightMap[newRow][newColumn+1] = Visibility.unseen
+    Visibility.lookDownRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    Visibility.lookRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)

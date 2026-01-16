@@ -6,33 +6,35 @@ doubleUp, doubleDown = "\u21d1", "\u21d3"
 middle = "|"
 
 
-def setElevation(battleMap, environment, feature):
-    playerRow = 0
-    for row in range(12):
-        for column in range(2):
-            if "." in battleMap[row][column]:
-                playerRow = row
+def setElevation(battleMap, environment, slope):
+    if slope != "flat":
+        playerRow = 0
+        for row in range(12):
+            for column in range(2):
+                if "." in battleMap[row][column]:
+                    playerRow = row
 
-    options = ["slope right"]
-    if playerRow < 4: options += ["slope down"]
-    elif playerRow < 8: options += ["slope ud"]
-    else: options += ["slope up"]
-    if environment["Hearts"] != "King": options += ["slope left", "slope lr"]
+        if slope == "random":
+            options = ["slope right"]
+            if playerRow < 4: options += ["slope down"]
+            elif playerRow < 8: options += ["slope ud"]
+            else: options += ["slope up"]
+            if environment["Hearts"] != "King": options += ["slope left", "slope lr"]
 
-    feature = random.choice(options)
+            slope = random.choice(options)
 
-    match feature:
-        case "slope right": slopeLeftRight(battleMap, "right")
-        case "slope left": slopeLeftRight(battleMap, "left")
-        case "slope lr": slopeLeftRight(battleMap, "sides")
-        case "slope up": slopeDownUp(battleMap, "up")
-        case "slope down": slopeDownUp(battleMap, "down")
-        case "slope ud": slopeDownUp(battleMap, "sides")
-        # case "small craters": bumps(battleMap, "down")
-        # case "small hills": bumps(battleMap, "up")
-        # case "tunnels":  tunnels(battleMap) # set all obstruction heights to max
-    adjustObstructionHeight(battleMap)
-    adjustEnvironment(battleMap, environment)
+        match slope:
+            case "slope right": slopeLeftRight(battleMap, "right")
+            case "slope left": slopeLeftRight(battleMap, "left")
+            case "slope lr": slopeLeftRight(battleMap, "sides")
+            case "slope up": slopeDownUp(battleMap, "up")
+            case "slope down": slopeDownUp(battleMap, "down")
+            case "slope ud": slopeDownUp(battleMap, "sides")
+            # case "small craters": bumps(battleMap, "down")
+            # case "small hills": bumps(battleMap, "up")
+            # case "tunnels":  tunnels(battleMap) # set all obstruction heights to max
+        adjustObstructionHeight(battleMap)
+        adjustEnvironment(battleMap, environment)
 
 
 def resetLtRtElv(lean):

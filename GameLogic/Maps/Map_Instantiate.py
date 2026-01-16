@@ -26,7 +26,7 @@ def combineMaps(mainMap, secondMap, mainHeight, playerGroup) -> list:
     return battleMap
 
 
-def createMap(playerGroup, enemyGroup, tileMods, environment, feature) -> list:    
+def createMap(playerGroup, enemyGroup, tileMods, environment, slope) -> list:    
     box = [emptySpace]
     mainMap = [[], [], []]
     secondMap = [[], [], [], [], [], [], [], [], []]
@@ -44,7 +44,7 @@ def createMap(playerGroup, enemyGroup, tileMods, environment, feature) -> list:
     battleMap = combineMaps(mainMap, secondMap, 3, playerGroup)
 
     Select.waitPrint("Adjusting elevation and atmosphere...")
-    Elevation.setElevation(battleMap, environment, feature)
+    Elevation.setElevation(battleMap, environment, slope)
     Select.waitPrint("Placing NPCs...")
     for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
 
