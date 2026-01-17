@@ -7,9 +7,9 @@ def roll(fighter, dice, ability, dType) -> int:
     if dice > 0: total = castDice(dice)
     total += mods(fighter, ability, dType)
     
-    print("Total: ", end='')
+    Select.quickPrint("Total: ", '')
     time.sleep(Select.waitTime * 2)
-    print(str(total) + "\n")
+    Select.quickPrint(str(total) + "\n")
 
     return total
 
@@ -60,9 +60,9 @@ def castDice(dice) -> int:
     
     for die in range(dice):
         roll = random.randint(1, 6)
-        print("Roll " + str(die + 1) + ": ", end='')
+        Select.quickPrint("Roll " + str(die + 1) + ": ", '')
         time.sleep(Select.waitTime * 2)
-        print(faces[roll - 1] + " | " + str(roll))
+        Select.quickPrint(faces[roll - 1] + " | " + str(roll))
 
         total += roll
     return total    

@@ -43,7 +43,7 @@ def moveNPC(fighter, target, spaceOptions, highestNumber, closeRanks) -> str:
 
     closestIndex = 1
     leastDistance_Target, leastDistance_Fighter = distance, distance
-    highestEffectiveDistance = 0
+    highestEffectiveDistance, desiredDistance = 0, 0
     rankedOptions, rankedIndices = {}, {}
 
     for squareNumber in range(1, highestNumber):
@@ -61,10 +61,8 @@ def moveNPC(fighter, target, spaceOptions, highestNumber, closeRanks) -> str:
         if (spaceDistance > highestEffectiveDistance) and (spaceDistance <= reach):
             highestEffectiveDistance = spaceDistance
 
-    desiredDistance = highestEffectiveDistance
-    if closeRanks: desiredDistance = leastDistance_Target
-    elif highestEffectiveDistance == 0:
-        desiredDistance = random.randint(leastDistance_Target, distance)
+    if closeRanks or (highestEffectiveDistance == 0): desiredDistance = leastDistance_Target
+    else: desiredDistance = highestEffectiveDistance
 
     for square in rankedOptions[desiredDistance]:
         rowDiff_Fighter = abs(fighter.position[0] - square[0])

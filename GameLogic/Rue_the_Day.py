@@ -8,11 +8,8 @@ import random
 
 
 Martin = Humans.knight("Elite").ch
-Martin.rank = "player"
-# Evolutions.evolve(Martin, "FlameHeart")
-Martin.name = "Martin"
-Martin.initials = "M."
-Martin.abl["items"] += ["Loot", "Transfer"]
+Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
+# Martin.abl["items"] += ["Loot", "Transfer"]
 # Martin.equipment["armor"] = None
 
 environment = {"Clubs": "", "Diamonds": "", "Hearts": "Jack", "Spades": ""}
@@ -24,16 +21,10 @@ environment = {"Clubs": "", "Diamonds": "", "Hearts": "Jack", "Spades": ""}
 # Games.alchemy(Martin)
 # input("Sto")
 
-
 Laura = Humans.mage("Elite", "Flame").ch
-Laura.rank = "player"
-# Evolutions.evolve(Laura, "FeyHeart")
-Laura.name = "Laura"
-Laura.initials = "L."
-Laura.abl["items"] += ["Craft", "Transfer"]
+Laura.rank, Laura.name, Laura.initials = "player", "Laura", "L."
+# Laura.abl["items"] += ["Craft", "Transfer"]
 # Laura.equipment["armor"] = None
-
-
 
 Archer = Humans.archer("Master").ch
 Archer.initials = "A1"
@@ -43,25 +34,15 @@ group1 = {"members": [Martin, Laura], "name": "questors"}
 # enemyGroup = {"members": beetles, "name": "beetles"}
 enemyGroup = {"members": [Archer], "name": "assassins"}
 
-obstructions = {"wall": 0, "trap": 0, "pit": 0}
+obstructions = {"wall": 6, "trap": 0, "pit": 0}
 atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
 # slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
 slope = "flat"
-print("Slope: " + slope)
+Select.quickPrint("Slope: " + slope)
 # battleMap = dMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")
 battleMap = iMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], environment, slope)
-# printMap = Map.printMap(battleMap, "Starting Map")
 
 Map.printMap(battleMap, "Battle Map")
 
 deserters = Combat.engage(group1, enemyGroup, battleMap)
-for deserter in deserters: print(deserter.name) # let players hunt them down
-
-# King = Humans.mage("master").ch
-# Evolutions.evolve(King, "King")
-# King.name = "King"
-# Fadia = Humans.dreamMage("elite").ch
-# Fadia.name = "Fadia"
-# Archer = Humans.archer("elite").ch
-
-# group3 = {"members": [King], "name": "enemyGroup"}
+for deserter in deserters: Select.quickPrint(deserter.name) # let players hunt them down

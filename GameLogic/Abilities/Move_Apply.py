@@ -103,22 +103,20 @@ def applyExamine(visibleTargets) -> None:
         Select.waitPrint("\nCommitments: ")
         for commitment in examinee.commitments:
             if len(examinee.commitments[commitment]["targets"]) > 0:
-                print(commitment + " -> ")
+                Select.quickPrint(commitment + " -> ")
                 for target in examinee[commitment]["targets"]:
-                    print(target.name, end = " | ")
+                    Select.quickPrint(target.name, end = " | ")
 
         Select.waitPrint("\nEffects: ")
         for effect in examinee.effects:
             if examinee.effects[effect]["dice"] > 0:
-                print(effect + " <- " + examinee.effects[effect]["source"].name, end = " | ")
+                Select.quickPrint(effect + " <- " + examinee.effects[effect]["source"].name, end = " | ")
 
         Select.waitPrint("\nItem Effects:")
         for effect in examinee.itemEffects:
             if examinee.itemEffects[effect]["duration"] > 0:
-                print(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", end = " | ")
+                Select.quickPrint(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", end = " | ")
 
-        print()
-        Select.waitPrint("Pending actions: " + str(len(examinee.actionQueue)) + " | " + "Remaining movement: " + str(examinee.atrb["cur_sp"]))
+        Select.waitPrint("\nPending actions: " + str(len(examinee.actionQueue)) + " | " + "Remaining movement: " + str(examinee.atrb["cur_sp"]))
         Select.waitPrint("Element: " + examinee.atrb["cur_elm"] + " | " + "Rank: " + examinee.atrb["rank"])
-        Select.waitPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]))
-        print()
+        Select.waitPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]) + "\n")

@@ -138,13 +138,13 @@ def handleAftermath(victorGroup, loserGroup):
             if fighter.type == "totem": fighter.cndt["reposed"] = True
             
             if fighter.atrb["cur_hp"] <= 0:
-                print(fighter.name + " requires immediate resuscitation!")
+                Select.waitPrint(fighter.name + " requires immediate resuscitation!")
                 takeRest = True
             elif fighter.atrb["fatigue"] >=  fighter.atrb["endurance"]:
-                print(fighter.name + " collapses from exhaustion!")
+                Select.waitPrint(fighter.name + " collapses from exhaustion!")
                 takeRest = True
             elif fighter.atrb["corruption"] >=  Conditions.getTolerance(fighter):
-                print(fighter.name + " collapses from sickness!")
+                Select.waitPrint(fighter.name + " collapses from sickness!")
                 takeRest = True
             
         if not takeRest:
@@ -155,7 +155,7 @@ def handleAftermath(victorGroup, loserGroup):
         for enemy in loserGroup:
             pool += enemy.drop.inventory
 
-        print(pool)
+        Select.waitPrint(pool)
 
         # Let player examine inventory and take desired items if they have capacity.
     else:

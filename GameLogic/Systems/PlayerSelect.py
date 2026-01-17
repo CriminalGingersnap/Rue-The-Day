@@ -1,37 +1,38 @@
-import time, random, copy
-# from GameUI.GameWindow import keyPressed
+import time
 
 waitTime = .3
 
 # make a fast print option for large blocks of text. let the player choose before it starts.
 def slowPrint(text):
     for i in text:
-        print(i, end='')
+        quickPrint(i, '')
         time.sleep(.07)
     time.sleep(waitTime)
-    print()
+    quickPrint('', '')
 
 
 def readScene(phraseList) -> None:
     for phrase in phraseList:
-        print(phrase[0], end='')
+        quickPrint(phrase[0], '')
         conversationPrint(phrase[1])
 
     input("Press Enter to continue.")
 
 def conversationPrint(text):
     for i in text:
-        print(i, end='')
+        quickPrint(i, '')
         time.sleep(.06)
         if i in [".", ",", "?", "!", ">"]: time.sleep(.2)
         elif i == ":": time.sleep(.5)
-    time.sleep(waitTime)
-    print()
+    waitPrint("\n")
 
+
+def quickPrint(text, ending: str | None = "\n"):
+    print(text, end=ending)
 
 def waitPrint(text):
     time.sleep(waitTime)
-    print(text)
+    quickPrint(text, "\n")
     time.sleep(waitTime)
 
 
@@ -51,7 +52,7 @@ def targetSelect(targets) -> int:
 
 def makeSelection(options) -> int:
     for option in options:
-        print(str(options.index(option)+1) + ": " + str(option))
+        quickPrint(str(options.index(option)+1) + ": " + str(option))
 
     selection = takeInput(1, len(options))
     print()
@@ -66,7 +67,7 @@ def yesNo(prompt) -> bool:
 
 def takeInput(floor, ceiling):
     if floor == ceiling:
-        print("Value defaults to " + str(floor) + ".")
+        quickPrint("Value defaults to " + str(floor) + ".")
         return floor
     else:
         while True:

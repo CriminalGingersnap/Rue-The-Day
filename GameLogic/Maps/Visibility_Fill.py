@@ -2,86 +2,94 @@
 from . import Visibility
 
 
-def fillVisibilityMap(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def fillVisibilityMap(rank, position, row, column, battleMap, sightMap, shadows):
     if (row > 0):
         if (column < 11):
-            fillFirstOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-            fillSecondOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillFirstOctant(rank, position, row, column, battleMap, sightMap, shadows)
+            fillSecondOctant(rank, position, row, column, battleMap, sightMap, shadows)
         if (column > 0):
-            fillThirdOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-            fillForthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillThirdOctant(rank, position, row, column, battleMap, sightMap, shadows)
+            fillForthOctant(rank, position, row, column, battleMap, sightMap, shadows)
     if (row < 11):
         if (column > 0):
-            fillFifthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-            fillSixthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillFifthOctant(rank, position, row, column, battleMap, sightMap, shadows)
+            fillSixthOctant(rank, position, row, column, battleMap, sightMap, shadows)
         if (column < 11):
-            fillSeventhOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-            fillEighthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+            fillSeventhOctant(rank, position, row, column, battleMap, sightMap, shadows)
+            fillEighthOctant(rank, position, row, column, battleMap, sightMap, shadows)
 
 
-def fillFirstOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def fillFirstOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newColumn, newRow = column + 1, row
     if rank != "player": newRow -=1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
-            
-    Visibility.lookRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows) 
-    Visibility.lookUpRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
 
-def fillSecondOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
+            
+    Visibility.lookRight(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak) 
+    Visibility.lookUpRight(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+
+def fillSecondOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newRow, newColumn = row - 1, column
     if rank != "player": newColumn += 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookUpRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)  
-    Visibility.lookUp(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
+
+    Visibility.lookUpRight(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)  
+    Visibility.lookUp(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
 
 
-def fillThirdOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def fillThirdOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newRow, newColumn = row - 1, column
     if rank != "player": newColumn -= 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookUp(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
-    Visibility.lookUpLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
 
-def fillForthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+    Visibility.lookUp(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+    Visibility.lookUpLeft(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+
+def fillForthOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newColumn, newRow = column - 1, row
     if rank != "player": newRow -= 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookUpLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
-    Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
+
+    Visibility.lookUpLeft(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+    Visibility.lookLeft(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
 
 
-def fillFifthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def fillFifthOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newColumn, newRow = column - 1, row
     if rank != "player": newRow += 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
-    Visibility.lookDownLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
 
-def fillSixthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+    Visibility.lookLeft(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+    Visibility.lookDownLeft(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+
+def fillSixthOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newRow, newColumn = row + 1, column
     if rank != "player": newColumn -= 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookDownLeft(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
-    Visibility.lookDown(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
+
+    Visibility.lookDownLeft(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+    Visibility.lookDown(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
 
 
-def fillSeventhOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def fillSeventhOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newRow, newColumn = row + 1, column
     if rank != "player": newColumn += 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookDown(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
-    Visibility.lookDownRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
 
-def fillEighthOctant(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+    Visibility.lookDown(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+    Visibility.lookDownRight(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+
+def fillEighthOctant(rank, position, row, column, battleMap, sightMap, shadows):
     newColumn, newRow = column + 1, row
     if rank != "player": newRow += 1
-    sightMap[newRow][newColumn] = battleMap[newRow][newColumn]
 
-    Visibility.lookDownRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
-    Visibility.lookRight(rank, position, newRow, newColumn, viewHeight, battleMap, sightMap, shadows)
+    obstructionPeak = Visibility.look(position, newRow, newColumn, battleMap, sightMap, 0)[1]
+
+    Visibility.lookDownRight(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)
+    Visibility.lookRight(rank, position, newRow, newColumn, battleMap, sightMap, shadows, obstructionPeak)

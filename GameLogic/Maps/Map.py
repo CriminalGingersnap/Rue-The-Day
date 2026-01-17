@@ -98,18 +98,19 @@ def updateHazards(battleMap):
     for row in range(12):
         for column in range(12):
             atmosphere = battleMap[row][column][0]
-            dmgType, newAtmosphere = identifyAtmosphere(atmosphere), "_"
+            if atmosphere not in ["/", ")"]:
+                dmgType, newAtmosphere = identifyAtmosphere(atmosphere), "_"
 
-            match dmgType:
-                case "Burn": newAtmosphere = "#"
-                case "Dream": newAtmosphere = "@"
-                case "Freeze": newAtmosphere = "%"
-                case "Holy": newAtmosphere = "+"
-                case "Rot": newAtmosphere = "}"
-                case "Venom": newAtmosphere = "&"
-                case "Crush" | "Pierce": newAtmosphere = "_"
+                match dmgType:
+                    case "Burn": newAtmosphere = "#"
+                    case "Dream": newAtmosphere = "@"
+                    case "Freeze": newAtmosphere = "%"
+                    case "Holy": newAtmosphere = "+"
+                    case "Rot": newAtmosphere = "}"
+                    case "Venom": newAtmosphere = "&"
+                    case "Crush" | "Pierce": newAtmosphere = "_"
 
-            battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
+                battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
 
 
 def printMap(instanceMap, mapName) -> None:

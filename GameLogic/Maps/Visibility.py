@@ -11,19 +11,18 @@ def createSightMap(battleMap, position, rank):
             sightMap[row] += [unseen + battleMap[row][column][-1]]
 
     row, column = position[0], position[1]
-    viewHeight = mOpts.heightDict[battleMap[row][column][-1]]
     sightMap[row][column] = battleMap[row][column]
 
-    lookUp(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    lookDown(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    lookLeft(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    lookRight(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    lookUpLeft(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)    
-    lookUpRight(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    lookDownLeft(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
-    lookDownRight(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+    lookUp(rank, position, row, column, battleMap, sightMap, shadows, 0)
+    lookDown(rank, position, row, column, battleMap, sightMap, shadows, 0)
+    lookLeft(rank, position, row, column, battleMap, sightMap, shadows, 0)
+    lookRight(rank, position, row, column, battleMap, sightMap, shadows, 0)
+    lookUpLeft(rank, position, row, column, battleMap, sightMap, shadows, 0)    
+    lookUpRight(rank, position, row, column, battleMap, sightMap, shadows, 0)
+    lookDownLeft(rank, position, row, column, battleMap, sightMap, shadows, 0)
+    lookDownRight(rank, position, row, column, battleMap, sightMap, shadows, 0)
 
-    Fill.fillVisibilityMap(rank, position, row, column, viewHeight, battleMap, sightMap, shadows)
+    Fill.fillVisibilityMap(rank, position, row, column, battleMap, sightMap, shadows)
 
     for shadow in shadows:
         row, column = shadow[0], shadow[1]
@@ -32,100 +31,108 @@ def createSightMap(battleMap, position, rank):
     return sightMap
 
 
-def look(position, row, column, viewHeight, battleMap, sightMap, obstructionPeak):
+def look(position, row, column, battleMap, sightMap, obstructionPeak):
     visible, applyShadow = True, False
-    space = battleMap[row][column]
-    spaceHeight = mOpts.heightDict[space[-1]]
+    fighterSpace, vistaSpace = battleMap[position[0]][position[1]], battleMap[row][column]
+    fighterHeight, vistaHeight = mOpts.heightDict[fighterSpace[-1]], mOpts.heightDict[vistaSpace[-1]]
 
-    obstructed = any(occlusion in space for occlusion in ["/"] + Map.majorHazards)
-    fogged = any(fog in space for fog in ["="] + Map.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
-    misted = any(mist in space for mist in ["-"] + Map.lingeringHazards) and ((abs(position[0] - row) > 7) or (abs(position[1] - column) > 7))
-    sunken = (spaceHeight - viewHeight) > 1
+    obstructed = any(occlusion in vistaSpace for occlusion in ["/"] + Map.majorHazards)
+    fogged = any(fog in vistaSpace for fog in ["="] + Map.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
+    misted = any(mist in vistaSpace for mist in ["-"] + Map.lingeringHazards) and ((abs(position[0] - row) > 7) or (abs(position[1] - column) > 7))
+    sunken = (vistaHeight - fighterHeight) > 1
 
-    if spaceHeight <= obstructionPeak: visible = False
+    if vistaHeight <= obstructionPeak: visible = False
     elif obstructed or misted or fogged:
-        if spaceHeight >= viewHeight: obstructionPeak = spaceHeight
+        if vistaHeight >= fighterHeight: obstructionPeak = vistaHeight
         else: applyShadow = True
-    elif sunken: obstructionPeak = spaceHeight
-    else: obstructionPeak = spaceHeight - 2
+    elif sunken: obstructionPeak = vistaHeight
+    else: obstructionPeak = vistaHeight - 2
 
     if visible: sightMap[row][column] = battleMap[row][column]
 
-    return applyShadow
+    return [applyShadow, obstructionPeak]
 
 
-def lookUp(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookUp(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank != "player":
-        newRow, obstructionPeak = row, 0
+        newRow = row
         while newRow > 0:
             newRow -= 1
 
-            applyShadow = look(position, newRow, column, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, newRow, column, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newRow > 0): shadows += [[newRow-1, column]]
 
-def lookDown(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookDown(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank != "player":
-        newRow, obstructionPeak = row, 0
+        newRow = row
         while newRow < 11:
             newRow += 1
 
-            applyShadow = look(position, newRow, column, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, newRow, column, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newRow < 11): shadows += [[newRow+1, column]]
 
-def lookLeft(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookLeft(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank != "player":
-        newColumn, obstructionPeak = column, 0
+        newColumn = column
         while newColumn > 0:
             newColumn -= 1
 
-            applyShadow = look(position, row, newColumn, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, row, newColumn, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newColumn > 0): shadows += [[row, newColumn-1]]
         
-def lookRight(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookRight(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank != "player":
-        newColumn, obstructionPeak = column, 0
+        newColumn = column
         while newColumn < 11:
             newColumn += 1
 
-            applyShadow = look(position, row, newColumn, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, row, newColumn, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newColumn < 11): shadows += [[row, newColumn+1]]
 
-def lookUpRight(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookUpRight(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank == "player":
-        newRow, newColumn, obstructionPeak = row, column, 0
+        newRow, newColumn = row, column
         while (newColumn < 11) and (newRow > 0):
             newColumn += 1
             newRow -= 1
 
-            applyShadow = look(position, newRow, newColumn, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, newRow, newColumn, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newColumn < 11) and (newRow > 0): shadows += [[newRow-1, newColumn+1]]
 
-def lookDownRight(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookDownRight(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank == "player":
-        newRow, newColumn, obstructionPeak = row, column, 0
+        newRow, newColumn = row, column
         while (newColumn < 11) and (newRow < 11):
             newColumn += 1
             newRow += 1
 
-            applyShadow = look(position, newRow, newColumn, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, newRow, newColumn, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newColumn < 11) and (newRow < 11): shadows += [[row+1, column+1]]
 
-def lookDownLeft(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookDownLeft(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank == "player":
-        newRow, newColumn, obstructionPeak = row, column, 0
+        newRow, newColumn = row, column
         while (newColumn > 0) and (newRow < 11):
             newColumn -= 1
             newRow += 1
 
-            applyShadow = look(position, newRow, newColumn, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, newRow, newColumn, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newColumn > 0) and (newRow < 11): shadows += [[newRow+1, newColumn-1]] 
 
-def lookUpLeft(rank, position, row, column, viewHeight, battleMap, sightMap, shadows):
+def lookUpLeft(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak):
     if rank == "player":
-        newRow, newColumn, obstructionPeak = row, column, 0
+        newRow, newColumn = row, column
         while (newColumn > 0) and (newRow > 0):
             newColumn -= 1
             newRow -= 1
 
-            applyShadow = look(position, newRow, newColumn, viewHeight, battleMap, sightMap, obstructionPeak)
+            result = look(position, newRow, newColumn, battleMap, sightMap, obstructionPeak)
+            applyShadow, obstructionPeak = result[0], result[1]
             if applyShadow and (newColumn > 0) and (newRow > 0): shadows += [[newRow-1, newColumn-1]]
