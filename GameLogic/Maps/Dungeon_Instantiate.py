@@ -1,6 +1,5 @@
-from . import Map_Instantiate as iMap, Map_Populate as pMap, Elevation, Map
+from . import Map_Instantiate as iMap, Map_Populate as pMap, Elevation, Map_Update
 import random
-
 
 
 def narrowHallway(cell, direction):

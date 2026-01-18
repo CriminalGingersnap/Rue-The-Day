@@ -1,7 +1,6 @@
-from . import Map_Instantiate as iMap, Visibility, Movement, Elevation
+from . import Visibility, Movement, Elevation
 from Systems import PlayerSelect as Select, Conditions
 import random
-
 
 majorHazards = ["B", "D", "C", "F", "H", "P", "R", "V"]
 minorHazards = ["b", "d", "c", "f", "h", "p", "r", "v"]
@@ -111,27 +110,3 @@ def updateHazards(battleMap):
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
-
-
-def printMap(instanceMap, mapName) -> None:
-    Select.waitPrint("\n" + mapName + ":\n")
-    for row in range(12):
-        for column in range(12):
-            space = instanceMap[row][column]
-            atmosphere = space[0]
-            if (atmosphere == "_") or ("Movement" in mapName): atmosphere = " "
-
-            character = " "
-            if "." in space: character = "."
-            elif "!" in space: character = "!"
-
-            if "////" in space: print(iMap.wall, end = "")
-            elif ")()(" in space: print(iMap.pit, end = "")
-            elif "/" in space: print(atmosphere + character + " /" + "|", end = "")
-            else: print(atmosphere + character + " " + atmosphere + "|", end = "")
-        print()
-
-        for column in range(12):
-            print(instanceMap[row][column], end = "")
-        print()
-    print()

@@ -2,7 +2,7 @@ from . import CombatPhases as Phases, Crafting
 from Actions import Sort
 from Abilities import AttackAbilities as Attacks, Boons_Apply as Boons, Hindrances_Apply as Hinder
 from Systems import Conditions, Commitments, PlayerSelect as Select
-import Maps.Map as Map
+from Maps import Map_Update as uMap
 
 # Add method to create phases in boss fights. Generate new maps for each phase.
 # Add mist for the giant. Change tunnels for worm.
@@ -83,8 +83,8 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
             Phases.movementStage(fighter, foes, friends, battleMap)
 
-        for fighter in validFighters: Map.activateHazards(fighter, battleMap)
-        Map.updateHazards(battleMap)
+        for fighter in validFighters: uMap.activateHazards(fighter, battleMap)
+        uMap.updateHazards(battleMap)
 
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)

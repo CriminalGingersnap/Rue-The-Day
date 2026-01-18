@@ -1,6 +1,6 @@
 from Actions import AssessTargets as Assess, MoveActions as Move
 from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl, Sort
-from Maps import Visibility, Map
+from Maps import Visibility, Map_Update as uMap, Map_Print as Print
 from . import PlayerSelect as Select, Conditions, Effects, Commitments
 from Abilities import Reactions, Items_Use as Items
 
@@ -27,18 +27,18 @@ def resetFighter(fighter, battleMap) -> None:
 
 def setSight(fighter, enemies, allies, battleMap):
     sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.rank)
-    Map.hideShrouded(fighter, enemies + allies, sightMap)
+    uMap.hideShrouded(fighter, enemies + allies, sightMap)
 
     fighter.atrb["cur_mag"] = fighter.atrb["base_mag"] + fighter.effects["Invest"]["dice"]
     fighter.atrb["cur_mar"] = fighter.atrb["base_mar"]
 
     if fighter.rank == "player":
-        Map.revealOthers(fighter, allies, enemies, sightMap)
-        Map.hideTraps(fighter, sightMap)
+        uMap.revealOthers(fighter, allies, enemies, sightMap)
+        uMap.hideTraps(fighter, sightMap)
     else:
         Select.waitPrint(fighter.name + "'s Turn")
 
-    Map.printMap(sightMap, fighter.name + "'s Sight Map")
+    Print.printSightMap(battleMap, sightMap, fighter.name + "'s Sight Map")
 
     return sightMap
 

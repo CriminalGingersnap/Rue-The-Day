@@ -3,7 +3,7 @@
 from Characters import Humans, AvoidantBeasts as Avoidant
 from Systems import PlayerSelect as Select, Combat
 import Campaigns.Metamorphosis.Encounters.Wild1_ValleyPass as LowPass
-from Maps import Map_Instantiate as iMap, Map, Dungeon_Instantiate as dMap
+from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 import random
 
 
@@ -36,13 +36,11 @@ enemyGroup = {"members": [Archer], "name": "assassins"}
 
 obstructions = {"wall": 6, "trap": 0, "pit": 0}
 atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
-# slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
-slope = "flat"
+slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
+# slope = "flat"
 Select.quickPrint("Slope: " + slope)
 # battleMap = dMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")
 battleMap = iMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], environment, slope)
-
-Map.printMap(battleMap, "Battle Map")
 
 deserters = Combat.engage(group1, enemyGroup, battleMap)
 for deserter in deserters: Select.quickPrint(deserter.name) # let players hunt them down

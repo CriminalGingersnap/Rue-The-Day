@@ -1,5 +1,5 @@
 from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder, Reactions
-from Maps import Map, Movement
+from Maps import Map_Update as uMap, Movement
 from Systems import PlayerSelect as Select
 
 
@@ -14,7 +14,7 @@ def setAlive(fighter, fightingAllies) -> bool:
         fighter.cndt["dead"] = True
         Select.slowPrint(fighter.name + " has 0 hit points remaining and is slain.")
         Reactions.applyPheromones(fighter, fightingAllies)
-        Map.removeFighter(fighter)
+        uMap.removeFighter(fighter)
         
         return False
     else: return True

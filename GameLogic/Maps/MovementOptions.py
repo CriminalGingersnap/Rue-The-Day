@@ -1,4 +1,4 @@
-from Maps import Elevation, Map_Instantiate as iMap, Map, Visibility
+from Maps import Elevation, Map_Instantiate as iMap, Visibility, Map_Update as uMap
 
 heightDict = {Elevation.doubleUp: 4, Elevation.up: 3, Elevation.middle: 2,
                Elevation.down: 1, Elevation.doubleDown: 0, "]": 2, "?": 50}
@@ -8,7 +8,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
     leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
     topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
-    hazards = Map.majorHazards + Map.minorHazards
+    hazards = uMap.majorHazards + uMap.minorHazards
 
     npc, simulation, noContact = fighter.rank != "player", None, False
     if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.rank)

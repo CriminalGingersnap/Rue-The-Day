@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select
-from Maps import Map as Map, Map_Instantiate as iMap
+from Maps import Map_Instantiate as iMap, Map_Print as Print
 import random
 
 
@@ -34,7 +34,7 @@ def selectSpace(fighter, enemies, boarders) -> int:
 
         choice = ""
         if fighter.rank == "player":
-            Map.printMap(optionsMap, "Options Map")
+            Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(1, counter)
         else:
             choice = random.choice([1, counter]) #find highest concentration of enemies and get as central as possible.

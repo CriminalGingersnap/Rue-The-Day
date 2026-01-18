@@ -1,6 +1,5 @@
-from Systems import PlayerSelect as Select, Conditions
-from Abilities import Reactions
-from . import MovementOptions, Map
+from Systems import PlayerSelect as Select
+from . import Map_Update as uMap, MovementOptions, Map_Print as Print
 import random
 
 
@@ -20,7 +19,7 @@ def moveFighter(fighter, battleMap, target, closeRanks) -> None:
         row = spaceOptions[moveChoice][0]
         column = spaceOptions[moveChoice][1]
         stepCount = int(spaceOptions[moveChoice][2])
-        Map.updatePlacement(battleMap, fighter.sightMap, row, column, fighter)
+        uMap.updatePlacement(battleMap, fighter.sightMap, row, column, fighter)
         
         fighter.atrb["cur_sp"] -= stepCount
         if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
@@ -82,7 +81,7 @@ def moveNPC(fighter, target, spaceOptions, highestNumber, closeRanks) -> str:
 
 
 def movePlayer(movementMap, highestNumber) -> str:
-    Map.printMap(movementMap, "Movement Map")
+    Print.printOptionsMap(movementMap, "Movement Map")
 
     Select.waitPrint("Space:")
     return str(Select.takeInput(1, highestNumber))

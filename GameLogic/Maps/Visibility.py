@@ -1,4 +1,4 @@
-from . import MovementOptions as mOpts, Map, Visibility_Fill as Fill
+from . import Map_Update as uMap, MovementOptions as mOpts, Visibility_Fill as Fill
 
 unseen = "   ?"
 
@@ -36,9 +36,9 @@ def look(position, row, column, battleMap, sightMap, obstructionPeak):
     fighterSpace, vistaSpace = battleMap[position[0]][position[1]], battleMap[row][column]
     fighterHeight, vistaHeight = mOpts.heightDict[fighterSpace[-1]], mOpts.heightDict[vistaSpace[-1]]
 
-    obstructed = any(occlusion in vistaSpace for occlusion in ["/"] + Map.majorHazards)
-    fogged = any(fog in vistaSpace for fog in ["="] + Map.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
-    misted = any(mist in vistaSpace for mist in ["-"] + Map.lingeringHazards) and ((abs(position[0] - row) > 7) or (abs(position[1] - column) > 7))
+    obstructed = any(occlusion in vistaSpace for occlusion in ["/"] + uMap.majorHazards)
+    fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
+    misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((abs(position[0] - row) > 7) or (abs(position[1] - column) > 7))
     sunken = (vistaHeight - fighterHeight) > 1
 
     if vistaHeight <= obstructionPeak: visible = False

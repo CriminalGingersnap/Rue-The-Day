@@ -1,4 +1,4 @@
-from . import Map_Instantiate as iMap, Map
+from . import Map_Instantiate as iMap, Map_Update as uMap
 import random
 
 
@@ -21,7 +21,7 @@ def firstPlacement(instanceMap, fighter, mapHeight) -> None:
 
 
 def visitSpace(instanceMap, row, column, fighter, mapHeight, endTargets) -> bool:
-    marker = Map.setMarker(fighter, instanceMap[row][column])
+    marker = uMap.setMarker(fighter, instanceMap[row][column])
 
     if instanceMap[row][column] in [iMap.emptySpace, iMap.smokeSpace, iMap.fogSpace, iMap.mistSpace]:
         instanceMap[row][column] = marker

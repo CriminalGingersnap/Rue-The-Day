@@ -1,6 +1,6 @@
 from Actions import Sort
-from Abilities import Boons_Set as Boons, Hindrances_Set as Hinder, Area_Apply as Area
-from Maps import Map
+from Abilities import Boons_Set as Boons, Hindrances_Set as Hinder
+from Maps import Map_Update as uMap
 from . import Effects, PlayerSelect as Select
 
 
@@ -9,7 +9,7 @@ def checkReach(fighter, battleMap) -> None:
         if len(fighter.commitments[commitment]["targets"]) > 0:
             targets = fighter.commitments[commitment]["targets"]
             
-            Map.hideShrouded(fighter, targets, fighter.sightMap)
+            uMap.hideShrouded(fighter, targets, fighter.sightMap)
             reachable = Sort.sortReachable(fighter, targets, targets)
             
             if commitment in Boons.magicBoons + Boons.martialBoons:
