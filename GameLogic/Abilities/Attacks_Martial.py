@@ -30,6 +30,7 @@ def attack(fighter, target, attack, dice) -> None:
     avIncrease = Boons.applyGuard(target)
     avReduction = Hinder.applyDisorient(target)
 
+    Select.quickPrint("Attack roll:")
     attempt = Roll.roll(fighter, dice, attack, "martial")
     attempt += (attemptIncrease - attemptReduction)
     av += (avIncrease - avReduction)

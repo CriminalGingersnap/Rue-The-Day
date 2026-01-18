@@ -37,7 +37,7 @@ def selectSpace(fighter, enemies, boarders) -> int:
             Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(1, counter)
         else:
-            choice = random.choice([1, counter]) #find highest concentration of enemies and get as central as possible.
+            choice = random.randint(1, counter) #find highest concentration of enemies and get as central as possible.
 
         return optionDict[str(choice)]
 

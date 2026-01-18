@@ -9,12 +9,12 @@ def getGroups(fighter, allies, enemies) -> list:
     return {"reachable": reachable, "fightingAllies": fightingAllies, "fightingEnemies": fightingEnemies}
 
 
-def setAlive(fighter, fightingAllies) -> bool:
+def setAlive(fighter, fightingAllies, battleMap) -> bool:
     if fighter.atrb["cur_hp"] <= 0:
         fighter.cndt["dead"] = True
-        Select.slowPrint(fighter.name + " has 0 hit points remaining and is slain.")
+        Select.slowPrint(fighter.name + " has 0 hit points remaining and will perish soon.")
         Reactions.applyPheromones(fighter, fightingAllies)
-        uMap.removeFighter(fighter)
+        uMap.removeFighter(fighter, battleMap)
         
         return False
     else: return True

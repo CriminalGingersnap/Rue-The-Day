@@ -50,7 +50,7 @@ def applyGuard(principal) -> int:
             bonus = roll[0]
             principal.effects["Guard"]["dice"] -= roll[1]
             
-            Select.waitPrint(principal.name + "'s AV increases by " + str(bonus) + ".")
+            Select.waitPrint(principal.name + "'s AV increases by " + str(bonus) + ".\n")
 
     return bonus
 

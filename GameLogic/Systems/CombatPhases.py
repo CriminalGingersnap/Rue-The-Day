@@ -45,7 +45,7 @@ def setSight(fighter, enemies, allies, battleMap):
 def outro(fighter, groups, battleMap):
     fightingAllies = groups["fightingAllies"]
 
-    alive = Sort.setAlive(fighter, fightingAllies)
+    alive = Sort.setAlive(fighter, fightingAllies, battleMap)
 
     if alive:
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))

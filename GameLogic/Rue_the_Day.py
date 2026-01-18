@@ -34,13 +34,17 @@ group1 = {"members": [Martin, Laura], "name": "questors"}
 # enemyGroup = {"members": beetles, "name": "beetles"}
 enemyGroup = {"members": [Archer], "name": "assassins"}
 
-obstructions = {"wall": 6, "trap": 0, "pit": 0}
-atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
+wall = random.randint(1, 8)
 slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
 # slope = "flat"
 Select.quickPrint("Slope: " + slope)
+Select.quickPrint("Wall: " + str(wall))
+
+obstructions = {"wall": wall, "trap": 0, "pit": 0}
+atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
+
 # battleMap = dMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")
 battleMap = iMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], environment, slope)
 
-deserters = Combat.engage(group1, enemyGroup, battleMap)
+deserters = Combat.engage(enemyGroup, group1, battleMap)
 for deserter in deserters: Select.quickPrint(deserter.name) # let players hunt them down

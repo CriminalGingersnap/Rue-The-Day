@@ -1,7 +1,7 @@
 from Maps import Elevation, Map_Instantiate as iMap, Visibility, Map_Update as uMap
 
 heightDict = {Elevation.doubleUp: 4, Elevation.up: 3, Elevation.middle: 2,
-               Elevation.down: 1, Elevation.doubleDown: 0, "]": 2, "?": 50}
+               Elevation.down: 1, Elevation.doubleDown: 0, "]": 2, "?": 5}
 
 
 def setMoveOptions(fighter, target, battleMap) -> list:
@@ -26,7 +26,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
 
-    for runs in range(fighter.atrb["cur_sp"] * fighter.atrb["cur_sp"]):
+    for runs in range(fighter.atrb["base_sp"] * 5):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 stepCount = traverse(movementMap, instanceMap, fighterRow, fighterColumn, row, column)
@@ -76,7 +76,7 @@ def stepCost(instanceMap, lastRow, lastColumn, nextRow, nextColumn) -> int:
         if lastZ < nextZ: cost = (nextZ - lastZ) + 1
         elif lastZ > nextZ: cost = (lastZ - nextZ)
 
-    if any(plant in instanceMap[lastRow][lastColumn] for plant in ["p", "P"]): cost += 50
+    if any(hazard in instanceMap[lastRow][lastColumn] for hazard in uMap.hazards): cost += 10
 
     return cost
     
