@@ -88,8 +88,8 @@ def sortReachable(fighter, fightingEnemies, fightingAllies) -> list:
 
 
 def getReach(ability) -> int:
-    twoReach = Attacks.closeMartialAttack + Boons.martialBoons + Hinder.martialHindrance
-    fourReach = Attacks.midMartialAttack + Boons.magicBoons + Hinder.magicHindrance
+    twoReach = Attacks.closeMartialAttack + Boons.martialBoons + Hinder.martialHindrances
+    fourReach = Attacks.midMartialAttack + Boons.magicBoons + Hinder.magicHindrances
     eight = Attacks.farMartialAttack + Attacks.magicAttack
     reach = 0
     

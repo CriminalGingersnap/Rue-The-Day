@@ -112,5 +112,5 @@ def addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn):
     return newSpaces
 
 def setAtmosphere(atmosphere, row, column, battleMap):
-    if not any(obstruction in battleMap[row][column] for obstruction in [iMap.pit, iMap.wall]):
+    if not any(obstruction in battleMap[row][column] for obstruction in ["/", "("]):
         battleMap[row][column] = atmosphere + battleMap[row][column][1:]

@@ -49,9 +49,9 @@ def usableHindrances(fighter, enemies) -> list:
     affordableHindrances, usableHindrances = [], []
 
     if fighter.atrb["cur_mar"] > 0:
-        affordableHindrances += Hindrances.martialHindrance
+        affordableHindrances += Hindrances.martialHindrances
     if (fighter.atrb["cur_mag"] > 0) and AttackActions.weaponAllows(fighter, "Bring"):
-        affordableHindrances += Hindrances.magicHindrance
+        affordableHindrances += Hindrances.magicHindrances
 
     for hindrance in fighter.abl["hindrances"]:
         if (hindrance in affordableHindrances) and Sort.canReachAny(fighter, enemies, hindrance):

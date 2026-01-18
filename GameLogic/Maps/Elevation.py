@@ -158,11 +158,12 @@ def adjustEnvironment(battleMap, environment):
         case "Queen":
             for row in range(12):
                 for column in range(12):
-                    spreadPits(battleMap, row, column, 1)
-                    if down in battleMap[row][column]:
-                        battleMap[row][column] = "=" + battleMap[row][column][1:]
-                    if middle in battleMap[row][column]:
-                        battleMap[row][column] = "-" + battleMap[row][column][1:]
+                    if "/" not in battleMap[row][column]:
+                        spreadPits(battleMap, row, column, 1)
+                        if down in battleMap[row][column]:
+                            battleMap[row][column] = "=" + battleMap[row][column][1:]
+                        if middle in battleMap[row][column]:
+                            battleMap[row][column] = "-" + battleMap[row][column][1:]
                     
         case "Jack":
             for row in range(12):
@@ -185,6 +186,5 @@ def spreadPits(battleMap, row, column, severity):
         elif doubleDown in battleMap[row][column]: 
             battleMap[row][column] = iMap.pit[:-1] + doubleDown
 
-        elif "/" not in battleMap[row][column]:            
-            if (severity == 2) and down in battleMap[row][column]:
-                battleMap[row][column] = iMap.pit[:-1] + doubleDown
+        elif ("/" not in battleMap[row][column]) and (severity == 2) and (down in battleMap[row][column]):
+            battleMap[row][column] = iMap.pit[:-1] + doubleDown

@@ -14,7 +14,7 @@ def checkReach(fighter, battleMap) -> None:
             
             if commitment in Boons.magicBoons + Boons.martialBoons:
                 reachable = reachable["boonReachable"]
-            elif commitment in Hinder.magicHindrance + Hinder.martialHindrance:
+            elif commitment in Hinder.magicHindrances + Hinder.martialHindrances:
                 reachable = reachable["hinderReachable"]
 
             for target in targets:

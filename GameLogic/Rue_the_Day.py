@@ -12,7 +12,6 @@ Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
 # Martin.abl["items"] += ["Loot", "Transfer"]
 # Martin.equipment["armor"] = None
 
-environment = {"Clubs": "", "Diamonds": "", "Hearts": "Jack", "Spades": ""}
 # while True: Games.tracking(Martin, environment)
 
 # biome = "Wild"
@@ -36,9 +35,11 @@ enemyGroup = {"members": [Archer], "name": "assassins"}
 
 wall = random.randint(1, 8)
 slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
+heartCard = random.choice(["Jack", "Queen", "King"])
+environment = {"Clubs": "", "Diamonds": "", "Hearts": heartCard, "Spades": ""}
+
 # slope = "flat"
-Select.quickPrint("Slope: " + slope)
-Select.quickPrint("Wall: " + str(wall))
+Select.quickPrint("Slope: " + slope + ", Wall: " + str(wall) + ", Hearts: " + heartCard)
 
 obstructions = {"wall": wall, "trap": 0, "pit": 0}
 atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}

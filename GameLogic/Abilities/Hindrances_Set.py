@@ -3,15 +3,15 @@ from . import DamageTypes as Damage
 import random
 
 
-martialHindrance = ["Bind", "Harry"]
-magicHindrance = ["Compel", "Disorient", "Misdirect", "Seal"]
+martialHindrances = ["Bind", "Harry"]
+magicHindrances = ["Compel", "Disorient", "Misdirect", "Seal"]
 
 
 def commitDice(fighter, target, hindrance) -> None:
     newDice = 0
 
-    if hindrance in martialHindrance: newDice = fighter.atrb["cur_mar"]
-    elif hindrance in magicHindrance: newDice = fighter.atrb["cur_mag"]
+    if hindrance in martialHindrances: newDice = fighter.atrb["cur_mar"]
+    elif hindrance in magicHindrances: newDice = fighter.atrb["cur_mag"]
 
     trueHindrance = hindranceComment(fighter, target, hindrance)
 
