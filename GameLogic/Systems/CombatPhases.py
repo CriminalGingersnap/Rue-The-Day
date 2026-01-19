@@ -1,4 +1,4 @@
-from Actions import AssessTargets as Assess, MoveActions as Move
+from Actions import MoveActions as Move, ItemActions
 from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl, Sort
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
 from . import PlayerSelect as Select, Conditions, Effects, Commitments
@@ -70,7 +70,7 @@ def inventoryStage(fighter, enemies, allies, battleMap) -> None:
     if fighter.itemUse > 0:
         Select.waitPrint("\n" + fighter.name + "'s inventory stage.")
         groups = Sort.getGroups(fighter, allies, enemies)
-        Items.itemAction(fighter, groups, battleMap)
+        ItemActions.itemAction(fighter, groups, battleMap)
 
 def abilityStage(fighter, enemies, allies, battleMap) -> None:
     groups = Sort.getGroups(fighter, allies, enemies)

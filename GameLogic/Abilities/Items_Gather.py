@@ -13,7 +13,7 @@ def loot(fighter, target):
 
 
 def transfer(fighter, target):
-    distance = Movement.findDistance(fighter, target)
+    distance = Movement.getTargetDistance(fighter, target)
 
     if distance == 1:
         if "Transfer" in fighter.abl["items"]:

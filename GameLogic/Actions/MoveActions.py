@@ -31,7 +31,7 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     elif answer in Moves.stationaryAbilities:
         Moves.execute(fighter, groups, answer)
     elif answer in Area.areaAbilities:
-        Area.execute(fighter, groups["fightingEnemies"], answer, battleMap)
+        Area.execute(fighter, groups, answer, battleMap)
 
 
 def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
@@ -61,5 +61,5 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
     if stationary: choice = random.choice(posOptions)
-    if choice in Area.areaAbilities: Area.execute(fighter, groups["fightingEnemies"], choice, battleMap)
+    if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
     elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice)

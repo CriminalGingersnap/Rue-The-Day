@@ -57,13 +57,13 @@ def hideShrouded(fighter, contingent, instanceMap):
         visibleDistance = fighter.effects["Shroud"]["additional"]
 
         if (visibleDistance != None) and (visibleDistance > 0):
-            if Movement.findDistance(fighter, other) > visibleDistance:
+            if Movement.getTargetDistance(fighter, other) > visibleDistance:
                 removeFighter(other, instanceMap)
 
 def hideTraps(fighter, sightMap):
     for row in range(12):
         for column in range(12):
-            distance = max(abs(fighter.position[0] - row), abs(fighter.position[1] - column))
+            distance = Movement.getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
             if (distance > 1) and ("]" in sightMap[row][column]):
                 sightMap[row][column] = sightMap[row][column][:-1] + "|"
 

@@ -5,7 +5,7 @@ import random
 # Swapping weapons requires him to expend an attack die.
 
 class humanInventory:
-    def __init__(self) -> None:
+    def __init__(self, rank, element, job) -> None:
         pillBoxes = {
             "Capacity": 0,
             "Contents": {
@@ -82,13 +82,35 @@ class humanInventory:
             }
         }
 
+        setHumanDrop(rank, element, job, vials, pillBoxes)
+            
         self.inventory = {
             "Pill Box": pillBoxes,
             "Gourd": gourd,
             "Vials": vials
         }
 
-# add method to set random human inventory based on job, rank, and element
+def setHumanDrop(rank, element, job, vials, pillBoxes):
+    if element != "Corpse":
+        type = ""
+
+        if job == "Mage":
+            match element:
+                case "Flame": type = random.choice(["Ice", "Fey"])
+                case "Ice": type = random.choice(["Flame", "Fey"])
+                case "Fey": type = random.choice(["Ice", "Flame"])
+        else: type = random.choice(["Ice", "Flame", "Toxin"])
+
+        match rank:
+            case "Proficient" | "Adept":
+                vials["Contents"]["Tinctures"][type + "blood"] = random.randint(0, 3)
+                vials["Contents"]["Tinctures"]["Vigor"] = random.randint(0, 3)
+                pillBoxes["Contents"]["Stones"][type + " Pearl"] = random.randint(0, 3)
+            case "Elite" | "Master":
+                pillBoxes["Contents"]["Pills"][type + "blood"] = random.randint(0, 3)
+                pillBoxes["Contents"]["Pills"]["Vigor"] = random.randint(0, 3)
+                pillBoxes["Contents"]["Stones"][type + " Core"] = random.randint(0, 3)
+
 
 class beastInventory:
     def __init__(self, hp, alignment, rank, type) -> None:
@@ -141,24 +163,5 @@ class totemInventory:
             case "Standard": drop = {"Stones": {alignment + " Pearl": 1}}
             case "Totem": drop = {"Stones": {alignment + " Pearl": 2}}
             case "Monument": drop = {"Stones": {alignment + " Core": 1}}           
-
-        self.inventory = drop
-
-
-class undeadInventory:
-    def __init__(self, hp, rank) -> None:
-        drop, vitaVolume = None, 0
-
-        match rank:
-            case "Undead": drop = {"Stones": {"Corpse Pearl": 1}}
-            case "Ghoul": drop = {"Stones": {"Corpse Pearl": 2}}
-            case "Ancient": drop = {"Stones": {"Corpse Core": 1}}
-        
-        match hp:
-            case "mid": vitaVolume = 1
-            case "high": vitaVolume = 2
-            case "max": vitaVolume = 3
-
-        drop["Blood"] = {"Corpse": vitaVolume}
 
         self.inventory = drop

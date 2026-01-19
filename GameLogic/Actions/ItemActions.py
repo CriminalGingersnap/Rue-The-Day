@@ -97,18 +97,20 @@ def getInventory(fighter) -> dict:
         if stones[stone] > 0:
             items["Stones"] += [stone + "(" + str(stones[stone]) + ")"]
             items["Total"] += 1
-    for drink in gourd:
-        if gourd[drink] > 0:
-            items["Gourd"] += [drink + "(" + str(gourd[drink]) + ")"]
-            items["Total"] += 1
-    for pill in pills:
-        if pills[pill] > 0:
-            items["Pills"] += [pill + "(" + str(pills[pill]) + ")"]
-            items["Total"] += 1
-    for tincture in tinctures:
-        if tinctures[tincture] > 0:
-            items["Tinctures"] += [tincture + "(" + str(tinctures[tincture]) + ")"]
-            items["Total"] += 1
+    
+    if fighter.atrb["base_elm"] != "Corpse":
+        for drink in gourd:
+            if gourd[drink] > 0:
+                items["Gourd"] += [drink + "(" + str(gourd[drink]) + ")"]
+                items["Total"] += 1
+        for pill in pills:
+            if pills[pill] > 0:
+                items["Pills"] += [pill + "(" + str(pills[pill]) + ")"]
+                items["Total"] += 1
+        for tincture in tinctures:
+            if tinctures[tincture] > 0:
+                items["Tinctures"] += [tincture + "(" + str(tinctures[tincture]) + ")"]
+                items["Total"] += 1
 
     return items
 

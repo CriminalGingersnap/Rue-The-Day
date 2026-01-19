@@ -6,12 +6,12 @@ magicAreals = ["Bless", "Breath", "Hex"]
 martialAreals = ["Mark", "Ready"]
 areaAbilities = magicAreals + martialAreals
 
-def execute(fighter, enemies, ability, battleMap) -> None:
-    phrase = markSpace(fighter, enemies, ability, battleMap)
+def execute(fighter, groups, ability, battleMap) -> None:
+    phrase = markSpace(fighter, groups, ability, battleMap)
     Select.waitPrint(phrase)
 
 
-def markSpace(fighter, enemies, ability, battleMap) -> None:
+def markSpace(fighter, groups, ability, battleMap) -> None:
     phrase, range, dmgType, dType = "", 10, "", "cur_mag"
 
     match ability:
@@ -35,7 +35,7 @@ def markSpace(fighter, enemies, ability, battleMap) -> None:
     if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
     
     boarders = setBorders(fighter, range)
-    markSpace = Apply.selectSpace(fighter, enemies, boarders)
+    markSpace = Apply.selectSpace(fighter, groups, boarders)
     affectSpace(fighter, markSpace, dmgType, dType, battleMap)
     fighter.atrb[dType] = 0
 
@@ -67,9 +67,9 @@ def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> list:
         battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
-def throwStone(fighter, item, enemies, battleMap) -> None:
+def throwStone(fighter, item, groups, battleMap) -> None:
     boarders = setBorders(fighter, 4)
-    tossSpace = Apply.selectSpace(fighter, enemies, boarders)
+    tossSpace = Apply.selectSpace(fighter, groups, boarders)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
 
     atmosphere = Apply.getAtmosphere("Stone", item)

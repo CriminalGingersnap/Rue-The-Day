@@ -73,7 +73,7 @@ class archer:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        inv = Inventory.humanInventory().inventory
+        inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class knight:
@@ -98,7 +98,7 @@ class knight:
                         correctSpecialties(abl, secondSpecialty)
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        inv = Inventory.humanInventory().inventory
+        inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class mage:
@@ -130,7 +130,7 @@ class mage:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        inv = Inventory.humanInventory().inventory
+        inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class dragonslayer:
@@ -155,7 +155,7 @@ class dragonslayer:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        inv = Inventory.humanInventory().inventory
+        inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
         
 class paladin:
@@ -180,5 +180,5 @@ class paladin:
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        inv = Inventory.humanInventory().inventory
+        inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)

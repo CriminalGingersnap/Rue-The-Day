@@ -40,10 +40,10 @@ def resistCompulsion(attempt, target, ability) -> list:
 
 def applyDisorient(target) -> int:
     reduction = Boons.apply(target, "Disorient")
-    Select.waitPrint(target.name + "'s AV temporarily decreases by " + str(reduction) + ".")
+    if reduction > 0: Select.waitPrint(target.name + "'s AV temporarily decreases by " + str(reduction) + ".")
     return reduction
 
 def applyMisdirect(target) -> int:
     reduction = Boons.apply(target, "Misdirect")
-    Select.waitPrint(target.name + "'s attempt decreases by " + str(reduction))
+    if reduction > 0: Select.waitPrint(target.name + "'s attempt decreases by " + str(reduction))
     return reduction

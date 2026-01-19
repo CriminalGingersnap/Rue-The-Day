@@ -30,12 +30,12 @@ def evolve(fighter, item) -> None:
     fighter.cndt["inviolable"] = True
 
     match item:
-        case "Flameheart": fighter.atrb["nat_elm"] = "Flame"
-        case "Feyheart": fighter.atrb["nat_elm"] = "Fey"
-        case "Iceheart": fighter.atrb["nat_elm"] = "Ice"
+        case "Flameheart": fighter.atrb["base_elm"] = "Flame"
+        case "Feyheart": fighter.atrb["base_elm"] = "Fey"
+        case "Iceheart": fighter.atrb["base_elm"] = "Ice"
 
     Select.waitPrint(fighter.name + " begins" + item + " evolution.")
-    Select.waitPrint(fighter.name + " adopts the " + fighter.atrb["nat_elm"] + " element!")
+    Select.waitPrint(fighter.name + " adopts the " + fighter.atrb["base_elm"] + " element!")
     Select.waitPrint(fighter.name + " gains:")
     for buff in ["12 HP", "12 Endurance", "2 Martial Dice", "2 Magic Dice", "The 'Animate' Item Action", "The 'Regenerate' Boon", "The 'Seal' Hindrance"]:
         Select.waitPrint(buff)

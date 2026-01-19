@@ -1,10 +1,13 @@
 from Systems import PlayerSelect as Select
-from Maps import Map_Instantiate as iMap, Map_Print as Print
+from Maps import Map_Instantiate as iMap, Map_Print as Print, Movement
 import random
 
 
-def selectSpace(fighter, enemies, boarders) -> int:
-    emptySpace = "___"
+emptySpace = "___"
+
+
+def selectSpace(fighter, groups, boarders) -> int:
+    enemies, allies = groups["fightingEnemies"], groups["fightingAllies"]
     sightMap = fighter.sightMap
     leftEdge, rightEdge, topEdge, bottomEdge = boarders[0], boarders[1], boarders[2], boarders[3]
 
@@ -20,27 +23,43 @@ def selectSpace(fighter, enemies, boarders) -> int:
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
                 if (emptySpace in optionsMap[row][column]) and not ("?" == optionsMap[row][column][-1]):
-                    optionDict[str(counter)] = [row, column]
+                    if fighter.rank == "player": optionDict[str(counter)] = [row, column]
+                    elif enemyCanSee(row, column, enemies) and allyNotInRange(row, column, allies):
+                        optionDict[str(counter)] = [row, column]
 
                     atmosphere = sightMap[row][column][0]
                     elevation = sightMap[row][column][-1]
                     
-                    dot = ""
-                    if counter < 10: dot = "._"
-                    else: dot = "."
+                    colon = ""
+                    if counter < 10: colon = ":_"
+                    else: colon = ":"
                     
-                    optionsMap[row][column] = atmosphere + str(counter) + dot + elevation
+                    optionsMap[row][column] = atmosphere + str(counter) + colon + elevation
                     counter += 1
 
         choice = ""
         if fighter.rank == "player":
             Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(1, counter)
-        else:
-            choice = random.randint(1, counter) #find highest concentration of enemies and get as central as possible.
+        elif len(optionsMap) > 0: choice = random.randint(1, counter)
 
         return optionDict[str(choice)]
 
+def enemyCanSee(row, column, enemies) -> bool:
+    enemySees = False
+    for enemy in enemies:
+        enemySpace = enemy.sightMap[row][column]
+        if "?" != enemySpace[row][column][-1]: enemySees = True
+
+    return enemySees
+
+def allyNotInRange(row, column, allies):
+    notInRange = True
+    for ally in allies:
+        if Movement.getSpaceDistance(ally.position[0], row, ally.position[1], column) <= 3: 
+            notInRange = False
+
+    return notInRange
 
 def getAtmosphere(source, scale, dmgType) -> str:
     atmosphere, big, little, lingering = "_", "", "", ""

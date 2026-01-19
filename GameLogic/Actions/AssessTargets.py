@@ -8,7 +8,7 @@ def findClosest(fighter, targets):
     prevProximity = 11
 
     for target in targets:
-        distance = Movement.findDistance(fighter, target)
+        distance = Movement.getTargetDistance(fighter, target)
 
         if distance < prevProximity:
             prevProximity = distance

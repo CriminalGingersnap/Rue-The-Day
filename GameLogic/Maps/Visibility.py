@@ -39,7 +39,7 @@ def look(position, row, column, battleMap, sightMap, obstructionPeak):
     obstructed = any(occlusion in vistaSpace for occlusion in ["/"] + uMap.majorHazards)
     fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
     misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((abs(position[0] - row) > 7) or (abs(position[1] - column) > 7))
-    sunken = (vistaHeight - fighterHeight) > 1
+    sunken = (vistaHeight - fighterHeight) > 0
 
     if vistaHeight <= obstructionPeak: visible = False
     elif obstructed or misted or fogged:

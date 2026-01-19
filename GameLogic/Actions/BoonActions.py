@@ -57,7 +57,7 @@ def usefulBoons(fighter, enemies):
 
     for enemy in enemies:
         dmgTypes += enemyDamageTypes(enemy)        
-        if Movement.findDistance(fighter, enemy) > 2: boonPreferences += ["Shroud"]
+        if Movement.getTargetDistance(fighter, enemy) > 2: boonPreferences += ["Shroud"]
         if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
     
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Venom"]):
