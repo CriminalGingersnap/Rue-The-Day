@@ -42,10 +42,8 @@ def setSight(fighter, enemies, allies, battleMap):
 
     return sightMap
 
-def outro(fighter, groups, battleMap):
-    fightingAllies = groups["fightingAllies"]
-
-    alive = Sort.setAlive(fighter, fightingAllies, battleMap)
+def outro(fighter, allies, battleMap):
+    alive = Sort.setAlive(fighter, allies, battleMap)
 
     if alive:
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
@@ -53,12 +51,12 @@ def outro(fighter, groups, battleMap):
             fighter.cndt["running"] = False
             intensity += 1
         Conditions.decrementStamina(fighter, intensity)
-        Reactions.applySocial(fighter, fightingAllies)
+        Reactions.applySocial(fighter, allies)
     
     if fighter.rank != "player": input("Press Enter to conclude " + fighter.name + "'s turn.")    
     
     Items.regenerate(fighter)
-    Reactions.applyReinforcements(fighter, fightingAllies, battleMap)
+    Reactions.applyReinforcements(fighter, allies, battleMap)
 
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:
@@ -85,5 +83,3 @@ def abilityStage(fighter, enemies, allies, battleMap) -> None:
         elif fighter.cndt["reposed"]:
             fighter.atrb["cur_mar"], fighter.atrb["cur_mag"], fighter.atrb["cur_sp"] = 0, 0, 0
         else: NPCAbl.npcAction(fighter, groups, space)
-
-    outro(fighter, groups, battleMap)

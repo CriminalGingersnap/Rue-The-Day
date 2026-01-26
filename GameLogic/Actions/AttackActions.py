@@ -44,7 +44,7 @@ def npcSelectAttack(fighter, target) -> str:
     else: return random.choice(attackOptions)
 
 
-def npcSelectAttackTarget(fighter, enemies):
+def npcSelectAttackTarget(fighter, enemies, pickClosest):
     if len(enemies) == 0: return "None"
 
     closestEnemy = Assess.findClosest(fighter, enemies)
@@ -63,7 +63,7 @@ def npcSelectAttackTarget(fighter, enemies):
 
     target = closestEnemy
 
-    if fighter.cndt["sapient"] and random.choice([True, False]):
+    if (not pickClosest) and fighter.cndt["sapient"] and random.choice([True, False]):
         job = fighter.job
         if lowestHPEnemy.atrb["cur_hp"] < 6: target = lowestHPEnemy
         elif job in ["Archer", "Dragonslayer", "Knight"]:

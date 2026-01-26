@@ -69,7 +69,7 @@ def usableHindrances(fighter, enemies) -> list:
 
 def npcSelectHindranceTarget(fighter, enemies, hindrance):
     targets = compellableTargets(fighter, enemies, hindrance) 
-    return AttackActions.npcSelectAttackTarget(fighter, targets)
+    return AttackActions.npcSelectAttackTarget(fighter, targets, False)
 
 def compellableTargets(fighter, enemies):
     compelTargets = []

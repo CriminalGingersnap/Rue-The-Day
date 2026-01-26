@@ -35,7 +35,7 @@ def removeCommitment(fighter, target, commitment, battleMap):
     #     for space in spaces:
     #         row = space[0], column = space[1]
     #         Area.setAtmosphere("_", row, column, battleMap)
-    Select.waitPrint("Commitment " + commitment + " terminates on " + target.name + ".")
+    Select.waitPrint("Commitment " + fighter.commitments[commitment]["ability"] + " terminates on " + target.name + ".")
     Effects.removeEffect(target, commitment)
     
     fighter.commitments[commitment] = {"targets": [], "additional": None}

@@ -94,25 +94,26 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
         validFighters = Sort.sortLiving(offenseGroup)[0]   
         
         for fighter in validFighters:
-            if (len(fighter.actionQueue) > 0) and (fighter.cndt["dead"] == False):
+            if len(fighter.actionQueue) > 0:
                 Commitments.checkReach(fighter, battleMap)
                 Select.waitPrint("\nExecuting " + fighter.name + "'s actions:")
 
                 for action in fighter.actionQueue:
-                    if fighter.cndt["dead"] == False:
-                        ability, target, dice = action[1], action[2], action[3]
-                        match action[0]:
-                            case "attack":
-                                if target.cndt["dead"] == False:
-                                    Attacks.execute(fighter, target, ability, dice)
-                                else: Select.waitPrint("Attack canceled against slain target.")
-                            case "boon":
-                                match ability:
-                                    case "Shroud":
-                                        Boons.applyShroud(target)
-                                        Commitments.checkReach(fighter, battleMap)
+                    ability, target, dice = action[1], action[2], action[3]
+                    match action[0]:
+                        case "attack":
+                            if target.cndt["dead"] == False:
+                                Attacks.execute(fighter, target, ability, dice)
+                            else: Select.waitPrint("Attack canceled against slain target.")
+                        case "boon":
+                            match ability:
+                                case "Shroud":
+                                    Boons.applyShroud(target)
+                                    Commitments.checkReach(fighter, battleMap)
                                     
                     fighter.actionQueue.remove(action)
+            Phases.outro(fighter, validFighters, battleMap)
+            
 
     return [False, offenseGroup, deserters]
 

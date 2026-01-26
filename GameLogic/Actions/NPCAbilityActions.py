@@ -14,7 +14,7 @@ def npcAction(fighter, groups, space) -> None:
         boonTarget = BoonActions.npcSelectBoonTarget(fighter, reachable["boonReachable"], boonChoice)
         if boonTarget != "None": actionOptions += ["Boon"]
 
-    attackChoice, attackTarget = "None", AttackActions.npcSelectAttackTarget(fighter, reachable["attackReachable"])
+    attackChoice, attackTarget = "None", AttackActions.npcSelectAttackTarget(fighter, reachable["attackReachable"], False)
     if attackTarget != "None":
         attackChoice = AttackActions.npcSelectAttack(fighter, attackTarget)
         if attackChoice != "None": actionOptions += ["Attack"]

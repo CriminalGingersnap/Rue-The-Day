@@ -94,8 +94,6 @@ def prepareOptions(movementMap) -> list:
     spaceOptions = {}
     highestNumber = 0
 
-    Print.printOptionsMap(movementMap, "Move")
-
     for row in range(12):
         for column in range(12):
             contents = movementMap[row][column]

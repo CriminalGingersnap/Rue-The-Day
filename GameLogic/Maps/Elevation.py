@@ -180,11 +180,14 @@ def adjustEnvironment(battleMap, environment):
 
 
 def spreadPits(battleMap, row, column, severity):
+    elevation = doubleDown
+    if severity == 2: elevation = down
+
     if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
         if "." in battleMap[row][column]:
             battleMap[row][column] = battleMap[row][column][:-1] + middle
         elif doubleDown in battleMap[row][column]: 
-            battleMap[row][column] = iMap.pit[:-1] + doubleDown
+            battleMap[row][column] = iMap.pit[:-1] + elevation
 
         elif ("/" not in battleMap[row][column]) and (severity == 2) and (down in battleMap[row][column]):
-            battleMap[row][column] = iMap.pit[:-1] + doubleDown
+            battleMap[row][column] = iMap.pit[:-1] + elevation

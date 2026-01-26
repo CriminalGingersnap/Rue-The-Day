@@ -54,7 +54,7 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             else: target = random.choice(fightingAlliesMinusSelf)
 
         elif len(reachableEnemies) == 0:
-            target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies)
+            target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies, True)
 
         if target != "None":
             stationary = False

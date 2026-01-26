@@ -35,27 +35,30 @@ def attack(fighter, target, attack, dice) -> None:
     attempt += (attemptIncrease - attemptReduction)
     av += (avIncrease - avReduction)
 
-    if attempt >= av: contact(fighter, target, dmgType, bonusSource, dice)   
-    else:
-        Select.waitPrint("Attack misses!")
-        if avIncrease > 0: Reactions.applyRiposte(target, fighter, "Guard")
-        if attemptReduction > 0: Reactions.applyRiposte(target, fighter, "Misdirect")
+    cleanHit = attempt >= av
+    contact(fighter, target, dmgType, bonusSource, dice, cleanHit)
+
+    if avIncrease > 0: Reactions.applyRiposte(target, fighter, "Guard")
+    if attemptReduction > 0: Reactions.applyRiposte(target, fighter, "Misdirect")
 
 
-def contact(fighter, target, dmgType, bonusSource, dice):
+def contact(fighter, target, dmgType, bonusSource, dice, cleanHit):
     massive = fighter.cndt["massive"]
     baseDmgType, bonusDmgType = dmgType["base"], dmgType["bonus"]
+    baseDmg = dice
 
-    Select.waitPrint("Attack hits!")
+    if cleanHit:
+        Select.waitPrint("Attack hits cleanly!")
+        baseDmg *= 3
+    else: Select.waitPrint("Flawed attack barely connects!")
 
-    baseDmg = 3 * dice
     physicalAbsorption = Boons.applyWreath(target, dmgType)
     appliedDmg = max(0, baseDmg - physicalAbsorption) 
 
     Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + baseDmgType + " damage!")
     Conditions.takeDamage(target, baseDmgType, appliedDmg, massive)
     
-    if bonusDmgType != "None":
+    if (bonusDmgType != "None") and cleanHit:
         Select.waitPrint("Attack deals bonus " + bonusDmgType + " damage!")
         bonusDmg = Roll.roll(bonusSource, 1, bonusDmgType, "magic")
         bonusDmg -= Boons.applyWreath(target, bonusDmgType)
