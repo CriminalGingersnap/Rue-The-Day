@@ -84,14 +84,18 @@ def identifyAtmosphere(atmosphere) -> str:
 def activateHazards(fighter, battleMap):
     row, column = fighter.position[0], fighter.position[1]
     atmosphere = battleMap[row][column][0]
-    damage, dmgType = 1, identifyAtmosphere(atmosphere)
 
     if atmosphere in hazards:
+        damage, dmgType = 1, identifyAtmosphere(atmosphere)
         if atmosphere in majorHazards: damage = random.randint(2, 12)
         elif atmosphere in minorHazards: damage = random.randint(1, 6)      
-        elif atmosphere in minorHazards: damage = random.randint(1, 6)      
-        elif atmosphere in lingeringHazards: damage = 1      
+        elif atmosphere in lingeringHazards: damage = 1 
         Conditions.takeDamage(fighter, dmgType, damage, False)
+    else:
+        match atmosphere:
+            case "M": fighter.atrb["cur_mag"] += 3
+            case "m": fighter.atrb["cur_mag"] += 2
+            case "*": fighter.atrb["cur_mag"] += 1
 
 def updateHazards(battleMap):
     for row in range(12):

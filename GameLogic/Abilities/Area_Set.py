@@ -2,9 +2,7 @@ from Systems import Conditions, PlayerSelect as Select
 from . import Area_Apply as Apply, DamageTypes as Damage
 import random
 
-magicAreals = ["Bless", "Breath", "Hex"]
-martialAreals = ["Mark", "Ready"]
-areaAbilities = magicAreals + martialAreals
+areaAbilities = ["Bless", "Breath", "Hex"]
 
 def execute(fighter, groups, ability, battleMap) -> None:
     phrase = markSpace(fighter, groups, ability, battleMap)
@@ -21,16 +19,7 @@ def markSpace(fighter, groups, ability, battleMap) -> None:
             range = 1
         case "Bless": phrase, dmgType = " blesses the ground!", "Holy"
         case "Hex": phrase, dmgType = " hexes the ground!", Damage.identifyDamageType(fighter, "Bring")
-        case "Mark": phrase, dmgType = " prepares to loose an arrow at a target space!", "Pierce"
-        case "Ready":
-            phrase = " readies to strike at anything that moves!"
-            dmgTypes = fighter.equipment["weapon"]["dmgTypes"]
-            if len(dmgTypes) == 1: dmgType = dmgTypes[0]
-            elif fighter.rank == "player":
-                Select.waitPrint("Choose damage type:")
-                dmgType = dmgTypes[Select.makeSelection(dmgTypes) - 1]
-            else: dmgType = random.choice(dmgTypes)
-            range = 0
+
     
     if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
     

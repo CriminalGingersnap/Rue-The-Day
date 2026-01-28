@@ -3,19 +3,19 @@ from Systems import Roll, Conditions, PlayerSelect as Select
 from Abilities import Boons_Set as Boons
 from . import Attacks_Martial as Martial
 
-stationaryAbilities = ["Inventory", "Evade", "Examine", "Set", "Tap"]
+stationaryAbilities = ["Inventory", "Enchant", "Evade", "Examine", "Set"]
 
 
-def execute(fighter, groups, ability) -> None: 
+def execute(fighter, groups, ability, battleMap) -> None: 
     reachable = groups["reachable"]
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
+        case "Enchant": applyEnchant(fighter, battleMap)
         case "Examine": applyExamine(visibleTargets)
         case "Evade": applyEvade(fighter)
         case "Inventory": applyInventory(fighter)
         case "Set": applySet(fighter)
-        case "Tap": applyTap(fighter)
 
 
 def applyEvade(fighter) -> None:
@@ -32,22 +32,16 @@ def applySet(fighter) -> None:
     Select.waitPrint(fighter.name + " sets in place!")
 
 
-def applyTap(fighter) -> None:
-    phrase = ""
-    roll = Roll.roll(fighter, 1, "Tap", "magic")
+def applyEnchant(fighter, battleMap) -> None:
+    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
+    atmosphere = battleMap[fighterRow][fighterColumn][0]
 
-    if roll == 1:
-        phrase = " fails to obtain mana!"
-    elif 1 < roll <= 5:
-        fighter.atrb["cur_mag"] += 1
-        phrase = " draws lightly from the well of mana!"
-        Conditions.decrementTolerance(fighter, 2)
-    elif roll == 6:
-        fighter.atrb["cur_mag"] += 2
-        phrase = " draws deeply from the well of mana!"
-        Conditions.decrementTolerance(fighter, 4)
+    if atmosphere == "m": atmosphere = "M"
+    elif atmosphere == "*": atmosphere = "m"
+    else: atmosphere = "*"
 
-    Select.waitPrint(fighter.name + phrase)
+    battleMap[fighterRow][fighterColumn] = atmosphere + battleMap[fighterRow][fighterColumn][1:]
+    Select.waitPrint(fighter.name + " enchants the ground!")
 
 
 def applyInventory(fighter) -> None:

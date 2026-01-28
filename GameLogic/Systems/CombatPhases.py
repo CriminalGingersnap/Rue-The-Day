@@ -36,7 +36,7 @@ def setSight(fighter, enemies, allies, battleMap):
         uMap.revealOthers(fighter, allies, enemies, sightMap)
         uMap.hideTraps(fighter, sightMap)
     else:
-        Select.waitPrint(fighter.name + "'s Turn")
+        Select.waitPrint(fighter.name + "'s turn")
 
     Print.printSightMap(battleMap, sightMap, fighter.name + "'s Sight Map")
 

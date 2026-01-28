@@ -42,7 +42,7 @@ def setCommon(job) -> list:
 
 class hex:
     def __init__(self, element, job) -> None:
-        common, hex = setCommon(job), ""
+        common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
 
         abl = Characters.setAbilities(type, {"areas": ["Hex"]})
@@ -53,7 +53,7 @@ class hex:
 
 class sentry:
     def __init__(self, element, job) -> None:        
-        common, attack = setCommon(job), ""
+        common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
 
         abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
@@ -64,7 +64,7 @@ class sentry:
 
 class ward:
     def __init__(self, element, job) -> None:        
-        common, wreath = setCommon(job), ""
+        common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
 
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})

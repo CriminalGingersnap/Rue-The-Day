@@ -62,7 +62,6 @@ class archer:
             abl["attacks"] += ["Bodkin"]
             
             if rank in ["Adept", "Elite", "Master"]:
-                abl["areas"] += ["Mark"]
                 abl["specialty"] = [random.choice(["Bodkin", "Broadhead"])]
                 
                 if rank in ["Elite", "Master"]:
@@ -87,11 +86,10 @@ class knight:
             abl["boons"] += ["Guard"]
 
             if rank in ["Adept", "Elite", "Master"]:
-                abl["reactions"] += ["Riposte"]
                 abl["specialty"] = [random.choice(["Bash", "Guard", "Stab"])]
                 
                 if rank in ["Elite", "Master"]:
-                    abl["areas"] += ["Ready"]
+                    abl["reactions"] += ["Riposte"]
                     
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bash", "Guard", "Stab"])]
@@ -113,20 +111,16 @@ class mage:
             else: abl["attacks"] += ["Bring"]
             
             if rank in ["Adept", "Elite", "Master"]:
-                if rank == "Dream":
-                    abl["hindrances"] += ["Disorient"]
-                    abl["specialty"] = [random.choice(["Disorient", "Focus", "Wreath"])]
-                else:
-                    abl["areas"] += ["Hex"]
-                    abl["specialty"] = [random.choice(["Bring", "Wreath"])]
+                if rank == "Dream": abl["specialty"] = [random.choice(["Focus", "Wreath"])]
+                else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if rank == "Dream": abl["hindrance"] += ["Misdirect"]
+                    if rank == "Dream": abl["hindrance"] += ["Disorient"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
                         secondSpecialty = [random.choice("Bring", "Wreath")]
-                        if rank == "Dream": secondSpecialty = [random.choice("Disorient", "Focus", "Misdirect", "Wreath")]
+                        if rank == "Dream": secondSpecialty = [random.choice("Disorient", "Focus", "Wreath")]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -144,7 +138,6 @@ class dragonslayer:
             abl["boons"] += ["Wreath"]
             
             if rank in ["Adept", "Elite", "Master"]:
-                abl["areas"] += ["Mark"]
                 abl["specialty"] = [random.choice(["Bodkin", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
@@ -169,7 +162,6 @@ class paladin:
             abl["boons"] += ["Wreath"]
             
             if rank in ["Adept", "Elite", "Master"]:
-                abl["areas"] += ["Bless"]
                 abl["specialty"] = [random.choice(["Sling", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:

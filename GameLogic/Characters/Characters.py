@@ -18,7 +18,7 @@ class character:
         self.itemEffects = dicts[2]
 
         self.actionQueue, self.position = [], []
-        self.itemUse = 1
+        self.itemUse = 0
         self.skills = {"Tracking": False, "Alchemy": False, "Augury": False}
 
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]

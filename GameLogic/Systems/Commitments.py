@@ -29,13 +29,8 @@ def clearCommitments(fighter, battleMap):
                 removeCommitment(fighter, target, commitment, battleMap)
 
 
-def removeCommitment(fighter, target, commitment, battleMap):
-    # if commitment in ["Bless", "Hex", "Mark", "Ready"]:
-    #     spaces = fighter.commitments[commitment]["additional"]
-    #     for space in spaces:
-    #         row = space[0], column = space[1]
-    #         Area.setAtmosphere("_", row, column, battleMap)
-    Select.waitPrint("Commitment " + fighter.commitments[commitment]["ability"] + " terminates on " + target.name + ".")
+def removeCommitment(fighter, target, commitment):
+    Select.waitPrint("Commitment " + commitment + " terminates on " + target.name + ".")
     Effects.removeEffect(target, commitment)
     
     fighter.commitments[commitment] = {"targets": [], "additional": None}
