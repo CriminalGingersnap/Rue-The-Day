@@ -1,7 +1,7 @@
 
 from Systems import Roll, Conditions, PlayerSelect as Select
 from Abilities import Boons_Set as Boons
-from . import Attacks_Martial as Martial
+from . import Attacks_Martial as Martial, Area_Set as Area
 
 stationaryAbilities = ["Inventory", "Enchant", "Evade", "Examine", "Set"]
 
@@ -11,7 +11,7 @@ def execute(fighter, groups, ability, battleMap) -> None:
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
-        case "Enchant": applyEnchant(fighter, battleMap)
+        case "Enchant": Area.enchant(fighter, battleMap, 1)
         case "Examine": applyExamine(visibleTargets)
         case "Evade": applyEvade(fighter)
         case "Inventory": applyInventory(fighter)
@@ -29,19 +29,7 @@ def applyEvade(fighter) -> None:
 
 def applySet(fighter) -> None:
     fighter.atrb["cur_mar"] += 1
-    Select.waitPrint(fighter.name + " sets in place!")
-
-
-def applyEnchant(fighter, battleMap) -> None:
-    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
-    atmosphere = battleMap[fighterRow][fighterColumn][0]
-
-    if atmosphere == "m": atmosphere = "M"
-    elif atmosphere == "*": atmosphere = "m"
-    else: atmosphere = "*"
-
-    battleMap[fighterRow][fighterColumn] = atmosphere + battleMap[fighterRow][fighterColumn][1:]
-    Select.waitPrint(fighter.name + " enchants the ground!")
+    Select.waitPrint(fighter.name + " sets in place!")    
 
 
 def applyInventory(fighter) -> None:

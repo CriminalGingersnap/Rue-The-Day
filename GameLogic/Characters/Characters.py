@@ -30,7 +30,6 @@ class character:
 def setAbilities(type, additions) -> dict:
     abilities = {"areas": [], "attacks": [], "boons": [], "hindrances": [], "items": [], "reactions": [], "specialty": [], "mastery": []}
     abilities.update(additions)
-    abilities["boons"] += ["Convert", "Invest"]
     if (type == "human") and ("Quick Inventory" not in abilities["boons"]): abilities["boons"] += ["Inventory"]
 
     abilityList = abilities["attacks"] + abilities["boons"] + abilities["hindrances"] + abilities["reactions"]
@@ -90,16 +89,15 @@ def setDicts():
     itemDict = {"duration": 0, "potency": 0, "additional": None}
 
     commitments = {"Compel": copy.deepcopy(commitDict), "Disorient": copy.deepcopy(commitDict),
-                     "Focus": copy.deepcopy(commitDict), "Guard": copy.deepcopy(commitDict),
-                      "Invest": copy.deepcopy(commitDict), "Misdirect": copy.deepcopy(commitDict),
-                       "Seal": copy.deepcopy(commitDict), "Shroud": copy.deepcopy(commitDict),
-                        "Wreath": copy.deepcopy(commitDict)}
+                    "Focus": copy.deepcopy(commitDict), "Guard": copy.deepcopy(commitDict),
+                     "Misdirect": copy.deepcopy(commitDict),
+                      "Seal": copy.deepcopy(commitDict), "Shroud": copy.deepcopy(commitDict),
+                       "Wreath": copy.deepcopy(commitDict)}
 
     effects = {"Compel": copy.deepcopy(effectDict), "Disorient": copy.deepcopy(effectDict),
-                 "Focus": copy.deepcopy(effectDict), "Guard": copy.deepcopy(effectDict),
-                  "Invest": copy.deepcopy(effectDict), "Misdirect": copy.deepcopy(effectDict),
-                   "Seal": copy.deepcopy(effectDict), "Shroud": copy.deepcopy(effectDict),
-                    "Wreath": copy.deepcopy(effectDict)}
+                "Focus": copy.deepcopy(effectDict), "Guard": copy.deepcopy(effectDict),
+                 "Misdirect": copy.deepcopy(effectDict), "Seal": copy.deepcopy(effectDict),
+                  "Shroud": copy.deepcopy(effectDict), "Wreath": copy.deepcopy(effectDict)}
 
     itemEffects = {"Animate": copy.deepcopy(itemDict), "Invigorate": copy.deepcopy(itemDict), "Imbue": copy.deepcopy(itemDict)}
 

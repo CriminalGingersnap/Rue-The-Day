@@ -1,4 +1,4 @@
-from Maps import Elevation, Map_Instantiate as iMap, Visibility, Map_Update as uMap
+from Maps import Elevation, Map_Instantiate as iMap, Visibility, Map_Update as uMap, Movement
 
 heightDict = {Elevation.doubleUp: 4, Elevation.up: 3, Elevation.middle: 2,
                Elevation.down: 1, Elevation.doubleDown: 0, "]": 2, "?": 5}
@@ -30,20 +30,17 @@ def setMoveOptions(fighter, target, battleMap) -> list:
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 stepCount = traverse(movementMap, instanceMap, fighterRow, fighterColumn, row, column)
-                if stepCount <= fighter.atrb["cur_sp"]:                   
-                    if npc: noContact = (Visibility.unseen in simulation[row][column]) and (Visibility.unseen not in instanceMap[row][column])
-                    if npc and (("!" in instanceMap[row][column]) or noContact):
-                        movementMap[row][column] = "_!:" + str(stepCount)
-
-                    elif ("___" in instanceMap[row][column]):
+                if stepCount <= fighter.atrb["cur_sp"]:    
+                    if any(spaceType in instanceMap[row][column] for spaceType in ["___", ")()("]):
                         movementMap[row][column] = ":" + str(stepCount)
+                    elif ("." in instanceMap[row][column]):
+                        movementMap[row][column] = "_.:" + str(stepCount) + "_"
 
-                    elif "/" not in instanceMap[row][column]:
-                        if ")()(" in instanceMap[row][column]:
-                            movementMap[row][column] = "_):" + str(stepCount) + "_"
-
-                        elif ("." in instanceMap[row][column]):
-                            movementMap[row][column] = "_.:" + str(stepCount) + "_"
+                    if npc:
+                        distance = Movement.getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
+                        noContact = (Visibility.unseen in simulation[row][column]) and (Visibility.unseen not in instanceMap[row][column])
+                        if ("!" in instanceMap[row][column]) or (noContact and (distance > 1)):
+                            movementMap[row][column] = "_!:" + str(stepCount)
 
     counter = 2
     for column in range(12):

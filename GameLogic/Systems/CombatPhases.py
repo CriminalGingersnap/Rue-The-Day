@@ -29,7 +29,7 @@ def setSight(fighter, enemies, allies, battleMap):
     sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.rank)
     uMap.hideShrouded(fighter, enemies + allies, sightMap)
 
-    fighter.atrb["cur_mag"] = fighter.atrb["base_mag"] + fighter.effects["Invest"]["dice"]
+    fighter.atrb["cur_mag"] = fighter.atrb["base_mag"]
     fighter.atrb["cur_mar"] = fighter.atrb["base_mar"]
 
     if fighter.rank == "player":
@@ -62,7 +62,7 @@ def outro(fighter, allies, battleMap):
 def movementStage(fighter, enemies, allies, battleMap) -> None:
     if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
         groups = Sort.getGroups(fighter, allies, enemies)
-        Move.moveAction(fighter, groups, battleMap)
+        Move.moveAction(fighter, groups, battleMap, False)
 
 def inventoryStage(fighter, enemies, allies, battleMap) -> None:
     if fighter.itemUse > 0:
@@ -79,7 +79,8 @@ def abilityStage(fighter, enemies, allies, battleMap) -> None:
 
         if fighter.rank == "player":
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)
-            PlayerAbl.takeAction(fighter, actionChoice, reachable)
+            if actionChoice == "Reposition": Move.moveAction(fighter, groups, battleMap, True)
+            else: PlayerAbl.takeAction(fighter, actionChoice, reachable)
         elif fighter.cndt["reposed"]:
             fighter.atrb["cur_mar"], fighter.atrb["cur_mag"], fighter.atrb["cur_sp"] = 0, 0, 0
         else: NPCAbl.npcAction(fighter, groups, space)

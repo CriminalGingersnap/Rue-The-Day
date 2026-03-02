@@ -8,20 +8,20 @@ def itemAction(fighter, groups, battleMap) -> None:
     while fighter.itemUse > 0:
         itemChoice = "None"
 
-        if fighter.rank == "player": itemChoice = pcSelectItem(fighter)
+        if fighter.rank == "player": itemChoice = pcSelectItem(fighter, battleMap)
         else: itemChoice = npcSelectItem(fighter, groups)
 
         if itemChoice != "None": Use.execute(fighter, itemChoice, groups, battleMap)
 
 
-def pcSelectItem(fighter) -> str:
-    itemOptions = getInventory(fighter)
+def pcSelectItem(fighter, battleMap) -> str:
+    itemOptions = getInventory(fighter, battleMap)
     categoryOptions, objectOptions = ["None"], ["None"]
 
     if itemOptions["Total"] == 0:
         return "None"
     else:
-        Select.waitPrint("Use item?")
+        Select.waitPrint("Select item:")
         
         for category in itemOptions:
             if len(itemOptions[category]) > 0: categoryOptions += [category]
@@ -38,7 +38,8 @@ def pcSelectItem(fighter) -> str:
         
 
 def npcSelectItem(fighter, groups):
-    itemOptions = getInventory(fighter).remove("Total")
+    itemOptions = getInventory(fighter)
+    itemOptions.remove("Total")
     objectPreferences, enemyDmgTypes = [], []
     allowList = blockList = ["Burn", "Freeze", "Dream", "Rot", "Venom"]
 
@@ -82,17 +83,23 @@ def hasItems(fighter) -> bool:
 def getInventory(fighter) -> dict:
     items = {
         "Stones": [],
-        "gourd": [],
+        "Dusts": [],
+        "Gourd": [],
         "Pills": [],
         "Tinctures": [],
         "Total": 0  
     }   
 
-    pills = fighter.inventory["Pill Box"]["Contents"]["Pills"]
+    dusts = fighter.inventory["Vials"]["Contents"]["Dusts"]
     tinctures = fighter.inventory["Vials"]["Contents"]["Tinctures"]
+    pills = fighter.inventory["Pill Box"]["Contents"]["Pills"]
     stones = fighter.inventory["Pill Box"]["Contents"]["Stones"]
     gourd = fighter.inventory["Gourd"]["Contents"]
 
+    if dusts["Neutral"] > 0:
+        items["Dusts"] += ["Neutral" + "(" + str(dusts["Neutral"]) + ")"]
+        items["Total"] += 1
+    
     for stone in stones:
         if stones[stone] > 0:
             items["Stones"] += [stone + "(" + str(stones[stone]) + ")"]
@@ -118,16 +125,7 @@ def getInventory(fighter) -> dict:
 def depleteItem(fighter, item, category):
     if category in ["Pills" | "Stones"]:
         fighter.inventory["Pill Box"]["Contents"][category][item] -= 1
-    elif category == "Tinctures":
+    elif category in ["Dusts", "Tinctures"]:
         fighter.inventory["Vials"]["Contents"][category][item] -= 1
     elif category == "Gourd":
         fighter.inventory["Gourd"]["Contents"][category][item] -= 1
-
-
-# Laura can craft cryomancy foci from ice elemental cores.
-# These items allow her to cast cryomancy spells until her next rest.
-# Wisp cores produce the same effect for one encounter.
-
-# Characters must roll an magic die each time they ingest a consumable. If the rolled number exceeds their remaining tolerance, they take the difference as non-resistible damage.
-# Potion tolerance cannot fall below 0. Characters with no remaining tolerance cannot ingest additional items.
-# Potion tolerance recovers fully after a rest.

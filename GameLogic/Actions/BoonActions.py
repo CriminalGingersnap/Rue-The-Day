@@ -62,7 +62,6 @@ def usefulBoons(fighter, enemies):
     
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Venom"]):
         boonPreferences += ["Bristle", "Evade", "Guard"]
-        if "Wreath" not in fighter.abl["boons"]: boonPreferences += ["Convert"]
 
     return boonPreferences
 
@@ -70,10 +69,8 @@ def usefulBoons(fighter, enemies):
 def usableBoons(fighter):
     affordableBoons, usableBoons = [], []
 
-    if fighter.atrb["cur_mag"] > 0:
-        if AttackActions.weaponAllows(fighter, "Bring"):
-            affordableBoons += Boons.magicBoons
-        if fighter.atrb["cur_mag"] > 1: affordableBoons += ["Convert"]
+    if (fighter.atrb["cur_mag"] > 0) and AttackActions.weaponAllows(fighter, "Bring"):
+        affordableBoons += Boons.magicBoons
     if fighter.atrb["cur_mar"] > 0:
         affordableBoons += Boons.martialBoons
     
@@ -98,7 +95,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
         lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
         lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         
-        if boon in ["Convert", "Evade", "Regenerate", "Slip"]: target = fighter
+        if boon in ["Evade", "Regenerate", "Slip"]: target = fighter
         else:
             match boon:
                 case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])

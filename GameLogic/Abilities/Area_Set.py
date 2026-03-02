@@ -9,7 +9,7 @@ def execute(fighter, groups, ability, battleMap) -> None:
     Select.waitPrint(phrase)
 
 
-def markSpace(fighter, groups, ability, battleMap) -> None:
+def markSpace(fighter, groups, ability, battleMap) -> str:
     phrase, range, dmgType, dType = "", 10, "", "cur_mag"
 
     match ability:
@@ -19,7 +19,6 @@ def markSpace(fighter, groups, ability, battleMap) -> None:
             range = 1
         case "Bless": phrase, dmgType = " blesses the ground!", "Holy"
         case "Hex": phrase, dmgType = " hexes the ground!", Damage.identifyDamageType(fighter, "Bring")
-
     
     if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
     
@@ -37,7 +36,7 @@ def setBorders(fighter, range) -> list:
     return [leftEdge, rightEdge, topEdge, bottomEdge]
 
 
-def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> list:
+def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> None:
     effectRow, effectColumn = markSpace[0], markSpace[1]
     scale = max(fighter.atrb[dType], 2)
     coverage, intenseCoverage = scale - 2, scale - 4
@@ -56,7 +55,7 @@ def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> list:
         battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
-def throwStone(fighter, item, groups, battleMap) -> None:
+def throwStone(fighter, item, groups, battleMap) -> str:
     boarders = setBorders(fighter, 4)
     tossSpace = Apply.selectSpace(fighter, groups, boarders)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
@@ -69,3 +68,20 @@ def throwStone(fighter, item, groups, battleMap) -> None:
     Apply.spreadAtmosphere(atmosphere, potency, tossRow, tossColumn, battleMap)
 
     return fighter.name + " throws a " + item + "!"
+
+
+def enchant(fighter, battleMap, potency) -> None:
+    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
+    atmosphere, phrase = battleMap[fighterRow][fighterColumn][0], ""
+
+    match potency:
+        case "1":
+            if atmosphere == "*": atmosphere, phrase = "m", " invests raw mana into the earth!"
+            else: atmosphere, phrase = "*", " prepares the ground for enchantment!"
+        case "2":
+            if atmosphere == "*": atmosphere = "M"
+            else: atmosphere = "m"
+            phrase = " casts magic dust into the air!"
+
+    battleMap[fighterRow][fighterColumn] = atmosphere + battleMap[fighterRow][fighterColumn][1:]
+    Select.waitPrint(fighter.name + phrase)

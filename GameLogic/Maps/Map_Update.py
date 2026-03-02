@@ -78,6 +78,7 @@ def identifyAtmosphere(atmosphere) -> str:
     elif atmosphere in ["r", "R", "}"]: dmgType = "Rot"
     elif atmosphere in ["p", "P"]: dmgType == "Pierce"
     elif atmosphere in ["v", "V", "&"]: dmgType == "Venom"
+    elif atmosphere in ["m", "M", "*"]: dmgType == "Mana"
 
     return dmgType
 
@@ -93,9 +94,12 @@ def activateHazards(fighter, battleMap):
         Conditions.takeDamage(fighter, dmgType, damage, False)
     else:
         match atmosphere:
-            case "M": fighter.atrb["cur_mag"] += 3
-            case "m": fighter.atrb["cur_mag"] += 2
-            case "*": fighter.atrb["cur_mag"] += 1
+            case "M": 
+                fighter.atrb["cur_mag"] += 2
+                Conditions.decrementTolerance(fighter, 2)
+            case "m": 
+                fighter.atrb["cur_mag"] += 1
+                Conditions.decrementTolerance(fighter, 1)
 
 def updateHazards(battleMap):
     for row in range(12):
@@ -109,6 +113,7 @@ def updateHazards(battleMap):
                     case "Dream": newAtmosphere = "@"
                     case "Freeze": newAtmosphere = "%"
                     case "Holy": newAtmosphere = "+"
+                    case "Mana": newAtmosphere = "*"
                     case "Rot": newAtmosphere = "}"
                     case "Venom": newAtmosphere = "&"
                     case "Crush" | "Pierce": newAtmosphere = "_"

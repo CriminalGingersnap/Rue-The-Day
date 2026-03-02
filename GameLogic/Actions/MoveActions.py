@@ -1,33 +1,37 @@
 from Systems import PlayerSelect as Select
 from . import ItemActions, BoonActions as Boons, AttackActions as Attacks
 from Abilities import Move_Apply as Moves, Area_Set as Area
-from Maps import Movement
+from Maps import Movement, Map_Update as uMap
 import random
 
 
-def moveAction(fighter, groups, battleMap) -> None:
+def moveAction(fighter, groups, battleMap, onlyMove) -> None:
     posOptions = ["Evade"] + fighter.abl["areas"]
     if fighter.atrb["base_mar"] > 0: posOptions += ["Set"]
     if fighter.atrb["base_mag"] > 0:
-        if battleMap[fighter.position[0]][fighter.position[1]][0] != "M": posOptions += ["Enchant"]
+        if battleMap[fighter.position[0]][fighter.position[1]][0] in ["_", "-", "="] + uMap.lingeringHazards:
+            posOptions += ["Enchant"]
 
     hasInventory = any(invAbl in fighter.abl["boons"] for invAbl in ["Inventory", "Quick Inventory"])
     if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
 
     if fighter.rank == "player":
         posOptions += ["Examine", "Move"]
-        movePlayer(fighter, groups, posOptions, battleMap)
+        movePlayer(fighter, groups, posOptions, battleMap, onlyMove)
     else: moveNPC(fighter, groups, posOptions, battleMap)
     
 
-def movePlayer(fighter, groups, posOptions, battleMap) -> None:
-    Select.waitPrint("Choose " + fighter.name + "'s Positional Action:")
-    answer = Select.makeSelection(posOptions)
+def movePlayer(fighter, groups, posOptions, battleMap, onlyMove) -> None:
+    answer = ""
+    if onlyMove: answer = "Move"
+    else:
+        Select.waitPrint("Choose " + fighter.name + "'s Positional Action:")
+        answer = Select.makeSelection(posOptions)
 
     if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)
         if stationary:
-            if fighter.atrb["base_mar"] > 0: Moves.execute(fighter, groups, "Set")
+            if fighter.atrb["base_mar"] > 0: Moves.execute(fighter, groups, "Set", battleMap)
             else: Moves.execute(fighter, groups, "Evade", battleMap)
     elif answer in Moves.stationaryAbilities:
         Moves.execute(fighter, groups, answer, battleMap)

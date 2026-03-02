@@ -4,7 +4,7 @@ from Maps import Map_Update as uMap
 from . import Effects, PlayerSelect as Select
 
 
-def checkReach(fighter, battleMap) -> None:
+def checkReach(fighter) -> None:
     for commitment in fighter.commitments:
         if len(fighter.commitments[commitment]["targets"]) > 0:
             targets = fighter.commitments[commitment]["targets"]
@@ -19,14 +19,14 @@ def checkReach(fighter, battleMap) -> None:
 
             for target in targets:
                 if target not in reachable:
-                    removeCommitment(fighter, target, commitment, battleMap)
+                    removeCommitment(fighter, target, commitment)
                 
 
-def clearCommitments(fighter, battleMap):
+def clearCommitments(fighter):
     for commitment in fighter.commitments:
         if len(fighter.commitments[commitment]["targets"]) > 0:
             for target in fighter.commitments[commitment]["targets"]:
-                removeCommitment(fighter, target, commitment, battleMap)
+                removeCommitment(fighter, target, commitment)
 
 
 def removeCommitment(fighter, target, commitment):

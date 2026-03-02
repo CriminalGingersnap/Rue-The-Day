@@ -12,8 +12,11 @@ def execute(fighter, itemChoice, groups, battleMap) -> None:
     else:
         match category:
             case "Stones": Area.throwStone(fighter, item, groups, battleMap)
-            case "Tinctures": Conditions.decrementTolerance(fighter, 2)
-            case "Pills": Conditions.decrementTolerance(fighter, 4)
+            case "Dusts": Area.enchant(fighter, battleMap)
+        
+    match category:
+        case "Tinctures": Conditions.decrementTolerance(fighter, 2)
+        case "Pills": Conditions.decrementTolerance(fighter, 4)
 
     fighter.itemUse -= 1
 

@@ -20,6 +20,8 @@ def chooseAction(fighter, reachable) -> str:
         if len(usableHindrances) > 0:
             if len(usableHindrances) == 1: actionOptions += ["Hindrance -> " + usableHindrances[0]]
             else: actionOptions += ["Hinder"]
+
+    if fighter.atrb["cur_sp"] > 0: actionOptions += ["Reposition"]
        
     Select.waitPrint("\nChoose " + fighter.name + "'s Ability Action:")
     choice =  Select.makeSelection(actionOptions + ["End Turn"])
