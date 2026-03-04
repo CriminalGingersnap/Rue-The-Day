@@ -1,6 +1,6 @@
-from Systems import Conditions, PlayerSelect as Select
+from Systems import PlayerSelect as Select
 from . import Area_Apply as Apply, DamageTypes as Damage
-import random
+
 
 areaAbilities = ["Bless", "Breath", "Hex"]
 
@@ -22,18 +22,20 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
     
     if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
     
-    boarders = setBorders(fighter, range)
-    markSpace = Apply.selectSpace(fighter, groups, boarders)
-    affectSpace(fighter, markSpace, dmgType, dType, battleMap)
+    markedSpace = findSpace(fighter, groups, range)
+    affectSpace(fighter, markedSpace, dmgType, dType, battleMap)
     fighter.atrb[dType] = 0
 
     return fighter.name + phrase
 
-def setBorders(fighter, range) -> list:
+def findSpace(fighter, groups, range) -> list:
     column, row = fighter.position[1], fighter.position[0]
     leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
     topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
-    return [leftEdge, rightEdge, topEdge, bottomEdge]
+    borders = [leftEdge, rightEdge, topEdge, bottomEdge]
+
+    markedSpace = Apply.selectSpace(fighter, groups, borders)
+    return markedSpace
 
 
 def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> None:
@@ -56,32 +58,42 @@ def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> None:
 
 
 def throwStone(fighter, item, groups, battleMap) -> str:
-    boarders = setBorders(fighter, 4)
-    tossSpace = Apply.selectSpace(fighter, groups, boarders)
+    tossSpace = findSpace(fighter, groups, 4)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
+    dmgType = ""
 
-    atmosphere = Apply.getAtmosphere("Stone", item)
+    if "Blessed" in item: dmgType = "Holy"
+    elif "Corpse" in item: dmgType = "Rot"
+    elif "Fey" in item: dmgType = "Dream"
+    elif "Flame" in item: dmgType = "Burn"
+    elif "Ice" in item: dmgType = "Freeze"
+    elif "Toxin" in item: dmgType = "Venom"
+
+    atmosphere = Apply.getAtmosphere("Stone", item, dmgType)
     battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
-    
+
     potency = 1
     if "Core" in item: potency = 2
-    Apply.spreadAtmosphere(atmosphere, potency, tossRow, tossColumn, battleMap)
+
+    if dmgType == "Dream":
+        fighter.position[0], fighter.position[1] = tossSpace[0], tossSpace[1]
+        if potency == 2:
+            tossSpace = findSpace(fighter, groups, 4)
+            tossRow, tossColumn = tossSpace[0], tossSpace[1]
+            fighter.position[0], fighter.position[1] = tossSpace[0], tossSpace[1]
+    else:
+        Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
 
     return fighter.name + " throws a " + item + "!"
 
 
-def enchant(fighter, battleMap, potency) -> None:
+def enchant(fighter, battleMap) -> None:
     fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
     atmosphere, phrase = battleMap[fighterRow][fighterColumn][0], ""
 
-    match potency:
-        case "1":
-            if atmosphere == "*": atmosphere, phrase = "m", " invests raw mana into the earth!"
-            else: atmosphere, phrase = "*", " prepares the ground for enchantment!"
-        case "2":
-            if atmosphere == "*": atmosphere = "M"
-            else: atmosphere = "m"
-            phrase = " casts magic dust into the air!"
+    if atmosphere == "*": atmosphere = "M"
+    else: atmosphere = "m"
+    phrase = " casts magic dust into the air!"
 
     battleMap[fighterRow][fighterColumn] = atmosphere + battleMap[fighterRow][fighterColumn][1:]
     Select.waitPrint(fighter.name + phrase)

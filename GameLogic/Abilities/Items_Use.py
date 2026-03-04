@@ -8,7 +8,6 @@ def execute(fighter, itemChoice, groups, battleMap) -> None:
     if item in ["Flameblood", "Iceblood", "Feyblood", "Corpseblood", "Toxinblood", "Blessedblood"]: imbue(fighter, category, item)
     elif item in ["Flameheart", "Iceheart", "Feyheart"]: evolve(fighter, item)
     elif item == "Vigor": invigorate(fighter, category)
-    # elif item == "Wraith": # Allows character to move through obstructions
     else:
         match category:
             case "Stones": Area.throwStone(fighter, item, groups, battleMap)

@@ -8,19 +8,19 @@ def itemAction(fighter, groups, battleMap) -> None:
     while fighter.itemUse > 0:
         itemChoice = "None"
 
-        if fighter.rank == "player": itemChoice = pcSelectItem(fighter, battleMap)
+        if fighter.rank == "player": itemChoice = pcSelectItem(fighter)
         else: itemChoice = npcSelectItem(fighter, groups)
 
         if itemChoice != "None": Use.execute(fighter, itemChoice, groups, battleMap)
 
 
-def pcSelectItem(fighter, battleMap) -> str:
-    itemOptions = getInventory(fighter, battleMap)
+def pcSelectItem(fighter) -> str:
+    itemOptions = getInventory(fighter)
     categoryOptions, objectOptions = ["None"], ["None"]
 
-    if itemOptions["Total"] == 0:
-        return "None"
+    if itemOptions["Total"] == 0: return "None"
     else:
+        del itemOptions["Total"]
         Select.waitPrint("Select item:")
         
         for category in itemOptions:
@@ -53,9 +53,9 @@ def npcSelectItem(fighter, groups):
         blockList -= weaponDmgTypes
         allowList -= blockList
     
-    if all("Burn" in [enemyDmgTypes, allowList]) and ("Freeze" not in enemyDmgTypes):
+    if all("Burn" in enemyDmgTypes) and ("Burn" in allowList) and ("Freeze" not in enemyDmgTypes):
         itemPreferences += ["Flameblood"]
-    if all("Freeze" in [enemyDmgTypes, allowList]) and ("Burn" not in enemyDmgTypes):
+    if all("Freeze"  in enemyDmgTypes) and ("Freeze" in allowList) and ("Burn" not in enemyDmgTypes):
         itemPreferences += ["Iceblood"]
     if any(dType in enemyDmgTypes for dType in ["Crush", "Dream", "Pierce"]):
         if ("Dream" in allowList) and ("Rot" not in enemyDmgTypes): itemPreferences += ["Feyblood"]
@@ -150,7 +150,7 @@ def getInventory(fighter) -> dict:
 
 
 def depleteItem(fighter, item, category):
-    if category in ["Pills" | "Stones"]:
+    if category in ["Pills", "Stones"]:
         fighter.inventory["Pill Box"]["Contents"][category][item] -= 1
     elif category in ["Dusts", "Tinctures"]:
         fighter.inventory["Vials"]["Contents"][category][item] -= 1

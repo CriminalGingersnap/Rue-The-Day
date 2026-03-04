@@ -1,9 +1,9 @@
 
-from Systems import Roll, Conditions, PlayerSelect as Select
+from Systems import PlayerSelect as Select
 from Abilities import Boons_Set as Boons
 from . import Attacks_Martial as Martial, Area_Set as Area
 
-stationaryAbilities = ["Inventory", "Enchant", "Evade", "Examine", "Set"]
+stationaryAbilities = ["Inventory", "Evade", "Examine", "Set"]
 
 
 def execute(fighter, groups, ability, battleMap) -> None: 
@@ -11,7 +11,6 @@ def execute(fighter, groups, ability, battleMap) -> None:
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
-        case "Enchant": Area.enchant(fighter, battleMap, 1)
         case "Examine": applyExamine(visibleTargets)
         case "Evade": applyEvade(fighter)
         case "Inventory": applyInventory(fighter)

@@ -46,7 +46,7 @@ def setAttributes(rank, stats, cndt, elm, dice):
 
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4
-    endurance = random.randint(halfHealth, hp)
+    endurance = random.randint(quarterHealth, halfHealth)
     tolerance = endurance
 
     if cndt["lifeless"]:

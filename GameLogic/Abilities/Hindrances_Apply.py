@@ -17,10 +17,10 @@ def applyCompel(target, ability) -> None:
     target.effects[ability]["additional"] = compelled
 
 def resistCompulsion(attempt, target, ability) -> list:
-    phrase = "Resistance Threshold: "
+    penalty = target.atrb["corruption"] + target.atrb["fatigue"]
+    threshold = max(1, ((3 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - penalty))
 
-    threshold = max(1, ((3 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - target.atrb["corruption"]))
-    phrase += threshold + " "
+    phrase = "Resistance Threshold: " + str(threshold) + " "
 
     if ability == "Compel":
         if target.cndt["sapient"]:
