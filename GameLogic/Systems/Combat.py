@@ -98,7 +98,7 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
         
         for fighter in validFighters:
             if len(fighter.actionQueue) > 0:
-                Commitments.checkReach(fighter, battleMap)
+                Commitments.checkReach(fighter)
                 Select.waitPrint("\nExecuting " + fighter.name + "'s actions:")
 
                 for action in fighter.actionQueue:
@@ -112,7 +112,7 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
                             match ability:
                                 case "Shroud":
                                     Boons.applyShroud(target)
-                                    Commitments.checkReach(fighter, battleMap)
+                                    Commitments.checkReach(fighter)
                                     
                     fighter.actionQueue.remove(action)
             Phases.outro(fighter, validFighters, battleMap)

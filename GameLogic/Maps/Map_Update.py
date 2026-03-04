@@ -112,7 +112,7 @@ def updateHazards(battleMap):
                     case "Burn": newAtmosphere = "#"
                     case "Dream": newAtmosphere = "@"
                     case "Freeze": newAtmosphere = "%"
-                    case "Holy": newAtmosphere = "+"
+                    case "Holy": newAtmosphere = random.choice("H", "h", "+")
                     case "Mana": newAtmosphere = "*"
                     case "Rot": newAtmosphere = "}"
                     case "Venom": newAtmosphere = "&"

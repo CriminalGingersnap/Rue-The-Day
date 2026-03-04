@@ -10,7 +10,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
     hazards = uMap.majorHazards + uMap.minorHazards
 
-    npc, simulation, noContact = fighter.rank != "player", None, False
+    npc, simulation, anyContact = fighter.rank != "player", None, False
     if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.rank)
     instanceMap = fighter.sightMap
 
@@ -30,22 +30,32 @@ def setMoveOptions(fighter, target, battleMap) -> list:
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 stepCount = traverse(movementMap, instanceMap, fighterRow, fighterColumn, row, column)
-                if stepCount <= fighter.atrb["cur_sp"]:    
-                    if any(spaceType in instanceMap[row][column] for spaceType in ["___", ")()("]):
-                        movementMap[row][column] = ":" + str(stepCount)
-                    elif ("." in instanceMap[row][column]):
-                        movementMap[row][column] = "_.:" + str(stepCount) + "_"
+                if stepCount <= fighter.atrb["cur_sp"]:
+                    freeSpace = False
+                    if "___" in instanceMap[row][column]:
+                        movementMap[row][column] = "_:" + str(stepCount)
+                        freeSpace = True
+                    elif ")()(" in instanceMap[row][column]: movementMap[row][column] = "):" + str(stepCount)
+                    elif "." in instanceMap[row][column]: movementMap[row][column] = ".:" + str(stepCount)
+                    elif "!" in instanceMap[row][column]: movementMap[row][column] = "!:" + str(stepCount)
 
-                    if npc:
-                        distance = Movement.getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
-                        noContact = (Visibility.unseen in simulation[row][column]) and (Visibility.unseen not in instanceMap[row][column])
-                        if ("!" in instanceMap[row][column]) or (noContact and (distance > (fighter.atrb["base_sp"] // 2))):
-                            movementMap[row][column] = "_!:" + str(stepCount)
+                    if npc and freeSpace:
+                        contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in instanceMap[row][column])
+                        if contact: anyContact = True
+                        else: movementMap[row][column] = "!:" + str(stepCount)
+
+    if npc and not anyContact:
+        for column in range(leftEdge, rightEdge):
+            for row in range(topEdge, bottomEdge):
+                if "!:" in movementMap[row][column]:
+                    stepCount = movementMap[row][column].split(':')[1]
+                    if int(stepCount) < fighter.atrb["cur_sp"] // 2:
+                        movementMap[row][column] = "_:" + stepCount
 
     counter = 2
     for column in range(12):
         for row in range(12):
-            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!"]):
+            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")"]):
                 stepCount = movementMap[row][column].split(':')[1]
                 if counter < 10: movementMap[row][column] = "_" + str(counter) + ":" + str(stepCount)
                 else: movementMap[row][column] = str(counter) + ":" + str(stepCount)
@@ -58,7 +68,9 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             if any(char in movementMap[row][column] for char in [":", ".", "!", ")"]):
                 movementMap[row][column] += instanceMap[row][column][-1]
 
-    movementMap[fighterRow][fighterColumn] = ".1:0" + instanceMap[fighterRow][fighterColumn][-1]
+    if npc:
+        if not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + instanceMap[fighterRow][fighterColumn][-1]
+    else: movementMap[fighterRow][fighterColumn] = ".1:0" + instanceMap[fighterRow][fighterColumn][-1]
 
     return movementMap
 

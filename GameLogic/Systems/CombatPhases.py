@@ -79,8 +79,7 @@ def abilityStage(fighter, enemies, allies, battleMap) -> None:
 
         if fighter.rank == "player":
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)
-            if actionChoice == "Reposition": Move.moveAction(fighter, groups, battleMap, True)
-            else: PlayerAbl.takeAction(fighter, actionChoice, reachable)
+            PlayerAbl.takeAction(fighter, actionChoice, reachable)
         elif fighter.cndt["reposed"]:
             fighter.atrb["cur_mar"], fighter.atrb["cur_mag"], fighter.atrb["cur_sp"] = 0, 0, 0
         else: NPCAbl.npcAction(fighter, groups, space)
