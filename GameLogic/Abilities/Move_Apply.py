@@ -17,6 +17,8 @@ def execute(fighter, groups, ability, battleMap) -> None:
         case "Inventory": applyInventory(fighter)
         case "Set": applySet(fighter)
 
+    fighter.atrb["cur_sp"] = 0
+
 
 def applyEvade(fighter) -> None:
     fighter.commitments["Guard"]["targets"] += [fighter]

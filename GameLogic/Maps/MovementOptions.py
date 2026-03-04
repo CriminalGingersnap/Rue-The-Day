@@ -39,7 +39,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     if npc:
                         distance = Movement.getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
                         noContact = (Visibility.unseen in simulation[row][column]) and (Visibility.unseen not in instanceMap[row][column])
-                        if ("!" in instanceMap[row][column]) or (noContact and (distance > 1)):
+                        if ("!" in instanceMap[row][column]) or (noContact and (distance > (fighter.atrb["base_sp"] // 2))):
                             movementMap[row][column] = "_!:" + str(stepCount)
 
     counter = 2

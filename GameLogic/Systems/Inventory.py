@@ -61,8 +61,7 @@ class humanInventory:
                     "Fey": 0,
                     "Ice": 0,
                     "Blessed": 0,
-                    "Toxin": 0,
-                    "Neutral": 0
+                    "Toxin": 0
                 },
                 "Tinctures": {
                     "Corpseblood": 0,

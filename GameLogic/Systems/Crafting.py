@@ -80,8 +80,6 @@ def alchemy(fighter, options):
             case "Fey": fighter.inventory["Vials"]["Contents"]["Dusts"]["Fey"] += increase
             case "Flame": fighter.inventory["Vials"]["Contents"]["Dusts"]["Flame"] += increase
             case "Ice": fighter.inventory["Vials"]["Contents"]["Dusts"]["Ice"] += increase
-            case "Neutral": fighter.inventory["Vials"]["Contents"]["Dusts"]["Neutral"] += increase
-
 
 
 def getCraftOptions(fighter, dustTotal) -> list:
