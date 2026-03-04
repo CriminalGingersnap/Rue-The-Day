@@ -26,16 +26,19 @@ def pcSelectItem(fighter) -> str:
         for category in itemOptions:
             if len(itemOptions[category]) > 0: categoryOptions += [category]
 
-        categoryChoice = Select.makeSelection(categoryOptions)
-        for object in itemOptions[categoryChoice]: objectOptions += [object]
+        categoryChoice, item = Select.makeSelection(categoryOptions), ""
+        if categoryChoice != "None":
+            for object in itemOptions[categoryChoice]: objectOptions += [object]
+            item = Select.makeSelection(objectOptions)
+            item = item.split('(')[0]
 
-        item = Select.makeSelection(objectOptions)
-        item = item.split('(')[0]
+            if item == "None": return "None"
+            else:
+                depleteItem(fighter, item, categoryChoice)
+                return [categoryChoice, item]
 
-        if item != "None": depleteItem(fighter, item, categoryChoice)
+        else: return "None"
 
-        return [categoryChoice, item]
-        
 
 def npcSelectItem(fighter, groups):
     heldItems = getInventory(fighter)

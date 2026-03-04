@@ -61,17 +61,9 @@ def allyNotInRange(row, column, allies):
 
     return notInRange
 
-def getAtmosphere(source, scale, dmgType) -> str:
+def getAtmosphere(scale, dmgType) -> str:
     atmosphere, big, little, lingering = "_", "", "", ""
 
-    if source == "Stone":
-        if "Blessed" in dmgType: dmgType = "Holy"
-        elif "Corpse" in dmgType: dmgType = "Rot"
-        elif "Flame" in dmgType: dmgType = "Burn"
-        elif "Ice" in dmgType: dmgType = "Freeze"
-        elif "Fey" in dmgType: dmgType = "Dream"
-        elif "Toxin" in dmgType: dmgType = "Venom"
-    
     match dmgType:
         case "Burn": big, little, lingering = "B", "b", "#"
         case "Crush": big, little = "C", "c"
@@ -95,14 +87,14 @@ def spreadAtmosphere(atmosphere, dmgType, coverage, tossRow, tossColumn, battleM
     leftColumn, rightColumn = tossColumn - 1, tossColumn + 1
     spaces = []
 
-    for step in range(coverage + 1):
+    for step in range(coverage - 1):
         spaces += addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn)
         upRow -= 1
         downRow += 1
         leftColumn -= 1
         rightColumn += 1
 
-    cloud, cloudSpaces = getAtmosphere("None", 1, dmgType), []
+    cloud, cloudSpaces = getAtmosphere(1, dmgType), []
     if dmgType not in ["Crush", "Pierce"]:
         cloudSpaces += addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn)
         

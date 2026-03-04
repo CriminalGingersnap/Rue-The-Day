@@ -58,7 +58,7 @@ def setInjury(target):
     elif target.atrb["cur_hp"] <= 0:
         if target.atrb["injury"] < 3:
             phrase1 += "mortally wounded!"
-            phrase2 += "to 0. AV reduced by 3. "
+            phrase2 += "to 1. AV reduced by 3. "
             target.atrb["injury"] = 3
             print = True
 

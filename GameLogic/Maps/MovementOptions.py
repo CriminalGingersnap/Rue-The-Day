@@ -68,9 +68,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             if any(char in movementMap[row][column] for char in [":", ".", "!", ")"]):
                 movementMap[row][column] += instanceMap[row][column][-1]
 
-    if npc:
-        if not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + instanceMap[fighterRow][fighterColumn][-1]
-    else: movementMap[fighterRow][fighterColumn] = ".1:0" + instanceMap[fighterRow][fighterColumn][-1]
+    if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + instanceMap[fighterRow][fighterColumn][-1]
+    elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + instanceMap[fighterRow][fighterColumn][-1]
 
     return movementMap
 

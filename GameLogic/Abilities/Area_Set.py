@@ -1,6 +1,6 @@
 from Systems import PlayerSelect as Select
 from . import Area_Apply as Apply, DamageTypes as Damage
-
+from Maps import Map_Update as uMap
 
 areaAbilities = ["Bless", "Breath", "Hex"]
 
@@ -43,8 +43,8 @@ def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> None:
     scale = max(fighter.atrb[dType], 2)
     coverage, intenseCoverage = scale - 2, scale - 4
 
-    atmosphere = Apply.getAtmosphere(fighter, 3, dmgType)
-    petitAtmosphere = Apply.getAtmosphere(fighter, 2, dmgType)
+    atmosphere = Apply.getAtmosphere(3, dmgType)
+    petitAtmosphere = Apply.getAtmosphere(2, dmgType)
     battleMap[effectRow][effectColumn] = atmosphere + battleMap[effectRow][effectColumn][1:]
 
     if coverage > 0:
@@ -57,34 +57,39 @@ def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> None:
         battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
-def throwStone(fighter, item, groups, battleMap) -> str:
+def throwStone(fighter, stone, groups, battleMap) -> str:
     tossSpace = findSpace(fighter, groups, 4)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
-    dmgType = ""
+    dmgType = getStoneDmgType(stone)
 
-    if "Blessed" in item: dmgType = "Holy"
-    elif "Corpse" in item: dmgType = "Rot"
-    elif "Fey" in item: dmgType = "Dream"
-    elif "Flame" in item: dmgType = "Burn"
-    elif "Ice" in item: dmgType = "Freeze"
-    elif "Toxin" in item: dmgType = "Venom"
+    potency = 2
+    if "Core" in stone: potency = 3
 
-    atmosphere = Apply.getAtmosphere("Stone", item, dmgType)
+    atmosphere = Apply.getAtmosphere(potency, dmgType)
     battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
 
-    potency = 1
-    if "Core" in item: potency = 2
-
-    if dmgType == "Dream":
-        fighter.position[0], fighter.position[1] = tossSpace[0], tossSpace[1]
-        if potency == 2:
+    if "Fey" in stone:
+        uMap.updatePlacement(battleMap, fighter.sightMap, tossSpace[0], tossSpace[1], fighter)
+        if potency == 3:
             tossSpace = findSpace(fighter, groups, 4)
             tossRow, tossColumn = tossSpace[0], tossSpace[1]
-            fighter.position[0], fighter.position[1] = tossSpace[0], tossSpace[1]
+            uMap.updatePlacement(battleMap, fighter.sightMap, tossSpace[0], tossSpace[1], fighter)
     else:
         Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
 
-    return fighter.name + " throws a " + item + "!"
+    return fighter.name + " throws a " + stone + "!"
+
+def getStoneDmgType(stone) -> str:
+    dmgType = ""
+
+    if "Blessed" in stone: dmgType = "Holy"
+    elif "Corpse" in stone: dmgType = "Rot"
+    elif "Flame" in stone: dmgType = "Burn"
+    elif "Ice" in stone: dmgType = "Freeze"
+    elif "Fey" in stone: dmgType = "Dream"
+    elif "Toxin" in stone: dmgType = "Venom"
+
+    return dmgType
 
 
 def enchant(fighter, battleMap) -> None:

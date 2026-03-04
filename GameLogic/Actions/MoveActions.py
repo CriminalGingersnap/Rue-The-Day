@@ -5,7 +5,7 @@ from Maps import Movement, Map_Update as uMap
 import random
 
 
-def moveAction(fighter, groups, battleMap, onlyMove) -> None:
+def moveAction(fighter, groups, battleMap) -> None:
     posOptions = ["Evade"] + fighter.abl["areas"]
     if fighter.atrb["base_mar"] > 0: posOptions += ["Set"]
 
@@ -13,17 +13,15 @@ def moveAction(fighter, groups, battleMap, onlyMove) -> None:
     if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
 
     if fighter.rank == "player":
-        posOptions += ["Examine", "Move"]
-        movePlayer(fighter, groups, posOptions, battleMap, onlyMove)
+        posOptions += ["Examine"]
+        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
+        movePlayer(fighter, groups, posOptions, battleMap)
     else: moveNPC(fighter, groups, posOptions, battleMap)
     
 
-def movePlayer(fighter, groups, posOptions, battleMap, onlyMove) -> None:
-    answer = ""
-    if onlyMove: answer = "Move"
-    else:
-        Select.waitPrint("Choose " + fighter.name + "'s Positional Action:")
-        answer = Select.makeSelection(posOptions)
+def movePlayer(fighter, groups, posOptions, battleMap) -> None:
+    Select.waitPrint("Choose " + fighter.name + "'s Positional Action:")
+    answer = Select.makeSelection(posOptions)
 
     if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)

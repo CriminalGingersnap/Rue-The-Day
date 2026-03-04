@@ -16,7 +16,7 @@ def resetFighter(fighter, battleMap) -> None:
     match fighter.atrb["injury"]:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
         case 2: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 2
-        case 3: fighter.atrb["cur_sp"] = 0
+        case 3: fighter.atrb["cur_sp"] = min(fighter.atrb["base_sp"], 1)
    
     fighter.atrb["cur_sp"] = max(0, fighter.atrb["cur_sp"])
     fighter.itemUse = 0
@@ -62,7 +62,7 @@ def outro(fighter, allies, battleMap):
 def movementStage(fighter, enemies, allies, battleMap) -> None:
     if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
         groups = Sort.getGroups(fighter, allies, enemies)
-        Move.moveAction(fighter, groups, battleMap, False)
+        Move.moveAction(fighter, groups, battleMap)
 
 def inventoryStage(fighter, enemies, allies, battleMap) -> None:
     if fighter.itemUse > 0:
