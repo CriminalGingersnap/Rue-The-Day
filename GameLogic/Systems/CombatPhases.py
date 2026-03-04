@@ -21,7 +21,7 @@ def resetFighter(fighter, battleMap) -> None:
     fighter.atrb["cur_sp"] = max(0, fighter.atrb["cur_sp"])
     fighter.itemUse = 0
 
-    Commitments.clearCommitments(fighter, battleMap)
+    Commitments.clearCommitments(fighter)
     Effects.updateItemEffects(fighter)
 
 

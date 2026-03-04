@@ -137,7 +137,7 @@ def handleAftermath(victorGroup, loserGroup):
             cumWorth += loser.atrb["base_mag"]
 
         for fighter in victorGroup["members"]:
-            Commitments.clearCommitments(fighter, None)
+            Commitments.clearCommitments(fighter)
 
             if fighter.type == "totem": fighter.cndt["reposed"] = True
             
