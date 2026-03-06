@@ -41,7 +41,7 @@ def enemyDamageTypes(enemy):
     return damageTypes
 
 def canWreath(fighter, dmgTypes) -> bool:
-    fighterDmgType = Damage.identifyDamageType(fighter, "Bring")["base"]
+    fighterDmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
     compatible = False
 
     for enemyDmgType in dmgTypes:

@@ -41,7 +41,7 @@ environment = {"Clubs": "", "Diamonds": "", "Hearts": heartCard, "Spades": ""}
 # slope = "flat"
 Select.quickPrint("Slope: " + slope + ", Wall: " + str(wall) + ", Hearts: " + heartCard)
 
-obstructions = {"wall": wall, "trap": 0, "pit": 0}
+obstructions = {"wall": wall, "trap": 0, "pool": 0, "pit": 0}
 atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
 
 # battleMap = dMap.createMap(group1["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")

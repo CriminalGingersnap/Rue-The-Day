@@ -1,5 +1,6 @@
 from . import Visibility, Movement, Elevation
 from Systems import PlayerSelect as Select, Conditions
+from Abilities import DamageTypes as Damage
 import random
 
 majorHazards = ["B", "D", "C", "F", "H", "P", "R", "V"]
@@ -82,16 +83,30 @@ def identifyAtmosphere(atmosphere) -> str:
 
     return dmgType
 
+def getScale(atmosphere) -> int:
+    scale = 0
+    if atmosphere in majorHazards: scale = 3
+    elif atmosphere in minorHazards: scale = 2    
+    elif atmosphere in lingeringHazards: scale = 1
+    return scale
+
+
 def activateHazards(fighter, battleMap):
+    fighterDmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
     row, column = fighter.position[0], fighter.position[1]
     atmosphere = battleMap[row][column][0]
 
     if atmosphere in hazards:
-        damage, dmgType = 1, identifyAtmosphere(atmosphere)
-        if atmosphere in majorHazards: damage = random.randint(2, 12)
-        elif atmosphere in minorHazards: damage = random.randint(1, 6)      
-        elif atmosphere in lingeringHazards: damage = 1 
-        Conditions.takeDamage(fighter, dmgType, damage, False)
+        points, dmgType = 0, identifyAtmosphere(atmosphere)
+        scale = getScale(atmosphere)
+        
+        if (fighter.type == "elemental") and (fighterDmgType == dmgType): Conditions.recoverHP(fighter, scale)
+        else:
+            match scale:
+                case 3: points = random.randint(2, 12)
+                case 2: points = random.randint(1, 6)      
+                case 1: points = 1 
+            Conditions.takeDamage(fighter, dmgType, points)
     else:
         match atmosphere:
             case "M": 
@@ -101,21 +116,49 @@ def activateHazards(fighter, battleMap):
                 fighter.atrb["cur_mag"] += 1
                 Conditions.decrementTolerance(fighter, 1)
 
+
 def updateHazards(battleMap):
     for row in range(12):
         for column in range(12):
             atmosphere = battleMap[row][column][0]
-            if atmosphere not in ["/", ")"]:
+            if atmosphere not in ["/", ")", "-", "="]:
                 dmgType, newAtmosphere = identifyAtmosphere(atmosphere), "_"
+                scale = getScale(atmosphere)
 
                 match dmgType:
-                    case "Burn": newAtmosphere = "#"
-                    case "Dream": newAtmosphere = "@"
-                    case "Freeze": newAtmosphere = "%"
-                    case "Holy": newAtmosphere = random.choice("H", "h", "+")
-                    case "Mana": newAtmosphere = "*"
-                    case "Rot": newAtmosphere = "}"
-                    case "Venom": newAtmosphere = "&"
+                    case "Burn":
+                        match scale:
+                            case 3: newAtmosphere = "b"
+                            case 2: newAtmosphere = random.choice("B", "b", "#")
+                            case 1: newAtmosphere = random.choice("#", "_")
+                    case "Dream":
+                        match scale:
+                            case 3: newAtmosphere = "d"
+                            case 2: newAtmosphere = "@"
+                            case 1: newAtmosphere = random.choice(lingeringHazards)
+                    case "Freeze":
+                        match scale:
+                            case 3: newAtmosphere = random.choice("F", "f")
+                            case 2: newAtmosphere = "%"
+                            case 1: newAtmosphere = random.choice("%", "_")
+                    case "Holy": 
+                        match scale:
+                            case 3: newAtmosphere = "h"
+                            case 2: newAtmosphere = "+"
+                            case 1: newAtmosphere = random.choice("H", "_")
+                    case "Mana":
+                        match scale:
+                            case 3: newAtmosphere = "m"
+                            case 2: newAtmosphere = "*"
+                            case 1: newAtmosphere = "_"
+                    case "Rot": 
+                        match scale:
+                            case 3: newAtmosphere = "r"
+                            case 2: newAtmosphere = "}"
+                    case "Venom": 
+                        match scale:
+                            case 3: newAtmosphere = "v"
+                            case 2 | 1: newAtmosphere = random.choice("&", "_")
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]

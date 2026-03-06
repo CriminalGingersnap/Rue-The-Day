@@ -6,16 +6,22 @@ pierceAttacks = ["Bodkin", "Bite", "Bristle", "Broadhead", "Claw", "Gore", "Stab
 crushAttacks = ["Bash", "Ram", "Sling", "Kick"]
 venomAttacks = ["Spray", "Sting"]
 
+
+def convertElmToDmg(elm) -> str:
+    match elm:
+        case "Blessed": return "Holy"
+        case "Corpse": return "Rot"
+        case "Fey": return "Dream"
+        case "Flame": return "Burn"
+        case "Ice": return "Freeze"
+        case "Toxin": return "Venom"
+        case _: return "None"
+
+
 def identifyDamageType(fighter, ability) -> str:
     damageTypes = {"base": "", "bonus": "None"}
 
-    match fighter.atrb["cur_elm"]:
-        case "Blessed": damageTypes["bonus"] = "Holy"
-        case "Corpse": damageTypes["bonus"] = "Rot"
-        case "Fey": damageTypes["bonus"] = "Dream"
-        case "Flame": damageTypes["bonus"] = "Burn"
-        case "Ice": damageTypes["bonus"] = "Freeze"
-        case "Toxin": damageTypes["bonus"] = "Venom"
+    damageTypes["bonus"] = convertElmToDmg(fighter.atrb["cur_elm"])
     
     if ability in pierceAttacks:
         if damageTypes["bonus"] == "None": damageTypes["bonus"] = "Bleed"
@@ -27,6 +33,7 @@ def identifyDamageType(fighter, ability) -> str:
     if damageTypes["base"] == damageTypes["bonus"]: damageTypes["bonus"] = "None"
 
     return damageTypes
+
 
 def applyResistance(damage, dmgType, target) -> int:
     tRes = target.atrb["cur_res"][dmgType]

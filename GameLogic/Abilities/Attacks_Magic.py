@@ -10,6 +10,6 @@ def attack(fighter, target, attack, dice) -> None:
     appliedDmg = max(0, baseDmg - absorption)
 
     Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
-    Conditions.takeDamage(target, dmgType, appliedDmg, False)
+    Conditions.takeDamage(target, dmgType, appliedDmg)
 
     if absorption > baseDmg: Reactions.applyRiposte(target, fighter, "Wreath")

@@ -1,3 +1,4 @@
+from Abilities import DamageTypes as Damage
 import random
 
 # talismans absorb a set amount of elemental damage before being destroyed.
@@ -59,15 +60,7 @@ def setWeapon(job, element) -> list:
         if isTwoHanded: weaponElements += [random.choice(elementList)]
 
         for elm in weaponElements:
-            dmgType = ""
-            match elm:
-                case "Ice": dmgType = "Freeze" 
-                case "Flame": dmgType = "Burn"
-                case "Fey": dmgType = "Dream"
-                case "Corpse": dmgType = "Rot"
-                case "Blessed": dmgType = "Holy"
-                case "Toxin": dmgType = "Venom"
-
+            dmgType = Damage.convertElmToDmg(elm)
             weapon["dmgTypes"] += [dmgType]
 
         if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"

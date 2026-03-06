@@ -22,8 +22,8 @@ def getBaseAv(attack, dmgType, target) -> int:
 
 def attack(fighter, target, attack, dice) -> None:
     bonusSource, avIncrease = fighter, 0
-    dmgType = Damage.identifyDamageType(fighter, attack)
-    av = getBaseAv(attack, dmgType, target)
+    dmgTypes = Damage.identifyDamageType(fighter, attack)
+    av = getBaseAv(attack, dmgTypes[0], target)
 
     attemptIncrease = Boons.applyFocus(fighter)
     attemptReduction = Hinder.applyMisdirect(fighter)
@@ -35,33 +35,34 @@ def attack(fighter, target, attack, dice) -> None:
     attempt += (attemptIncrease - attemptReduction)
     av += (avIncrease - avReduction)
 
-    cleanHit = attempt >= av
-    contact(fighter, target, dmgType, bonusSource, dice, cleanHit)
+    if attempt >= av // 2:
+        baseDmg = dice
+        if attempt >= av:
+            baseDmg *= 3
+            Select.waitPrint("Attack hits cleanly!")
+        else:
+            dmgTypes["bonus"] = "None"
+            Select.waitPrint("Attack barely connects!")
+        contact(fighter, target, dmgTypes, bonusSource, baseDmg)
+    else: Select.waitPrint("Attack misses!")    
 
     if avIncrease > 0: Reactions.applyRiposte(target, fighter, "Guard")
     if attemptReduction > 0: Reactions.applyRiposte(target, fighter, "Misdirect")
 
 
-def contact(fighter, target, dmgType, bonusSource, dice, cleanHit):
-    massive = fighter.cndt["massive"]
-    baseDmgType, bonusDmgType = dmgType["base"], dmgType["bonus"]
-    baseDmg = dice
+def contact(fighter, target, dmgTypes, bonusSource, baseDmg):
+    baseDmgType, bonusDmgType = dmgTypes["base"], dmgTypes["bonus"]    
 
-    if cleanHit:
-        Select.waitPrint("Attack hits cleanly!")
-        baseDmg *= 3
-    else: Select.waitPrint("Flawed attack barely connects!")
-
-    physicalAbsorption = Boons.applyWreath(target, dmgType)
+    physicalAbsorption = Boons.applyWreath(target, baseDmgType)
     appliedDmg = max(0, baseDmg - physicalAbsorption) 
 
     Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + baseDmgType + " damage!")
-    Conditions.takeDamage(target, baseDmgType, appliedDmg, massive)
+    Conditions.takeDamage(target, baseDmgType, appliedDmg)
     
-    if (bonusDmgType != "None") and cleanHit:
+    if (bonusDmgType != "None"):
         Select.waitPrint("Attack deals bonus " + bonusDmgType + " damage!")
         bonusDmg = Roll.roll(bonusSource, 1, bonusDmgType, "magic")
         bonusDmg -= Boons.applyWreath(target, bonusDmgType)
 
         if bonusDmg > 0: Select.waitPrint(fighter.name + " inflicts " + str(bonusDmg) + " " + bonusDmgType + " damage!")
-        Conditions.takeDamage(target, bonusDmgType, bonusDmg, False)
+        Conditions.takeDamage(target, bonusDmgType, bonusDmg)

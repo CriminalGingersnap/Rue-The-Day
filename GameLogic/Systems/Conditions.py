@@ -22,7 +22,7 @@ def decrementTolerance(fighter, potency) -> None:
     
     if fighter.atrb["corruption"] > 0:
         Select.waitPrint(fighter.name + " takes " + str(potency) + " Bleed damage!")
-        takeDamage(fighter, "Bleed", potency, False)
+        takeDamage(fighter, "Bleed", potency)
 
 def getTolerance(fighter) -> int:
     value = fighter.atrb["endurance"]
@@ -30,7 +30,12 @@ def getTolerance(fighter) -> int:
     return value
 
 
-def takeDamage(target, dmgType, damage, massive) -> None:
+def recoverHP(principal, points):
+    if points > 0:
+        principal.atrb["cur_hp"] = min(principal.atrb["base_hp"], principal.atrb["cur_hp"] + points)
+        Select.waitPrint(principal.name + " receives " + str(points) + " of healing.\n")
+
+def takeDamage(target, dmgType, damage) -> None:
     damage = Damage.applyResistance(damage, dmgType, target)
 
     if dmgType != "Dream":

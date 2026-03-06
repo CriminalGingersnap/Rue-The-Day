@@ -7,13 +7,13 @@ def firstPlacement(instanceMap, fighter, mapHeight) -> None:
 
     if fighter.rank != "player":
         for row in range(mapHeight):
-            if instanceMap[row][11] not in iMap.wall + iMap.pit: rightEdgeEmpty += [row]
+            if instanceMap[row][11] not in iMap.impermissible: rightEdgeEmpty += [row]
 
     available = False
     while not available:
         column, row = 0, random.randint(0, mapHeight - 1)
         if fighter.rank == "player": column = random.randint(0, 1)
-        else: column = random.randint(4, 10)
+        else: column = random.randint(5, 10)
 
         available = visitSpace(instanceMap, row, column, fighter, mapHeight, rightEdgeEmpty)
 
@@ -23,7 +23,7 @@ def firstPlacement(instanceMap, fighter, mapHeight) -> None:
 def visitSpace(instanceMap, row, column, fighter, mapHeight, endTargets) -> bool:
     marker = uMap.setMarker(fighter, instanceMap[row][column])
 
-    if instanceMap[row][column] in [iMap.emptySpace, iMap.smokeSpace, iMap.fogSpace, iMap.mistSpace]:
+    if "_" in instanceMap[row][column]:
         instanceMap[row][column] = marker
 
         if fighter.rank == "player":
@@ -74,7 +74,7 @@ def placeFog(instanceMap, type, mapHeight) -> bool:
 def placeTrap(instanceMap, mapHeight):
     row, column = random.randint(0, mapHeight), random.randint(0, 11)
 
-    if not any(char in instanceMap[row][column] for char in ["/", ".", "!", ")"]):
+    if not any(char in instanceMap[row][column] for char in ["/", ".", "!", ")", "~"]):
         atmosphere = instanceMap[row][column][0]
         instanceMap[row][column] = atmosphere + "___]"
         return True
@@ -91,7 +91,7 @@ def walk(instanceMap, startingRow, rowLimit, staringColumn, columnLimit) -> bool
 
         gotOne = False
         for row in range(topLimit, bottomLimit):
-            while (nextColumn < columnLimit) and (instanceMap[row][nextColumn] not in iMap.wall + iMap.pit):
+            while (nextColumn < columnLimit) and (instanceMap[row][nextColumn] not in iMap.impermissible):
                 previousFreeRow = row
                 nextColumn += 1
                 gotOne = True
@@ -99,10 +99,10 @@ def walk(instanceMap, startingRow, rowLimit, staringColumn, columnLimit) -> bool
 
         if not gotOne:
             visited += [previousFreeRow]
-            if (topLimit > 0) and (topLimit not in visited) and (instanceMap[topLimit][nextColumn - 1] not in iMap.wall + iMap.pit):
+            if (topLimit > 0) and (topLimit not in visited) and (instanceMap[topLimit][nextColumn - 1] not in iMap.impermissible):
                 previousFreeRow -= 1
                 gotOne = True
-            elif (bottomLimit < rowLimit) and (bottomLimit not in visited) and (instanceMap[bottomLimit][nextColumn - 1] not in iMap.wall + iMap.pit):
+            elif (bottomLimit < rowLimit) and (bottomLimit not in visited) and (instanceMap[bottomLimit][nextColumn - 1] not in iMap.impermissible):
                 previousFreeRow += 1
                 gotOne = True
 

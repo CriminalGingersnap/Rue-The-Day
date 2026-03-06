@@ -21,7 +21,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             if movementMap[row][column][-1] == "]": movementMap[row][column] = movementMap[row][column][:-1] + "|"
             if movementMap[row][column][0] in hazards:
                 if fighter.cndt["sapient"] and (movementMap[fighterRow][fighterColumn][0] not in hazards):
-                    movementMap[row][column] =  iMap.wall
+                    if fighter.rank != "player": movementMap[row][column] = iMap.pit
                 else: movementMap[row][column] = "_" + movementMap[row][column][1:]
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
@@ -35,7 +35,9 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     if "___" in instanceMap[row][column]:
                         movementMap[row][column] = "_:" + str(stepCount)
                         freeSpace = True
-                    elif ")()(" in instanceMap[row][column]: movementMap[row][column] = "):" + str(stepCount)
+                    elif ")" in instanceMap[row][column]: movementMap[row][column] = "):" + str(stepCount)
+                    elif "~" in instanceMap[row][column]: movementMap[row][column] = "~:" + str(stepCount)
+                    elif "/" in instanceMap[row][column]: movementMap[row][column] = "/:" + str(stepCount)
                     elif "." in instanceMap[row][column]: movementMap[row][column] = ".:" + str(stepCount)
                     elif "!" in instanceMap[row][column]: movementMap[row][column] = "!:" + str(stepCount)
 
@@ -55,18 +57,19 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     counter = 2
     for column in range(12):
         for row in range(12):
-            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")"]):
+            elevation = instanceMap[row][column][-1]
+
+            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")", "~", "/"]):
                 stepCount = movementMap[row][column].split(':')[1]
                 if counter < 10: movementMap[row][column] = "_" + str(counter) + ":" + str(stepCount)
-                else: movementMap[row][column] = str(counter) + ":" + str(stepCount)
+                else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                 counter += 1
 
-            if "." in movementMap[row][column]: movementMap[row][column] = "_.._"
-            elif "!" in movementMap[row][column]: movementMap[row][column] = "/!!/"
-            elif ")" in movementMap[row][column]: movementMap[row][column] = ")()("
-
-            if any(char in movementMap[row][column] for char in [":", ".", "!", ")"]):
-                movementMap[row][column] += instanceMap[row][column][-1]
+            if "." in movementMap[row][column]: movementMap[row][column] = "_.._" + elevation
+            elif ")" in movementMap[row][column]: movementMap[row][column] = ")()(" + elevation
+            elif "~" in movementMap[row][column]: movementMap[row][column] = "_~~~" + elevation
+            elif "/" in movementMap[row][column]: movementMap[row][column] = "////" + elevation
+            elif "!" in movementMap[row][column]: movementMap[row][column] = "/!!/" + elevation
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + instanceMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + instanceMap[fighterRow][fighterColumn][-1]
@@ -77,20 +80,19 @@ def setMoveOptions(fighter, target, battleMap) -> list:
 def stepCost(instanceMap, lastRow, lastColumn, nextRow, nextColumn) -> int:
     cost = 1
 
-    if ")" in instanceMap[nextRow][nextColumn]: cost = 4
-    else:
-        lastZ = heightDict[instanceMap[lastRow][lastColumn][-1]]
-        nextZ = heightDict[instanceMap[nextRow][nextColumn][-1]]
-        if lastZ < nextZ: cost = (nextZ - lastZ) + 1
-        elif lastZ > nextZ: cost = (lastZ - nextZ)
+    lastZ = heightDict[instanceMap[lastRow][lastColumn][-1]]
+    nextZ = heightDict[instanceMap[nextRow][nextColumn][-1]]
+    if lastZ < nextZ: cost = (nextZ - lastZ) + 1
+    elif lastZ > nextZ: cost = (lastZ - nextZ)
 
-    if any(hazard in instanceMap[lastRow][lastColumn] for hazard in uMap.hazards): cost += 10
+    if "~" in instanceMap[nextRow][nextColumn]: cost += 1
+    elif ")" in instanceMap[nextRow][nextColumn]: cost += 3
+    elif "/" in instanceMap[nextRow][nextColumn]: cost += 5
 
     return cost
     
 
 def traverse(movementMap, instanceMap, fighterRow, fighterColumn, squareRow, squareColumn) -> int:
-    startHeight = heightDict[instanceMap[fighterRow][fighterColumn][-1]]
     singleStepCost = stepCost(instanceMap, fighterRow, fighterColumn, squareRow, squareColumn)
 
     if (fighterRow == squareRow) and (abs(fighterColumn - squareColumn) == 1): return singleStepCost
@@ -98,16 +100,15 @@ def traverse(movementMap, instanceMap, fighterRow, fighterColumn, squareRow, squ
     elif (abs(fighterRow-squareRow) == 1) and (abs(fighterColumn - squareColumn) == 1): return singleStepCost
     else:
         lowest = 50
-        for row in range(max(squareRow - 1, 0), min(squareRow + 2, 12)):
-            for column in range(max(squareColumn - 1, 0), min(squareColumn + 2, 12)):
-                contents = movementMap[row][column]
+        for adjacentRow in range(max(squareRow - 1, 0), min(squareRow + 2, 12)):
+            for adjacentColumn in range(max(squareColumn - 1, 0), min(squareColumn + 2, 12)):
+                contents = movementMap[adjacentRow][adjacentColumn]
 
                 if ":" in contents:
                     stepCount = contents.split(':')[1]
-                    stepCount = stepCount[0]
 
                     if (int(stepCount) < lowest):
-                        nextStepCost = stepCost(instanceMap, row, column, squareRow, squareColumn)
+                        nextStepCost = stepCost(instanceMap, adjacentRow, adjacentColumn, squareRow, squareColumn)
                         lowest = int(stepCount) + nextStepCost
 
         return lowest

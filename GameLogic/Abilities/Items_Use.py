@@ -43,7 +43,8 @@ def evolve(fighter, item) -> None:
         Select.waitPrint(buff)
     Select.waitPrint("And the 'Inviolable' condition!")
 
-def imbue(fighter, category, item):
+
+def imbue(fighter, category, item) -> None:
     phrase = fighter.name + " consumes an " + item + " "
     potency, dmgCat1, dmgCat2, dmgCat3 = 0, "", "", ""
 
@@ -58,14 +59,7 @@ def imbue(fighter, category, item):
     if fighter.itemEffects["Imbue"]["additional"] == item:
         potency = min(fighter.itemEffects["Imbue"]["potency"] + potency, 3)
 
-    if potency >= 2:
-        match item:
-            case "Corpseblood": fighter.atrb["cur_elm"] = "Corpse"
-            case "Flameblood": fighter.atrb["cur_elm"] = "Flame"
-            case "Feyblood": fighter.atrb["cur_elm"] = "Fey"
-            case "Iceblood": fighter.atrb["cur_elm"] = "Ice"
-            case "Blessedblood": fighter.atrb["cur_elm"] = "Blessed"
-            case "Toxinblood": fighter.atrb["cur_elm"] = "Toxin"
+    if potency >= 2: fighter.atrb["cur_elm"] = item.split('blood')[0]
 
     match item:
         case "Corpseblood": dmgCat1, dmgCat2, dmgCat3 = ["Rot"], ["Venom"], ["Holy"]
@@ -86,9 +80,8 @@ def imbue(fighter, category, item):
     Select.waitPrint(phrase + "!")
 
 
-def invigorate(fighter, category):
-    phrase = fighter.name + " consumes a vigor " + category
-    healing, potency = 0, 0
+def invigorate(fighter, category) -> None:
+    phrase, potency = fighter.name + " consumes a vigor " + category, 0
 
     match category:
         case "Tinctures":
@@ -99,31 +92,21 @@ def invigorate(fighter, category):
             healing = fighter.atrb["half_hp"]
             potency = 2
 
-
     if not fighter.cndt["lifeless"]:
         fighter.itemEffects["Invigorate"]["duration"] = 3
         fighter.itemEffects["Invigorate"]["potency"] = min(fighter.itemEffects["Invigorate"]["potency"] + potency, 4)
     
     Select.waitPrint(phrase + "!")
 
-def regenerate(fighter):
-    healing, phrase = 0, fighter.name + " regenerates "
-    potency = fighter.itemEffects["Invigorate"]["potency"]
+def regenerate(fighter) -> None:
+    healing, potency = 0, fighter.itemEffects["Invigorate"]["potency"]
 
-    if potency > 0:
+    if healing > 0:
         match potency:
-            case 1:
-                healing = fighter.atrb["quart_hp"]
-                phrase += "a quarter of their health"
-            case 2:
-                healing = fighter.atrb["half_hp"]
-                phrase += "half of their health"
-            case 3:
-                healing = fighter.atrb["half_hp"] + fighter.atrb["quart_hp"]
-                phrase += "three quarters of their health"
-            case 4:
-                healing = fighter.atrb["base_hp"]
-                phrase += "their full health"
+            case 1: healing = fighter.atrb["quart_hp"]
+            case 2: healing = fighter.atrb["half_hp"]
+            case 3: healing = fighter.atrb["half_hp"] + fighter.atrb["quart_hp"]
+            case 4: healing = fighter.atrb["base_hp"]
 
-        fighter.atrb["cur_hp"] = min(fighter.atrb["base_hp"], fighter.atrb["cur_hp"] + healing)
-        Select.waitPrint(phrase + " from the effects of a vigor consumable!")
+        Select.waitPrint("Vigor consumable activates!")
+        Conditions.recoverHP(fighter, healing)

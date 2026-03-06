@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select, Roll
+from Systems import PlayerSelect as Select, Roll, Conditions
 from . import Boons_Set, Hindrances_Set
 import random
 
@@ -49,11 +49,9 @@ def applyGuard(principal):
     return bonus
 
 
-def applyRegenerate(fighter, principal, ability) -> str:
-    bonus = apply(principal, "Heal")
-    if bonus > 0:
-        principal.atrb["cur_hp"] = min(principal.atrb["base_hp"], principal.atrb["cur_hp"] + bonus)
-        Select.waitPrint(principal.name + " recovers up to " + str(bonus) + " hp.\n")
+def applyHeal(principal, ability) -> str:
+    bonus = apply(principal, ability)
+    Conditions.recoverHP(principal, bonus)
 
 
 def applyShroud(fighter) -> bool:

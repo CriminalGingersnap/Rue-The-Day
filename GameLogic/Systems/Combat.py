@@ -69,7 +69,7 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
                 Select.slowPrint("\nBattle Over.")
                 input("Press Enter to resolve.")
                 return [True, offenseGroup]
-            else: Phases.resetFighter(fighter, battleMap)
+            else: Phases.resetFighter(fighter)
                     
     if len(validFighters) > 0:
         friends, foes = offenseGroup, validTargets

@@ -153,13 +153,13 @@ def adjustEnvironment(battleMap, environment):
         case "King":
             for row in range(12):
                 for column in range(12):
-                    spreadPits(battleMap, row, column, 2)
+                    spreadPools(battleMap, row, column, 2)
 
         case "Queen":
             for row in range(12):
                 for column in range(12):
                     if "/" not in battleMap[row][column]:
-                        spreadPits(battleMap, row, column, 1)
+                        spreadPools(battleMap, row, column, 1)
                         if down in battleMap[row][column]:
                             battleMap[row][column] = "=" + battleMap[row][column][1:]
                         if middle in battleMap[row][column]:
@@ -179,7 +179,7 @@ def adjustEnvironment(battleMap, environment):
                             battleMap[row][column] = "_" + battleMap[row][column][1:]
 
 
-def spreadPits(battleMap, row, column, severity):
+def spreadPools(battleMap, row, column, severity):
     elevation = doubleDown
     if severity == 2: elevation = down
 
@@ -187,7 +187,7 @@ def spreadPits(battleMap, row, column, severity):
         if "." in battleMap[row][column]:
             battleMap[row][column] = battleMap[row][column][:-1] + middle
         elif doubleDown in battleMap[row][column]: 
-            battleMap[row][column] = iMap.pit[:-1] + elevation
+            battleMap[row][column] = iMap.pool[:-1] + elevation
 
         elif ("/" not in battleMap[row][column]) and (severity == 2) and (down in battleMap[row][column]):
-            battleMap[row][column] = iMap.pit[:-1] + elevation
+            battleMap[row][column] = iMap.pool[:-1] + elevation

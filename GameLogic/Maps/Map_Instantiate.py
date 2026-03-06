@@ -2,7 +2,10 @@ from . import Map_Populate as pMap, Elevation
 from Systems import PlayerSelect as Select
 import random
 
-wall, pit, emptySpace, manaWell = "////|", ")()(|", "____|", "*___|"
+wall, pool, pit =  "////|", "_~~~|", ")()(|"
+impermissible = [wall, pit]
+
+emptySpace, manaWell = "____|", "*___|"
 fogSpace, mistSpace = "=___|", "-___|"
 smokeSpace, rimeSpace, toxicSpace = "#___|", "%___|", "&___|"
 dazzleSpace, deathSpace, sacredSpace = "+___|", "}___|", "@___|"
@@ -58,6 +61,10 @@ def placeOcclusions(tileMods, instanceMap, thirdHeight):
     for i in range(obstacles["wall"] * thirdHeight):
         available = False
         while not available: available = pMap.placeObstruction(instanceMap, wall, topIndex)
+
+    for i in range(obstacles["pool"] * thirdHeight):
+        available = False
+        while not available: available = pMap.placeObstruction(instanceMap, pool, topIndex)
 
     for i in range(obstacles["pit"] * thirdHeight):
         available = False
