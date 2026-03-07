@@ -23,7 +23,7 @@ def firstPlacement(instanceMap, fighter, mapHeight) -> None:
 def visitSpace(instanceMap, row, column, fighter, mapHeight, endTargets) -> bool:
     marker = uMap.setMarker(fighter, instanceMap[row][column])
 
-    if "_" in instanceMap[row][column]:
+    if "___" in instanceMap[row][column]:
         instanceMap[row][column] = marker
 
         if fighter.rank == "player":
