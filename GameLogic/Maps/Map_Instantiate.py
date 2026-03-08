@@ -62,10 +62,6 @@ def placeOcclusions(tileMods, instanceMap, thirdHeight):
         available = False
         while not available: available = pMap.placeObstruction(instanceMap, wall, topIndex)
 
-    for i in range(obstacles["pool"] * thirdHeight):
-        available = False
-        while not available: available = pMap.placeObstruction(instanceMap, pool, topIndex)
-
     for i in range(obstacles["pit"] * thirdHeight):
         available = False
         while not available: available = pMap.placeObstruction(instanceMap, pit, topIndex)

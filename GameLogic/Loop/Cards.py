@@ -20,13 +20,11 @@ def setFronts(type) -> list:
             case "Aces":
                 deck += [setBody("A", suit)]
             case "Numbers":
-                deck += setBody("0", suit)
                 for number in range(2, 10):
                     deck += [setBody(str(number), suit)]
-
-                random.shuffle(deck)
                 deck = deck[:12]
 
+    random.shuffle(deck)
     return deck
 
 def setBacks(length) -> list:
@@ -38,7 +36,7 @@ def setBacks(length) -> list:
 
 def showEnvironment(environment):
     Select.waitPrint("\nCurrent Environment:")
-    Select.waitPrint("| Density |   | Weather |   | Mana    |   | Threat  |")
+    Select.waitPrint("| Biome   |   | Weather |   | Mana    |   | Threat  |")
 
     clubFace = setBody(environment["Clubs"][0], club)
     heartFace = setBody(environment["Hearts"][0], heart)
@@ -67,19 +65,37 @@ def printDeck(deck):
         row += 1
 
 
-def pickCard(hand) -> list:
-    Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
-
-    backs = setBacks(len(hand))
-    printDeck(backs)
-    answer = int(Select.takeInput(1, len(hand))) - 1
-    backs[answer] = hand[answer]
+def pickCard(hand, picks) -> list:
+    drawn, backs = [], setBacks(len(hand))
     printDeck(backs)
 
-    return answer
+    for pick in range(picks):
+        Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
+        
+        while True:
+            answer = int(Select.takeInput(1, len(hand))) - 1
+            if answer not in drawn:
+                backs[answer] = hand[answer]
+                drawn += [answer]
+                printDeck(backs)
+                break
+            else: Select.waitPrint("Please select a new card.")
+
+    return drawn
+
 
 def findSuit(line) -> str:
     if club in line: return "Clubs"
     elif diamond in line: return "Diamonds"
     elif heart in line: return "Hearts"
     elif spade in line: return "Spades"
+
+def findValue(line) -> str:
+    if "2" in line: return "2"
+    elif "3" in line: return "3"
+    elif "4" in line: return "4"
+    elif "5" in line: return "5"
+    elif "6" in line: return "6"
+    elif "7" in line: return "7"
+    elif "8" in line: return "8"
+    elif "9" in line: return "9"

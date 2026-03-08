@@ -1,73 +1,97 @@
 from Systems import PlayerSelect as Select
 from . import Cards
+import random
+
+slopes = ["right", "left", "lr", "up", "down", "ud", "craters", "hills", "canyons"]
 
 
-def modifyEnvironment(environment, biome):
-    Cards.showEnvironment(environment)    
-  
+def randomEnvironment(environment):
+    Cards.showEnvironment(environment) 
+    Select.waitPrint("\nDraw an ace to progress one environmental factor.")
     aces = Cards.setFronts("Aces")
-    choice = Cards.pickCard(aces)
-    suit = Cards.findSuit(aces[choice][1])
+    aceChoice = Cards.pickCard(aces, 1)[0]
+    aceSuit = Cards.findSuit(aces[aceChoice][1])
 
-    match suit:
+    introduceEnvironment(environment, aceSuit)
+    atmosphere = setEnvironment(environment, aceSuit)
+
+    Select.waitPrint("\nDraw three numbered cards to determine obstructions, encounter, and slope.")
+    numbers = Cards.setFronts("Numbers")
+    numberChoices = Cards.pickCard(numbers, 3)
+    wallNum, encounterNum, slopeNum = numberChoices[0], numberChoices[1], numberChoices[2]
+    wallValue = Cards.findValue(numbers[wallNum][3])
+    encounterValue = Cards.findValue(numbers[encounterNum][3])
+    slopeValue = Cards.findValue(numbers[slopeNum][3])
+
+    obstructions = {"wall": 0, "trap": 0, "pit": 0}
+    slope = slopes[int(slopeValue) - 1]
+    slope = "craters"
+
+    return [obstructions, atmosphere, slope, encounterValue]
+
+
+def introduceEnvironment(environment, aceSuit):
+    Select.slowPrint(aceSuit + ": ")
+    match aceSuit:
+        case "Clubs": Select.conversationPrint("A new biome gains ascendancy.")
+        case "Hearts": Select.conversationPrint("The weather changes.")
+        case "Diamonds": Select.conversationPrint("The flow of magic shifts.")
+        case "Spades": Select.conversationPrint("An omen reveals changing fortunes.")
+
+    Select.waitPrint("Previous face: " + environment[aceSuit])
+    match environment[aceSuit]:
+        case "King": environment[aceSuit] = "Queen"
+        case "Queen": environment[aceSuit] = "Jack"
+        case "Jack": environment[aceSuit] = "King"
+    Select.waitPrint("New face: " + environment[aceSuit] + "\n")
+
+def setEnvironment(environment, aceSuit) -> dict:
+    atmosphere = {"Blessed": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxic": 0}
+    type, extent = "None", 0
+
+    match aceSuit:
         case "Clubs":
-            Select.slowPrint("A new biome gains ascendancy.")
             match environment["Clubs"]:
-                case "King": Select.slowPrint("The volcano belches smoke. Warm winds carry its embers.")
-                case "Queen": Select.slowPrint("The glacier grinds forward. Bitter cold creeps across the valley.")
-                case "Jack": Select.slowPrint("Fog rolls across the fjord. Fey things move silently at the edge of sight.")
-
+                case "King":
+                    Select.conversationPrint("Fog rolls across the fjord.")
+                    Select.conversationPrint("Fey things move silently at the edge of sight.")
+                    type = "Dazzle"
+                case "Queen":
+                    Select.conversationPrint("The glacier grinds forward.")
+                    Select.conversationPrint("Bitter cold creeps across the valley.")
+                    type = "Rime"
+                case "Jack":
+                    Select.conversationPrint("The volcano belches smoke.")
+                    Select.conversationPrint("Warm winds carry its embers.")
+                    type = "Smoke"
+        
         case "Diamonds":
-            Select.slowPrint("The flow of magic shifts.")
             match environment["Diamonds"]:
-                case "King": Select.slowPrint("Mana dissipates.")
-                case "Queen": Select.slowPrint("Mana collapses.")
-                case "Jack": Select.slowPrint("Mana surges.")
-
+                case "King":
+                    Select.conversationPrint("Mana surges.")
+                    Select.conversationPrint("Step carefully.")
+                    extent = 3
+                case "Queen":
+                    Select.conversationPrint("Mana dissipates.")
+                    Select.conversationPrint("Make use of what remains.")
+                    extent = 2
+                case "Jack":
+                    Select.conversationPrint("Mana collapses, relative to its norm.")
+                    Select.conversationPrint("Still, this land offers more than most.")
+                    extent = 1
+        
         case "Hearts":
-            Select.slowPrint("The weather changes.")
             match environment["Hearts"]:
-                case "King": Select.waitPrint("The rain abates. Water recedes while fog accumulates.")
-                case "Queen": Select.waitPrint("The soil dries beneath warm sunlight. Clouds gather on the horizon.")
-                case "Jack": Select.slowPrint("Rain falls thick from heavy clouds. Water collects in deep pools.")
-
+                case "King": Select.conversationPrint("Rain falls thick from heavy clouds. Water collects in deep pools.")
+                case "Queen": Select.conversationPrint("The rain abates. Water recedes while fog accumulates.")
+                case "Jack": Select.conversationPrint("The soil dries beneath warm sunlight. Clouds gather on the horizon.")
+        
         case "Spades":
-            Select.slowPrint("An omen reveals changing fortunes.")
-            match environment[suit]:
-                case "King": Select.slowPrint("The wilds seek blood. Hunger and ambition will find their reward.")
-                case "Queen": Select.slowPrint("Old powers recede, making space for younger threats. Meet them.")   
-                case "Jack": Select.slowPrint("Forces unfriendly to human life stir from their slumber. Be cautious.")
+            match environment["Spades"]:
+                case "King": Select.conversationPrint("Forces unfriendly to human life stir from their slumber.")
+                case "Queen": Select.conversationPrint("The wilds seek blood. Hunger and ambition will find rewards.")
+                case "Jack": Select.conversationPrint("Old powers recede, making space for younger threats.")   
 
-    match environment[suit]:
-        case "King": environment[suit] = "Queen"
-        case "Queen": environment[suit] = "Jack"
-        case "Jack": environment[suit] = "King"
-
-
-    # King:
-    #   Forces players to retreat from volcano.
-    #   Stamina costs doubled for all actions.
-    # Queen:
-    #   Causes quakes in ice biome. Forces players to retreat.
-    #   Players incur a stamina penalty for having extra dice or movement at the end of their turn.
-    # Jack:
-    #  Fog from the Feywood rolls across the fjord and settles in the deep wild.
-    #  Players suffer invigoration penalty per mana level.
-
-    # King:
-    #   (element based on club card) Elementals can spawn in secondary biomes. Wisps and secondary beasts can spawn in the deep wild.
-    #   2-5 mana wells per map. Alchemy mini game biased towards high cards.
-    # Queen:
-    #    Beasts from secondary biomes can spawn in the deep wild.
-    #    1-3 wells per map. Tracking mini game biased towards high cards.
-    # Jack:
-    #    0-1 wells per map. Alchemy biased toward low cards.
-    #    Deep biomes ignore Jacks. Shallow biomes ignore Kings.
-
-    # King: All rest sites have water. Beast activity declines.
-    # Queen: Most rest sites have water. Increase beast activity.
-    # Jack: Beast concentration at rest sites with water increases. Beast concentration elsewhere declines.
-
-    # King: Boss encounters possible. Regular encounters harder.
-    # Queen: agents of the king / elementals depending on biome
-    # Jack: aggressive beasts / small human scouting parties or bandits/trappers/bounty hunters
+    atmosphere[type] = extent
+    atmosphere["Mana"] = extent
+    return atmosphere

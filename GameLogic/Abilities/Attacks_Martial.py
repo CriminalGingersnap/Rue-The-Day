@@ -23,7 +23,7 @@ def getBaseAv(attack, dmgType, target) -> int:
 def attack(fighter, target, attack, dice) -> None:
     bonusSource, avIncrease = fighter, 0
     dmgTypes = Damage.identifyDamageType(fighter, attack)
-    av = getBaseAv(attack, dmgTypes[0], target)
+    av = getBaseAv(attack, dmgTypes["base"], target)
 
     attemptIncrease = Boons.applyFocus(fighter)
     attemptReduction = Hinder.applyMisdirect(fighter)

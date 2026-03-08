@@ -56,16 +56,15 @@ def npcSelectItem(fighter, groups):
         blockList -= weaponDmgTypes
         allowList -= blockList
     
-    if all("Burn" in enemyDmgTypes) and ("Burn" in allowList) and ("Freeze" not in enemyDmgTypes):
+    if ("Burn" in enemyDmgTypes) and ("Burn" in allowList) and ("Freeze" not in enemyDmgTypes):
         itemPreferences += ["Flameblood"]
-    if all("Freeze"  in enemyDmgTypes) and ("Freeze" in allowList) and ("Burn" not in enemyDmgTypes):
+    if ("Freeze" in enemyDmgTypes) and ("Freeze" in allowList) and ("Burn" not in enemyDmgTypes):
         itemPreferences += ["Iceblood"]
     if any(dType in enemyDmgTypes for dType in ["Crush", "Dream", "Pierce"]):
         if ("Dream" in allowList) and ("Rot" not in enemyDmgTypes): itemPreferences += ["Feyblood"]
     if any(dType in enemyDmgTypes for dType in ["Rot", "Venom"]):
         if ("Rot" in allowList) and ("Holy" not in enemyDmgTypes): itemPreferences += ["Corpseblood"]
         if "Venom" in allowList: itemPreferences += ["Toxinblood"]
-
 
     categoryChoice, itemChoice = "", "None"
     categoryOptions, itemOptions = [], {

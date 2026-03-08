@@ -8,26 +8,17 @@ import random
 
 def encounterLoop(playerGroup, enemyGroup):
     play = True
-
     faceCards = {"Clubs": random.choice(["Jack", "Queen", "King"]),
                   "Hearts": random.choice(["Jack", "Queen", "King"]),
                    "Diamonds": random.choice(["Jack", "Queen", "King"]),
                     "Spades": random.choice(["Jack", "Queen", "King"])}
 
     while play:
-        wall = random.randint(1, 8)
-        slope = random.choice(["right", "left", "lr", "up", "down", "ud"])
-
-        Environment.modifyEnvironment(faceCards, "None")
-
-        Select.waitPrint("Slope: " + slope + ", Walls: " + str(wall))
-        Select.waitPrint("Environment", faceCards)
-
-        obstructions = {"wall": wall, "trap": 0, "pool": 0, "pit": 0}
-        atmosphere = {"Fog": 0, "Mana": 0, "Mist": 0, "Rime": 0, "Smoke": 0}
+        results = Environment.randomEnvironment(faceCards)
+        obstructions, atmosphere, slope = results[0], results[1], results[2]
 
         # battleMap = dMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")
-        battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards, slope)
+        battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards, "craters")
 
         survivors = Combat.engage(enemyGroup, playerGroup, battleMap)
         handleAftermath(survivors[0], survivors[1])

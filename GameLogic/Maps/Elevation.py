@@ -1,4 +1,5 @@
 from . import Map_Instantiate as iMap
+from Abilities import Area_Apply as Area
 import random
 
 up, down = "\u2191", "\u2193"
@@ -29,12 +30,45 @@ def setElevation(battleMap, environment, slope):
         case "up": slopeDownUp(battleMap, "up")
         case "down": slopeDownUp(battleMap, "down")
         case "ud": slopeDownUp(battleMap, "sides")
-        # case "small craters": bumps(battleMap, "down")
-        # case "small hills": bumps(battleMap, "up")
-        # case "tunnels":  tunnels(battleMap) # set all obstruction heights to max
+        case "craters": bumps(battleMap, "down")
+        case "hills": bumps(battleMap, "up")
+        # case "canyons":  tunnels(battleMap) # set all obstruction heights to max
     adjustObstructionHeight(battleMap)
     adjustEnvironment(battleMap, environment)
 
+def bumps(battleMap, lean):
+    bumps, maxSpread, minSpread = random.randint(3, 5), 1, 1
+    maxElevation, minElevation = "", ""
+    match lean:
+        case "up": maxElevation, minElevation = doubleUp, up
+        case "down": maxElevation, minElevation = doubleDown, down
+
+    for bump in range(bumps):
+        row, column = random.randint(0, 11), random.randint(0, 11)
+        battleMap[row][column] = battleMap[row][column][:-1] + maxElevation
+
+        upRow, downRow = row - 1, row + 1
+        leftColumn, rightColumn = column - 1, column + 1
+        maxSpaces, minSpaces = [], []
+
+        for step in range(maxSpread):
+            maxSpaces += Area.addSpaces(row, upRow, downRow, column, leftColumn, rightColumn)
+            upRow -= 1
+            downRow += 1
+            leftColumn -= 1
+            rightColumn += 1
+
+        for step in range(minSpread):
+            minSpaces += Area.addSpaces(row, upRow, downRow, column, leftColumn, rightColumn)
+            minSpaces += [[upRow, min(11, rightColumn+1)], [upRow, max(0, leftColumn-1)], [downRow, min(11, rightColumn+1)], [downRow, max(0, leftColumn-1)]]
+            minSpaces += [[min(11, upRow+1), rightColumn], [max(0, upRow-1), leftColumn], [min(11, downRow+1), rightColumn], [max(0, downRow-1), leftColumn]]
+            upRow -= 1
+            downRow += 1
+            leftColumn -= 1
+            rightColumn += 1
+            
+        for maxSpace in maxSpaces: battleMap[maxSpace[0]][maxSpace[1]] = battleMap[maxSpace[0]][maxSpace[1]][:-1] + maxElevation
+        for minSpace in minSpaces: battleMap[minSpace[0]][minSpace[1]] = battleMap[maxSpace[0]][maxSpace[1]][:-1] + minElevation
 
 def resetLtRtElv(lean):
     if lean == "right":
@@ -55,9 +89,7 @@ def resetLtRtElv(lean):
 def slopeLeftRight(battleMap, lean):
     elv = resetLtRtElv(lean)
     randomLeft, randomMiddle, randomRight = elv[0], elv[1], elv[2]
-
-    firstEndRow = random.randint(3, 6)
-    thirdStartRow = random.randint(6, 9)
+    firstEndRow, thirdStartRow = random.randint(3, 6), random.randint(6, 9)
 
     for row in range(12):
         if row in [firstEndRow, thirdStartRow]:
@@ -105,9 +137,7 @@ def resetUpDnElv(lean):
 def slopeDownUp(battleMap, lean):
     elv = resetUpDnElv(lean)
     randomTop, randomMiddle, randomBottom = elv[0], elv[1], elv[2]
-
-    firstEndCol = random.randint(3, 6)
-    thirdStartCol = random.randint(6, 9)
+    firstEndCol, thirdStartCol = random.randint(3, 6), random.randint(6, 9)
 
     for column in range(12):
         if column in [firstEndCol, thirdStartCol]:
@@ -153,13 +183,13 @@ def adjustEnvironment(battleMap, environment):
         case "King":
             for row in range(12):
                 for column in range(12):
-                    spreadPools(battleMap, row, column, 2)
+                    flood(battleMap, row, column, 2)
 
         case "Queen":
             for row in range(12):
                 for column in range(12):
                     if "/" not in battleMap[row][column]:
-                        spreadPools(battleMap, row, column, 1)
+                        flood(battleMap, row, column, 1)
                         if down in battleMap[row][column]:
                             battleMap[row][column] = "=" + battleMap[row][column][1:]
                         if middle in battleMap[row][column]:
@@ -179,7 +209,7 @@ def adjustEnvironment(battleMap, environment):
                             battleMap[row][column] = "_" + battleMap[row][column][1:]
 
 
-def spreadPools(battleMap, row, column, severity):
+def flood(battleMap, row, column, severity):
     elevation = doubleDown
     if severity == 2: elevation = down
 
