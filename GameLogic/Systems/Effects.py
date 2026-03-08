@@ -1,5 +1,5 @@
 import Systems.PlayerSelect as Select
-import copy
+
 
 def removeEffect(fighter, effect):
     Select.waitPrint(effect + " ends on " + fighter.name + ".")

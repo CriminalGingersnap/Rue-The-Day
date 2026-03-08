@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select
-from Abilities import Reactions, DamageTypes as Damage
+from Abilities import DamageTypes as Damage
 
 
 def decrementStamina(fighter, potency):

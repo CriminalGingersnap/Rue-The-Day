@@ -1,4 +1,4 @@
-from . import PlayerSelect as Select
+from Systems import PlayerSelect as Select
 
 
 def craftLoop(fighter):

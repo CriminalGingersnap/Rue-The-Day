@@ -119,8 +119,8 @@ class mage:
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
-                        secondSpecialty = [random.choice("Bring", "Wreath")]
-                        if rank == "Dream": secondSpecialty = [random.choice("Disorient", "Focus", "Wreath")]
+                        secondSpecialty = [random.choice(["Bring", "Wreath"])]
+                        if rank == "Dream": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)

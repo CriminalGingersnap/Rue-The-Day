@@ -1,34 +1,11 @@
-from . import CombatPhases as Phases, Crafting
+from . import CombatPhases as Phases
 from Actions import Sort
 from Abilities import AttackAbilities as Attacks, Boons_Apply as Boons, Hindrances_Apply as Hinder
-from Systems import Conditions, Commitments, PlayerSelect as Select
+from Systems import Commitments, PlayerSelect as Select
 from Maps import Map_Update as uMap
 
 # Add method to create phases in boss fights. Generate new maps for each phase.
 # Add mist for the giant. Change tunnels for worm.
-
-def challenge(playerGroup, enemyGroup, battleMap) -> None:
-    playerAlacrity, enemyAlacrity = 0,0
-
-    for player in playerGroup["members"]:
-        mar, mag, fat = player.atrb["base_mar"], player.atrb["base_mag"], player.atrb["fatigue"]
-        playerAlacrity += ((mar + mag) - fat)
-    for enemy in enemyGroup["members"]:
-        mar, mag, fat = enemy.atrb["base_mar"], enemy.atrb["base_mag"], enemy.atrb["fatigue"]
-        enemyAlacrity += ((mar + mag) - fat)
-
-    if playerAlacrity >= enemyAlacrity:
-        firstActingGroup = playerGroup
-        secondActingGroup = enemyGroup
-    else:
-        firstActingGroup = enemyGroup
-        secondActingGroup = playerGroup
-    
-    Select.waitPrint("Contact!")
-    Select.waitPrint("The " + firstActingGroup["name"] + " act first!")
-
-    deserters = engage(firstActingGroup, secondActingGroup, battleMap)
-    return deserters
 
 
 def engage(firstActingGroup, secondActingGroup, battleMap) -> list:
@@ -48,15 +25,15 @@ def engage(firstActingGroup, secondActingGroup, battleMap) -> list:
         group2Victory, group2 = outcome2[0], outcome2[1]
         deserters = outcome2[2]
 
+    victors, losers = None, None
     if group1Victory:
-        victor = firstActingGroup
-        loser = secondActingGroup
+        victors = firstActingGroup
+        losers = secondActingGroup
     elif group2Victory:
-        victor = secondActingGroup
-        loser = firstActingGroup
+        victors = secondActingGroup
+        losers = firstActingGroup
 
-    handleAftermath(victor, loser)
-    return deserters
+    return [victors, losers, deserters]
 
 
 def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:    
@@ -126,60 +103,3 @@ def restart():
             # Also provide a quit and reload option to pick up from the last safe rest.
             # Only save game at rest sites. Require players to complete at least one encounter before resting.
             # Present the player with a rests-remaining counter after the old rival event? Choose a later event to start the countdown?
-
-
-def handleAftermath(victorGroup, loserGroup):
-    if victorGroup["name"] == "questors":
-        takeRest, cumWorth = False, 0
-
-        for loser in loserGroup:
-            cumWorth += loser.atrb["base_mar"]
-            cumWorth += loser.atrb["base_mag"]
-
-        for fighter in victorGroup["members"]:
-            Commitments.clearCommitments(fighter)
-
-            if fighter.type == "totem": fighter.cndt["reposed"] = True
-            
-            if fighter.atrb["cur_hp"] <= 0:
-                Select.waitPrint(fighter.name + " requires immediate resuscitation!")
-                takeRest = True
-            elif fighter.atrb["fatigue"] >=  fighter.atrb["endurance"]:
-                Select.waitPrint(fighter.name + " collapses from exhaustion!")
-                takeRest = True
-            elif fighter.atrb["corruption"] >=  Conditions.getTolerance(fighter):
-                Select.waitPrint(fighter.name + " collapses from sickness!")
-                takeRest = True
-            
-        if not takeRest:
-            takeRest = Select.yesNo("Rest?")
-        if takeRest: takeRest(victorGroup["members"])
-        
-        pool = []
-        for enemy in loserGroup:
-            pool += enemy.drop.inventory
-
-        Select.waitPrint(pool)
-
-        # Let player examine inventory and take desired items if they have capacity.
-    else:
-        Select.waitPrint("Reload Save?")
-        return # force a reload or restart
-
-
-def takeRest(group):
-    for fighter in group:
-        fighter.atrb["stamina"] = fighter.atrb["endurance"]
-        fighter.atrb["fatigue"] = 0
-
-        fighter.atrb["tolerance"] = Conditions.getTolerance(fighter)
-        fighter.atrb["corruption"] = 0
-
-        fighter.dead = False
-        fighter.atrb["cur_hp"] = fighter.atrb["base_hp"]
-        fighter.atrb["injury"] = 0
-
-    if Select.yesNo("Craft?"): Crafting.craftLoop(group)
-
-    # daysRemaining -= 1
-    # If players fail to meet the deadline, Willem dies. They can skip one of the bosses and the fort battle.

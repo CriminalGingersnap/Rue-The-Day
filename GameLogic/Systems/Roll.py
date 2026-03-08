@@ -1,5 +1,4 @@
-from . import PlayerSelect as Select, Conditions
-import Abilities.AttackAbilities as Attacks
+from . import PlayerSelect as Select
 import random, time
 
 

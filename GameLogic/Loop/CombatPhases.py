@@ -1,7 +1,7 @@
 from Actions import MoveActions as Move, ItemActions
 from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl, Sort
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
-from . import PlayerSelect as Select, Conditions, Effects, Commitments
+from Systems import PlayerSelect as Select, Conditions, Effects, Commitments
 from Abilities import Reactions, Items_Use as Items
 
 
