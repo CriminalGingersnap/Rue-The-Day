@@ -64,7 +64,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
 
             if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")", "~", "/"]):
                 stepCount = movementMap[row][column].split(':')[1]
-                if counter < 10: movementMap[row][column] = "_" + str(counter) + ":" + str(stepCount)
+                if counter < 10: movementMap[row][column] = "_" + str(counter) + ":" + str(stepCount) + elevation
                 else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                 counter += 1
 

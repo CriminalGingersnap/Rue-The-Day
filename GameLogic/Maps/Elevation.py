@@ -37,7 +37,7 @@ def setElevation(battleMap, environment, slope):
     adjustEnvironment(battleMap, environment)
 
 def bumps(battleMap, lean):
-    bumps, maxSpread, minSpread = random.randint(3, 5), 1, 1
+    bumps = random.randint(3, 7)
     maxElevation, minElevation = "", ""
     match lean:
         case "up": maxElevation, minElevation = doubleUp, up
@@ -47,28 +47,36 @@ def bumps(battleMap, lean):
         row, column = random.randint(0, 11), random.randint(0, 11)
         battleMap[row][column] = battleMap[row][column][:-1] + maxElevation
 
+        spreadMax = random.randint(0, 1)
+        spreadMin = 2- spreadMax
+
         upRow, downRow = row - 1, row + 1
         leftColumn, rightColumn = column - 1, column + 1
         maxSpaces, minSpaces = [], []
 
-        for step in range(maxSpread):
+        for step in range(spreadMax):
             maxSpaces += Area.addSpaces(row, upRow, downRow, column, leftColumn, rightColumn)
             upRow -= 1
             downRow += 1
             leftColumn -= 1
             rightColumn += 1
 
-        for step in range(minSpread):
+        for step in range(spreadMin):
             minSpaces += Area.addSpaces(row, upRow, downRow, column, leftColumn, rightColumn)
-            minSpaces += [[upRow, min(11, rightColumn+1)], [upRow, max(0, leftColumn-1)], [downRow, min(11, rightColumn+1)], [downRow, max(0, leftColumn-1)]]
-            minSpaces += [[min(11, upRow+1), rightColumn], [max(0, upRow-1), leftColumn], [min(11, downRow+1), rightColumn], [max(0, downRow-1), leftColumn]]
+            if (upRow + 1 < row):
+                if upRow >= 0: minSpaces += [[upRow, max(0, rightColumn-1)], [upRow, min(11, leftColumn+1)]]
+                if downRow <= 11: minSpaces += [[downRow, max(0, rightColumn-1)], [downRow, min(11, leftColumn+1)]]
+                if rightColumn <= 11: minSpaces += [[max(0, downRow-1), rightColumn], [min(11, upRow+1), rightColumn]]
+                if leftColumn >= 0: minSpaces += [[max(0, downRow-1), leftColumn], [min(11, upRow+1), leftColumn]]
             upRow -= 1
             downRow += 1
             leftColumn -= 1
             rightColumn += 1
             
         for maxSpace in maxSpaces: battleMap[maxSpace[0]][maxSpace[1]] = battleMap[maxSpace[0]][maxSpace[1]][:-1] + maxElevation
-        for minSpace in minSpaces: battleMap[minSpace[0]][minSpace[1]] = battleMap[maxSpace[0]][maxSpace[1]][:-1] + minElevation
+        for minSpace in minSpaces:
+            if maxElevation not in battleMap[minSpace[0]][minSpace[1]]: battleMap[minSpace[0]][minSpace[1]] = battleMap[minSpace[0]][minSpace[1]][:-1] + minElevation
+
 
 def resetLtRtElv(lean):
     if lean == "right":

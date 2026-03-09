@@ -5,15 +5,15 @@ import random
 slopes = ["right", "left", "lr", "up", "down", "ud", "craters", "hills", "canyons"]
 
 
-def randomEnvironment(environment):
-    Cards.showEnvironment(environment) 
+def randomEnvironment(faceCards):
+    Cards.showEnvironment(faceCards) 
     Select.waitPrint("\nDraw an ace to progress one environmental factor.")
     aces = Cards.setFronts("Aces")
     aceChoice = Cards.pickCard(aces, 1)[0]
     aceSuit = Cards.findSuit(aces[aceChoice][1])
 
-    introduceEnvironment(environment, aceSuit)
-    atmosphere = setEnvironment(environment, aceSuit)
+    introduceEnvironment(faceCards, aceSuit)
+    atmosphere = setEnvironment(faceCards, aceSuit)
 
     Select.waitPrint("\nDraw three numbered cards to determine obstructions, encounter, and slope.")
     numbers = Cards.setFronts("Numbers")
@@ -23,7 +23,7 @@ def randomEnvironment(environment):
     encounterValue = Cards.findValue(numbers[encounterNum][3])
     slopeValue = Cards.findValue(numbers[slopeNum][3])
 
-    obstructions = {"wall": 0, "trap": 0, "pit": 0}
+    obstructions = {"wall": wallValue, "trap": 0, "pit": 0}
     slope = slopes[int(slopeValue) - 1]
     slope = "craters"
 
@@ -53,31 +53,25 @@ def setEnvironment(environment, aceSuit) -> dict:
         case "Clubs":
             match environment["Clubs"]:
                 case "King":
-                    Select.conversationPrint("Fog rolls across the fjord.")
-                    Select.conversationPrint("Fey things move silently at the edge of sight.")
+                    Select.conversationPrint("Strange fragrance rolls across the fjord. Fey shadows flicker at the edge of sight.")
                     type = "Dazzle"
                 case "Queen":
-                    Select.conversationPrint("The glacier grinds forward.")
-                    Select.conversationPrint("Bitter cold creeps across the valley.")
+                    Select.conversationPrint("The glacier grinds forward. Bitter cold creeps across the valley.")
                     type = "Rime"
                 case "Jack":
-                    Select.conversationPrint("The volcano belches smoke.")
-                    Select.conversationPrint("Warm winds carry its embers.")
+                    Select.conversationPrint("The volcano belches smoke. Warm wind carries its embers from afar.")
                     type = "Smoke"
         
         case "Diamonds":
             match environment["Diamonds"]:
                 case "King":
-                    Select.conversationPrint("Mana surges.")
-                    Select.conversationPrint("Step carefully.")
+                    Select.conversationPrint("Mana surges. Step carefully.")
                     extent = 3
                 case "Queen":
-                    Select.conversationPrint("Mana dissipates.")
-                    Select.conversationPrint("Make use of what remains.")
+                    Select.conversationPrint("Mana dissipates. Make use of what remains.")
                     extent = 2
                 case "Jack":
-                    Select.conversationPrint("Mana collapses, relative to its norm.")
-                    Select.conversationPrint("Still, this land offers more than most.")
+                    Select.conversationPrint("Mana collapses, relative to its local norm.")
                     extent = 1
         
         case "Hearts":

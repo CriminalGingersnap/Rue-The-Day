@@ -12,7 +12,7 @@ def encounterLoop(playerGroup, enemyGroup):
                   "Hearts": random.choice(["Jack", "Queen", "King"]),
                    "Diamonds": random.choice(["Jack", "Queen", "King"]),
                     "Spades": random.choice(["Jack", "Queen", "King"])}
-
+    
     while play:
         results = Environment.randomEnvironment(faceCards)
         obstructions, atmosphere, slope = results[0], results[1], results[2]
