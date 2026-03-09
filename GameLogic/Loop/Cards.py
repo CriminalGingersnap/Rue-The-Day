@@ -34,14 +34,14 @@ def setBacks(length) -> list:
     return backs
 
 
-def showEnvironment(environment):
+def showEnvironment(faceCards):
     Select.waitPrint("\nCurrent Environment:")
     Select.waitPrint("| Biome   |   | Weather |   | Mana    |   | Threat  |")
 
-    clubFace = setBody(environment["Clubs"][0], club)
-    heartFace = setBody(environment["Hearts"][0], heart)
-    diamondFace = setBody(environment["Diamonds"][0], diamond)
-    spadeFace = setBody(environment["Spades"][0], spade)
+    clubFace = setBody(faceCards["Clubs"][0], club)
+    heartFace = setBody(faceCards["Hearts"][0], heart)
+    diamondFace = setBody(faceCards["Diamonds"][0], diamond)
+    spadeFace = setBody(faceCards["Spades"][0], spade)
 
     deck = [clubFace, heartFace, diamondFace, spadeFace]
     printDeck(deck)

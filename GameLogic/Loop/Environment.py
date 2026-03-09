@@ -12,7 +12,7 @@ def randomEnvironment(faceCards):
     aceChoice = Cards.pickCard(aces, 1)[0]
     aceSuit = Cards.findSuit(aces[aceChoice][1])
 
-    introduceEnvironment(faceCards, aceSuit)
+    updateFaceCard(faceCards, aceSuit)
     atmosphere = setEnvironment(faceCards, "Clubs")
 
     Select.waitPrint("\nDraw three numbered cards to determine battlefield factors.")
@@ -33,7 +33,7 @@ def randomEnvironment(faceCards):
     return [obstructions, atmosphere, slope, encounterValue]
 
 
-def introduceEnvironment(environment, aceSuit):
+def updateFaceCard(faceCards, aceSuit):
     Select.slowPrint(aceSuit + ": ")
     match aceSuit:
         case "Clubs": Select.conversationPrint("A new biome gains ascendancy.")
@@ -41,20 +41,21 @@ def introduceEnvironment(environment, aceSuit):
         case "Diamonds": Select.conversationPrint("The flow of magic shifts.")
         case "Spades": Select.conversationPrint("An omen reveals changing fortunes.")
 
-    Select.waitPrint("Previous face: " + environment[aceSuit])
-    match environment[aceSuit]:
-        case "King": environment[aceSuit] = "Queen"
-        case "Queen": environment[aceSuit] = "Jack"
-        case "Jack": environment[aceSuit] = "King"
-    Select.waitPrint("New face: " + environment[aceSuit] + "\n")
+    match faceCards[aceSuit]:
+        case "King": faceCards[aceSuit] = "Queen"
+        case "Queen": faceCards[aceSuit] = "Jack"
+        case "Jack": faceCards[aceSuit] = "King"
 
-def setEnvironment(environment, aceSuit) -> dict:
+    Cards.showEnvironment(faceCards) 
+    
+
+def setEnvironment(faceCards, aceSuit) -> dict:
     atmosphere = {"Blessed": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxic": 0}
     type, extent = "None", 0
 
     match aceSuit:
         case "Clubs":
-            match environment["Clubs"]:
+            match faceCards["Clubs"]:
                 case "King":
                     Select.conversationPrint("Strange fragrance rolls across the fjord. Fey shadows flicker at the edge of sight.")
                     type = "Dazzle"
@@ -66,7 +67,7 @@ def setEnvironment(environment, aceSuit) -> dict:
                     type = "Smoke"
         
         case "Diamonds":
-            match environment["Diamonds"]:
+            match faceCards["Diamonds"]:
                 case "King":
                     Select.conversationPrint("Mana surges. Step carefully.")
                     extent = 3
@@ -78,13 +79,13 @@ def setEnvironment(environment, aceSuit) -> dict:
                     extent = 1
         
         case "Hearts":
-            match environment["Hearts"]:
+            match faceCards["Hearts"]:
                 case "King": Select.conversationPrint("Rain falls thick from heavy clouds. Water collects in deep pools.")
                 case "Queen": Select.conversationPrint("The rain abates. Water recedes while fog accumulates.")
                 case "Jack": Select.conversationPrint("The soil dries beneath warm sunlight. Clouds gather on the horizon.")
         
         case "Spades":
-            match environment["Spades"]:
+            match faceCards["Spades"]:
                 case "King": Select.conversationPrint("Forces unfriendly to human life stir from their slumber.")
                 case "Queen": Select.conversationPrint("The wilds seek blood. Hunger and ambition will find rewards.")
                 case "Jack": Select.conversationPrint("Old powers recede, making space for younger threats.")   
