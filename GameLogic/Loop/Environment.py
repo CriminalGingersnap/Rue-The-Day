@@ -2,7 +2,7 @@ from Systems import PlayerSelect as Select
 from . import Cards
 import random
 
-slopes = ["right", "left", "lr", "up", "down", "ud", "craters", "hills", "canyons"]
+slopes = ["right", "left", "lr", "up", "down", "ud", "craters", "hills", "crypt"]
 
 
 def randomEnvironment(faceCards):
@@ -13,19 +13,22 @@ def randomEnvironment(faceCards):
     aceSuit = Cards.findSuit(aces[aceChoice][1])
 
     introduceEnvironment(faceCards, aceSuit)
-    atmosphere = setEnvironment(faceCards, aceSuit)
+    atmosphere = setEnvironment(faceCards, "Clubs")
 
-    Select.waitPrint("\nDraw three numbered cards to determine obstructions, encounter, and slope.")
+    Select.waitPrint("\nDraw three numbered cards to determine battlefield factors.")
     numbers = Cards.setFronts("Numbers")
     numberChoices = Cards.pickCard(numbers, 3)
-    wallNum, encounterNum, slopeNum = numberChoices[0], numberChoices[1], numberChoices[2]
-    wallValue = Cards.findValue(numbers[wallNum][3])
+    obstructionNum, encounterNum, slopeNum = numberChoices[0], numberChoices[1], numberChoices[2]
+    obstructionValue = Cards.findValue(numbers[obstructionNum][3])
     encounterValue = Cards.findValue(numbers[encounterNum][3])
     slopeValue = Cards.findValue(numbers[slopeNum][3])
 
-    obstructions = {"wall": wallValue, "trap": 0, "pit": 0}
-    slope = slopes[int(slopeValue) - 1]
-    slope = "craters"
+    slope = slopes[slopeValue - 1]
+    obstructions = {"wall": 0, "trap": 0, "pit": 0}    
+    if slope == "crypt":
+        obstructionValue //= 2
+        obstructions["pit"] = obstructions["trap"] = obstructionValue
+    else: obstructions["wall"] = obstructionValue
 
     return [obstructions, atmosphere, slope, encounterValue]
 

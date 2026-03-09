@@ -91,11 +91,11 @@ def findSuit(line) -> str:
     elif spade in line: return "Spades"
 
 def findValue(line) -> str:
-    if "2" in line: return "2"
-    elif "3" in line: return "3"
-    elif "4" in line: return "4"
-    elif "5" in line: return "5"
-    elif "6" in line: return "6"
-    elif "7" in line: return "7"
-    elif "8" in line: return "8"
-    elif "9" in line: return "9"
+    if "2" in line: return 2
+    elif "3" in line: return 3
+    elif "4" in line: return 4
+    elif "5" in line: return 5
+    elif "6" in line: return 6
+    elif "7" in line: return 7
+    elif "8" in line: return 8
+    elif "9" in line: return 9

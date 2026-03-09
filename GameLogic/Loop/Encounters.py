@@ -17,8 +17,10 @@ def encounterLoop(playerGroup, enemyGroup):
         results = Environment.randomEnvironment(faceCards)
         obstructions, atmosphere, slope = results[0], results[1], results[2]
 
-        # battleMap = dMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], "flat")
-        battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards, "craters")
+        battleMap = None
+        if slope == "crypt":
+            battleMap = dMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards)
+        else: battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards, slope)
 
         survivors = Combat.engage(enemyGroup, playerGroup, battleMap)
         handleAftermath(survivors[0], survivors[1])

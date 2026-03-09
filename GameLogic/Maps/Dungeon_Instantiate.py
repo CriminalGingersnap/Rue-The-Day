@@ -1,5 +1,64 @@
 from . import Map_Instantiate as iMap, Map_Populate as pMap, Elevation, Map_Update
+from Systems import PlayerSelect as Select
 import random
+
+
+def createMap(playerGroup, enemyGroup, tileMods, environment) -> list:
+    mainMap = [[], [], [], []]
+    secondMap = [[], [], [], [], [], [], [], []]
+
+    Select.waitPrint("Creating rooms...")
+    setColumns(mainMap, secondMap)
+    
+    Select.waitPrint("Placing PCs...")
+    for fighter in playerGroup: pMap.firstPlacement(mainMap, fighter, 4)
+    battleMap = iMap.combineMaps(mainMap, secondMap, 4, playerGroup)
+
+    # for i in range(2):
+    Select.waitPrint("Adjusting rooms...")
+    fixCorners(battleMap)
+    carveTunnels(battleMap)
+    fixCorners(battleMap)
+    
+    Select.waitPrint("Placing occlusions...")
+    iMap.placeOcclusions(tileMods, battleMap, 4)
+        
+    Select.waitPrint("Placing NPCs...")
+    for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
+    
+    return battleMap
+
+
+def setColumns(mainMap, secondMap):
+    isStarter = True
+
+    for columnBlock in range(3):
+        cell1 = setCell(isStarter)
+        for row in range(4): mainMap[row] += cell1[row]
+        if isStarter: isStarter = False
+
+        for rowBlock in range(2):
+            start = 4 * rowBlock
+            cell2 = setCell(False)
+            for row in range(4): secondMap[row + start] += cell2[row]
+
+
+def setCell(isStarter) -> list:
+    cellType = random.choice(["Blocked", "Blocked", "Hallway"])
+    direction = random.choice(["horizontal", "vertical"])
+
+    if isStarter: cellType, direction = random.choice(["Wall", "Hallway"]), "horizontal"
+    cell, box = [[], [], [], []], [iMap.emptySpace]
+
+    for column in range(4):
+        for row in range(4): cell[column] += box
+
+    match cellType:
+        case "Blocked": blockedCell(cell)
+        case "Hallway": narrowHallway(cell, direction)
+        case "Wall": wall(cell, direction)
+
+    return cell
 
 
 def narrowHallway(cell, direction):
@@ -23,24 +82,6 @@ def wall(cell, direction):
         for column in range(4): cell[line][column] = iMap.wall
     else:
         for row in range(4): cell[row][line] = iMap.wall
-
-
-def setCell(isStarter) -> list:
-    cellType = random.choice(["Blocked", "Blocked", "Hallway"])
-    direction = random.choice(["horizontal", "vertical"])
-
-    if isStarter: cellType, direction = random.choice(["Wall", "Hallway"]), "horizontal"
-    cell, box = [[], [], [], []], [iMap.emptySpace]
-
-    for column in range(4):
-        for row in range(4): cell[column] += box
-
-    match cellType:
-        case "Blocked": blockedCell(cell)
-        case "Hallway": narrowHallway(cell, direction)
-        case "Wall": wall(cell, direction)
-
-    return cell
 
 
 def fixCorners(battleMap):
@@ -108,40 +149,4 @@ def carveTunnels(battleMap):
             if current and not (left or down):
                 if random.choice(["Down", "Left"]) == "Down":
                     battleMap[row + 1][reverseColumn] = iMap.emptySpace
-                else: battleMap[row][reverseColumn - 1] = iMap.emptySpace                
-    
-
-def setColumns(mainMap, secondMap):
-    isStarter = True
-
-    for columnBlock in range(3):
-        cell1 = setCell(isStarter)
-        for row in range(4): mainMap[row] += cell1[row]
-        if isStarter: isStarter = False
-
-        for rowBlock in range(2):
-            start = 4 * rowBlock
-            cell2 = setCell(False)
-            for row in range(4): secondMap[row + start] += cell2[row]
-
-
-def createMap(playerGroup, enemyGroup, atmoList, feature) -> list:
-    mainMap = [[], [], [], []]
-    secondMap = [[], [], [], [], [], [], [], []]
-    setColumns(mainMap, secondMap)
-
-    # iMap.placeOcclusions(atmoList, mainMap, 1)
-    # iMap.placeOcclusions(atmoList, secondMap, 3)
-    
-    for fighter in playerGroup: pMap.firstPlacement(mainMap, fighter, 4)
-    battleMap = iMap.combineMaps(mainMap, secondMap, 4, playerGroup)
-
-    # for i in range(2):
-    fixCorners(battleMap)
-    carveTunnels(battleMap)
-    fixCorners(battleMap)
-
-        
-    for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
-    
-    return battleMap
+                else: battleMap[row][reverseColumn - 1] = iMap.emptySpace

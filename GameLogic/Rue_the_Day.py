@@ -10,10 +10,6 @@ Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
 
 # while True: Games.tracking(Martin, environment)
 # biome = "Wild"
-# Games.chooseEnvironment(environment, biome)
-# Games.chooseMiracle(fighter)
-# Games.alchemy(Martin)
-# input("Sto")
 
 Laura = Humans.mage("Elite", "Flame").ch
 Laura.rank, Laura.name, Laura.initials = "player", "Laura", "L."
