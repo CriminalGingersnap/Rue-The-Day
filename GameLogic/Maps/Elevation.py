@@ -8,21 +8,6 @@ middle = "|"
 
 
 def setElevation(battleMap, environment, slope):
-    playerRow = 0
-    for row in range(12):
-        for column in range(2):
-            if "." in battleMap[row][column]:
-                playerRow = row
-
-    if slope == "random":
-        options = ["right"]
-        if playerRow < 4: options += ["down"]
-        elif playerRow < 8: options += ["ud"]
-        else: options += ["up"]
-        if environment["Hearts"] != "King": options += ["left", "lr"]
-
-        slope = random.choice(options)
-
     match slope:
         case "right": slopeLeftRight(battleMap, "right")
         case "left": slopeLeftRight(battleMap, "left")
@@ -32,9 +17,10 @@ def setElevation(battleMap, environment, slope):
         case "ud": slopeDownUp(battleMap, "sides")
         case "craters": bumps(battleMap, "down")
         case "hills": bumps(battleMap, "up")
-        # case "canyons":  tunnels(battleMap) # set all obstruction heights to max
+
     adjustObstructionHeight(battleMap)
     adjustEnvironment(battleMap, environment)
+
 
 def bumps(battleMap, lean):
     bumps = random.randint(3, 7)
@@ -184,6 +170,8 @@ def adjustObstructionHeight(battleMap):
                 elif elevation == middle: elevation = random.choice([middle, up, doubleUp])
                 elif elevation == up: elevation = random.choice([up, doubleUp])
                 battleMap[row][column] = battleMap[row][column][:-1] + elevation
+            elif ")" in battleMap[row][column]:
+                battleMap[row][column] = battleMap[row][column][:-1] + doubleDown
 
 
 def adjustEnvironment(battleMap, environment):

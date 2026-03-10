@@ -1,12 +1,12 @@
 from Characters import Humans, AvoidantBeasts as Avoidant
 from Systems import PlayerSelect as Select, Conditions, Commitments
-import Campaigns.Metamorphosis.Encounters.Wild1_ValleyPass as LowPass
+import Biomes.Wild1_ValleyPass as LowPass
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 from . import Environment, Combat, Crafting
 import random
 
 
-def encounterLoop(playerGroup, enemyGroup):
+def encounterLoop(playerGroup, biome):
     play = True
     faceCards = {"Clubs": random.choice(["Jack", "Queen", "King"]),
                   "Hearts": random.choice(["Jack", "Queen", "King"]),
@@ -17,8 +17,10 @@ def encounterLoop(playerGroup, enemyGroup):
         results = Environment.randomEnvironment(faceCards)
         obstructions, atmosphere, slope = results[0], results[1], results[2]
 
+        enemyGroup = setFoes(biome, faceCards)
+
         battleMap = None
-        if slope == "crypt":
+        if slope == "ruin":
             battleMap = dMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards)
         else: battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards, slope)
 
@@ -27,6 +29,17 @@ def encounterLoop(playerGroup, enemyGroup):
         for deserter in survivors[2]: Select.waitPrint(deserter.name) # let players hunt them down
         
         play = Select.yesNo("Continue?")
+
+
+def setFoes(biome, faceCards) -> dict:
+    members = []
+
+    match biome:
+        case "Wild": members = LowPass.randomForestEncounters(faceCards)
+
+    enemyGroup = {"members": [members], "name": "assassins"}
+    return enemyGroup
+
 
 
 def handleAftermath(victorGroup, loserGroup):

@@ -10,24 +10,24 @@ def setAnimalResistance(element, rank, stats):
         stats["resist"]["Venom"] = "resistant"
     
     match element:
+        case "Blessed":
+            stats["resist"]["Holy"] = level
+            stats["resist"]["Rot"] = level
         case "Corpse":
             stats["resist"]["Rot"] = level
             stats["resist"]["Dream"] = "immune"
             stats["resist"]["Holy"] = "vulnerable"
-        case "Flame":
-            stats["resist"]["Burn"] = level
-            stats["resist"]["Freeze"] = "vulnerable"
         case "Fey":
             stats["resist"]["Dream"] = level
             stats["resist"]["Pierce"] = "resistant"
             stats["resist"]["Crush"] = "resistant"
             stats["resist"]["Rot"] = "vulnerable"
+        case "Flame":
+            stats["resist"]["Burn"] = level
+            stats["resist"]["Freeze"] = "vulnerable"
         case "Ice":
             stats["resist"]["Freeze"] = level
             stats["resist"]["Burn"] = "vulnerable"
-        case "Blessed":
-            stats["resist"]["Holy"] = level
-            stats["resist"]["Rot"] = level
         case "Toxin":
             stats["resist"]["Venom"] = level
             stats["resist"]["Rot"] = "resistant"

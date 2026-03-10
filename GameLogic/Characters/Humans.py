@@ -107,20 +107,20 @@ class mage:
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            if element == "Dream": abl["boons"] += ["Focus"]
+            if element == "Fey": abl["boons"] += ["Focus"]
             else: abl["attacks"] += ["Bring"]
             
             if rank in ["Adept", "Elite", "Master"]:
-                if rank == "Dream": abl["specialty"] = [random.choice(["Focus", "Wreath"])]
+                if element == "Fey": abl["specialty"] = [random.choice(["Focus", "Wreath"])]
                 else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if rank == "Dream": abl["hindrance"] += ["Disorient"]
+                    if element == "Fey": abl["hindrance"] += ["Disorient"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bring", "Wreath"])]
-                        if rank == "Dream": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
+                        if element == "Fey": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)

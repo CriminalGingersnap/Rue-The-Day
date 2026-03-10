@@ -36,7 +36,7 @@ def setBacks(length) -> list:
 
 def showEnvironment(faceCards):
     Select.waitPrint("\nCurrent Environment:")
-    Select.waitPrint("| Biome   |   | Weather |   | Mana    |   | Threat  |")
+    Select.waitPrint("| Density |   | Weather |   | Mana    |   | Threat  |")
 
     clubFace = setBody(faceCards["Clubs"][0], club)
     heartFace = setBody(faceCards["Hearts"][0], heart)
