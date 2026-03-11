@@ -6,9 +6,9 @@ import random
 def randomEnvironment(faceCards):
     updateFaceCard(faceCards)
     atmosphere = setAtmosphere(faceCards)
-
-    slope = random.choice(["right", "left", "lr", "up", "down", "ud", "craters", "hills", "ruin"])
-    obstructions = setObstructions(faceCards["Clubs"], slope)
+    mapContours = setMapContours()
+    slope = mapContours[0]
+    obstructions = mapContours[1]
 
     return [obstructions, atmosphere, slope]
 
@@ -16,10 +16,7 @@ def randomEnvironment(faceCards):
 def updateFaceCard(faceCards):
     Cards.showEnvironment(faceCards) 
     Select.waitPrint("\nDraw an ace to progress one environmental factor.")    
-
-    aces = Cards.setFronts("Aces")
-    aceChoice = Cards.pickCard(aces, 1)[0]
-    aceSuit = Cards.findSuit(aces[aceChoice][1])
+    aceSuit = Cards.drawAce()
 
     match faceCards[aceSuit]:
         case "King": faceCards[aceSuit] = "Queen"
@@ -29,11 +26,11 @@ def updateFaceCard(faceCards):
     Select.slowPrint(aceSuit + ": ")
     match aceSuit:
         case "Clubs":
-            Select.conversationPrint("The prevalence of obstructions changes.")
+            Select.conversationPrint("")
             match faceCards["Clubs"]:
-                case "King": Select.conversationPrint("Natural structures crowd together. Little can be seen at range.")
-                case "Queen": Select.conversationPrint("Clearings open, gaps widen, and sight-lines expand.")
-                case "Jack": Select.conversationPrint("Trees and rocks grow sparse. Visibility increases.")
+                case "King": Select.conversationPrint("")
+                case "Queen": Select.conversationPrint("")
+                case "Jack": Select.conversationPrint("")
         case "Hearts":
             Select.conversationPrint("The weather shifts.")
             match faceCards["Hearts"]:
@@ -55,23 +52,21 @@ def updateFaceCard(faceCards):
 
     Cards.showEnvironment(faceCards)
 
-    
-def setObstructions(clubFace, slope) -> dict:
+
+def setMapContours():
+    Select.waitPrint("\nDraw two numbered card to determine map slope and obstruction density.")   
+    slopeOptions = ["right", "lr", "up", "down", "ud", "craters", "hills", "ruin"] 
     obstructions = {"wall": 0, "trap": 0, "pit": 0}
-    minValue, maxValue = 0, 0
+    
+    numberValues = Cards.drawNumbers(2)
+    slope = slopeOptions[numberValues[0] - 1]
+    obstructionValue = numberValues[1]
 
-    if slope == "ruin":
-        minValue, maxValue = 0, 3
-        obstructions["pit"] = random.randint(minValue, maxValue)
-        # obstructions["trap"] = random.randint(minValue, maxValue)
-    else:
-        match clubFace:
-            case "King": minValue, maxValue = 6, 9
-            case "Queen": minValue, maxValue = 3, 6
-            case "Jack": minValue, maxValue = 0, 3
-        obstructions["wall"] = random.randint(minValue, maxValue)
+    if slope == "ruin": obstructions["pit"] = obstructionValue
+    else: obstructions["wall"] = obstructionValue
 
-    return obstructions
+    return [slope, obstructions]
+
 
 def setAtmosphere(faceCards, biome) -> dict:
     atmosphere = {"Blessed": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxic": 0}

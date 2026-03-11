@@ -19,11 +19,14 @@ def createMap(playerGroup, enemyGroup, tileMods, environment) -> list:
     fixCorners(battleMap)
     
     Select.waitPrint("Placing occlusions...")
-    iMap.placeOcclusions(tileMods, battleMap, 4)
-        
+    iMap.placeOcclusions(tileMods, battleMap, 1)
+         
+    Select.waitPrint("Adjusting elevation and atmosphere...")
+    Elevation.setElevation(battleMap, environment, "flat")
+
     Select.waitPrint("Placing NPCs...")
     for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
-    
+   
     return battleMap
 
 

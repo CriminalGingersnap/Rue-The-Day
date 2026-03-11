@@ -1,6 +1,5 @@
-from Characters import Humans, AvoidantBeasts as Avoidant
-from Systems import PlayerSelect as Select, Conditions, Commitments
-import Biomes.Wild1_ValleyPass as LowPass
+from Systems import PlayerSelect as Select, Conditions, Commitments, Roll
+from Biomes import Wild1_ValleyPass as LowPass
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 from . import Environment, Combat, Crafting
 import random
@@ -32,10 +31,14 @@ def encounterLoop(playerGroup, biome):
 
 
 def setFoes(biome, faceCards) -> dict:
+    magicLevel, threatLevel = faceCards["Diamonds"], faceCards["Spades"]
     members = []
 
+    Select.waitPrint("Rolling dice to determine encounter number.")
+    encounterRoll = Roll.castDice(2)
+
     match biome:
-        case "Wild": members = LowPass.randomForestEncounters(faceCards)
+        case "Wild": members = LowPass.randomForestEncounters(encounterRoll, threatLevel)
 
     enemyGroup = {"members": [members], "name": "assassins"}
     return enemyGroup

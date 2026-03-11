@@ -3,59 +3,45 @@ import random
 
 # the low pass is a valley between two mountains. It crosses from the dry starting prairie into a lush bay.
 
-def randomForestEncounters(environment):
-    encounterRoll, encounterGroup = 0, []
+def randomForestEncounters(encounterRoll, threatLevel):
+    encounterGroup, quantity = [], 0
 
-    match environment["Spades"]:
-        case "King": encounterRoll = random.randint(2, 4)
-        case "Queen": encounterRoll = random.randint(5, 7)
-        case "Jack": encounterRoll = random.randint(8, 12)
+    match threatLevel:
+        case "King": quantity = 3
+        case "Queen": quantity = 2
+        case "Jack": quantity = 1
 
     match encounterRoll:
-        case 2: encounterGroup = randomSoldiers("elite")
-        case 3: encounterGroup = randomSoldiers("adept")
-        case 4: encounterGroup = randomSoldiers("proficient")
-        case 5: encounterGroup = randomBeasts("hound")
-        case 6: encounterGroup = randomBeasts("lizard")
-        case 7: encounterGroup = randomBeasts("wasp")
-        case 8: encounterGroup = randomBeasts("beetle")
-        case 9: encounterGroup = randomBeasts("isopod")
-        case 10: encounterGroup = randomBeasts("urchin")
-        case 11: encounterGroup = randomBeasts("deer")
-        case 12: encounterGroup = randomBeasts("rabbit")
+        case 2: encounterGroup = randomSoldiers("elite", quantity)
+        case 3: encounterGroup = randomSoldiers("adept", quantity)
+        case 4: encounterGroup = randomSoldiers("proficient", quantity)
+        case 5: encounterGroup = randomBeasts("hound", quantity)
+        case 6: encounterGroup = randomBeasts("lizard", quantity)
+        case 7: encounterGroup = randomBeasts("wasp", quantity)
+        case 8: encounterGroup = randomBeasts("beetle", quantity)
+        case 9: encounterGroup = randomBeasts("isopod", quantity)
+        case 10: encounterGroup = randomBeasts("urchin", quantity)
+        case 11: encounterGroup = randomBeasts("deer", quantity)
+        case 12: encounterGroup = randomBeasts("rabbit", quantity)
+
+    for i in len(encounterGroup): encounterGroup[i].name += "[" + str(i) + "]"
 
     return encounterGroup
 
 
-def randomSoldiers(rank) -> list:
-    quantity = random.randint(3, 6)
-    soldierList = []
+def randomSoldiers(rank, quantity) -> list:
+    soldierList = [AggressiveBeasts.hound("Basic").ch]
 
     totemType = random.choice(["hex", "sentry", "ward"])
     totemElement = random.choice(["Flame", "Fey", "Ice"])
+    match totemType:
+        case "hex": soldierList += [Totems.hex(totemElement, "Standard")]
+        case "sentry": soldierList += [Totems.sentry(totemElement, "Standard")]
+        case "ward": soldierList += [Totems.ward(totemElement, "Standard")]
 
     match rank:
-        case "elite":
-            quantity = random.randint(2, 3)
-            match totemType:
-                case "hex": soldierList += [Totems.hex(totemElement, "Standard")]
-                case "sentry": soldierList += [Totems.sentry(totemElement, "Standard")]
-                case "ward": soldierList += [Totems.ward(random.choice(["Flame", "Ice"]), "Standard")]
-            soldierList[0].name += "[" + str(i) + "]"
-
-        case "adept":
-            quantity = random.randint(3, 4)
-            for i in (6 - quantity):
-                soldierList += [AggressiveBeasts.hound("Basic").ch]
-                soldierList[i-1].name += "[" + str(i) + "]"
-
-        case "proficient":
-            quantity = random.randint(5, 6)
-            match totemType:
-                case "hex": soldierList += [Totems.hex(totemElement, "Totem")]
-                case "sentry": soldierList += [Totems.sentry(totemElement, "Totem")]
-                case "ward": soldierList += [Totems.ward(random.choice(["Flame", "Ice"]), "Totem")]
-            soldierList[0].name += "[" + str(i) + "]"
+        case "adept": quantity *= 2
+        case "proficient": quantity *= 3
 
     for i in quantity:
         type = random.choice(["archer", "knight", "mage"])
@@ -65,47 +51,30 @@ def randomSoldiers(rank) -> list:
             case "mage":
                 element = random.choice(["Flame", "Fey", "Ice"])
                 soldierList += [Humans.mage(rank, element)]
-        soldierList[i-1].name += "[" + str(i) + "]"
 
     return soldierList
 
 
-def randomBeasts(type) -> list:
-    quantity = random.randint(3, 6)
+def randomBeasts(type, quantity) -> list:
+    quantity *= 2
     beastList = []
 
     match type:
         case "beetle":
-            for i in quantity:
-                beastList += [Insects.beetle("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [Insects.beetle("Basic").ch]
         case "deer":
-            for i in quantity:
-                beastList += [AvoidantBeasts.deer("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [AvoidantBeasts.deer("Basic").ch]
         case "hound":
-            for i in quantity:
-                beastList += [AggressiveBeasts.hound("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [AggressiveBeasts.hound("Basic").ch]
         case "isopod":
-            for i in quantity:
-                beastList += [Insects.isopod("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [Insects.isopod("Basic").ch]
         case "lizard":
-            for i in quantity:
-                beastList += [Reptiles.lizard("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [Reptiles.lizard("Basic").ch]
         case "rabbit":
-            for i in quantity:
-                beastList += [AvoidantBeasts.rabbit("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [AvoidantBeasts.rabbit("Basic").ch]
         case "urchin":
-            for i in quantity:
-                beastList += [Invertebrates.urchin("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [Invertebrates.urchin("Basic").ch]
         case "wasp":
-            for i in quantity:
-                beastList += [Insects.waspNest("Basic").ch]
-                beastList[i-1].name += "[" + str(i) + "]"
+            for i in quantity: beastList += [Insects.waspNest("Basic").ch]
 
     return beastList

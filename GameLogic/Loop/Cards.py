@@ -4,6 +4,24 @@ import random
 club, heart, diamond, spade = "\u2663", "\u2665", "\u2666", "\u2660"
 
 
+def drawAce():
+    aces = setFronts("Aces")
+    aceChoice = pickCard(aces, 1)[0]
+    aceSuit = findSuit(aces[aceChoice][1])
+
+    return aceSuit
+
+def drawNumbers(quantity) -> int:
+    numberValues = []
+    numbers = setFronts("Numbers")
+    numberChoices = pickCard(numbers, quantity)
+
+    for card in numberChoices:
+        numberValues += [findValue(numbers[card][3])]
+
+    return numberValues
+
+
 def setBody(value, suit) -> list:
     top, sides, bottom = [" _________ "], ["|         |"], ["|_________|"]
     card = top + sides + sides + sides + sides + sides + bottom
@@ -22,7 +40,7 @@ def setFronts(type) -> list:
             case "Numbers":
                 for number in range(2, 10):
                     deck += [setBody(str(number), suit)]
-                deck = deck[:12]
+                deck = deck[:8]
 
     random.shuffle(deck)
     return deck
