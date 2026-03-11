@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select, Conditions, Commitments, Roll
-from Biomes import Wild1_ValleyPass as LowPass
+from Biomes import Wild1_Pass as Pass, Wild2_Bay as Bay
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 from . import Environment, Combat, Crafting
 import random
@@ -7,21 +7,16 @@ import random
 
 def encounterLoop(playerGroup, biome):
     play = True
-    faceCards = {"Clubs": random.choice(["Jack", "Queen", "King"]),
-                  "Hearts": random.choice(["Jack", "Queen", "King"]),
-                   "Diamonds": random.choice(["Jack", "Queen", "King"]),
-                    "Spades": random.choice(["Jack", "Queen", "King"])}
+    faceCards = {"Clubs": "Jack", "Hearts": "Jack", "Diamonds": "Jack", "Spades": "Jack"}
     
     while play:
-        results = Environment.randomEnvironment(faceCards)
-        obstructions, atmosphere, slope = results[0], results[1], results[2]
-
+        mapContours = Environment.randomEnvironment(faceCards)
         enemyGroup = setFoes(biome, faceCards)
 
         battleMap = None
-        if slope == "ruin":
-            battleMap = dMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards)
-        else: battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], [obstructions, atmosphere], faceCards, slope)
+        if mapContours[2] == "ruin":
+            battleMap = dMap.createMap(playerGroup["members"], enemyGroup["members"], mapContours, faceCards)
+        else: battleMap = iMap.createMap(playerGroup["members"], enemyGroup["members"], mapContours, faceCards)
 
         survivors = Combat.engage(enemyGroup, playerGroup, battleMap)
         handleAftermath(survivors[0], survivors[1])
@@ -31,14 +26,18 @@ def encounterLoop(playerGroup, biome):
 
 
 def setFoes(biome, faceCards) -> dict:
-    magicLevel, threatLevel = faceCards["Diamonds"], faceCards["Spades"]
-    members = []
-
     Select.waitPrint("Rolling dice to determine encounter number.")
     encounterRoll = Roll.castDice(2)
+    members = []
 
     match biome:
-        case "Wild": members = LowPass.randomForestEncounters(encounterRoll, threatLevel)
+        case "Pass": members = Pass.randomEncounters(encounterRoll, faceCards)
+        case "Bay": members = Bay.randomEncounters(encounterRoll, faceCards)
+        # case "Fjord": members = Fjord.randomEncounters(encounterRoll, faceCards)
+        # case "Glacier": members = Glacier.randomEncounters(encounterRoll, faceCards)
+        # case "Ghostwood": members = Ghostwood.randomEncounters(encounterRoll, faceCards)
+        # case "Peninsula": members = Peninsula.randomEncounters(encounterRoll, faceCards)
+        # case "Volcano": members = Volcano.randomEncounters(encounterRoll, faceCards)
 
     enemyGroup = {"members": [members], "name": "assassins"}
     return enemyGroup

@@ -7,7 +7,7 @@ impermissible = [wall, pit]
 
 emptySpace, manaWell = "____|", "*___|"
 fogSpace, mistSpace = "=___|", "-___|"
-smokeSpace, rimeSpace, toxicSpace = "#___|", "%___|", "&___|"
+smokeSpace, rimeSpace, toxinSpace = "#___|", "%___|", "&___|"
 dazzleSpace, deathSpace, sacredSpace = "+___|", "}___|", "@___|"
 
 
@@ -29,7 +29,7 @@ def combineMaps(mainMap, secondMap, mainHeight, playerGroup) -> list:
     return battleMap
 
 
-def createMap(playerGroup, enemyGroup, tileMods, environment, slope) -> list:    
+def createMap(playerGroup, enemyGroup, tileMods, environment) -> list:    
     box = [emptySpace]
     mainMap = [[], [], []]
     secondMap = [[], [], [], [], [], [], [], [], []]
@@ -47,7 +47,7 @@ def createMap(playerGroup, enemyGroup, tileMods, environment, slope) -> list:
     battleMap = combineMaps(mainMap, secondMap, 3, playerGroup)
 
     Select.waitPrint("Adjusting elevation and atmosphere...")
-    Elevation.setElevation(battleMap, environment, slope)
+    Elevation.setElevation(battleMap, environment, tileMods[2])
     Select.waitPrint("Placing NPCs...")
     for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
 

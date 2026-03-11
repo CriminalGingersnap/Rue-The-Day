@@ -15,8 +15,6 @@ def engage(firstActingGroup, secondActingGroup, battleMap) -> list:
     group1, group2 = firstActingGroup["members"], secondActingGroup["members"]
     deserters = None
 
-    # for fighter in group1 + group2: Items.invigorate(fighter, "Tinctures", "")
-
     while not (group1Victory or group2Victory):
         outcome1 = battle(group1, group2, deserters, battleMap)
         group1Victory, group1 = outcome1[0], outcome1[1]

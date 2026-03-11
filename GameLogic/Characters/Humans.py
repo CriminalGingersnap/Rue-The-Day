@@ -16,8 +16,7 @@ def setCommon(job, rank, element) -> list:
 
     match rank:
         case "Adept": stats["resist"]["Dream"] = "normal"
-        case "Elite": stats["resist"]["Dream"] = "resistant"
-        case "Master": stats["resist"]["Dream"] = "immune"
+        case "Elite" | "Master": stats["resist"]["Dream"] = "resistant"
 
     if job == "Knight": stats["speed"] = "high"
 
