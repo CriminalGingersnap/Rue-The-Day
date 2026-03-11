@@ -4,6 +4,9 @@ import random
 
 
 def setElementalResistance(element, stats):
+    if element == "Random":
+        element = random.choice(["Fey", "Flame", "Ice"])
+    
     if element == "Fey":
         stats["resist"]["Dream"] = "immune"
         stats["resist"]["Rot"] = "resistant"

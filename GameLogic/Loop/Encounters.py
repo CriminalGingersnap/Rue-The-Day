@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select, Conditions, Commitments, Roll
-from Biomes import Wild1_Pass as Pass, Wild2_Bay as Bay
+from Biomes import Wild1_Pass as Pass, Wild2_Bay as Bay, Ice1_Fjord as Fjord, Ice2_Glacier as Glacier
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 from . import Environment, Combat, Crafting
 import random
@@ -33,8 +33,8 @@ def setFoes(biome, faceCards) -> dict:
     match biome:
         case "Pass": members = Pass.randomEncounters(encounterRoll, faceCards)
         case "Bay": members = Bay.randomEncounters(encounterRoll, faceCards)
-        # case "Fjord": members = Fjord.randomEncounters(encounterRoll, faceCards)
-        # case "Glacier": members = Glacier.randomEncounters(encounterRoll, faceCards)
+        case "Fjord": members = Fjord.randomEncounters(encounterRoll, faceCards)
+        case "Glacier": members = Glacier.randomEncounters(encounterRoll, faceCards)
         # case "Ghostwood": members = Ghostwood.randomEncounters(encounterRoll, faceCards)
         # case "Peninsula": members = Peninsula.randomEncounters(encounterRoll, faceCards)
         # case "Volcano": members = Volcano.randomEncounters(encounterRoll, faceCards)
