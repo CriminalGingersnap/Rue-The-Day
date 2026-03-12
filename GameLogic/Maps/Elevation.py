@@ -2,8 +2,8 @@ from . import Map_Instantiate as iMap
 from Abilities import Area_Apply as Area
 import random
 
-up, down = "\u2191", "\u2193"
-doubleUp, doubleDown = "\u21d1", "\u21d3"
+up, down = "↑", "↓"
+doubleUp, doubleDown = "⇑", "⇓"
 middle = "|"
 
 

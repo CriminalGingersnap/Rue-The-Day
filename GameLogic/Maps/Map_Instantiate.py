@@ -17,7 +17,8 @@ def combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups) -> list:
     mapGroup1 = {"map": mainMap, "group": playerGroup}
     mapGroup2 = {"map": secondMap, "group": enemyGroups[0]}
     mapGroup3 = {"map": thirdMap, "group": enemyGroups[1]}
-    mapGroupOrder = random.shuffle([mapGroup1, mapGroup2, mapGroup3])
+    mapGroupOrder = [mapGroup1, mapGroup2, mapGroup3]
+    random.shuffle(mapGroupOrder)
 
     for row in range(4):
         map1 = mapGroupOrder[0]["map"]

@@ -6,7 +6,12 @@ from Systems import Roll, PlayerSelect as Select
 
 def setFoes(biome, faceCards) -> list:
     Select.waitPrint("Rolling dice to determine encounter number.")
-    rolls = [Roll.castDice(2), Roll.castDice(2)]
+    Select.waitPrint("Group 1 roll:")
+    roll1 = Roll.roll(None, 1, None, None)
+    Select.waitPrint("Group 2 roll:")
+    roll2 = Roll.roll(None, 2, None, None)
+
+    rolls = [roll1, roll2]
     index, groups = 0, [[], []]
     
     for roll in rolls:
@@ -20,7 +25,7 @@ def setFoes(biome, faceCards) -> list:
             case "Peninsula": members = Peninsula.randomEncounters(roll, faceCards)
             # case "Volcano": members = Volcano.randomEncounters(roll, faceCards)
 
-        groups[index] = {"members": members, "name": "Foes_" + str(index + 1)}
+        groups[index] = members
         index += 1
 
     return groups

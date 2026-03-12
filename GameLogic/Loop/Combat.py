@@ -12,7 +12,7 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
     input("Press Enter to begin combat.")
 
     playerVictory, playerDefeat = False, False
-    group1, group2, group3 = playerGroup["members"], enemyGroups[0]["members"], enemyGroups[1]["members"]
+    group1, group2, group3 = playerGroup, enemyGroups[0], enemyGroups[1]
 
     while not (playerVictory or playerDefeat):
         playerVictory = battle(group1, group2 + group3, battleMap)

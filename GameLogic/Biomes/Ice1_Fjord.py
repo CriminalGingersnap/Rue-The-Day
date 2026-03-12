@@ -9,17 +9,18 @@ def randomEncounters(roll, environment) -> list:
     members, element = [], "Ice"
 
     match roll:
-        case 2: members = randomElementals("dancer", environment, element, False)
-        case 3: members = randomElementals("hulk", environment, element, False)
-        case 4: members = randomElementals("wisps", environment, element, False)
-        case 5: members = Bay.randomBeasts("bear", environment, element)
-        case 6: members = Bay.randomBeasts("moose", environment, element)
-        case 7: members = Pass.randomBeasts("wasp", environment, "Toxin")
-        case 8: members = Pass.randomBeasts("hound", environment, "Flame")
-        case 9: members = Pass.randomBeasts("hound", environment, element)
-        case 10: members = Pass.randomBeasts("urchin", environment, element)
-        case 11: members = Pass.randomBeasts("deer", environment, element)
-        case 12: members = Pass.randomBeasts("rabbit", environment, element)
+        case 1: members = randomElementals("dancer", environment, element, False)
+        case 2: members = randomElementals("hulk", environment, element, False)
+        case 3: members = randomElementals("wisps", environment, element, False)
+        case 4: members = Bay.randomBeasts("bear", environment, element)
+        case 5: members = Pass.randomBeasts("hound", environment, "Flame")
+        case 6: members = Pass.randomBeasts("hound", environment, element)
+        case 7: members = Bay.randomBeasts("moose", environment, "Fey")
+        case 8: members = Bay.randomBeasts("moose", environment, element)
+        case 9: members = Pass.randomBeasts("urchin", environment, element)
+        case 10: members = Pass.randomBeasts("deer", environment, element)
+        case 11: members = Pass.randomBeasts("rabbit", environment, element)
+        # case 12: members = Pass.randomBeasts()
 
     if (environment["Diamonds"] == "King"):
         members += [Elementals.wisp(element, "Random").ch]

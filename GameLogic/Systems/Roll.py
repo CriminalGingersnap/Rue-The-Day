@@ -4,7 +4,7 @@ import random, time
 
 def roll(fighter, dice, ability, dType) -> int:
     if dice > 0: total = castDice(dice)
-    total += mods(fighter, ability, dType)
+    if fighter != None: total += mods(fighter, ability, dType)
     
     Select.quickPrint("Total: ", '')
     time.sleep(Select.waitTime * 2)

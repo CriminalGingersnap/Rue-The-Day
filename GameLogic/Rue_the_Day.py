@@ -16,8 +16,8 @@ Laura.rank, Laura.name, Laura.initials = "player", "Laura", "L."
 # Laura.abl["items"] += ["Craft", "Transfer"]
 # Laura.equipment["armor"] = None
 
-group1 = {"members": [Martin, Laura], "name": "questors"}
+group1 = [Martin, Laura]
 # beetles = LowPass.randomAvoidantForestBeasts() #[Avoidant.beetleWild().ch]
-# enemyGroup = {"members": beetles, "name": "beetles"}
+# enemyGroup = beetles
 
 Encounters.encounterLoop(group1, "Wild")

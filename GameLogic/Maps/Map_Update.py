@@ -8,12 +8,13 @@ minorHazards = ["b", "d", "c", "f", "h", "p", "r", "v"]
 lingeringHazards = ["#", "@", "%", "+", "}", "&"]
 hazards = majorHazards + minorHazards
 
+
 def setMarker(fighter, space):
     marker, initial = [], fighter.initials
 
     atmosphere, elevation = space[0], space[-1]
 
-    if fighter.rank == "player": marker = atmosphere + initial + "_" + elevation
+    if fighter.rank in ["player", "world"]: marker = atmosphere + initial + "_" + elevation
     elif fighter.cndt["massive"]: marker = atmosphere + initial + "/" + elevation
     else: marker = atmosphere + initial + "!" + elevation
     

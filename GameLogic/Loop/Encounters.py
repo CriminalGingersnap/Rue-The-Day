@@ -9,7 +9,7 @@ def encounterLoop(playerGroup, biome):
     faceCards = {"Clubs": "Jack", "Hearts": "Jack", "Diamonds": "Jack", "Spades": "Jack"}
     
     while play:
-        mapContours = Environment.randomEnvironment(faceCards)
+        mapContours = Environment.randomEnvironment(faceCards, biome)
         enemyGroups = Biomes.setFoes(biome, faceCards)
 
         battleMap = None
@@ -18,7 +18,11 @@ def encounterLoop(playerGroup, biome):
         else: battleMap = iMap.createMap(playerGroup, enemyGroups, mapContours, faceCards)
 
         playerVictory = Combat.engage(playerGroup, enemyGroups, battleMap)
-        if playerVictory: handleAftermath(playerGroup, enemyGroups)
+        if playerVictory:
+            takeRest = handleAftermath(playerGroup, enemyGroups)
+            if takeRest:
+                takeRest(playerGroup)
+                Environment.updateFaceCard(faceCards, biome)
         else:
             Select.waitPrint("Reload Save?")
             # force a reload or restart
@@ -26,10 +30,10 @@ def encounterLoop(playerGroup, biome):
         play = Select.yesNo("Continue?")
 
 
-def handleAftermath(victorGroup, loserGroups):
+def handleAftermath(victorGroup, loserGroups) -> bool:
     takeRest = False
 
-    for fighter in victorGroup["members"]:
+    for fighter in victorGroup:
         Commitments.clearCommitments(fighter)
 
         if fighter.type == "totem": fighter.cndt["reposed"] = True
@@ -43,18 +47,17 @@ def handleAftermath(victorGroup, loserGroups):
         elif fighter.atrb["corruption"] >=  Conditions.getTolerance(fighter):
             Select.waitPrint(fighter.name + " collapses from sickness!")
             takeRest = True
-        
-    if not takeRest: takeRest = Select.yesNo("Rest?")
-    if takeRest: takeRest(victorGroup["groups"])
-    
+            
     pool = []
     for loserGroup in loserGroups:
         for vanquished in loserGroups:
           pool += vanquished.drop.inventory
 
     Select.waitPrint(pool)
-
     # Let player examine inventory and take desired items if they have capacity.
+
+    if not takeRest: takeRest = Select.yesNo("Rest?")
+    return takeRest
 
 
 def takeRest(group):

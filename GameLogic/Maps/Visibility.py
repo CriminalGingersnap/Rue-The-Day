@@ -112,7 +112,7 @@ def lookRight(rank, position, row, column, battleMap, sightMap, shadows, obstruc
 
 
 def lookUpRight(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak, offset, shift):
-    if rank == "player":
+    if rank in ["player", "world"]:
         newRow, newColumn = row, column
         while (newColumn < 11) and (newRow > 0):
             newColumn += 1
@@ -127,7 +127,7 @@ def lookUpRight(rank, position, row, column, battleMap, sightMap, shadows, obstr
                 obstructionPeak = max(obstructionPeak, offsetPeak)
 
 def lookDownRight(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak, offset, shift):
-    if rank == "player":
+    if rank in ["player", "world"]:
         newRow, newColumn = row, column
         while (newColumn < 11) and (newRow < 11):
             newColumn += 1
@@ -143,7 +143,7 @@ def lookDownRight(rank, position, row, column, battleMap, sightMap, shadows, obs
 
 
 def lookDownLeft(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak, offset, shift):
-    if rank == "player":
+    if rank in ["player", "world"]:
         newRow, newColumn = row, column
         while (newColumn > 0) and (newRow < 11):
             newColumn -= 1
@@ -158,7 +158,7 @@ def lookDownLeft(rank, position, row, column, battleMap, sightMap, shadows, obst
                 obstructionPeak = max(obstructionPeak, offsetPeak)
 
 def lookUpLeft(rank, position, row, column, battleMap, sightMap, shadows, obstructionPeak, offset, shift):
-    if rank == "player":
+    if rank in ["player", "world"]:
         newRow, newColumn = row, column
         while (newColumn > 0) and (newRow > 0):
             newColumn -= 1

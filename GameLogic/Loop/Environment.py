@@ -4,7 +4,6 @@ import random
 
 
 def randomEnvironment(faceCards, biome):
-    updateFaceCard(faceCards, biome)
     atmosphere = setAtmosphere(faceCards, biome)
     mapContours = setMapContours()
     slope = mapContours[1]

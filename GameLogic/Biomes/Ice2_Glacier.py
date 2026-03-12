@@ -9,17 +9,18 @@ def randomEncounters(roll, environment) -> list:
     members, element = [], "Ice"
 
     match roll:
-        case 2: members = randomElementals("obelisk", environment, element, True)
-        case 3: members = Fjord.randomElementals("dancer", environment, element, True)
-        case 4: members = Fjord.randomElementals("hulk", environment, element, True)
-        case 5: members = Fjord.randomElementals("wisps", environment, element, True)
-        case 6: members = Bay.randomBeasts("bear", environment, element)
+        case 1: members = randomElementals("obelisk", environment, element, True)
+        case 2: members = Fjord.randomElementals("dancer", environment, element, True)
+        case 3: members = Fjord.randomElementals("hulk", environment, element, True)
+        case 4: members = Fjord.randomElementals("wisps", environment, element, True)
+        case 5: members = Bay.randomBeasts("bear", environment, element)
+        case 6: members = randomBeasts("ferret", environment, element)
         case 7: members = randomBeasts("mole", environment, element)
-        case 8: members = randomBeasts("ferret", environment, element)
-        case 9: members = randomBeasts("gopher", environment, "Flame")
-        case 10: members = randomBeasts("sheep", environment, element)
-        case 11: members = Pass.randomBeasts("urchin", environment, element)
-        case 12: members = randomBeasts("worm", environment, element)
+        case 8: members = randomBeasts("gopher", environment, "Flame")
+        case 9: members = randomBeasts("sheep", environment, element)
+        case 10: members = Pass.randomBeasts("urchin", environment, element)
+        case 11: members = randomBeasts("worm", environment, element)
+        # case 12: members = randomBeasts()
 
     if (environment["Diamonds"] == "King"):
         members += [Elementals.wisp(element, "Random").ch]

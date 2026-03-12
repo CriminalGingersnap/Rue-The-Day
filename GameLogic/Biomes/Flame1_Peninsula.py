@@ -13,17 +13,18 @@ def randomEncounters(roll, environment) -> list:
     members, element = [], "Flame"
 
     match roll:
-        case 2: members = randomElementals("ooze", environment, element, False)
-        case 3: members = randomElementals("puffer", environment, element, False)
-        case 4: members = randomBeasts("drake", environment, element)
-        case 5: members = Bay.randomBeasts("wyrm", environment, "Toxin")
-        case 6: members = Pass.randomBeasts("lizard", environment, "Basic")
-        case 7: members = Pass.randomBeasts("wasp", environment, "Toxin")
-        case 8: members = Pass.randomBeasts("beetle", environment, element)
-        case 9: members = Pass.randomBeasts("isopod", environment, "Basic")
-        case 10: members = randomBeasts("centipede", environment, "Toxin")
-        case 11: members = randomBeasts("ant", environment, element)
-        case 12: members = randomBeasts("turtle", environment, "Basic")
+        case 1: members = randomElementals("ooze", environment, element, False)
+        case 2: members = randomElementals("puffer", environment, element, False)
+        case 3: members = randomBeasts("drake", environment, element)
+        case 4: members = Bay.randomBeasts("wyrm", environment, "Toxin")
+        case 5: members = Pass.randomBeasts("lizard", environment, "Basic")
+        case 6: members = Pass.randomBeasts("wasp", environment, "Toxin")
+        case 7: members = Pass.randomBeasts("beetle", environment, element)
+        case 8: members = Pass.randomBeasts("isopod", environment, "Basic")
+        case 9: members = randomBeasts("centipede", environment, "Toxin")
+        case 10: members = Pass.randomBeasts("ant", environment, element)
+        case 11: members = randomBeasts("turtle", environment, "Basic")
+        # case 12: members = randomBeasts()
 
     if environment["Diamonds"] == "King":
         members += [Elementals.wisp("Random", "Random").ch]
@@ -55,10 +56,6 @@ def randomBeasts(type, environment, element) -> list:
     quantity = Pass.getQuantity(environment, rankOptions)
 
     match type:
-        case "ant":
-            for i in quantity: 
-                rankChoice = random.choice(rankOptions)
-                beastList += [Insects.ant(element, rankChoice)]
         case "centipede":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)

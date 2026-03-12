@@ -7,17 +7,18 @@ def randomEncounters(roll, environment) -> list:
     members = []
 
     match roll:
-        case 2: members = randomSoldiers("elite", environment)
-        case 3: members = randomSoldiers("Adept", environment)
-        case 4: members = randomSoldiers("proficient", environment)
-        case 5: members = randomBeasts("hound", environment, "Basic")
-        case 6: members = randomBeasts("lizard", environment, "Basic")
-        case 7: members = randomBeasts("wasp", environment, "Toxin")
-        case 8: members = randomBeasts("beetle", environment, "Basic")
-        case 9: members = randomBeasts("isopod", environment, "Basic")
-        case 10: members = randomBeasts("urchin", environment, "Basic")
-        case 11: members = randomBeasts("deer", environment, "Basic")
-        case 12: members = randomBeasts("rabbit", environment, "Basic")
+        case 1: members = randomSoldiers("Elite", environment)
+        case 2: members = randomSoldiers("Adept", environment)
+        case 3: members = randomBeasts("ant", environment, "Toxin")
+        case 4: members = randomBeasts("hound", environment, "Basic")
+        case 5: members = randomBeasts("lizard", environment, "Basic")
+        case 6: members = randomBeasts("wasp", environment, "Toxin")
+        case 7: members = randomBeasts("beetle", environment, "Basic")
+        case 8: members = randomBeasts("isopod", environment, "Basic")
+        case 9: members = randomBeasts("urchin", environment, "Basic")
+        case 10: members = randomBeasts("deer", environment, "Basic")
+        case 11: members = randomBeasts("rabbit", environment, "Basic")
+        # case 12: members = randomBeasts()
 
     for i in len(members): members[i].name += "[" + str(i) + "]"
 
@@ -61,6 +62,10 @@ def randomBeasts(type, environment, element) -> list:
     quantity = getQuantity(environment, rankOptions)
 
     match type:
+        case "ant":
+            for i in quantity: 
+                rankChoice = random.choice(rankOptions)
+                beastList += [Insects.ant(element, rankChoice)]
         case "beetle":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
