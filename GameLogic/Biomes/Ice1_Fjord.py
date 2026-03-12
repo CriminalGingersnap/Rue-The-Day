@@ -5,28 +5,28 @@ import random
 # The fjord cuts between the wilds and the Feywood. Players need to navigate around the water to reach that biome.
 # Players can access the Feywood from the glacier.
 
-def randomEncounters(encounterRoll, environment) -> list:
-    encounterGroup, element = [], "Ice"
+def randomEncounters(roll, environment) -> list:
+    members, element = [], "Ice"
 
-    match encounterRoll:
-        case 2: encounterGroup = randomElementals("dancer", environment, element, False)
-        case 3: encounterGroup = randomElementals("hulk", environment, element, False)
-        case 4: encounterGroup = randomElementals("wisps", environment, element, False)
-        case 5: encounterGroup = Bay.randomBeasts("bear", environment, element)
-        case 6: encounterGroup = Bay.randomBeasts("moose", environment, element)
-        case 7: encounterGroup = Pass.randomBeasts("wasp", environment, "Toxin")
-        case 8: encounterGroup = Pass.randomBeasts("hound", environment, "Flame")
-        case 9: encounterGroup = Pass.randomBeasts("hound", environment, element)
-        case 10: encounterGroup = Pass.randomBeasts("urchin", environment, element)
-        case 11: encounterGroup = Pass.randomBeasts("deer", environment, element)
-        case 12: encounterGroup = Pass.randomBeasts("rabbit", environment, element)
+    match roll:
+        case 2: members = randomElementals("dancer", environment, element, False)
+        case 3: members = randomElementals("hulk", environment, element, False)
+        case 4: members = randomElementals("wisps", environment, element, False)
+        case 5: members = Bay.randomBeasts("bear", environment, element)
+        case 6: members = Bay.randomBeasts("moose", environment, element)
+        case 7: members = Pass.randomBeasts("wasp", environment, "Toxin")
+        case 8: members = Pass.randomBeasts("hound", environment, "Flame")
+        case 9: members = Pass.randomBeasts("hound", environment, element)
+        case 10: members = Pass.randomBeasts("urchin", environment, element)
+        case 11: members = Pass.randomBeasts("deer", environment, element)
+        case 12: members = Pass.randomBeasts("rabbit", environment, element)
 
     if (environment["Diamonds"] == "King"):
-        encounterGroup += [Elementals.wisp(element, "Random").ch]
+        members += [Elementals.wisp(element, "Random").ch]
 
-    for i in len(encounterGroup): encounterGroup[i].name += "[" + str(i) + "]"
+    for i in len(members): members[i].name += "[" + str(i) + "]"
 
-    return encounterGroup
+    return members
 
 def randomElementals(type, environment, element, majorBiome):
     elementalList, rankOptions = [], getElementalRankOptions(majorBiome, environment)
@@ -40,7 +40,7 @@ def randomElementals(type, environment, element, majorBiome):
         case "hulk":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
-                elementalList += [Elementals.dancer(element, rankChoice).ch]
+                elementalList += [Elementals.hulk(element, rankChoice).ch]
         case "wisp":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)

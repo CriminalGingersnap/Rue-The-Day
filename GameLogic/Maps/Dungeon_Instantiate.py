@@ -3,16 +3,20 @@ from Systems import PlayerSelect as Select
 import random
 
 
-def createMap(playerGroup, enemyGroup, tileMods, environment) -> list:
-    mainMap = [[], [], [], []]
-    secondMap = [[], [], [], [], [], [], [], []]
+def createMap(playerGroup, enemyGroups, tileMods, environment) -> list:
+    mainMap, secondMap, thirdMap = [[], [], [], []], [[], [], [], []], [[], [], [], [], []]
 
     Select.waitPrint("Creating rooms...")
-    setColumns(mainMap, secondMap)
+    setColumns([mainMap, secondMap, thirdMap])
     
     Select.waitPrint("Placing PCs...")
     for fighter in playerGroup: pMap.firstPlacement(mainMap, fighter, 4)
-    battleMap = iMap.combineMaps(mainMap, secondMap, 4, playerGroup)
+    Select.waitPrint("Placing Group 1 NPCs...")
+    for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, fighter, 4)
+    Select.waitPrint("Placing Group 2 NPCs...")
+    for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, fighter, 4)
+
+    battleMap = iMap.combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 
     Select.waitPrint("Adjusting rooms...")
     carveTunnels(battleMap)
@@ -23,31 +27,24 @@ def createMap(playerGroup, enemyGroup, tileMods, environment) -> list:
          
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, "flat")
-
-    Select.waitPrint("Placing NPCs...")
-    for enemy in enemyGroup: pMap.firstPlacement(battleMap, enemy, 12)
    
     return battleMap
 
 
-def setColumns(mainMap, secondMap):
-    isStarter = True
+def setColumns(maps):
+    forceHallway = [True, False, False]
 
-    for columnBlock in range(3):
-        cell1 = setCell(isStarter)
-        for row in range(4): mainMap[row] += cell1[row]
-        if isStarter: isStarter = False
-
-        for rowBlock in range(2):
-            start = 4 * rowBlock
-            cell2 = setCell(False)
-            for row in range(4): secondMap[row + start] += cell2[row]
+    for map in maps:
+        for columnBlock in range(3):
+            cell = setCell(forceHallway[columnBlock])
+            for row in range(4): map[row] += cell[row]
+        forceHallway = [False, False, True]
 
 
-def setCell(isStarter) -> list:
+def setCell(forceHallway) -> list:
     cellType = random.choice(["Blocked", "Blocked", "Hallway"])
     direction = random.choice(["startTop", "startBottom"])
-    if isStarter: cellType = "Hallway"
+    if forceHallway: cellType = "Hallway"
 
     cell = [[], [], [], []]
     for column in range(4):

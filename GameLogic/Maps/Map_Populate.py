@@ -2,37 +2,37 @@ from . import Map_Instantiate as iMap, Map_Update as uMap
 import random
 
 
-def firstPlacement(instanceMap, fighter, mapHeight) -> None:
+def firstPlacement(instanceMap, fighter) -> None:
     rightEdgeEmpty = []
 
     if fighter.rank != "player":
-        for row in range(mapHeight):
+        for row in range(4):
             if instanceMap[row][11] not in iMap.impermissible: rightEdgeEmpty += [row]
 
     available = False
     while not available:
-        column, row = 0, random.randint(0, mapHeight - 1)
+        column, row = 0, random.randint(0, 3)
         if fighter.rank == "player": column = random.randint(0, 1)
         else: column = random.randint(5, 10)
 
-        available = visitSpace(instanceMap, row, column, fighter, mapHeight, rightEdgeEmpty)
+        available = visitSpace(instanceMap, row, column, fighter, rightEdgeEmpty)
 
     fighter.position = [row, column]
 
 
-def visitSpace(instanceMap, row, column, fighter, mapHeight, endTargets) -> bool:
+def visitSpace(instanceMap, row, column, fighter, endTargets) -> bool:
     marker = uMap.setMarker(fighter, instanceMap[row][column])
 
     if "___" in instanceMap[row][column]:
         instanceMap[row][column] = marker
 
         if fighter.rank == "player":
-            walkable = walk(instanceMap, row, mapHeight, 0, column + 1)[0]
+            walkable = walk(instanceMap, row, 0, column + 1)[0]
             if not walkable: instanceMap[row][column] = iMap.emptySpace
             return walkable
 
         else:
-            walkResult = walk(instanceMap, row, mapHeight, column, 12)
+            walkResult = walk(instanceMap, row, column, 12)
             walkable = walkResult[0]
             endRow = walkResult[1]
 
@@ -43,19 +43,19 @@ def visitSpace(instanceMap, row, column, fighter, mapHeight, endTargets) -> bool
     else: return False
 
 
-def placeObstruction(instanceMap, obstruction, mapHeight) -> bool:
-    row, column = random.randint(0, mapHeight), random.randint(0, 11)
+def placeObstruction(instanceMap, obstruction) -> bool:
+    row, column = random.randint(0, 11), random.randint(0, 11)
 
     if instanceMap[row][column] == iMap.emptySpace:
         instanceMap[row][column] = obstruction
-        walkable = walk(instanceMap, random.randint(0, mapHeight), mapHeight, 0, 12)[0]
+        walkable = walk(instanceMap, random.randint(0, 11), 0, 12)[0]
         if not walkable: instanceMap[row][column] = iMap.emptySpace
         return walkable
     else:
         return False
 
-def placeFog(instanceMap, type, mapHeight) -> bool:
-    row, column = random.randint(0, mapHeight), random.randint(0, 11)
+def placeFog(instanceMap, type) -> bool:
+    row, column = random.randint(0, 11), random.randint(0, 11)
 
     if instanceMap[row][column] == iMap.emptySpace:
         if type == "Death": instanceMap[row][column] = iMap.deathSpace
@@ -71,8 +71,8 @@ def placeFog(instanceMap, type, mapHeight) -> bool:
     else:
         return False
 
-def placeTrap(instanceMap, mapHeight):
-    row, column = random.randint(0, mapHeight), random.randint(0, 11)
+def placeTrap(instanceMap):
+    row, column = random.randint(0, 11), random.randint(0, 11)
 
     if not any(char in instanceMap[row][column] for char in ["/", ".", "!", ")", "~"]):
         atmosphere = instanceMap[row][column][0]
@@ -82,12 +82,12 @@ def placeTrap(instanceMap, mapHeight):
         return False
 
 
-def walk(instanceMap, startingRow, rowLimit, staringColumn, columnLimit) -> bool:
+def walk(instanceMap, startingRow, staringColumn, columnLimit) -> bool:
     previousFreeRow, nextColumn = startingRow, staringColumn
     makingProgress, visited = True, []
 
     while makingProgress and (nextColumn < columnLimit):
-        topLimit, bottomLimit = max(0, previousFreeRow - 1), min(rowLimit, previousFreeRow + 1)
+        topLimit, bottomLimit = max(0, previousFreeRow - 1), min(11, previousFreeRow + 1)
 
         gotOne = False
         for row in range(topLimit, bottomLimit):
@@ -102,7 +102,7 @@ def walk(instanceMap, startingRow, rowLimit, staringColumn, columnLimit) -> bool
             if (topLimit > 0) and (topLimit not in visited) and (instanceMap[topLimit][nextColumn - 1] not in iMap.impermissible):
                 previousFreeRow -= 1
                 gotOne = True
-            elif (bottomLimit < rowLimit) and (bottomLimit not in visited) and (instanceMap[bottomLimit][nextColumn - 1] not in iMap.impermissible):
+            elif (bottomLimit < 11) and (bottomLimit not in visited) and (instanceMap[bottomLimit][nextColumn - 1] not in iMap.impermissible):
                 previousFreeRow += 1
                 gotOne = True
 

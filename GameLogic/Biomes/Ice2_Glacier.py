@@ -5,28 +5,28 @@ import random
 # Glacier tube battleMaps have the highest obstruction count in the game. 17?
 # Glacier boss map changes as the worm carves new tunnels
 
-def randomEncounters(encounterRoll, environment) -> list:
-    encounterGroup, element = [], "Ice"
+def randomEncounters(roll, environment) -> list:
+    members, element = [], "Ice"
 
-    match encounterRoll:
-        case 2: encounterGroup = randomElementals("obelisk", environment, element, True)
-        case 3: encounterGroup = Fjord.randomElementals("dancer", environment, element, True)
-        case 4: encounterGroup = Fjord.randomElementals("hulk", environment, element, True)
-        case 5: encounterGroup = Fjord.randomElementals("wisps", environment, element, True)
-        case 6: encounterGroup = Bay.randomBeasts("bear", environment, element)
-        case 7: encounterGroup = randomBeasts("mole", environment, element)
-        case 8: encounterGroup = randomBeasts("ferret", environment, element)
-        case 9: encounterGroup = randomBeasts("gopher", environment, "Flame")
-        case 10: encounterGroup = randomBeasts("sheep", environment, element)
-        case 11: encounterGroup = Pass.randomBeasts("urchin", environment, element)
-        case 12: encounterGroup = randomBeasts("worm", environment, element)
+    match roll:
+        case 2: members = randomElementals("obelisk", environment, element, True)
+        case 3: members = Fjord.randomElementals("dancer", environment, element, True)
+        case 4: members = Fjord.randomElementals("hulk", environment, element, True)
+        case 5: members = Fjord.randomElementals("wisps", environment, element, True)
+        case 6: members = Bay.randomBeasts("bear", environment, element)
+        case 7: members = randomBeasts("mole", environment, element)
+        case 8: members = randomBeasts("ferret", environment, element)
+        case 9: members = randomBeasts("gopher", environment, "Flame")
+        case 10: members = randomBeasts("sheep", environment, element)
+        case 11: members = Pass.randomBeasts("urchin", environment, element)
+        case 12: members = randomBeasts("worm", environment, element)
 
     if (environment["Diamonds"] == "King"):
-        encounterGroup += [Elementals.wisp(element, "Random").ch]
+        members += [Elementals.wisp(element, "Random").ch]
 
-    for i in len(encounterGroup): encounterGroup[i].name += "[" + str(i) + "]"
+    for i in len(members): members[i].name += "[" + str(i) + "]"
 
-    return encounterGroup
+    return members
 
 def randomElementals(type, environment, element, majorBiome):
     elementalList, rankOptions = [], Fjord.getElementalRankOptions(majorBiome, environment)

@@ -4,28 +4,28 @@ import random
 
 # Deep wild lowlands between the mountains and the fjord. Coniferous trees. Pervasive light mist.
 
-def randomEncounters(encounterRoll, environment) -> list:
-    encounterGroup, element = [], "Basic"
+def randomEncounters(roll, environment) -> list:
+    members, element = [], "Basic"
 
-    match encounterRoll:
-        case 2: encounterGroup = Pass.randomSoldiers("elite", environment)
-        case 3: encounterGroup = randomBeasts("bear", environment, element)
-        case 4: encounterGroup = randomBeasts("wyrm", environment, "Toxin")
-        case 5: encounterGroup = randomBeasts("moose", environment, element)
-        case 6: encounterGroup = Pass.randomBeasts("lizard", environment, "Basic")
-        case 7: encounterGroup = Pass.randomBeasts("wasp", environment, "Toxin")
-        case 8: encounterGroup = Pass.randomBeasts("beetle", environment, "Basic")
-        case 9: encounterGroup = Pass.randomBeasts("isopod", environment, "Basic")
-        case 10: encounterGroup = Pass.randomBeasts("urchin", environment, "Basic")
-        case 11: encounterGroup = Pass.randomBeasts("deer", environment, "Basic")
-        case 12: encounterGroup = Pass.randomBeasts("rabbit", environment, "Basic")
+    match roll:
+        case 2: members = Pass.randomSoldiers("elite", environment)
+        case 3: members = randomBeasts("bear", environment, element)
+        case 4: members = randomBeasts("moose", environment, element)
+        case 5: members = randomBeasts("wyrm", environment, "Toxin")
+        case 6: members = Pass.randomBeasts("lizard", environment, "Basic")
+        case 7: members = Pass.randomBeasts("wasp", environment, "Toxin")
+        case 8: members = Pass.randomBeasts("beetle", environment, "Basic")
+        case 9: members = Pass.randomBeasts("isopod", environment, "Basic")
+        case 10: members = Pass.randomBeasts("urchin", environment, "Basic")
+        case 11: members = Pass.randomBeasts("deer", environment, "Basic")
+        case 12: members = Pass.randomBeasts("rabbit", environment, "Basic")
 
-    if (environment["Diamonds"] == "King") and (encounterRoll != 2):
-        encounterGroup += [Elementals.wisp("Random", "Random").ch]
+    if (environment["Diamonds"] == "King") and (roll != 2):
+        members += [Elementals.wisp("Random", "Random").ch]
 
-    for i in len(encounterGroup): encounterGroup[i].name += "[" + str(i) + "]"
+    for i in len(members): members[i].name += "[" + str(i) + "]"
 
-    return encounterGroup
+    return members
 
 
 def randomBeasts(type, environment, element) -> list:

@@ -8,33 +8,24 @@ from Maps import Map_Update as uMap
 # Add mist for the giant. Change tunnels for worm.
 
 
-def engage(firstActingGroup, secondActingGroup, battleMap) -> list:
+def engage(playerGroup, enemyGroups, battleMap) -> list:
     input("Press Enter to begin combat.")
 
-    group1Victory, group2Victory, victor = False, False, None
-    group1, group2 = firstActingGroup["members"], secondActingGroup["members"]
-    deserters = None
+    playerVictory, playerDefeat = False, False
+    group1, group2, group3 = playerGroup["members"], enemyGroups[0]["members"], enemyGroups[1]["members"]
 
-    while not (group1Victory or group2Victory):
-        outcome1 = battle(group1, group2, deserters, battleMap)
-        group1Victory, group1 = outcome1[0], outcome1[1]
-        deserters = outcome1[2]
-        outcome2 = battle(group2, group1, deserters, battleMap)
-        group2Victory, group2 = outcome2[0], outcome2[1]
-        deserters = outcome2[2]
+    while not (playerVictory or playerDefeat):
+        playerVictory = battle(group1, group2 + group3, battleMap)
+        if not (playerVictory or playerDefeat):
+            playerDefeat = battle(group2, group1 + group3, battleMap)
+        if not (playerVictory or playerDefeat):
+            playerDefeat = battle(group3, group1 + group2, battleMap)
 
-    victors, losers = None, None
-    if group1Victory:
-        victors = firstActingGroup
-        losers = secondActingGroup
-    elif group2Victory:
-        victors = secondActingGroup
-        losers = firstActingGroup
-
-    return [victors, losers, deserters]
+    if playerVictory: return True
+    else: return False
 
 
-def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:    
+def battle(offenseGroup, targetGroup, battleMap) -> bool:    
     validFighters = Sort.sortLiving(offenseGroup)[0]
     if len(validFighters) > 0:
         for fighter in validFighters:
@@ -43,7 +34,7 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
             if len(validTargets) == 0:
                 Select.slowPrint("\nBattle Over.")
                 input("Press Enter to resolve.")
-                return [True, offenseGroup]
+                return True
             else: Phases.resetFighter(fighter)
                     
     if len(validFighters) > 0:
@@ -92,8 +83,7 @@ def battle(offenseGroup, targetGroup, deserters, battleMap) -> bool:
                     fighter.actionQueue.remove(action)
             Phases.outro(fighter, validFighters, battleMap)
             
-
-    return [False, offenseGroup, deserters]
+    return False
 
 
 def restart():

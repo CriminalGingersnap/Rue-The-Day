@@ -3,37 +3,44 @@ import random
 
 # the low pass is a valley between two mountains. It crosses from the dry starting prairie into a lush bay.
 
-def randomEncounters(encounterRoll, environment) -> list:
-    encounterGroup = []
+def randomEncounters(roll, environment) -> list:
+    members = []
 
-    match encounterRoll:
-        case 2: encounterGroup = randomSoldiers("elite", environment)
-        case 3: encounterGroup = randomSoldiers("Adept", environment)
-        case 4: encounterGroup = randomSoldiers("proficient", environment)
-        case 5: encounterGroup = randomBeasts("hound", environment, "Basic")
-        case 6: encounterGroup = randomBeasts("lizard", environment, "Basic")
-        case 7: encounterGroup = randomBeasts("wasp", environment, "Toxin")
-        case 8: encounterGroup = randomBeasts("beetle", environment, "Basic")
-        case 9: encounterGroup = randomBeasts("isopod", environment, "Basic")
-        case 10: encounterGroup = randomBeasts("urchin", environment, "Basic")
-        case 11: encounterGroup = randomBeasts("deer", environment, "Basic")
-        case 12: encounterGroup = randomBeasts("rabbit", environment, "Basic")
+    match roll:
+        case 2: members = randomSoldiers("elite", environment)
+        case 3: members = randomSoldiers("Adept", environment)
+        case 4: members = randomSoldiers("proficient", environment)
+        case 5: members = randomBeasts("hound", environment, "Basic")
+        case 6: members = randomBeasts("lizard", environment, "Basic")
+        case 7: members = randomBeasts("wasp", environment, "Toxin")
+        case 8: members = randomBeasts("beetle", environment, "Basic")
+        case 9: members = randomBeasts("isopod", environment, "Basic")
+        case 10: members = randomBeasts("urchin", environment, "Basic")
+        case 11: members = randomBeasts("deer", environment, "Basic")
+        case 12: members = randomBeasts("rabbit", environment, "Basic")
 
-    for i in len(encounterGroup): encounterGroup[i].name += "[" + str(i) + "]"
+    for i in len(members): members[i].name += "[" + str(i) + "]"
 
-    return encounterGroup
+    return members
 
 
 def randomSoldiers(rank, environment) -> list:
-    quantity = getQuantity(environment, [rank])
-    soldierList = [randomHuman("elite"), AggressiveBeasts.hound("Basic", rank).ch]
+    quantity = getQuantity(environment, [rank]) - 1
+    soldierList = [AggressiveBeasts.hound("Basic", rank).ch]
+    
+    match environment["Spades"]:
+        case "King": soldierList += [randomHuman("Master")]
+        case "Queen": soldierList += [randomHuman("Elite")]
+        case "Jack": soldierList += [randomHuman("Adept")]
 
-    totemType = random.choice(["hex", "sentry", "ward"])
-    totemElement = random.choice(["Flame", "Fey", "Ice"])
-    match totemType:
-        case "hex": soldierList += [Totems.hex(totemElement, "Standard")]
-        case "sentry": soldierList += [Totems.sentry(totemElement, "Standard")]
-        case "ward": soldierList += [Totems.ward(totemElement, "Standard")]
+    if quantity > 3:
+        quantity -= 1
+        totemType = random.choice(["hex", "sentry", "ward"])
+        totemElement = random.choice(["Flame", "Fey", "Ice"])
+        match totemType:
+            case "hex": soldierList += [Totems.hex(totemElement, "Standard")]
+            case "sentry": soldierList += [Totems.sentry(totemElement, "Standard")]
+            case "ward": soldierList += [Totems.ward(totemElement, "Standard")]
 
     for i in quantity: soldierList += [randomHuman(rank)]
         
@@ -107,8 +114,8 @@ def getQuantity(environment, rankOptions):
         case "Queen": quantity = 2
         case "Jack": quantity = 1
     
-    if all(["Elder", "Elite", "Greater", "Ancient"] not in rankOptions): 
-        if all(["Adept", "Adult", "Lesser"] not in rankOptions): quantity *= 3
+    if all(ranks not in rankOptions for ranks in ["Elder", "Elite", "Greater", "Ancient", "Master"]): 
+        if all(ranks not in rankOptions for ranks in ["Adept", "Adult", "Lesser"]): quantity *= 3
         else: quantity *= 2
 
     return quantity
