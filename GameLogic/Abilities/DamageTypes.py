@@ -3,7 +3,7 @@ from . import Boons_Apply as Boons
 
 
 pierceAttacks = ["Bodkin", "Bite", "Bristle", "Broadhead", "Claw", "Gore", "Stab"]
-crushAttacks = ["Bash", "Ram", "Sling", "Kick"]
+crushAttacks = ["Bash", "Pinch", "Ram", "Sling", "Kick"]
 venomAttacks = ["Spray", "Sting"]
 
 

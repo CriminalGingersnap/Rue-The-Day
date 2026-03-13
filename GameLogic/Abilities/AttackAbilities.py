@@ -2,7 +2,7 @@ from . import Attacks_Magic as Magic, Attacks_Martial as Martial
 from Systems import PlayerSelect as Select
 
 
-closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Ram", "Stab"]
+closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Pinch", "Ram", "Stab"]
 midMartialAttack = ["Bodkin", "Spray"]
 farMartialAttack = ["Broadhead", "Sling", "Sting"]
 martialAttack = closeMartialAttack + midMartialAttack + farMartialAttack
@@ -46,6 +46,7 @@ def attackComment(fighter, target, attack):
             case "Claw": phrase += " claws at " + end
             case "Gore": phrase += " tries to gore " + end
             case "Kick": phrase += " kicks at " + end
+            case "Pinch": phrase += " pinches at " + end
             case "Ram": phrase += " tries to ram " + end
             case "Sling": phrase += " slings a stone at " + end
             case "Stab": phrase += " stabs at " + end

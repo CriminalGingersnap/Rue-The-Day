@@ -31,6 +31,10 @@ def creatures(type, environment, element) -> list:
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
                 beastList += [AvoidantBeasts.sheep(element, rankChoice).ch]
+        case "lion":
+            for i in quantity:
+                rankChoice = random.choice(rankOptions)
+                beastList += [AggressiveBeasts.lion(element, rankChoice).ch]
         case "moose":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
@@ -45,14 +49,21 @@ def creatures(type, environment, element) -> list:
                 beastList += [AvoidantBeasts.rabbit(element, rankChoice).ch]
  
 
+        case "crocodile":
+            for i in quantity:
+                rankChoice = random.choice([rankOptions])
+                beastList += [Reptiles.crocodile(element, rankChoice).ch]
         case "drake":
             for i in quantity:
                 rankChoice = random.choice([rankOptions])
-                beastList += [AggressiveBeasts.drake(element, rankChoice).ch]
+                beastList += [Reptiles.drake(element, rankChoice).ch]
         case "lizard":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
                 beastList += [Reptiles.lizard(element, rankChoice).ch]
+        case "tortoise":
+            for i in quantity: 
+                rankChoice = random.choice(rankOptions)
         case "turtle":
             for i in quantity: 
                 rankChoice = random.choice(rankOptions)
@@ -85,6 +96,14 @@ def creatures(type, environment, element) -> list:
                 beastList += [Insects.waspNest(element, rankChoice).ch]
 
 
+        case "crab":
+            for i in quantity:
+                rankChoice = random.choice(rankOptions)
+                beastList += [Invertebrates.crab(element, rankChoice).ch]
+        case "octopus":
+            for i in quantity:
+                rankChoice = random.choice(rankOptions)
+                beastList += [Invertebrates.octopus(element, rankChoice).ch]
         case "urchin":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)

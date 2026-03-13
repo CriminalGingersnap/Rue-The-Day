@@ -71,19 +71,19 @@ def throwStone(fighter, stone, groups, battleMap) -> str:
         potency = 3
     dmgType = Damage.convertElmToDmg(elm)
 
-    atmosphere = Apply.getAtmosphere(potency, dmgType)
-    battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
-    Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
-
-    if "Ice" in stone:
-        elevation = battleMap[tossRow][tossColumn][-1]
-        battleMap[tossRow][tossColumn] = iMap.wall[:-1] + elevation
-    elif "Fey" in stone:
-        uMap.updatePlacement(battleMap, fighter.sightMap, tossSpace[0], tossSpace[1], fighter)
+    if "Fey" in stone:
+        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossSpace[1], fighter)
         if potency == 3:
             tossSpace = findSpace(fighter, groups, 4)
             tossRow, tossColumn = tossSpace[0], tossSpace[1]
-            uMap.updatePlacement(battleMap, fighter.sightMap, tossSpace[0], tossSpace[1], fighter)
+            if (tossRow != fighter.position[0]) and (tossColumn != fighter.position[1]):
+                uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
+                potency -= 1
+        potency -= 1
+
+    atmosphere = Apply.getAtmosphere(potency, dmgType)
+    battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
+    Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
 
     return fighter.name + " throws a " + stone + "!"
 

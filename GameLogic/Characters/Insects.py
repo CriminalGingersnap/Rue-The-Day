@@ -5,19 +5,19 @@ import random
 
 def setCommon(element, rank) -> list:
     type = "insect"
+    if rank == "Random": rank = random.choice(["Small", "Large"])
 
     traits = Characters.setTraits()
+    cndt = traits[0]
     stats = {"avoidance": "low", "hp": "low", "resist": traits[1], "speed": "low"}
-    if rank == "Random": rank = random.choice(["Small", "Large"])
-    if rank == "Small": stats["hp"] = "min"
 
     Animals.setAnimalResistance(element, rank, stats)
     stats["resist"]["Dream"] = "resistant"
 
-    cndt = traits[0]
     cndt["armored"] = True
 
     return [stats, cndt, rank, type]
+
 
 class ant:
     def __init__(self, element, rank) -> None:

@@ -61,7 +61,7 @@ class hulk: # it walks on three legs like a strand beast
         stats["avoidance"] = "low"
         stats["hp"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash"], "boons": ["Guard", "Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater":
             dice["martial"] += 1
@@ -80,9 +80,12 @@ class obelisk:
         stats["hp"] = "max"
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"areas": ["Hex"], "attacks": ["Bring"], "boons": ["Shroud"], "hindrances": ["Compel", ""]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Shroud"]})
         dice = {"martial": 0, "magic": 3}
         if rank == "Greater": dice["magic"] += 2
+
+        if element == "Holy": abl["areas"] += ["Bless"]
+        else: abl["areas"] += ["Hex"]
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, drop, rank)
@@ -98,7 +101,7 @@ class hive:
         stats["hp"] = "max"
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Broadhead"], "boons": ["Wreath"], "hindrance": ["Disorient"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["magic"] += 2
 
@@ -113,7 +116,7 @@ class ooze:
         stats["avoidance"] = "low"
         stats["speed"] = "low"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash"], "boons": ["Regenerate", "Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
         dice = {"martial": 1, "magic": 2}
         if rank == "Greater": dice["magic"] += 2
 
@@ -127,7 +130,7 @@ class puffer:
 
         stats["resist"]["Pierce"] = "vulnerable"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bring", "Stab"], "boons": ["Bristle", "Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Bristle"], "hindrances": ["Bind"]})
         dice = {"martial": 3, "magic": 2}
         if rank == "Greater": dice["magic"] += 2
 
@@ -143,7 +146,7 @@ class satyr:
         stats["avoidance"] = "high"
         stats["speed"] = "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"], "boons": ["Shroud", "Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Broadhead", "Sling"], "boons": ["Shroud"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["magic"] += 2
 
@@ -160,7 +163,7 @@ class ogre:
         stats["hp"] = "max"
         stats["resist"]["Crush"], stats["resist"]["Pierce"] = "resistant", "resistant"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash"], "boons": ["Slip", "Wreath"], "hindrances": ["Disorient"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash"], "boons": ["Slip"], "hindrances": ["Disorient"]})
         dice = {"martial": 2, "magic": 1}
         if rank == "Greater": dice["martial"] += 2
 
@@ -172,7 +175,7 @@ class nymph:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"boons": ["Breath", "Wreath"], "hindrances": ["Compel"]})
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
         dice = {"martial": 0, "magic": 3}
         if rank == "Greater": dice["magic"] += 2
 
@@ -185,9 +188,11 @@ class sphinx:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "boons": ["Wreath"], "hindrances": ["Compel"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
         dice = {"martial": 2, "magic": 1}
-        if rank == "Greater": dice["martial"] += 2
+        if rank == "Greater":
+            dice["magic"] += 1
+            dice["martial"] += 1
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Sphinx", element, type, drop, rank)
@@ -200,7 +205,7 @@ class wisp:
         cndt["sapient"] = False
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "low", "max"
 
-        abl = Characters.setAbilities(type, {"hindrances": ["Disorient", "Misdirect", "Seal"]})
+        abl = Characters.setAbilities(type, {"hindrances": ["Compel", "Misdirect", "Seal"]})
         dice = {"martial": 0, "magic": 1}
         if rank == "Greater": dice["magic"] += 3
 

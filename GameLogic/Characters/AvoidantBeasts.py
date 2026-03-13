@@ -26,10 +26,11 @@ class deer:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["skittish"] = True
 
-        abl = Characters.setAbilities(type, {"attacks": ["Gore", "Kick"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, {"attacks": [random.choice(["Kick", "Gore"])]})
         dice = {"martial": 1, "magic": 0}
 
-        if rank == "Elder": abl["boons"] += ["Shroud"]
+        if rank == "Elder":
+            if element == "Fey": abl["boons"] += ["Shroud"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -41,12 +42,26 @@ class gopher:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["avoidance"], stats["speed"] = "mid", "mid"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Wreath"]})
         dice = {"martial": 1, "magic": 1}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Gopher", element, type, drop, rank)
+
+class mole:
+    def __init__(self, element, rank) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        stats["avoidance"], stats["speed"] = "low", "low"
+        stats["hp"] = "high"
+
+        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "boons": ["Wreath"]})
+        dice = {"martial": 1, "magic": 1}
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, drop, rank)
 
 class rabbit:
     def __init__(self, element, rank) -> None:
@@ -58,22 +73,9 @@ class rabbit:
         abl = Characters.setAbilities(type, {"boons": ["Evade"]})
         dice = {"martial": 1, "magic": 0}
 
-        if rank == "Elder": abl["hindrances"] += ["Misdirect"]
+        if rank == "Elder":
+            if element == "Fey": abl["hindrances"] += ["Misdirect"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, drop, rank)
-   
-class sheep:
-    def __init__(self, element, rank) -> None:
-        common = setCommon(element, rank)
-        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        dice = {"martial": 1, "magic": 0}
-
-        abl = Characters.setAbilities(type, {"attacks": ["Kick", "Ram"], "boons": ["Guard"]})
-
-        if rank  == "Elder": abl["boons"] += ["Wreath"]
-
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sheep", element, type, drop, rank)

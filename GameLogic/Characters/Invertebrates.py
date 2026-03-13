@@ -10,6 +10,20 @@ def setCommon(element, rank) -> list:
     return common
 
 
+class crab:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["aggressive"], cndt["armored"], cndt["skittish"] = True, True, False
+        stats["hp"], stats["speed"] = "high", "min"
+
+        abl = Characters.setAbilities(type, {"attacks": ["Pinch"]})
+        dice = {"martial": 2, "magic": 0}
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, drop, rank)
+        
 class mussel:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
@@ -17,13 +31,26 @@ class mussel:
         cndt["armored"] = True
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"boons": ["Guard", "Wreath"]})
+        abl = Characters.setAbilities(type, {"boons": ["Guard"]})
         dice = {"martial": 1, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, drop, rank)
-        
+
+class octopus:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["aggressive"], cndt["skittish"] = True, False
+        stats["hp"], stats["speed"] = "mid", "mid"
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind"]})
+        dice = {"martial": 2, "magic": 0}
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Octopus", element, type, drop, rank)
     
 class urchin:
     def __init__(self, element, rank) -> None:
@@ -31,7 +58,7 @@ class urchin:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "boons": ["Bristle"]})
+        abl = Characters.setAbilities(type, {"boons": ["Bristle"]})
         dice = {"martial": 1, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -44,7 +71,7 @@ class worm:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
 
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
-        dice = {"martial": 0, "magic": 0}
+        dice = {"martial": 0, "magic": 1}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory

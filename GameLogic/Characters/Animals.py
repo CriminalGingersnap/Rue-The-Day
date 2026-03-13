@@ -50,12 +50,12 @@ def downgradeStats(cndt, rank, stats):
 
     match rank:
         case "Juvenile" | "Small":
-            attribute = ["hp"]
+            attributes = ["hp"]
             cndt["massive"] = False
-        case "Elder": attribute = ["avoidance", "speed"]
-        case "Fresh": attribute = ["hp", "avoidance", "speed"]
-        case "Wizened": attribute = ["avoidance", "speed"]
-        case "Ancient": attribute = ["speed"]
+        case "Elder": attributes = ["avoidance", "speed"]
+        case "Fresh": attributes = ["hp", "avoidance", "speed"]
+        case "Wizened": attributes = ["avoidance", "speed"]
+        case "Ancient": attributes = ["speed"]
         
     for attribute in attributes:
         match stats[attribute]:
