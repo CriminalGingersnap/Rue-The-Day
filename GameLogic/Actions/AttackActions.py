@@ -66,7 +66,7 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     if (not pickClosest) and fighter.cndt["sapient"] and random.choice([True, False]):
         job = fighter.job
         if lowestHPEnemy.atrb["cur_hp"] < 6: target = lowestHPEnemy
-        elif job in ["Archer", "Dragonslayer", "Knight"]:
+        elif job in ["Archer", "Brute", "Dragonslayer", "Knight"]:
             target = random.choice([highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
         elif fighter.element != "Basic":
             match fighter.element:

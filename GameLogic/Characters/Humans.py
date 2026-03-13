@@ -18,28 +18,29 @@ def setCommon(job, rank, element) -> list:
         case "Adept": stats["resist"]["Dream"] = "normal"
         case "Elite" | "Master": stats["resist"]["Dream"] = "resistant"
 
-    if job == "Knight": stats["speed"] = "high"
+    if job in ["Brute", "Knight"]: stats["speed"] = "high"
 
-    if job in ["Archer", "Knight"]:
-        match rank:
-            case "Novice": dice["martial"] = 1
-            case "Proficient" | "Adept": dice["martial"] = 2
-            case "Elite": dice["martial"] = 3
-            case "Master": dice["martial"] = 4
-    elif job == "Mage":
-        match rank:
-            case "Novice": dice["magic"] = 1
-            case "Proficient" | "Adept": dice["magic"] = 2
-            case "Elite": dice["magic"] = 3
-            case "Master": dice["magic"] = 4
-    elif job in ["Dragonslayer", "Paladin"]:
-        match rank:
-            case "Novice": dice["martial"] = 1
-            case "Proficient" | "Adept": dice["martial"], dice["magic"] = 1, 1
-            case "Elite": dice["martial"], dice["magic"] = 2, 1
-            case "Master": 
-                if job == "Dragonslayer": dice["martial"], dice["magic"] = 3, 1
-                else: dice["martial"], dice["magic"] = 2, 2
+    match job:
+        case "Archer" | "Brute" | "Knight":
+            match rank:
+                case "Novice": dice["martial"] = 1
+                case "Proficient" | "Adept": dice["martial"] = 2
+                case "Elite": dice["martial"] = 3
+                case "Master": dice["martial"] = 4
+        case "Mage":
+            match rank:
+                case "Novice": dice["magic"] = 1
+                case "Proficient" | "Adept": dice["magic"] = 2
+                case "Elite": dice["magic"] = 3
+                case "Master": dice["magic"] = 4
+        case "Dragonslayer" | "Paladin" | "Warlock":
+            match rank:
+                case "Novice": dice["martial"] = 1
+                case "Proficient" | "Adept": dice["martial"], dice["magic"] = 1, 1
+                case "Elite": dice["martial"], dice["magic"] = 2, 1
+                case "Master": 
+                    if job == "Dragonslayer": dice["martial"], dice["magic"] = 3, 1
+                    else: dice["martial"], dice["magic"] = 2, 2
 
     return [stats, cndt, dice, type]
 
@@ -68,6 +69,54 @@ class archer:
                 
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bodkin", "Broadhead"])]
+                        correctSpecialties(abl, secondSpecialty)
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        inv = Inventory.humanInventory(rank, element, job).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+
+class brute:
+    def __init__(self, rank) -> None:
+        job, element = "Brute", "Basic"
+        common = setCommon(job, rank, element)
+        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        
+        if rank in ["Proficient", "Adept", "Elite", "Master"]:
+            abl["hindrances"] += ["Harry"]
+
+            if rank in ["Adept", "Elite", "Master"]:
+                abl["specialty"] = [random.choice(["Bash", "Guard", "Stab"])]
+                
+                if rank in ["Elite", "Master"]:
+                    abl["hindrances"] += ["Bind"]
+                    
+                    if rank == "Master":
+                        secondSpecialty = [random.choice(["Bash", "Bind", "Harry", "Stab"])]
+                        correctSpecialties(abl, secondSpecialty)
+        
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        inv = Inventory.humanInventory(rank, element, job).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+
+class dragonslayer:
+    def __init__(self, rank, element) -> None:
+        job = "Dragonslayer"
+        common = setCommon(job, rank, element)
+        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
+        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
+
+        if rank in ["Proficient", "Adept", "Elite", "Master"]:
+            abl["boons"] += ["Wreath"]
+            
+            if rank in ["Adept", "Elite", "Master"]:
+                abl["specialty"] = [random.choice(["Bodkin", "Wreath"])]
+                
+                if rank in ["Elite", "Master"]:
+                    abl["hindrances"] += ["Misdirect"]
+                    
+                    if rank == "Master":
+                        secondSpecialty = [random.choice(["Bodkin", "Misdirect", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -126,30 +175,6 @@ class mage:
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
-class dragonslayer:
-    def __init__(self, rank, element) -> None:
-        job = "Dragonslayer"
-        common = setCommon(job, rank, element)
-        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
-
-        if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["boons"] += ["Wreath"]
-            
-            if rank in ["Adept", "Elite", "Master"]:
-                abl["specialty"] = [random.choice(["Bodkin", "Wreath"])]
-                
-                if rank in ["Elite", "Master"]:
-                    abl["hindrances"] += ["Misdirect"]
-                    
-                    if rank == "Master":
-                        secondSpecialty = [random.choice(["Bodkin", "Misdirect", "Wreath"])]
-                        correctSpecialties(abl, secondSpecialty)
-
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-        inv = Inventory.humanInventory(rank, element, job).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
-        
 class paladin:
     def __init__(self, rank) -> None:
         job, element = "Paladin", "Blessed"
@@ -164,12 +189,36 @@ class paladin:
                 abl["specialty"] = [random.choice(["Sling", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    abl["boons"] += ["Compel"]
+                    abl["areas"] += ["Bless"]
                     
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Compel", "Sling", "Wreath"])]
+                        secondSpecialty = [random.choice(["Sling", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        inv = Inventory.humanInventory(rank, element, job).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+
+class warlock:
+    def __init__(self, rank, element) -> None:
+        job = "Warlock"
+        common = setCommon(job, rank, element)
+        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        
+        if rank in ["Proficient", "Adept", "Elite", "Master"]:
+            abl["attacks"] += ["Bring"]
+
+            if rank in ["Adept", "Elite", "Master"]:
+                abl["specialty"] = [random.choice(["Bash", "Bring", "Stab"])]
+                
+                if rank in ["Elite", "Master"]:
+                    abl["areas"] += ["Hex"]
+                    
+                    if rank == "Master":
+                        secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
+                        correctSpecialties(abl, secondSpecialty)
+        
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)

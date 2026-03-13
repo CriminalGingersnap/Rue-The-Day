@@ -66,7 +66,7 @@ def setWeapon(job, element) -> list:
         if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
         else: weapon["name"] += " Flag"
     
-    elif job == "Knight":
+    elif job in ["Brute", "Knight", "Warlock"]:
         longMelee, shortMelee = ["Poleaxe", "Spear", "Staff"], ["Axe", "Mace", "War Pick"]
         bluntMelee, sharpMelee = ["Mace", "Poleaxe", "Staff", "War Pick"], ["Axe", "Poleaxe", "Spear", "War Pick"]
 
