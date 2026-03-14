@@ -30,6 +30,7 @@ class bear:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Slip"]
+            else: abl["boons"] += ["Wreath"]
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -47,6 +48,7 @@ class hound:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
+            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -63,6 +65,7 @@ class ferret:
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
+            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -95,6 +98,7 @@ class moose:
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
+            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory

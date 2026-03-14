@@ -20,7 +20,6 @@ def elementals(type, environment, element, majorBiome):
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
                 elementalList += [Elementals.wraith(element, rankChoice).ch]
-        
 
         case "hive":
             for i in quantity:
@@ -64,7 +63,12 @@ def elementals(type, environment, element, majorBiome):
         case "wisp":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
-                elementalList += [Elementals.wisp(element, rankChoice).ch]       
+                elementalList += [Elementals.wisp(element, rankChoice).ch]
+
+        case "grotesquery":
+            for i in quantity:
+                rankChoice = random.choice(rankOptions)
+                elementalList += [Elementals.grotesquery(element, rankChoice).ch]
 
     return elementalList
 

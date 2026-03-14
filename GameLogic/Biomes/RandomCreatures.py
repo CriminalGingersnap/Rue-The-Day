@@ -100,6 +100,10 @@ def creatures(type, environment, element) -> list:
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
                 beastList += [Invertebrates.crab(element, rankChoice).ch]
+        case "leech":
+            for i in quantity:
+                rankChoice = random.choice(rankOptions)
+                beastList += [Invertebrates.leech(element, rankChoice).ch]
         case "octopus":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)

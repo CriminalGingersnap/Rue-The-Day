@@ -28,11 +28,11 @@ def setFoes(biome, faceCards) -> list:
 
             # case "Kingdom Stronghold": members = Kingdom.strongholdEncounters(roll, faceCards)
             case "Kingdom Road": members = Kingdom.roadEncounters(roll, faceCards)
-            # case "Marsh": members = Kingdom.marshEncounters(roll, faceCards)
+            # case "Marshland": members = Kingdom.marshEncounters(roll, faceCards)
             # case "Outlaw Camp": members = Kingdom.outlawEncounters(roll, faceCards)
-            # case "Unsettled": members = Kingdom.hillEncounters(roll, faceCards)
+            # case "Unsettled": members = Kingdom.unsettledEncounters(roll, faceCards)
 
-            # case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, faceCards)
+            case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, faceCards)
             case "Holy Scrubland": members = Benediction.scrublandEncounters(roll, faceCards)
             case "Holy Desert": members = Benediction.desertEncounters(roll, faceCards)
             case "Rot Encroachment": members = Benediction.encroachmentEncounter(roll, faceCards)

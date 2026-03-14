@@ -13,10 +13,7 @@ def setCommon(job, element, rank) -> list:
     cndt["sapient"] = True
 
     if rank == "Random": rank = random.choice(["Proficient", "Adept", "Elite"])
-
-    match rank:
-        case "Adept": stats["resist"]["Dream"] = "normal"
-        case "Elite" | "Master": stats["resist"]["Dream"] = "resistant"
+    if rank in ["Elite", "Master"]: stats["resist"]["Dream"] = "resistant"
 
     if job in ["Brute", "Knight"]: stats["speed"] = "high"
 

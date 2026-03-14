@@ -12,9 +12,6 @@ def setCommon(element, rank) -> list:
     stats = {"hp": "mid", "resist": traits[1]}
 
     Animals.setAnimalResistance(element, rank, stats)
-    if stats["resist"]["Dream"] == "vulnerable":
-        stats["resist"]["Dream"] = "normal"
-
     stats["avoidance"] = "mid"
     stats["speed"] = "mid"
 

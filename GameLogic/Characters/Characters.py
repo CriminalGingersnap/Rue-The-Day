@@ -51,7 +51,7 @@ def setAttributes(rank, stats, cndt, elm, dice):
 
     if cndt["lifeless"]:
         cndt["aggressive"], cndt["sapient"], cndt["social"] = True, False, False
-        stats["resist"]["Bleed"] = "immune"
+        stats["resist"]["Bleed"], stats["resist"]["Dream"], stats["resist"]["Venom"] = "immune", "immune", "immune"
         endurance *= 3
     if elm == "Basic": tolerance *= 2
 

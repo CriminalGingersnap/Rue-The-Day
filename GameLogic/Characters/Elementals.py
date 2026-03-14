@@ -7,14 +7,17 @@ def setElementalResistance(element, stats):
     if element == "Random":
         element = random.choice(["Fey", "Flame", "Ice"])
     
+    elif element == "Blessed":
+        stats["resist"]["Holy"] = "immune"
+    if element == "Corpse":
+        stats["resist"]["Holy"] = "vulnerable"
+        stats["resist"]["Rot"] = "immune"
     if element == "Fey":
-        stats["resist"]["Dream"] = "immune"
-        stats["resist"]["Rot"] = "resistant"
+        stats["resist"]["Crush"], stats["resist"]["Pierce"] = "resistant", "resistant"
+        stats["resist"]["Rot"] = "vulnerable"
     elif element == "Flame":
         stats["resist"]["Burn"] = "immune"
         stats["resist"]["Freeze"] = "vulnerable"
-    elif element == "Blessed":
-        stats["resist"]["Holy"] = "resistant"
     elif element == "Ice":
         stats["resist"]["Freeze"] = "immune"
         stats["resist"]["Burn"] = "vulnerable"
@@ -160,7 +163,6 @@ class ogre:
         
         stats["avoidance"] = "low"
         stats["hp"] = "max"
-        stats["resist"]["Crush"], stats["resist"]["Pierce"] = "resistant", "resistant"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bash"], "boons": ["Slip"], "hindrances": ["Disorient"]})
         dice = {"martial": 2, "magic": 1}
@@ -246,3 +248,21 @@ class wisp:
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Wisp", element, type, drop, rank)
+
+
+
+class grotesquery:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["massive"] = True        
+        stats["avoidance"], stats["hp"], stats["speed"]  = "low", "max", "low"
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bring"], "boons": ["Guard", "Wreath"]})
+        dice = {"martial": 2, "magic": 1}
+        if rank == "Greater":
+            dice["magic"] += 1
+            dice["martial"] += 1
+
+        drop = Inventory.elementalInventory(element, rank).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Grotesquery", element, type, drop, rank)

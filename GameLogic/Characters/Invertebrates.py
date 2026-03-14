@@ -23,7 +23,20 @@ class crab:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, drop, rank)
-        
+
+class leech:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["aggressive"], cndt["skittish"] = True, False
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"],"boons": ["Wreath"]})
+        dice = {"martial": 1, "magic": 1}
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Leech", element, type, drop, rank)
+
 class mussel:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)

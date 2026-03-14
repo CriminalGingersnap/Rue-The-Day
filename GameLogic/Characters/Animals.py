@@ -1,35 +1,30 @@
-def setAnimalResistance(element, rank, stats):
-    stats["resist"]["Dream"] = "vulnerable"
-    
-    level, anti = "resistant", "resistant"
-    if rank in ["Elder", "Master"]:
-        level = "immune"
-        anti = "normal"
+def setAnimalResistance(element, rank, stats):    
+    mainRes, holyRes = "resistant", "resistant"
+    if rank in ["Elder", "Master"]: mainRes, holyRes = "immune", "normal"
     if element != "Basic":
-        stats["resist"]["Holy"] = anti
+        stats["resist"]["Holy"] = holyRes
         stats["resist"]["Venom"] = "resistant"
     
     match element:
         case "Blessed":
-            stats["resist"]["Holy"] = level
-            stats["resist"]["Rot"] = level
+            stats["resist"]["Holy"] = mainRes
+            stats["resist"]["Rot"] = mainRes
         case "Corpse":
-            stats["resist"]["Rot"] = level
-            stats["resist"]["Dream"] = "immune"
+            stats["resist"]["Rot"] = mainRes
             stats["resist"]["Holy"] = "vulnerable"
         case "Fey":
-            stats["resist"]["Dream"] = level
+            stats["resist"]["Dream"] = mainRes
             stats["resist"]["Pierce"] = "resistant"
             stats["resist"]["Crush"] = "resistant"
             stats["resist"]["Rot"] = "vulnerable"
         case "Flame":
-            stats["resist"]["Burn"] = level
+            stats["resist"]["Burn"] = mainRes
             stats["resist"]["Freeze"] = "vulnerable"
         case "Ice":
-            stats["resist"]["Freeze"] = level
+            stats["resist"]["Freeze"] = mainRes
             stats["resist"]["Burn"] = "vulnerable"
         case "Toxin":
-            stats["resist"]["Venom"] = level
+            stats["resist"]["Venom"] = mainRes
             stats["resist"]["Rot"] = "resistant"
 
 def incrementDice(dice, rank) -> list:
