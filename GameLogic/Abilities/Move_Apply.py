@@ -1,9 +1,9 @@
 
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Conditions
 from Abilities import Boons_Set as Boons
 from . import Attacks_Martial as Martial, Area_Set as Area
 
-stationaryAbilities = ["Inventory", "Evade", "Examine", "Set"]
+stationaryAbilities = ["Inventory", "Empower", "Evade", "Examine", "Set"]
 
 
 def execute(fighter, groups, ability, battleMap) -> None: 
@@ -11,12 +11,20 @@ def execute(fighter, groups, ability, battleMap) -> None:
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
+        case "Empower": applyEmpower(visibleTargets)
         case "Examine": applyExamine(visibleTargets)
         case "Evade": applyEvade(fighter)
         case "Inventory": applyInventory(fighter)
         case "Set": applySet(fighter)
 
     fighter.atrb["cur_sp"] = 0
+
+
+def applyEmpower(fighter) -> None:
+    Conditions.decrementTolerance(fighter, fighter.atrb["cur_mag"])
+    fighter.atrb["cur_mar"] += fighter.atrb["cur_mag"]
+    fighter.atrb["cur_mag"] = 0
+    Select.waitPrint(fighter.name + " empowers their body with magic!")  
 
 
 def applyEvade(fighter) -> None:

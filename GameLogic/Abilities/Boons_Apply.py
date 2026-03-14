@@ -66,6 +66,11 @@ def applyShroud(fighter) -> bool:
     return visible
 
 
+# Add additional speed attribute. Increase by 100 at start of turn before clearing effects on fighter.
+# def applySlip(principal, ability) -> str:
+#     bonus = ""
+
+
 def applyWreath(principal, attackDmgType) -> int:
     wreathElement = principal.effects["Wreath"]["additional"]
     compatible = checkCompatibility(attackDmgType, wreathElement)

@@ -18,15 +18,35 @@ class benedictionMap:
         row12 = ["////⇑","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓"]
 
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+        self.legend = {"s": "Shoreline", "S": "Sea Monster", "r": "Rot Encroachment", "R": "Rot Locus", "h": "Holy Scrubland", "H": "Holy Desert", "D": "Dream Lair", "d": "Dream Sea Caves"}
         self.marker = mapMarker(self.worldMap, [5, 9])
+
+class infestationMap:
+    def __init__(self) -> None:
+        row1  = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓"]
+        row2  = ["~~~~⇓","~~~~⇓","~~~~↓","~~~~⇓","~~~~⇓","s___↓","~~~~↓","s___↓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓",]
+        row3  = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~↓","m___↓","~~~~↓","m___↓","~~~~↓","~~~~⇓","~~~~⇓","~~~~↓",]
+        row4  = ["~~~~⇓","~~~~⇓","~~~~⇓","s___↓","~~~~↓","~~~~↓","~~~~↓","m___↓","~~~~↓","~~~~↓","s.._↓","~~~~↓",]
+        row5  = ["~~~~⇓","~~~~⇓","s___↓","s___↓","m___↓","~~~~↓","m___↓","m___↓","~~~~↓","~~~~↓","m___↓","~~~~↓",]
+        row6  = ["~~~~⇓","K___|","~~~~↓","~~~~↓","m___↓","~~~~↓","~~~~↓","u___|","o___|","~~~~↓","o___|","~~~~↓",]
+        row7  = ["s___↓","K___|","K___|","~~~~↓","~~~~↓","~~~~↓","~~~~↓","u___|","////⇑","~~~~↓","o___↑","~~~~↓",]
+        row8  = ["u___↓","u___|","k___|","k___↓","u___↓","~~~~↓","~~~~↓","////⇑","////⇑","~~~~↓","~~~~↓","~~~~↓",]
+        row9  = ["h___↑","h___↑","////⇑","k___|","k___|","~~~~↓","~~~~↓","~~~~↓","~~~~↓","~~~~↓","~~~~↓","o___|",]
+        row10 = ["h___↑","h___↑","u___|","k___|","u___|","~~~~↓","~~~~↓","~~~~↓","~~~~↓","~~~~↓","o___↑","o___↑",]
+        row11 = ["////⇑","h___↑","K___↑","K___↑","h___↑","k___|","~~~~↓","~~~~↓","~~~~↓","~~~~↓","////⇑","o___↑",]
+        row12 = ["////⇑","////⇑","K___↑","////⇑","h___↑","K___↑","k___↑","~~~~↓","~~~~↓","~~~~↓","~~~~↓","////⇑",]
+
+        self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+        self.legend = {"K": "Kingdom Stronghold", "k": "Kingdom Road", "s": "Shoreline", "o": "Outlaw Camp"}
+        self.marker = mapMarker(self.worldMap, [3, 10])
 
 
 class metamorphosisMap:
     def __init__(self) -> None:
         row1  = ["~~~~⇓","~~~~⇓","d___↓","////⇑","D___↑","////⇑","D___↑","D___↑","////⇑","////⇑","F___↑","////⇑"]
         row2  = ["~~~~⇓","~~~~⇓","~~~~⇓","d___↓","D___|","////⇑","D___↑","////⇑","////⇑","////⇑","F___↑","F___↑"]
-        row3  = ["~~~~⇓","~~~~⇓","~~~~⇓","d___↓","d___↓","D___|","D___|","////⇑","////⇑","F___↑","F___↑","F___↑"]
-        row4  = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","d___↓","d___↓","d___↓","f___↓","f___↓","F___↑","////⇑"]
+        row3  = ["~~~~⇓","~~~~⇓","~~~~⇓","d___↓","d___↓","D___|","D___|","////⇑","////⇑","F___|","F___↑","F___↑"]
+        row4  = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","d___↓","d___↓","d___↓","f___↓","f___↓","F___|","////⇑"]
         row5  = ["B___↑","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","f___↓"]
         row6  = ["B___⇑","B___↑","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","f___↓","f___|"]
         row7  = ["////⇑","B___⇑","b___|","~~~~⇓","////⇑","~~~~⇓","~~~~⇓","~~~~⇓","////⇑","f___↓","f___|","////⇑"]
@@ -37,6 +57,7 @@ class metamorphosisMap:
         row12 = ["~~~~⇓","////⇑","////⇑","////⇑","////⇑","////⇑","w.._↑","////⇑","////⇑","////⇑","////⇑","////⇑"]
         
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+        self.legend = {"w": "Wildlands Pass", "W": "Wildlands Bay", "b": "Burning Peninsula", "B": "Burning Volcano", "f": "Frozen Fjord", "f": "Frozen Glacier", "d": "Dreamwood Periphery", "d": "Dreamwood Depths"}
         self.marker = mapMarker(self.worldMap, [11, 6])
 
 class kingKillerMap:
@@ -55,6 +76,7 @@ class kingKillerMap:
         row12 = ["~~~~⇓","k___↓","K___↓","K___↓","m___↓","////⇑","k___↓","K___|","////⇑","~~~~↓","////⇑","////⇑"]
 
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+        self.legend = {"w": "Wildlands Pass", "K": "Kingdom Stronghold", "k": "Kingdom Road", "s": "Shoreline", "o": "Outlaw Camp"}
         self.marker = mapMarker(self.worldMap, [0, 6])
 
 
@@ -62,7 +84,7 @@ class mapMarker:
     def __init__(self, worldMap, start):
         self.initials, self.position = "..", start
         self.rank, self.type = "world", "marker"
-        self.atrb = {"base_sp": 1}
+        self.atrb = {"base_sp": 2}
         self.lastVisited = [start,[],[],[],[],[],[]]
 
         self.sightMap = createSightMap(worldMap, start, self.rank)
@@ -80,3 +102,19 @@ def createSightMap(worldMap, position, rank):
                 sightMap[row][column] = Visibility.unseen + worldMap[row][column][-1]
 
     return sightMap
+
+
+def printWorldMap(worldMap):
+    displayList = []
+
+    Print.printOptionsMap(worldMap.marker.sightMap, "World Map")
+
+    for column in range(12):
+        for row in range(12):
+            biome = worldMap.marker.sightMap[row][column][0]
+            if biome not in displayList: displayList += biome
+            
+    Select.waitPrint("Map Legend:")
+    for letter in worldMap.legend:
+        if letter in displayList:
+            Select.waitPrint("  | " + letter + " -> " + worldMap.legend[letter])

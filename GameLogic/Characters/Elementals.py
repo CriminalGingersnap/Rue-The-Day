@@ -46,7 +46,7 @@ class dancer:
         stats["speed"] = "max"
 
         abl = Characters.setAbilities(type, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
-        dice = {"martial": 2, "magic": 1}
+        dice = {"martial": 3, "magic": 0}
         if rank == "Greater": dice["martial"] += 2
 
         drop = Inventory.elementalInventory(element, rank).inventory
@@ -69,18 +69,13 @@ class hulk: # it walks on three legs like a strand beast
         
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Hulk", element, type, drop, rank)
-        
-class obelisk:
-    def __init__(self, element, rank) -> None:
+
+class wraith:
+    def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["massive"] = True
 
-        stats["avoidance"] = "min"
-        stats["hp"] = "max"
-        stats["speed"] = "min"
-
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Shroud"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Heal"]})
         dice = {"martial": 0, "magic": 3}
         if rank == "Greater": dice["magic"] += 2
 
@@ -88,7 +83,7 @@ class obelisk:
         else: abl["areas"] += ["Hex"]
 
         drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wraith", element, type, drop, rank)
         
 
 class hive:
@@ -102,8 +97,8 @@ class hive:
         stats["speed"] = "min"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
-        dice = {"martial": 2, "magic": 1}
-        if rank == "Greater": dice["magic"] += 2
+        dice = {"martial": 1, "magic": 2}
+        if rank == "Greater": dice["martial"] += 2
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Sprite Hive", element, type, drop, rank)
@@ -131,8 +126,10 @@ class puffer:
         stats["resist"]["Pierce"] = "vulnerable"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Bristle"], "hindrances": ["Bind"]})
-        dice = {"martial": 3, "magic": 2}
-        if rank == "Greater": dice["magic"] += 2
+        dice = {"martial": 2, "magic": 1}
+        if rank == "Greater":
+            dice["magic"] += 1
+            dice["martial"] += 1
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Puffer Fish", element, type, drop, rank)
@@ -148,7 +145,9 @@ class satyr:
 
         abl = Characters.setAbilities(type, {"attacks": ["Broadhead", "Sling"], "boons": ["Shroud"]})
         dice = {"martial": 2, "magic": 1}
-        if rank == "Greater": dice["magic"] += 2
+        if rank == "Greater":
+            dice["magic"] += 1
+            dice["martial"] += 1
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Satyr", element, type, drop, rank)
@@ -183,10 +182,46 @@ class nymph:
         self.ch = Characters.character(abl, dice, cndt, stats, "Nymph", element, type, drop, rank)
 
 
+class bull:
+    def __init__(self, element, rank) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+
+        abl = Characters.setAbilities(type, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
+        dice = {"martial": 3, "magic": 0}
+        if rank == "Greater":
+            dice["martial"] += 2
+
+        drop = Inventory.elementalInventory(element, rank).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Bull", element, type, drop, rank)
+
+class obelisk:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["massive"] = True
+
+        stats["avoidance"] = "min"
+        stats["hp"] = "max"
+        stats["speed"] = "min"
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Shroud"]})
+        dice = {"martial": 0, "magic": 3}
+        if rank == "Greater": dice["magic"] += 2
+
+        if element == "Holy": abl["areas"] += ["Bless"]
+        else: abl["areas"] += ["Hex"]
+
+        drop = Inventory.elementalInventory(element, rank).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, drop, rank)
+
 class sphinx:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["massive"] = True
+
+        stats["hp"] = "max"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
         dice = {"martial": 2, "magic": 1}

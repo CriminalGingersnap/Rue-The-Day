@@ -7,7 +7,10 @@ import random
 
 def moveAction(fighter, groups, battleMap) -> None:
     posOptions = ["Evade"] + fighter.abl["areas"]
-    if fighter.atrb["base_mar"] > 0: posOptions += ["Set"]
+    if fighter.atrb["base_mar"] > 0:
+        posOptions += ["Set"]
+        if fighter.atrb["base_mag"] > 0:
+            posOptions += ["Empower"]
 
     hasInventory = any(invAbl in fighter.abl["boons"] for invAbl in ["Inventory", "Quick Inventory"])
     if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
@@ -57,9 +60,10 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies, True)
 
         if target != "None":
-            stationary = False
-            Movement.moveFighter(fighter, battleMap, target, closeRanks)
+            stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
-    if stationary: choice = random.choice(posOptions)
+    if stationary:
+        if (target == "None") and ("Empower" in posOptions): posOptions -= ["Empower"]
+        choice = random.choice(posOptions)
     if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
     elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap)
