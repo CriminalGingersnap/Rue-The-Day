@@ -3,7 +3,7 @@ from Systems import PlayerSelect as Select
 
 
 closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Pinch", "Ram", "Stab"]
-midMartialAttack = ["Bodkin", "Spray"]
+midMartialAttack = ["Bodkin", "Spit", "Spray"]
 farMartialAttack = ["Broadhead", "Sling", "Sting"]
 martialAttack = closeMartialAttack + midMartialAttack + farMartialAttack
 
@@ -49,8 +49,9 @@ def attackComment(fighter, target, attack):
             case "Pinch": phrase += " pinches at " + end
             case "Ram": phrase += " tries to ram " + end
             case "Sling": phrase += " slings a stone at " + end
+            case "Spray": phrase += " sprays venom at " + end
+            case "Spit": phrase += " spits at " + end
             case "Stab": phrase += " stabs at " + end
             case "Sting": phrase += " stings at " + end
-            case "Spray": phrase += " sprays venom at " + end
 
     Select.waitPrint(phrase)

@@ -2,6 +2,11 @@
 
 from Characters import Humans
 from Loop import Encounters
+# from Maps import World
+
+# worldMap = World.metamorphosisMap()
+# World.printWorldMap(worldMap)
+# input("L")
 
 Martin = Humans.knight("Master").ch
 Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."

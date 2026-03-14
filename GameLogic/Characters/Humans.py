@@ -3,7 +3,7 @@ import Systems.Inventory as Inventory
 import random
 
 
-def setCommon(job, rank, element) -> list:
+def setCommon(job, element, rank) -> list:
     type, dice = "human", {"martial": 0, "magic": 0}
 
     traits = Characters.setTraits()
@@ -52,9 +52,9 @@ def correctSpecialties(abl, secondSpecialty):
 
 
 class archer:
-    def __init__(self, rank) -> None:
-        job, element = "Archer", "Basic"
-        common = setCommon(job, rank, element)
+    def __init__(self, element, rank) -> None:
+        job = "Archer"
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"attacks": ["Broadhead"]})
         
@@ -76,9 +76,9 @@ class archer:
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class brute:
-    def __init__(self, rank) -> None:
-        job, element = "Brute", "Basic"
-        common = setCommon(job, rank, element)
+    def __init__(self, element, rank) -> None:
+        job = "Brute"
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
@@ -100,9 +100,9 @@ class brute:
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class dragonslayer:
-    def __init__(self, rank, element) -> None:
+    def __init__(self, element, rank) -> None:
         job = "Dragonslayer"
-        common = setCommon(job, rank, element)
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
 
@@ -124,9 +124,9 @@ class dragonslayer:
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class knight:
-    def __init__(self, rank) -> None:
-        job, element = "Knight", "Basic"
-        common = setCommon(job, rank, element)
+    def __init__(self, element, rank) -> None:
+        job = "Knight"
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
@@ -148,9 +148,9 @@ class knight:
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class mage:
-    def __init__(self, rank, element) -> None:
+    def __init__(self, element, rank) -> None:
         job = "Mage"
-        common = setCommon(job, rank, element)
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
                 
@@ -178,7 +178,7 @@ class mage:
 class paladin:
     def __init__(self, rank) -> None:
         job, element = "Paladin", "Blessed"
-        common = setCommon(job, rank, element)
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"attacks": ["Sling"]})
 
@@ -200,9 +200,9 @@ class paladin:
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class warlock:
-    def __init__(self, rank, element) -> None:
+    def __init__(self, element, rank) -> None:
         job = "Warlock"
-        common = setCommon(job, rank, element)
+        common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         

@@ -3,20 +3,20 @@ from . import RandomCreatures, RandomElementals, RandomHumans
 
 # the low pass is a valley between two mountains. It crosses from the dry starting prairie into a lush bay.
 def passEncounters(roll, environment) -> list:
-    members = []
+    members, element = [], "Basic"
 
     match roll:
-        case 1: members = RandomHumans.soldiers("Elite", environment)
-        case 2: members = RandomHumans.soldiers("Adept", environment)
+        case 1: members = RandomHumans.soldiers(environment, element)
+        case 2: members = RandomCreatures.creatures("wyrm", environment, element)
         case 3: members = RandomCreatures.creatures("ant", environment, "Toxin")
-        case 4: members = RandomCreatures.creatures("hound", environment, "Basic")
-        case 5: members = RandomCreatures.creatures("lizard", environment, "Basic")
+        case 4: members = RandomCreatures.creatures("hound", environment, element)
+        case 5: members = RandomCreatures.creatures("lizard", environment, element)
         case 6: members = RandomCreatures.creatures("wasp", environment, "Toxin")
-        case 7: members = RandomCreatures.creatures("beetle", environment, "Basic")
-        case 8: members = RandomCreatures.creatures("isopod", environment, "Basic")
-        case 9: members = RandomCreatures.creatures("urchin", environment, "Basic")
-        case 10: members = RandomCreatures.creatures("deer", environment, "Basic")
-        case 11: members = RandomCreatures.creatures("rabbit", environment, "Basic")
+        case 7: members = RandomCreatures.creatures("beetle", environment, element)
+        case 8: members = RandomCreatures.creatures("isopod", environment, element)
+        case 9: members = RandomCreatures.creatures("urchin", environment, element)
+        case 10: members = RandomCreatures.creatures("deer", environment, element)
+        case 11: members = RandomCreatures.creatures("rabbit", environment, element)
         # case 12: members = RandomCreatures.creatures()
 
     return members
@@ -26,17 +26,17 @@ def bayEncounters(roll, environment) -> list:
     members, element = [], "Basic"
 
     match roll:
-        case 1: members = RandomHumans.soldiers("elite", environment)
-        case 2: members = RandomCreatures.creatures("bear", environment, element)
-        case 3: members = RandomCreatures.creatures("moose", environment, element)
-        case 4: members = RandomCreatures.creatures("wyrm", environment, "Toxin")
-        case 5: members = RandomCreatures.creatures("lizard", environment, "Basic")
-        case 6: members = RandomCreatures.creatures("wasp", environment, "Toxin")
-        case 7: members = RandomCreatures.creatures("beetle", environment, "Basic")
-        case 8: members = RandomCreatures.creatures("isopod", environment, "Basic")
-        case 9: members = RandomCreatures.creatures("urchin", environment, "Basic")
-        case 10: members = RandomCreatures.creatures("deer", environment, "Basic")
-        case 11: members = RandomCreatures.creatures("rabbit", environment, "Basic")
+        case 1: members = RandomHumans.soldiers(environment, element)
+        case 2: members = RandomHumans.outlaws(environment, element)
+        case 3: members = RandomCreatures.creatures("bear", environment, element)
+        case 4: members = RandomCreatures.creatures("wyrm", environment, "Fey")
+        case 5: members = RandomCreatures.creatures("moose", environment, element)
+        case 6: members = RandomCreatures.creatures("lizard", environment, "Fey")
+        case 7: members = RandomCreatures.creatures("wasp", environment, "Toxin")
+        case 8: members = RandomCreatures.creatures("isopod", environment, element)
+        case 9: members = RandomCreatures.creatures("urchin", environment, element)
+        case 10: members = RandomCreatures.creatures("deer", environment, element)
+        case 11: members = RandomCreatures.creatures("rabbit", environment, element)
         # case 12: members = RandomCreatures.creatures()
 
     return members
@@ -52,8 +52,8 @@ def fjordEncounter(roll, environment) -> list:
         case 2: members = RandomElementals.elementals("hulk", environment, element, False)
         case 3: members = RandomElementals.elementals("wisp", environment, element, False)
         case 4: members = RandomCreatures.creatures("bear", environment, element)
-        case 5: members = RandomCreatures.creatures("hound", environment, "Flame")
-        case 6: members = RandomCreatures.creatures("hound", environment, "Fey")
+        case 5: members = RandomCreatures.creatures("bear", environment, "Fey")
+        case 6: members = RandomCreatures.creatures("hound", environment, "Flame")
         case 7: members = RandomCreatures.creatures("moose", environment, element)
         case 8: members = RandomCreatures.creatures("moose", environment, "Fey")
         case 9: members = RandomCreatures.creatures("urchin", environment, element)
@@ -70,7 +70,7 @@ def glacierEncounters(roll, environment) -> list:
     members, element = [], "Ice"
 
     match roll:
-        case 1: members = RandomElementals.elementals("obelisk", environment, element, True)
+        case 1: members = RandomElementals.elementals("wraith", environment, element, True)
         case 2: members = RandomElementals.elementals("dancer", environment, element, True)
         case 3: members = RandomElementals.elementals("hulk", environment, element, True)
         case 4: members = RandomElementals.elementals("wisp", environment, element, True)
@@ -127,10 +127,49 @@ def volcanoEncounters(roll, environment) -> list:
         case 5: members = RandomCreatures.creatures("lizard", environment, "Fey")
         case 6: members = RandomCreatures.creatures("wasp", environment, "Toxin")
         case 7: members = RandomCreatures.creatures("beetle", environment, element)
-        case 8: members = RandomCreatures.creatures("isopod", environment, "Basic")
+        case 8: members = RandomCreatures.creatures("muscle", environment, element)
         case 9: members = RandomCreatures.creatures("centipede", environment, "Toxin")
         case 10: members = RandomCreatures.creatures("ant", environment, element)
         case 11: members = RandomCreatures.creatures("tortoise", environment, element)
+        # case 12: members = RandomCreatures.creatures()
+
+    return members
+
+
+def peripheryEncounters(roll, environment) -> list:
+    members, element = [], "Fey"
+
+    match roll:
+        case 1: members = RandomElementals.elementals("satyr", environment, element, False)
+        case 2: members = RandomElementals.elementals("nymph", environment, element, False)
+        case 3: members = RandomElementals.elementals("wisp", environment, element, False)
+        case 4: members = RandomCreatures.creatures("bear", environment, element)
+        case 5: members = RandomCreatures.creatures("wyrm", environment, element)
+        case 6: members = RandomCreatures.creatures("hound", environment, element)
+        case 7: members = RandomCreatures.creatures("moose", environment, element)
+        case 8: members = RandomCreatures.creatures("lizard", environment, element)
+        case 9: members = RandomCreatures.creatures("urchin", environment, "Ice")
+        case 10: members = RandomCreatures.creatures("deer", environment, element)
+        case 11: members = RandomCreatures.creatures("rabbit", environment, element)
+        # case 12: members = RandomCreatures.creatures()
+
+    return members
+
+def depthsEncounters(roll, environment) -> list:
+    members, element = [], "Fey"
+
+    match roll:
+        case 1: members = RandomElementals.elementals("ogre", environment, element, False)
+        case 2: members = RandomElementals.elementals("satyr", environment, element, False)
+        case 3: members = RandomElementals.elementals("nymph", environment, element, False)
+        case 4: members = RandomElementals.elementals("wisp", environment, element, False)
+        case 5: members = RandomCreatures.creatures("bear", environment, element)
+        case 6: members = RandomCreatures.creatures("hound", environment, element)
+        case 7: members = RandomCreatures.creatures("moose", environment, element)
+        case 8: members = RandomCreatures.creatures("lizard", environment, element)
+        case 9: members = RandomCreatures.creatures("urchin", environment, "Ice")
+        case 10: members = RandomCreatures.creatures("deer", environment, element)
+        case 11: members = RandomCreatures.creatures("rabbit", environment, element)
         # case 12: members = RandomCreatures.creatures()
 
     return members

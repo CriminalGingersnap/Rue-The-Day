@@ -100,14 +100,13 @@ class moose:
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Moose", element, type, drop, rank)
 
-
 class sheep:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        dice = {"martial": 1, "magic": 0}
 
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
+        dice = {"martial": 1, "magic": 0}
 
         if rank == "Elder": abl["boons"] += ["Wreath"]
 

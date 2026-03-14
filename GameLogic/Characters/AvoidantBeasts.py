@@ -20,6 +20,23 @@ def setCommon(element, rank) -> list:
     return [stats, cndt, rank, type]
 
 
+class camel:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        stats["avoidance"], stats["hp"] = "mid", "max"
+        cndt["social"], cndt["massive"] = True, True
+
+        abl = Characters.setAbilities(type, {"attacks": ["Spit"]})
+        dice = {"martial": 2, "magic": 0}
+
+        if rank == "Elder":
+            if element == "Fey": abl["boons"] += ["Focus"]
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Camel", element, type, drop, rank)
+
 class deer:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)

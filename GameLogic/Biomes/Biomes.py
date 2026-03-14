@@ -17,36 +17,38 @@ def setFoes(biome, faceCards) -> list:
     for roll in rolls:
         members = []
         match biome:
-            case "Pass": members = Metamorphosis.passEncounters(roll, faceCards)
-            case "Bay": members = Metamorphosis.bayEncounters(roll, faceCards)
-            case "Fjord": members = Metamorphosis.fjordEncounter(roll, faceCards)
-            case "Glacier": members = Metamorphosis.glacierEncounters(roll, faceCards)
-            # case "GhostWood": members = Metamorphosis.ghostWoodEncounters(roll, faceCards)
-            case "Peninsula": members = Metamorphosis.peninsulaEncounters(roll, faceCards)
-            case "Volcano": members = Metamorphosis.volcanoEncounters(roll, faceCards)
+            case "Wildlands Pass": members = Metamorphosis.passEncounters(roll, faceCards)
+            case "Wildlands Bay": members = Metamorphosis.bayEncounters(roll, faceCards)
+            case "Frozen Fjord": members = Metamorphosis.fjordEncounter(roll, faceCards)
+            case "Frozen Glacier": members = Metamorphosis.glacierEncounters(roll, faceCards)
+            case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, faceCards)
+            case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, faceCards)
+            case "Burning Peninsula": members = Metamorphosis.peninsulaEncounters(roll, faceCards)
+            case "Burning Volcano": members = Metamorphosis.volcanoEncounters(roll, faceCards)
 
-            # case "Kingdom": members = KingdomBiomes.kingdomEncounters(roll, faceCards)
-            # case "Marsh": members = KingdomBiomes.marshEncounters(roll, faceCards)
-            # case "Outlaw": members = KingdomBiomes.outlawEncounters(roll, faceCards)
-            # case "Shoreline": members = KingdomBiomes.shorelineEncounters(roll, faceCards)
-            # case "Unsettled": members = KingdomBiomes.hillEncounters(roll, faceCards)
+            # case "Kingdom Stronghold": members = Kingdom.strongholdEncounters(roll, faceCards)
+            case "Kingdom Road": members = Kingdom.roadEncounters(roll, faceCards)
+            # case "Marsh": members = Kingdom.marshEncounters(roll, faceCards)
+            # case "Outlaw Camp": members = Kingdom.outlawEncounters(roll, faceCards)
+            # case "Unsettled": members = Kingdom.hillEncounters(roll, faceCards)
 
-            # case "SeaCave": members = Benediction.seaCaveEncounters(roll, faceCards)
-            # case "DeadTown": members = Benediction.deadTownEncounters(roll, faceCards)
-            # case "Scrubland": members = Benediction.scrublandEncounters(roll, faceCards)
-            # case "Desert": members = Benediction.desertEncounters(roll, faceCards)
-            # case "BurialValley": members = Benediction.valleyEncounters(roll, faceCards)
-
-        match faceCards["Diamonds"]:
-            case "King":
-                if () and random.choice([False, False, True]):
-                    members += [Elementals.wisp(faceCards, "Random").ch]
-            case "Queen":
-                if () and random.choice([False, False, False, False, False, True]):
-                    members += [Elementals.wisp(faceCards, "Random").ch]
+            # case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, faceCards)
+            case "Holy Scrubland": members = Benediction.scrublandEncounters(roll, faceCards)
+            case "Holy Desert": members = Benediction.desertEncounters(roll, faceCards)
+            case "Rot Encroachment": members = Benediction.encroachmentEncounter(roll, faceCards)
+            case "Rot Locus": members = Benediction.locusEncounter(roll, faceCards)
+            # case "Shoreline": members = Kingdom.shorelineEncounters(roll, faceCards)
 
         for i in len(members): members[i].name += "[" + str(i) + "]"
         groups[index] = members
         index += 1
 
     return groups
+
+
+def setBiome(worldMap):
+    biome = ""
+
+    worldMap.marker.position
+
+    return biome

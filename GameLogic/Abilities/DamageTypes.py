@@ -5,6 +5,7 @@ from . import Boons_Apply as Boons
 pierceAttacks = ["Bodkin", "Bite", "Bristle", "Broadhead", "Claw", "Gore", "Stab"]
 crushAttacks = ["Bash", "Pinch", "Ram", "Sling", "Kick"]
 venomAttacks = ["Spray", "Sting"]
+rotAttacks = ["Spit"]
 
 
 def convertElmToDmg(elm) -> str:
@@ -28,6 +29,7 @@ def identifyDamageType(fighter, ability) -> str:
         damageTypes["base"] = "Pierce"
     elif ability in crushAttacks: damageTypes["base"] = "Crush"
     elif ability in venomAttacks: damageTypes["base"] = "Venom"
+    elif ability in rotAttacks: damageTypes["base"] = "Rot"
     elif ability in ["Bring", "Breath"]: damageTypes["base"] = damageTypes["bonus"]
 
     if damageTypes["base"] == damageTypes["bonus"]: damageTypes["bonus"] = "None"
