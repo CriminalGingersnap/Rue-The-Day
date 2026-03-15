@@ -1,13 +1,16 @@
 from . import RandomCreatures, RandomElementals, RandomHumans
 from Systems import PlayerSelect as Select, Roll
+import random
 
 
 # Soldiers, outlaws, and wildlife vie for space and resources.
-def roadEncounters(roll, environment, rollNumber) -> list:
+def outlierEncounters(roll, environment, rollNumber, type) -> list:
     members, element = [], "Basic"
 
     if rollNumber == 0:
-        members = RandomHumans.soldiers(environment, element)
+        match type:
+            case "Road": members = RandomHumans.soldiers(environment, element)
+            case "Camp": members = RandomHumans.outlaws(environment, element)
     else:
         match roll:
             case 1: members = RandomHumans.outlaws(environment, element)
@@ -19,8 +22,28 @@ def roadEncounters(roll, environment, rollNumber) -> list:
             
     return members
 
+def strongholdEncounters(roll, environment, rollNumber) -> list:
+    members, element = [], "Basic"
 
-def marshlandEncounters(roll, environment) -> list:
+    if rollNumber == 0:
+        members = RandomHumans.soldiers(environment, element)
+        members += RandomHumans.soldiers(environment, element)
+    else:
+        match roll:
+            case 1:
+                element = random.choice(["Blessed", "Flame", "Fey", "Ice"])
+                members = RandomElementals.elementals("wisp", environment, element, False)
+            case 2:
+                members = RandomHumans.outlaws(environment, element)
+                members += RandomHumans.outlaws(environment, element)
+            case 3: members = RandomCreatures.creatures("wyrm", environment, element)
+            case 4: members = RandomCreatures.creatures("ant", environment, "Toxin")
+            case 5 | 6: members = undeadEncounters("Road", environment)
+            
+    return members
+
+
+def marshEncounters(roll, environment) -> list:
     members, element = [], "Basic"
 
     match roll:

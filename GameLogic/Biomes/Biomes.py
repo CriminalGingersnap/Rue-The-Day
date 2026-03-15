@@ -29,10 +29,10 @@ def setFoes(biome, faceCards) -> list:
             case "Burning Peninsula": members = Metamorphosis.peninsulaEncounters(roll, faceCards)
             case "Burning Volcano": members = Metamorphosis.volcanoEncounters(roll, faceCards)
 
-            # case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, faceCards, index)
-            case "Northern Road": members = Kingdom.roadEncounters(roll, faceCards, index)
+            case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, faceCards, index)
+            case "Northern Road": members = Kingdom.outlierEncounters(roll, faceCards, index, "Road")
             case "Marshland": members = Kingdom.marshEncounters(roll, faceCards)
-            # case "Outlaw Camp": members = Kingdom.outlawEncounters(roll, faceCards)
+            case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, faceCards, index, "Camp")
             case "Unsettled": members = Kingdom.unsettledEncounters(roll, faceCards)
 
             case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, faceCards)
@@ -40,10 +40,10 @@ def setFoes(biome, faceCards) -> list:
             case "Holy Desert": members = Benediction.desertEncounters(roll, faceCards)
             case "Rot Encroachment": members = Benediction.encroachmentEncounter(roll, faceCards)
             case "Rot Locus": members = Benediction.locusEncounter(roll, faceCards)
-            case "Shoreline": members = Kingdom.shorelineEncounters(roll, faceCards)
+            case "Shoreline": members = Benediction.shoreEncounters(roll, faceCards)
 
             # case "Southern Stronghold": members = Infestation.strongholdEncounters(roll, faceCards, index)
-            # case "Southern Road": members = Infestation.roadEncounters(roll, faceCards, index)
+            # case "Southern Road": members = Infestation.outlierEncounters(roll, faceCards, index)
 
         for i in len(members): members[i].name += "[" + str(i) + "]"
         groups[index] = members

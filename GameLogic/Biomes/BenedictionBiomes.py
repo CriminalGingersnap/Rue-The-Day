@@ -37,7 +37,7 @@ def locusEncounter(roll, environment) -> list:
     return members
 
 
-def shorelineEncounters(roll, environment) -> list:
+def shoreEncounters(roll, environment) -> list:
     members, element = [], "Basic"
 
     match roll:

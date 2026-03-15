@@ -112,8 +112,8 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aqua
 
     lastZ = heightDict[sightMap[lastRow][lastColumn][-1]]
     nextZ = heightDict[sightMap[nextRow][nextColumn][-1]]
-    if lastWet and (aquatic ^ lastFrozen): lastZ = waterLine
-    if nextWet and (aquatic ^ nextFrozen): nextZ = waterLine
+    if lastWet and (aquatic or lastFrozen): lastZ = waterLine
+    if nextWet and (aquatic or nextFrozen): nextZ = waterLine
 
     if lastZ < nextZ: cost = (nextZ - lastZ) + 1
     elif lastZ > nextZ: cost = (lastZ - nextZ)
@@ -121,7 +121,9 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aqua
     if nextWet:
         if not (aquatic ^ nextFrozen): cost += 1
         if any(hazard in sightMap[nextRow][nextColumn] for hazard in ["R", "r", "V", "v", "B", "b"]): cost += 3
-    elif ")" in sightMap[nextRow][nextColumn]: cost += 3
+    elif aquatic: cost += 1
+    
+    if ")" in sightMap[nextRow][nextColumn]: cost += 3
     elif "/" in sightMap[nextRow][nextColumn]: cost += 5
 
     return cost
