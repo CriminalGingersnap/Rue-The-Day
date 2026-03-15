@@ -84,9 +84,11 @@ class mapMarker:
     def __init__(self, worldMap, start):
         self.initials, self.position = "..", start
         self.rank, self.type = "world", "marker"
-        self.atrb = {"base_sp": 2}
-        self.lastCleared = [[],[],[],[],[],[],[]]
 
+        self.cndt = {"aquatic": False}
+        self.atrb = {"base_sp": 2}
+
+        self.lastCleared = [[],[],[],[],[],[],[]]
         self.sightMap = createSightMap(worldMap, start, self.rank)
 
         Select.waitPrint("World map instantiated!")

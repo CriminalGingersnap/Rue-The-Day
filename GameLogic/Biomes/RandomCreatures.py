@@ -19,10 +19,6 @@ def creatures(type, environment, element) -> list:
             for i in quantity:
                 rankChoice = random.choice(rankOptions)
                 beastList += [AggressiveBeasts.ferret(element, rankChoice).ch]
-        case "gopher":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AvoidantBeasts.gopher(element, rankChoice).ch]
         case "hound":
             for i in quantity:
                 rankChoice = random.choice(rankOptions)

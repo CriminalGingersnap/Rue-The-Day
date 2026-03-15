@@ -22,7 +22,7 @@ class crocodile:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"], cndt["aggressive"] = True, True, True
+        cndt["armored"], cndt["aggressive"], cndt["aquatic"] = True, True, True
         stats["hp"], stats["speed"] = "max", "high"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
@@ -75,7 +75,7 @@ class tortoise:
         stats["hp"], stats["speed"] = "max", "low"
 
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 1, "magic": 0}
 
         if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
@@ -87,11 +87,11 @@ class turtle:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"], cndt["aggressive"] = True, True
+        cndt["armored"], cndt["aggressive"], cndt["aquatic"] = True, True, True
         stats["hp"], stats["speed"] = "high", "low"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Guard"]})
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
 
         if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
@@ -106,7 +106,7 @@ class wyrm:
         cndt["aggressive"] = True
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Spray"]})
-        dice = {"martial": 2, "magic": 1}
+        dice = {"martial": 2, "magic": 0}
 
         if rank != "Juvenile":
             if element == "Fey": abl["hindrances"] += ["Disorient"]

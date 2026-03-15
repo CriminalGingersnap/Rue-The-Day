@@ -30,7 +30,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     for runs in range(fighter.atrb["base_sp"] * 2):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
-                stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine)
+                stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine, fighter.cndt["aquatic"])
                 if stepCount <= fighter.atrb["cur_sp"]:
                     freeSpace = False
                     if "___" in sightMap[row][column]:
@@ -80,8 +80,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     return movementMap
     
 
-def traverse(movementMap, sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine) -> int:
-    singleStepCost = stepCost(sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine)
+def traverse(movementMap, sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine, aquatic) -> int:
+    singleStepCost = stepCost(sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine, aquatic)
 
     if (fighterRow == squareRow) and (abs(fighterColumn - squareColumn) == 1): return singleStepCost
     elif (fighterColumn == squareColumn) and (abs(fighterRow - squareRow) == 1): return singleStepCost
@@ -96,13 +96,13 @@ def traverse(movementMap, sightMap, fighterRow, fighterColumn, squareRow, square
                     stepCount = contents.split(':')[1]
 
                     if (int(stepCount) < lowest):
-                        nextStepCost = stepCost(sightMap, adjacentRow, adjacentColumn, squareRow, squareColumn, waterLine)
+                        nextStepCost = stepCost(sightMap, adjacentRow, adjacentColumn, squareRow, squareColumn, waterLine, aquatic)
                         lowest = int(stepCount) + nextStepCost
 
         return lowest
     
 
-def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine) -> int:
+def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aquatic) -> int:
     cost = 1
 
     lastWet = "~" in sightMap[lastRow][lastColumn]
@@ -112,14 +112,14 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine) -> i
 
     lastZ = heightDict[sightMap[lastRow][lastColumn][-1]]
     nextZ = heightDict[sightMap[nextRow][nextColumn][-1]]
-    if lastWet and lastFrozen: lastZ = waterLine
-    if nextWet and nextFrozen: nextZ = waterLine
+    if lastWet and (aquatic ^ lastFrozen): lastZ = waterLine
+    if nextWet and (aquatic ^ nextFrozen): nextZ = waterLine
 
     if lastZ < nextZ: cost = (nextZ - lastZ) + 1
     elif lastZ > nextZ: cost = (lastZ - nextZ)
 
     if nextWet:
-        if not nextFrozen: cost += 1
+        if not (aquatic ^ nextFrozen): cost += 1
         if any(hazard in sightMap[nextRow][nextColumn] for hazard in ["R", "r", "V", "v", "B", "b"]): cost += 3
     elif ")" in sightMap[nextRow][nextColumn]: cost += 3
     elif "/" in sightMap[nextRow][nextColumn]: cost += 5

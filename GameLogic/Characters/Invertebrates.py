@@ -14,7 +14,7 @@ class crab:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["armored"], cndt["skittish"] = True, True, False
+        cndt["aquatic"], cndt["armored"], cndt["skittish"] = True, True, False
         stats["hp"], stats["speed"] = "high", "min"
 
         abl = Characters.setAbilities(type, {"attacks": ["Pinch"]})
@@ -28,7 +28,7 @@ class leech:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["skittish"] = True, False
+        cndt["aggressive"], cndt["aquatic"], cndt["skittish"] = True, True, False
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"],"boons": ["Wreath"]})
         dice = {"martial": 1, "magic": 1}
@@ -55,7 +55,7 @@ class octopus:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["skittish"] = True, False
+        cndt["aggressive"], cndt["aquatic"] = True, True
         stats["hp"], stats["speed"] = "mid", "mid"
 
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind"]})

@@ -31,7 +31,7 @@ def setFoes(biome, faceCards) -> list:
 
             # case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, faceCards, index)
             case "Northern Road": members = Kingdom.roadEncounters(roll, faceCards, index)
-            # case "Marshland": members = Kingdom.marshEncounters(roll, faceCards)
+            case "Marshland": members = Kingdom.marshEncounters(roll, faceCards)
             # case "Outlaw Camp": members = Kingdom.outlawEncounters(roll, faceCards)
             case "Unsettled": members = Kingdom.unsettledEncounters(roll, faceCards)
 

@@ -78,10 +78,10 @@ def glacierEncounters(roll, environment) -> list:
         case 5: members = RandomCreatures.creatures("bear", environment, element)
         case 6: members = RandomCreatures.creatures("ferret", environment, "Flame")
         case 7: members = RandomCreatures.creatures("mole", environment, "Flame")
-        case 8: members = RandomCreatures.creatures("gopher", environment, "Flame")
-        case 9: members = RandomCreatures.creatures("sheep", environment, element)
-        case 10: members = RandomCreatures.creatures("urchin", environment, element)
-        case 11: members = RandomCreatures.creatures("worm", environment, "Flame")
+        case 8: members = RandomCreatures.creatures("sheep", environment, element)
+        case 9: members = RandomCreatures.creatures("urchin", environment, element)
+        case 10: members = RandomCreatures.creatures("worm", environment, "Flame")
+        case 11: members = RandomCreatures.creatures("rabbit", environment, element)
         case 12: members = undeadEncounters("Glacier", environment)
     
     return members

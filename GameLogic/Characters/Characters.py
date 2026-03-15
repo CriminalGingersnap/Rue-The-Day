@@ -69,7 +69,7 @@ def setAttributes(rank, stats, cndt, elm, dice):
 
 
 def setTraits():
-    conditions = {"aggressive": False, "armored": False,
+    conditions = {"aggressive": False, "armored": False, "aquatic": False,
                     "calling": {"delay": 0, "quantity": 0, "used": False},
                      "dead": False, "inviolable": False,
                       "lifeless": False, "massive": False,
