@@ -27,11 +27,12 @@ class camel:
         stats["avoidance"], stats["hp"] = "mid", "max"
         cndt["social"], cndt["massive"] = True, True
 
-        abl = Characters.setAbilities(type, {"attacks": ["Spit"]})
-        dice = {"martial": 2, "magic": 0}
+        abl = Characters.setAbilities(type, {"attacks": ["Spit", "Kick"]})
+        dice = {"martial": 3, "magic": 0}
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
+            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -48,6 +49,7 @@ class deer:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Shroud"]
+            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -92,6 +94,7 @@ class rabbit:
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
+            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory

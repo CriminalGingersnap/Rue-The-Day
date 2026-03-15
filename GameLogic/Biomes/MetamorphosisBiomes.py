@@ -18,7 +18,7 @@ def passEncounters(roll, environment) -> list:
         case 9: members = RandomCreatures.creatures("urchin", environment, "Toxin")
         case 10: members = RandomCreatures.creatures("deer", environment, element)
         case 11: members = RandomCreatures.creatures("rabbit", environment, element)
-        # case 12: members = RandomCreatures.creatures()
+        case 12: members = undeadEncounters("Pass", environment)
 
     return members
 
@@ -38,7 +38,7 @@ def bayEncounters(roll, environment) -> list:
         case 9: members = RandomCreatures.creatures("urchin", environment, "Toxin")
         case 10: members = RandomCreatures.creatures("deer", environment, element)
         case 11: members = RandomCreatures.creatures("rabbit", environment, element)
-        # case 12: members = RandomCreatures.creatures()
+        case 12: members = undeadEncounters("Bay", environment)
 
     return members
 
@@ -178,16 +178,16 @@ def depthsEncounters(roll, environment) -> list:
 
 def undeadEncounters(biome, environment):
     members, element = [], "Corpse"
-    Select.waitPrint("Rolling dice to determine undead encounter number.")
+    Select.waitPrint("Rolling to determine undead encounter number.")
     Select.waitPrint("Group 2 roll:")
     roll = Roll.roll(None, 1, None, None)
 
     match biome:
-        case "Depths" | "Periphery":
+        case "Pass" | "Bay":
             match roll:
-                case 1: members = RandomCreatures.creatures("bear", environment, element)
+                case 1: members = RandomCreatures.creatures("wyrm", environment, element)
                 case 2: members = RandomCreatures.creatures("hound", environment, element)
-                case 3: members = RandomCreatures.creatures("ferret", environment, element)
+                case 3: members = RandomCreatures.creatures("lizard", environment, element)
                 case 4: members = RandomCreatures.creatures("moose", environment, element)
                 case 5: members = RandomCreatures.creatures("deer", environment, element)
                 case 6: members = RandomCreatures.creatures("rabbit", environment, element)
@@ -207,5 +207,13 @@ def undeadEncounters(biome, environment):
                 case 4: members = RandomCreatures.creatures("mole", environment, element)
                 case 5: members = RandomCreatures.creatures("sheep", environment, element)
                 case 6: members = RandomCreatures.creatures("worm", environment, element)
+        case "Depths" | "Periphery":
+            match roll:
+                case 1: members = RandomCreatures.creatures("bear", environment, element)
+                case 2: members = RandomCreatures.creatures("hound", environment, element)
+                case 3: members = RandomCreatures.creatures("ferret", environment, element)
+                case 4: members = RandomCreatures.creatures("moose", environment, element)
+                case 5: members = RandomCreatures.creatures("deer", environment, element)
+                case 6: members = RandomCreatures.creatures("rabbit", environment, element)
 
     return members
