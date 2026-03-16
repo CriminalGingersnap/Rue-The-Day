@@ -19,7 +19,7 @@ def commitDice(fighter, principal, boon) -> None:
         principal.effects[trueBoon]["source"] = fighter
         principal.effects[trueBoon]["ability"] = boon
         if boon == "Wreath":
-            dmgType = Damage.identifyDamageType(fighter, boon)["base"]
+            dmgType = Damage.identifyDamageType(fighter, boon)
             principal.effects["Wreath"]["additional"] = dmgType
 
     principal.effects[trueBoon]["dice"] += newDice

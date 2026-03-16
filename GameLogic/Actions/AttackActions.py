@@ -8,7 +8,7 @@ def weaponAllows(fighter, ability) -> bool:
     compatible = True
     
     if fighter.type in ["human", "undead"]:
-        dmgType = Damage.identifyDamageType(fighter, ability)["base"]
+        dmgType = Damage.identifyDamageType(fighter, ability)
         weaponDmgTypes = fighter.equipment["weapon"]["dmgTypes"]  
         if dmgType not in weaponDmgTypes: compatible = False   
 

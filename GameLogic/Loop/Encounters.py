@@ -5,24 +5,23 @@ from . import Environment, Combat, Crafting
 
 
 def encounterLoop(playerGroup, biome):
-    play = True
-    faceCards = {"Clubs": "Jack", "Hearts": "Jack", "Diamonds": "Jack", "Spades": "Jack"}
+    play, ace = True, "Clubs"
     
     while play:
-        mapContours = Environment.randomEnvironment(faceCards, biome)
-        enemyGroups = Biomes.setFoes(biome, faceCards)
+        mapConditions = Environment.randomEnvironment(biome)
+        enemyGroups = Biomes.setFoes(biome, mapConditions["budget"])
 
         battleMap = None
-        if mapContours[2] == "ruin":
-            battleMap = dMap.createMap(playerGroup, enemyGroups, mapContours, faceCards)
-        else: battleMap = iMap.createMap(playerGroup, enemyGroups, mapContours, faceCards)
+        if mapConditions["slope"] == "ruin":
+            battleMap = dMap.createMap(playerGroup, enemyGroups, mapConditions, ace)
+        else: battleMap = iMap.createMap(playerGroup, enemyGroups, mapConditions, ace)
 
         playerVictory = Combat.engage(playerGroup, enemyGroups, battleMap)
         if playerVictory:
             takeRest = handleAftermath(playerGroup, enemyGroups)
             if takeRest:
                 takeRest(playerGroup)
-                Environment.updateFaceCard(faceCards, biome)
+                ace = Environment.updateAce(ace, biome)
         else:
             Select.waitPrint("Reload Save?")
             # force a reload or restart

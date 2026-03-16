@@ -10,6 +10,8 @@ fogSpace, mistSpace = "=___|", "-___|"
 smokeSpace, rimeSpace, toxinSpace = "#___|", "%___|", "&___|"
 dazzleSpace, deathSpace, sacredSpace = "+___|", "}___|", "@___|"
 
+intStrings = ["1","2","3","4","5","6","7","8","9"]
+
 
 def combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups) -> list:
     battleMap = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -35,7 +37,7 @@ def combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups) -> list:
     return battleMap
 
 
-def createMap(playerGroup, enemyGroups, tileMods, environment) -> list:    
+def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:    
     box = [emptySpace]
     mainMap, secondMap, thirdMap = [[], [], [], []], [[], [], [], []], [[], [], [], [], []]
 
@@ -55,16 +57,16 @@ def createMap(playerGroup, enemyGroups, tileMods, environment) -> list:
     battleMap = combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 
     Select.waitPrint("Placing occlusions...")
-    placeOcclusions(tileMods, battleMap, 3)
+    placeOcclusions(mapConditions, battleMap, 3)
 
     Select.waitPrint("Adjusting elevation and atmosphere...")
-    Elevation.setElevation(battleMap, environment, tileMods[2])
+    Elevation.setElevation(battleMap, environment, mapConditions["slope"])
 
     return battleMap
 
 
-def placeOcclusions(tileMods, instanceMap, multiplier):
-    obstacles, occlusions = tileMods[0], tileMods[1]
+def placeOcclusions(mapConditions, instanceMap, multiplier):
+    obstacles, occlusions = mapConditions["obstructions"], mapConditions["atmosphere"]
 
     for i in range(obstacles["wall"] * multiplier):
         available = False

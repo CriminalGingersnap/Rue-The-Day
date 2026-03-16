@@ -1,4 +1,4 @@
-from Maps import Elevation, Map_Instantiate as iMap, Visibility, Map_Update as uMap, Movement
+from Maps import Elevation, Map_Instantiate as iMap, Visibility, Map_Update as uMap
 
 heightDict = {Elevation.doubleUp: 5, Elevation.up: 4, Elevation.middle: 3,
                Elevation.down: 2, Elevation.doubleDown: 1, "]": 3}
@@ -42,7 +42,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     elif ")" in sightMap[row][column]: movementMap[row][column] = "):" + str(stepCount)
                     elif "/" in sightMap[row][column]: movementMap[row][column] = "/:" + str(stepCount)
                     elif "." in sightMap[row][column]: movementMap[row][column] = ".:" + str(stepCount)
-                    elif "!" in sightMap[row][column]: movementMap[row][column] = "!:" + str(stepCount)
+                    elif sightMap[row][column][2] in iMap.intStrings: movementMap[row][column] = "!:" + str(stepCount)
 
                     if npc and freeSpace:
                         contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightMap[row][column])
@@ -61,16 +61,16 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     for column in range(12):
         for row in range(12):
             elevation = sightMap[row][column][-1]
+            terrain = movementMap[row][column][1]
 
-            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")", "~", "/"]):
+            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")", "/"]):
                 stepCount = movementMap[row][column].split(':')[1]
-                if counter < 10: movementMap[row][column] = "_" + str(counter) + ":" + str(stepCount) + elevation
+                if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
                 else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                 counter += 1
 
-            if "." in movementMap[row][column]: movementMap[row][column] = "_.._" + elevation
+            if "." in movementMap[row][column]: movementMap[row][column] = terrain + ".._" + elevation
             elif ")" in movementMap[row][column]: movementMap[row][column] = ")()(" + elevation
-            elif "~" in movementMap[row][column]: movementMap[row][column] = "_~~~" + elevation
             elif "/" in movementMap[row][column]: movementMap[row][column] = "////" + elevation
             elif "!" in movementMap[row][column]: movementMap[row][column] = "/!!/" + elevation
 

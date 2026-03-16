@@ -4,13 +4,6 @@ import random
 club, heart, diamond, spade = "\u2663", "\u2665", "\u2666", "\u2660"
 
 
-def drawAce():
-    aces = setFronts("Aces")
-    aceChoice = pickCard(aces, 1)[0]
-    aceSuit = findSuit(aces[aceChoice][1])
-
-    return aceSuit
-
 def drawNumbers(quantity) -> int:
     numberValues = []
     numbers = setFronts("Numbers")
@@ -50,19 +43,6 @@ def setBacks(length) -> list:
     for i in range(length): backs += [cardBack]
 
     return backs
-
-
-def showEnvironment(faceCards):
-    Select.waitPrint("\nCurrent Environment:")
-    Select.waitPrint("| Density |   | Weather |   | Mana    |   | Threat  |")
-
-    clubFace = setBody(faceCards["Clubs"][0], club)
-    heartFace = setBody(faceCards["Hearts"][0], heart)
-    diamondFace = setBody(faceCards["Diamonds"][0], diamond)
-    spadeFace = setBody(faceCards["Spades"][0], spade)
-
-    deck = [clubFace, heartFace, diamondFace, spadeFace]
-    printDeck(deck)
 
 
 def printDeck(deck):

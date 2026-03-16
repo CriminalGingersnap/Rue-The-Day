@@ -25,14 +25,14 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
     else: return False
 
 
-def battle(offenseGroup, targetGroup, battleMap) -> bool:    
+def battle(offenseGroup, targetGroup, battleMap) -> bool:
     validFighters = Sort.sortLiving(offenseGroup)[0]
     if len(validFighters) > 0:
         for fighter in validFighters:
             validTargets = Sort.sortLiving(targetGroup)[0]
 
             if len(validTargets) == 0:
-                Select.slowPrint("\nBattle Over.")
+                Select.slowPrint("\nBattle Over.\n")
                 input("Press Enter to resolve.")
                 return True
             else: Phases.resetFighter(fighter)

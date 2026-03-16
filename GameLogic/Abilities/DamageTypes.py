@@ -20,21 +20,15 @@ def convertElmToDmg(elm) -> str:
 
 
 def identifyDamageType(fighter, ability) -> str:
-    damageTypes = {"base": "", "bonus": "None"}
-
-    damageTypes["bonus"] = convertElmToDmg(fighter.atrb["cur_elm"])
+    damageType = ""
     
-    if ability in pierceAttacks:
-        if damageTypes["bonus"] == "None": damageTypes["bonus"] = "Bleed"
-        damageTypes["base"] = "Pierce"
-    elif ability in crushAttacks: damageTypes["base"] = "Crush"
-    elif ability in venomAttacks: damageTypes["base"] = "Venom"
-    elif ability in rotAttacks: damageTypes["base"] = "Rot"
-    elif ability in ["Bring", "Breath"]: damageTypes["base"] = damageTypes["bonus"]
+    if ability in pierceAttacks: damageType = "Pierce"
+    elif ability in crushAttacks: damageType = "Crush"
+    elif ability in venomAttacks: damageType = "Venom"
+    elif ability in rotAttacks: damageType = "Rot"
+    else: damageType = convertElmToDmg(fighter.atrb["cur_elm"])
 
-    if damageTypes["base"] == damageTypes["bonus"]: damageTypes["bonus"] = "None"
-
-    return damageTypes
+    return damageType
 
 
 def applyResistance(damage, dmgType, target) -> int:

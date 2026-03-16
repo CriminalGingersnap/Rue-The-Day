@@ -93,6 +93,7 @@ def prepareOptions(movementMap) -> list:
                 spaceNumber = str(contents.split(':')[0])
                 if any(mark in spaceNumber for mark in [".", "!"]): spaceNumber = "1"
                 if "_" in spaceNumber: spaceNumber = spaceNumber.split('_')[1]
+                elif "~" in spaceNumber: spaceNumber = spaceNumber.split('~')[1]
 
                 stepCount = contents.split(':')[1]
                 stepCount = stepCount[0]

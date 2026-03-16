@@ -74,7 +74,7 @@ def placeFog(instanceMap, type) -> bool:
 def placeTrap(instanceMap):
     row, column = random.randint(0, 11), random.randint(0, 11)
 
-    if not any(char in instanceMap[row][column] for char in ["/", ".", "!", ")", "~"]):
+    if not any(char in instanceMap[row][column] for char in ["/", ".", ")", "~"] + iMap.intStrings):
         atmosphere = instanceMap[row][column][0]
         instanceMap[row][column] = atmosphere + "___]"
         return True

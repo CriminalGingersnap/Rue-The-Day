@@ -2,140 +2,48 @@ from Characters import AggressiveBeasts, AvoidantBeasts, Invertebrates, Insects,
 import random
 
 
-def creatures(type, environment, element) -> list:
-    beastList, rankOptions = [], getAnimalRankOptions(environment)
-    quantity = getQuantity(environment, rankOptions)
+def creatures(type, majorBiome, element, diceBudget) -> list:
+    beastList, rankOptions = [], getAnimalRankOptions(majorBiome)
 
-    match type:
-        case "bear":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AggressiveBeasts.bear(element, rankChoice).ch]
-        case "deer":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AvoidantBeasts.deer(element, rankChoice).ch]
-        case "ferret":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AggressiveBeasts.ferret(element, rankChoice).ch]
-        case "hound":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AggressiveBeasts.hound(element, rankChoice).ch]
-        case "sheep":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AvoidantBeasts.sheep(element, rankChoice).ch]
-        case "lion":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AggressiveBeasts.lion(element, rankChoice).ch]
-        case "moose":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AggressiveBeasts.moose(element, rankChoice).ch]
-        case "mole":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AggressiveBeasts.mole(element, rankChoice).ch]
-        case "rabbit":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [AvoidantBeasts.rabbit(element, rankChoice).ch]
- 
+    while diceBudget > 0:
+        rankChoice, beast = random.choice(rankOptions), None
+        match type:
+            case "bear": beast = AggressiveBeasts.bear(element, rankChoice).ch      
+            case "deer": beast = AvoidantBeasts.deer(element, rankChoice).ch
+            case "ferret": beast = AggressiveBeasts.ferret(element, rankChoice).ch
+            case "hound": beast = AggressiveBeasts.hound(element, rankChoice).ch
+            case "sheep": beast = AggressiveBeasts.sheep(element, rankChoice).ch
+            case "lion": beast = AggressiveBeasts.lion(element, rankChoice).ch
+            case "moose": beast = AggressiveBeasts.moose(element, rankChoice).ch
+            case "mole": beast = AvoidantBeasts.mole(element, rankChoice).ch
+            case "rabbit": beast = AvoidantBeasts.rabbit(element, rankChoice).ch
 
-        case "crocodile":
-            for i in quantity:
-                rankChoice = random.choice([rankOptions])
-                beastList += [Reptiles.crocodile(element, rankChoice).ch]
-        case "drake":
-            for i in quantity:
-                rankChoice = random.choice([rankOptions])
-                beastList += [Reptiles.drake(element, rankChoice).ch]
-        case "lizard":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Reptiles.lizard(element, rankChoice).ch]
-        case "tortoise":
-            for i in quantity: 
-                rankChoice = random.choice(rankOptions)
-        case "turtle":
-            for i in quantity: 
-                rankChoice = random.choice(rankOptions)
-                beastList += [Reptiles.turtle(element, rankChoice)]
-        case "wyrm":
-            for i in quantity: 
-                rankChoice = random.choice(rankOptions)
-                beastList += [Reptiles.wyrm(element, rankChoice)]
+            case "crocodile": beast = Reptiles.crocodile(element, rankChoice).ch
+            case "drake": beast = Reptiles.drake(element, rankChoice).ch
+            case "lizard": beast = Reptiles.lizard(element, rankChoice).ch
+            case "tortoise": beast = Reptiles.tortoise(element, rankChoice).ch
+            case "turtle": beast = Reptiles.turtle(element, rankChoice).ch
+            case "wyrm": beast =Reptiles.wyrm(element, rankChoice).ch
 
+            case "ant": beast = Insects.ant(element, rankChoice).ch
+            case "beetle": beast = Insects.beetle(element, rankChoice).ch
+            case "centipede": beast = Insects.centipede(element, rankChoice).ch
+            case "isopod": beast = Insects.isopod(element, rankChoice).ch
+            case "wasp": beast = Insects.waspNest(element, rankChoice).ch
 
-        case "ant":
-            for i in quantity: 
-                rankChoice = random.choice(rankOptions)
-                beastList += [Insects.ant(element, rankChoice)]
-        case "beetle":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Insects.beetle(element, rankChoice).ch]
-        case "centipede":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Insects.centipede(element, rankChoice).ch]
-        case "isopod":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Insects.isopod(element, rankChoice).ch]
-        case "wasp":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Insects.waspNest(element, rankChoice).ch]
-
-
-        case "crab":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Invertebrates.crab(element, rankChoice).ch]
-        case "leech":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Invertebrates.leech(element, rankChoice).ch]
-        case "octopus":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Invertebrates.octopus(element, rankChoice).ch]
-        case "urchin":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Invertebrates.urchin(element, rankChoice).ch]
-        case "worm":
-            for i in quantity:
-                rankChoice = random.choice(rankOptions)
-                beastList += [Invertebrates.worm(element, rankChoice).ch]
+            case "crab": beast = Invertebrates.crab(element, rankChoice).ch
+            case "leech": beast = Invertebrates.leech(element, rankChoice).ch
+            case "octopus": beast = Invertebrates.octopus(element, rankChoice).ch
+            case "urchin": beast = Invertebrates.urchin(element, rankChoice).ch
+            case "worm": beast = Invertebrates.worm(element, rankChoice).ch
+    
+        diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])
+        beastList += [beast]
 
     return beastList
 
 
-def getAnimalRankOptions(environment):
-    rankOptions = ["Juvenile"]
-
-    match environment["Spades"]:
-        case "Queen": rankOptions += ["Adult"]
-        case "King": rankOptions += ["Adult", "Elder"]
-
+def getAnimalRankOptions(majorBiome):
+    rankOptions = ["Juvenile", "Adult"]
+    if majorBiome: rankOptions += ["Elder"]
     return rankOptions
-
-
-def getQuantity(environment, rankOptions):
-    quantity = 0
-
-    match environment["Clubs"]:
-        case "King": quantity = 3
-        case "Queen": quantity = 2
-        case "Jack": quantity = 1
-    
-    if all(ranks not in rankOptions for ranks in ["Elder", "Elite", "Greater", "Ancient", "Master"]): 
-        if all(ranks not in rankOptions for ranks in ["Adept", "Adult", "Lesser"]): quantity *= 3
-        else: quantity *= 2
-
-    return quantity

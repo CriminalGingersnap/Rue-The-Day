@@ -4,7 +4,7 @@ from Systems import Roll, PlayerSelect as Select
 import random
 
 
-def setFoes(biome, faceCards) -> list:
+def setFoes(biome, budgets) -> list:
     Select.waitPrint("Rolling to determine encounter number.")
     Select.waitPrint("First roll:")
     roll1, roll2 = Roll.roll(None, 1, None, None), 0
@@ -15,46 +15,43 @@ def setFoes(biome, faceCards) -> list:
     else: roll2 = roll1
 
     rolls = [roll1, roll2]
-    index, groups = 0, [[], []]
+    rollNum, groups = 0, [[], []]
     
     for roll in rolls:
+        budget = budgets[rollNum]
         members = []
         match biome:
-            case "Wildlands Pass": members = Metamorphosis.passEncounters(roll, faceCards)
-            case "Wildlands Bay": members = Metamorphosis.bayEncounters(roll, faceCards)
-            case "Frozen Fjord": members = Metamorphosis.fjordEncounter(roll, faceCards)
-            case "Frozen Glacier": members = Metamorphosis.glacierEncounters(roll, faceCards)
-            case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, faceCards)
-            case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, faceCards)
-            case "Burning Peninsula": members = Metamorphosis.peninsulaEncounters(roll, faceCards)
-            case "Burning Volcano": members = Metamorphosis.volcanoEncounters(roll, faceCards)
+            case "Wildlands Pass": members = Metamorphosis.passEncounters(roll, budget)
+            case "Wildlands Bay": members = Metamorphosis.bayEncounters(roll, budget)
+            case "Frozen Fjord": members = Metamorphosis.fjordEncounter(roll, budget)
+            case "Frozen Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
+            case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, budget)
+            case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, budget)
+            case "Burning Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
+            case "Burning Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
 
-            case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, faceCards, index)
-            case "Northern Road": members = Kingdom.outlierEncounters(roll, faceCards, index, "Road")
-            case "Marshland": members = Kingdom.marshEncounters(roll, faceCards)
-            case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, faceCards, index, "Camp")
-            case "Unsettled": members = Kingdom.unsettledEncounters(roll, faceCards)
+            case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
+            case "Northern Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
+            case "Marshland": members = Kingdom.marshEncounters(roll, budget)
+            case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, rollNum, "Camp", budget)
+            case "Unsettled": members = Kingdom.unsettledEncounters(roll, budget)
 
-            case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, faceCards)
-            case "Holy Scrubland": members = Benediction.scrublandEncounters(roll, faceCards)
-            case "Holy Desert": members = Benediction.desertEncounters(roll, faceCards)
-            case "Rot Encroachment": members = Benediction.encroachmentEncounter(roll, faceCards)
-            case "Rot Locus": members = Benediction.locusEncounter(roll, faceCards)
-            case "Shoreline": members = Benediction.shoreEncounters(roll, faceCards)
+            case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, budget)
+            case "Holy Scrubland": members = Benediction.scrublandEncounters(roll, budget)
+            case "Holy Desert": members = Benediction.desertEncounters(roll, budget)
+            case "Rot Encroachment": members = Benediction.encroachmentEncounter(roll, budget)
+            case "Rot Locus": members = Benediction.locusEncounter(roll, budget)
+            case "Shoreline": members = Benediction.shoreEncounters(roll, budget)
 
-            # case "Southern Stronghold": members = Infestation.strongholdEncounters(roll, faceCards, index)
-            # case "Southern Road": members = Infestation.outlierEncounters(roll, faceCards, index)
-
-        for i in len(members): members[i].name += "[" + str(i) + "]"
-        groups[index] = members
-        index += 1
+            # case "Southern Stronghold": members = Infestation.strongholdEncounters(roll, index)
+            # case "Southern Road": members = Infestation.outlierEncounters(roll, index)
+            
+        memberIndex = 1
+        for member in members:
+            member.name += "[" + str(memberIndex) + "]"
+            memberIndex += 1
+        
+        groups = members
+        rollNum += 1
 
     return groups
-
-
-def setBiome(worldMap):
-    biome = ""
-
-    worldMap.marker.position
-
-    return biome

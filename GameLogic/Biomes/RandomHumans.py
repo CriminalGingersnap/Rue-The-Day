@@ -1,69 +1,46 @@
 from Characters import AggressiveBeasts, Humans, Totems
-from . import RandomCreatures as Creatures
 import random
 
 
-def getSoldierRankOptions(environment):
-    rankOptions = ["Proficient"]
-    match environment["Spades"]:
-        case "Queen": rankOptions += ["Adept"]
-        case "King": rankOptions += ["Elite"]
+def warriors(warriorType, element, majorBiome, diceBudget) -> list:
+    warriorList = []
+    outlawRankOptions, soldierRankOptions = ["Novice", "Proficient", "Adept"], ["Proficient", "Adept", "Elite"]
+    if majorBiome:
+        outlawRankOptions += ["Elite"]
+        soldierRankOptions += ["Master"]
 
-    return rankOptions
+    if diceBudget > 4:
+        beast = AggressiveBeasts.hound(element, random.choice["Adult", "Juvenile"]).ch
+        diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])
+        warriorList += [beast]
 
-def getOutlawRankOptions(environment):
-    rankOptions = ["Novice"]
-    match environment["Spades"]:
-        case "Queen": rankOptions += ["Proficient"]
-        case "King": rankOptions += ["Adept"]
-
-    return rankOptions
-
-
-def outlaws(environment, element) -> list:
-    outlawList, rankOptions = [], getOutlawRankOptions(environment)
-    quantity = Creatures.getQuantity(environment, rankOptions)
-
-    if quantity > 3:
-        quantity -= 1
-        soldierList += [AggressiveBeasts.hound(element, random.choice["Adult", "Juvenile"]).ch]
-        
-    for i in quantity:
-        rankChoice = random.choice(rankOptions)
-        type = random.choice(["archer", "brute", "warlock"])
-        outlawList += [randomHuman(rankChoice, type, element)]
-        
-    return outlawList
-
-
-def soldiers(environment, element) -> list:
-    soldierList, rankOptions = [], getSoldierRankOptions(environment)
-    quantity = Creatures.getQuantity(environment, rankOptions) - 1
-    
-    type = random.choice(["archer", "knight", "mage"])
-    match environment["Spades"]:
-        case "King": soldierList += [randomHuman("Master", type, element)]
-        case "Queen": soldierList += [randomHuman("Elite", type, element)]
-        case "Jack": soldierList += [randomHuman("Adept", type, element)]
-
-    if quantity > 2:
-        quantity -= 1
-        soldierList += [AggressiveBeasts.hound(element, "Adult").ch]
-    if quantity > 3:
-        quantity -= 1
+    if (diceBudget > 4) and (warriorType == "Soldier"):
         totemType = random.choice(["hex", "sentry", "ward"])
         totemElement = random.choice(["Flame", "Fey", "Ice"])
+        totem = None
         match totemType:
-            case "hex": soldierList += [Totems.hex(totemElement, "Standard")]
-            case "sentry": soldierList += [Totems.sentry(totemElement, "Standard")]
-            case "ward": soldierList += [Totems.ward(totemElement, "Standard")]
+            case "hex": totem = Totems.hex(totemElement, "Standard")
+            case "sentry": totem = Totems.sentry(totemElement, "Standard")
+            case "ward": totem = Totems.ward(totemElement, "Standard")
 
-    for i in quantity:
-        rankChoice = random.choice(rankOptions)
-        type = random.choice(["archer", "knight", "mage"])
-        soldierList += [randomHuman(rankChoice, type, element)]
+        diceBudget -= (totem.atrb["base_mag"] + totem.atrb["base_mar"])
+        warriorList += [totem]
+
+    while diceBudget > 0:
+        warrior, type, rankChoice = None, "", ""
+        match warriorType:
+            case "Outlaw":
+                rankChoice = random.choice(outlawRankOptions)
+                type = random.choice(["archer", "brute", "warlock"])
+            case "Soldier":
+                rankChoice = random.choice(soldierRankOptions)
+                type = random.choice(["archer", "knight", "mage"])
+
+        warrior = randomHuman(rankChoice, type, element)
+        diceBudget -= (warrior.atrb["base_mag"] + warrior.atrb["base_mar"])
+        warriorList += [warrior]
         
-    return soldierList
+    return warriorList
 
 
 def randomHuman(rank, type, element):

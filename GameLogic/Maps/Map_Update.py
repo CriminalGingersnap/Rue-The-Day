@@ -10,15 +10,9 @@ hazards = majorHazards + minorHazards
 
 
 def setMarker(fighter, space):
-    marker, initial = [], fighter.initials
-
-    atmosphere, elevation = space[0], space[-1]
-
-    if fighter.rank in ["player", "world"]: marker = atmosphere + initial + "_" + elevation
-    elif fighter.cndt["massive"]: marker = atmosphere + initial + "/" + elevation
-    else: marker = atmosphere + initial + "!" + elevation
-    
-    return marker
+    initial = fighter.initials
+    atmosphere, terrain, elevation = space[0], space[1], space[-1]    
+    return atmosphere + terrain + initial + elevation
 
 def updatePlacement(battleMap, sightMap, row, column, fighter):
     removeFighter(fighter, battleMap)
@@ -36,9 +30,11 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     sightMap[row][column] = battleMap[row][column]
 
 def removeFighter(fighter, instanceMap):
-    elevation = instanceMap[fighter.position[0]][fighter.position[1]][-1]
     atmosphere = instanceMap[fighter.position[0]][fighter.position[1]][0]
-    instanceMap[fighter.position[0]][fighter.position[1]] = atmosphere + "___" + elevation
+    terrain = instanceMap[fighter.position[0]][fighter.position[1]][1]
+    elevation = instanceMap[fighter.position[0]][fighter.position[1]][-1]
+
+    instanceMap[fighter.position[0]][fighter.position[1]] = atmosphere + terrain + terrain + terrain + elevation
 
 
 def revealOthers(fighter, allies, enemies, sightMap):

@@ -3,7 +3,7 @@ from Maps import Map_Instantiate as iMap, Map_Print as Print, Movement
 import random
 
 
-emptySpace = "___"
+emptySpace, poolSpace = "___", "~~~"
 
 
 def selectSpace(fighter, groups, boarders) -> int:
@@ -22,19 +22,19 @@ def selectSpace(fighter, groups, boarders) -> int:
         counter, optionDict = 1, {}
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
-                if (emptySpace in optionsMap[row][column]) and not ("?" == optionsMap[row][column][-1]):
+                if any(openSpace in optionsMap[row][column] for openSpace in [emptySpace, poolSpace]) and not ("?" == optionsMap[row][column][-1]):
                     if fighter.rank == "player": optionDict[str(counter)] = [row, column]
                     elif enemyCanSee(row, column, enemies) and allyNotInRange(row, column, allies):
                         optionDict[str(counter)] = [row, column]
 
                     atmosphere = sightMap[row][column][0]
+                    terrain = sightMap[row][column][1]
                     elevation = sightMap[row][column][-1]
+
+                    filler = ""
+                    if counter < 10: filler = "_"
                     
-                    colon = ""
-                    if counter < 10: colon = ":_"
-                    else: colon = ":"
-                    
-                    optionsMap[row][column] = atmosphere + str(counter) + colon + elevation
+                    optionsMap[row][column] = atmosphere + terrain + str(counter) + filler + elevation
                     counter += 1
 
         choice = ""

@@ -8,7 +8,7 @@ from Loop import Encounters
 # World.printWorldMap(worldMap)
 # input("L")
 
-Martin = Humans.knight("Master").ch
+Martin = Humans.knight("Basic", "Master").ch
 Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
 # Martin.abl["items"] += ["Loot", "Transfer"]
 # Martin.equipment["armor"] = None
@@ -16,7 +16,7 @@ Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
 # while True: Games.tracking(Martin, environment)
 # biome = "Wild"
 
-Laura = Humans.mage("Master", "Flame").ch
+Laura = Humans.mage("Flame", "Master").ch
 Laura.rank, Laura.name, Laura.initials = "player", "Laura", "L."
 # Laura.abl["items"] += ["Craft", "Transfer"]
 # Laura.equipment["armor"] = None
@@ -25,4 +25,4 @@ group1 = [Martin, Laura]
 # beetles = LowPass.randomAvoidantForestBeasts() #[Avoidant.beetleWild().ch]
 # enemyGroup = beetles
 
-Encounters.encounterLoop(group1, "Wild")
+Encounters.encounterLoop(group1, "Wildlands Pass")

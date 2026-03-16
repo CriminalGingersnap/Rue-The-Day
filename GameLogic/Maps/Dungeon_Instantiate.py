@@ -3,7 +3,7 @@ from Systems import PlayerSelect as Select
 import random
 
 
-def createMap(playerGroup, enemyGroups, tileMods, environment) -> list:
+def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     mainMap, secondMap, thirdMap = [[], [], [], []], [[], [], [], []], [[], [], [], [], []]
 
     Select.waitPrint("Creating rooms...")
@@ -23,7 +23,7 @@ def createMap(playerGroup, enemyGroups, tileMods, environment) -> list:
     fixCorners(battleMap)
     
     Select.waitPrint("Placing occlusions...")
-    iMap.placeOcclusions(tileMods, battleMap, 1)
+    iMap.placeOcclusions(mapConditions, battleMap, 1)
          
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, "flat")

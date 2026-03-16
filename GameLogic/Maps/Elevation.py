@@ -49,11 +49,12 @@ def bumps(battleMap, lean):
 
         for step in range(spreadMin):
             minSpaces += Area.addSpaces(row, upRow, downRow, column, leftColumn, rightColumn)
-            if (upRow + 1 < row):
-                if upRow >= 0: minSpaces += [[upRow, max(0, rightColumn-1)], [upRow, min(11, leftColumn+1)]]
-                if downRow <= 11: minSpaces += [[downRow, max(0, rightColumn-1)], [downRow, min(11, leftColumn+1)]]
-                if rightColumn <= 11: minSpaces += [[max(0, downRow-1), rightColumn], [min(11, upRow+1), rightColumn]]
-                if leftColumn >= 0: minSpaces += [[max(0, downRow-1), leftColumn], [min(11, upRow+1), leftColumn]]
+            if (upRow + 1) < row:
+                if (0 <= leftColumn < rightColumn <= 11) and (0 <= upRow < downRow <= 11):
+                    minSpaces += [[upRow, rightColumn-1], [upRow, leftColumn+1]]
+                    minSpaces += [[downRow-1, rightColumn], [upRow+1, rightColumn]]
+                    minSpaces += [[downRow, rightColumn-1], [downRow, leftColumn+1]]
+                    minSpaces += [[downRow-1, leftColumn], [upRow+1, leftColumn]]
             upRow -= 1
             downRow += 1
             leftColumn -= 1
@@ -175,13 +176,13 @@ def adjustObstructionHeight(battleMap):
 
 
 def adjustEnvironment(battleMap, environment):
-    match environment["Hearts"]:
-        case "King":
+    match environment:
+        case "Clubs":
             for row in range(12):
                 for column in range(12):
                     flood(battleMap, row, column, 2)
 
-        case "Queen":
+        case "Hearts":
             for row in range(12):
                 for column in range(12):
                     if "/" not in battleMap[row][column]:
@@ -191,19 +192,14 @@ def adjustEnvironment(battleMap, environment):
                         if middle in battleMap[row][column]:
                             battleMap[row][column] = "-" + battleMap[row][column][1:]
                     
-        case "Jack":
+        case "Diamonds":
             for row in range(12):
                 for column in range(12):
-                    if doubleUp in battleMap[row][column]:
-                        if battleMap[row][column][0] in ["-", "="]:
-                            battleMap[row][column] = "_" + battleMap[row][column][1:]
-
-                    elif up in battleMap[row][column]:
-                        if battleMap[row][column][0] == "=":
-                            battleMap[row][column] = "-" + battleMap[row][column][1:]
-                        elif battleMap[row][column][0] == "-":
-                            battleMap[row][column] = "_" + battleMap[row][column][1:]
-
+                    if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
+                            battleMap[row][column] = "=" + battleMap[row][column][1:]
+                    if any(upper in battleMap[row][column] for upper in [middle, up]):
+                        battleMap[row][column] = "-" + battleMap[row][column][1:]
+                    
 
 def flood(battleMap, row, column, severity):
     elevation = doubleDown
