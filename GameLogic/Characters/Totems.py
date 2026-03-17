@@ -45,7 +45,7 @@ class hex:
         common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"areas": ["Hex"]})
+        abl = Characters.setAbilities(type, dice, {"areas": ["Hex"]})
 
         drop = Inventory.totemInventory(element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Hex")
@@ -56,7 +56,7 @@ class sentry:
         common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"]})
 
         drop = Inventory.totemInventory(element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Sentry")
@@ -67,7 +67,7 @@ class ward:
         common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"]})
         
         drop = Inventory.totemInventory(element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Ward")

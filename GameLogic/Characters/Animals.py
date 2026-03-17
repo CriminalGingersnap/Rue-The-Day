@@ -27,6 +27,7 @@ def setAnimalResistance(element, rank, stats):
             stats["resist"]["Venom"] = mainRes
             stats["resist"]["Rot"] = "resistant"
 
+
 def incrementDice(dice, rank) -> list:
     if rank in ["Large", "Adult", "Elder"]:
         dice["martial"] += 1
@@ -58,6 +59,7 @@ def downgradeStats(cndt, rank, stats):
             case "mid": stats[attribute] = "low"
             case "high": stats[attribute] = "mid"
             case "max": stats[attribute] = "high"
+
 
 def makeUpdates(element, cndt, rank, stats, dice):
     incrementDice(dice, rank)

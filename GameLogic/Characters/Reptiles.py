@@ -25,13 +25,13 @@ class crocodile:
         cndt["armored"], cndt["aggressive"], cndt["aquatic"] = True, True, True
         stats["hp"], stats["speed"] = "max", "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
         dice = {"martial": 2, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Conceal"]})
 
         if rank != "Juvenile":
-            if element == "Fey": abl["boons"] += ["Shroud"]
+            if element == "Fey": abl["hindrances"] += ["Disorient"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Crocodile", element, type, drop, rank)
 
@@ -42,12 +42,12 @@ class drake:
         cndt["armored"], cndt["aggressive"], cndt["massive"] = True, True, True
         stats["hp"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Gore"]})
         dice = {"martial": 2, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Gore"]})
 
         if rank != "Juvenile": abl["area"] += ["Breath"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, drop, rank)
         
@@ -57,13 +57,13 @@ class lizard:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["speed"] = "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Evade"]})
         dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Evade"]})
 
         if rank != "Juvenile":
-            if element == "Fey": abl["boons"] += ["Slip"]
+            if element == "Fey": abl["areas"] += ["Slip"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, drop, rank)
 
@@ -74,28 +74,28 @@ class tortoise:
         cndt["armored"], cndt["massive"] = True, True
         stats["hp"], stats["speed"] = "max", "low"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
         dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram"], "boons": ["Guard"]})
 
         if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "tortoise", element, type, drop, rank)
 
 class turtle:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["armored"], cndt["aggressive"], cndt["aquatic"] = True, True, True
         stats["hp"], stats["speed"] = "high", "low"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Guard"]})
         dice = {"martial": 2, "magic": 0}
-
-        if rank != "Juvenile": abl["boons"] += ["Wreath"]
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Guard"]})
+
+        if rank != "Juvenile": abl["boons"] += ["Shroud"]
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Snapping Turtle", element, type, drop, rank)
 
@@ -105,12 +105,12 @@ class wyrm:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["aggressive"] = True
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Spray"]})
         dice = {"martial": 2, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Spray"]})
 
         if rank != "Juvenile":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, drop, rank)

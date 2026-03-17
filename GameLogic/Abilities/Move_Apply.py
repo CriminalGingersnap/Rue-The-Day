@@ -33,12 +33,7 @@ def applyEvade(fighter) -> None:
     fighter.effects["Guard"]["ability"] = "Evade"
     fighter.effects["Guard"]["dice"] += 1
 
-    Boons.boonComment(fighter, fighter, "Evade")
-
-
-def applySet(fighter) -> None:
-    fighter.atrb["cur_mar"] += 1
-    Select.waitPrint(fighter.name + " sets in place!")    
+    Boons.boonComment(fighter, fighter, "Evade")   
 
 
 def applyInventory(fighter) -> None:
@@ -52,6 +47,11 @@ def applyInventory(fighter) -> None:
         phrase = "access an item!"
     
     Select.waitPrint(fighter.name + " opens their inventory to " + phrase)
+
+
+def applySet(fighter) -> None:
+    fighter.atrb["cur_mar"] += 1
+    Select.waitPrint(fighter.name + " sets in place!") 
 
 
 def applyExamine(visibleTargets) -> None:

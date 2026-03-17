@@ -48,13 +48,13 @@ class dancer:
         stats["resist"]["Crush"] = "vulnerable"
         stats["speed"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
         dice = {"martial": 3, "magic": 0}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
+
         if rank == "Greater":
             dice["martial"] += 2
             abl["mastery"] = [random.choice(["Bind", "Stab"])]
         else: abl["specialty"] = [random.choice(["Bind", "Stab"])]
-
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Dancer", element, type, drop, rank)
@@ -68,8 +68,9 @@ class hulk: # it walks on three legs like a strand beast
         stats["avoidance"] = "low"
         stats["hp"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
         dice = {"martial": 2, "magic": 1}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
+        
         if rank == "Greater":
             dice["martial"] += 1
             dice["magic"] += 1
@@ -84,8 +85,9 @@ class wraith:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Heal"]})
         dice = {"martial": 0, "magic": 3}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "boons": ["Heal"]})
+        
         if rank == "Greater":
             dice["magic"] += 2
             abl["mastery"] = [random.choice(["Bring", "Heal"])]
@@ -93,9 +95,6 @@ class wraith:
 
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
-
-        specialty = random.choice(["Bring", "Heal"])
-
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Wraith", element, type, drop, rank)
@@ -111,8 +110,9 @@ class hive:
         stats["hp"] = "max"
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
         dice = {"martial": 1, "magic": 2}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
+
         if rank == "Greater":
             dice["martial"] += 2
             abl["mastery"] = [random.choice(["Bodkin", "Sting", "Wreath"])]
@@ -129,8 +129,9 @@ class ooze:
         stats["avoidance"] = "low"
         stats["speed"] = "low"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
         dice = {"martial": 1, "magic": 2}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
+
         if rank == "Greater":
             dice["magic"] += 2
             abl["mastery"] = [random.choice(["Harry", "Pinch", "Regenerate"])]
@@ -146,8 +147,9 @@ class puffer:
 
         stats["resist"]["Pierce"] = "vulnerable"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Guard"], "reactions": ["Riposte"]})
         dice = {"martial": 2, "magic": 1}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "boons": ["Guard"], "reactions": ["Riposte"]})
+
         if rank == "Greater":
             dice["magic"] += 1
             dice["martial"] += 1
@@ -166,13 +168,13 @@ class satyr:
         stats["avoidance"] = "high"
         stats["speed"] = "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead", "Sling"], "boons": ["Shroud"]})
-        dice = {"martial": 2, "magic": 1}
+        dice = {"martial": 3, "magic": 0}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Broadhead", "Sling"], "boons": ["Conceal"]})
+
         if rank == "Greater":
-            dice["magic"] += 1
-            dice["martial"] += 1
-            abl["mastery"] = [random.choice(["Broadhead", "Sling", "Shroud"])]
-        else: abl["specialty"] = [random.choice(["Broadhead", "Sling", "Shroud"])]
+            dice["martial"] += 2
+            abl["mastery"] = [random.choice(["Broadhead", "Conceal", "Sling"])]
+        else: abl["specialty"] = [random.choice(["Broadhead", "Conceal", "Sling"])]
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Satyr", element, type, drop, rank)
@@ -186,8 +188,9 @@ class ogre:
         stats["avoidance"] = "low"
         stats["hp"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash"], "boons": ["Slip"], "hindrances": ["Disorient"]})
         dice = {"martial": 2, "magic": 1}
+        abl = Characters.setAbilities(type, dice, {"areas": ["Slip"], "attacks": ["Bash"], "hindrances": ["Disorient"]})
+
         if rank == "Greater": 
             dice["martial"] += 2
             abl["mastery"] = [random.choice(["Bash", "Disorient", "Slip"])]
@@ -201,8 +204,9 @@ class nymph:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
         dice = {"martial": 0, "magic": 3}
+        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
+
         if rank == "Greater":
             dice["magic"] += 2
             abl["mastery"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
@@ -217,8 +221,9 @@ class bull:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
         dice = {"martial": 3, "magic": 0}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
+
         if rank == "Greater":
             dice["martial"] += 2
             abl["mastery"] = [random.choice(["Bind", "Gore", "Kick"])]
@@ -237,8 +242,9 @@ class obelisk:
         stats["hp"] = "max"
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Shroud"]})
         dice = {"martial": 0, "magic": 3}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "boons": ["Shroud"]})
+
         if rank == "Greater":
             dice["magic"] += 2
             abl["mastery"] = [random.choice(["Bring", "Shroud"])]
@@ -258,8 +264,9 @@ class sphinx:
 
         stats["hp"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
         dice = {"martial": 2, "magic": 1}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
+
         if rank == "Greater":
             dice["magic"] += 1
             dice["martial"] += 1
@@ -277,8 +284,9 @@ class wisp:
         cndt["sapient"] = False
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "low", "max"
 
-        abl = Characters.setAbilities(type, {"hindrances": ["Compel", "Misdirect", "Seal"]})
         dice = {"martial": 0, "magic": 1}
+        abl = Characters.setAbilities(type, dice, {"hindrances": ["Compel", "Misdirect", "Seal"]})
+
         if rank == "Greater":
             dice["magic"] += 3
             abl["mastery"] = [random.choice(["Compel", "Misdirect", "Seal"])]
@@ -296,8 +304,9 @@ class grotesquery:
         cndt["massive"] = True        
         stats["avoidance"], stats["hp"], stats["speed"]  = "low", "max", "low"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bring"], "boons": ["Guard", "Wreath"]})
         dice = {"martial": 2, "magic": 1}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Bring"], "boons": ["Guard", "Wreath"]})
+
         if rank == "Greater":
             dice["magic"] += 1
             dice["martial"] += 1
@@ -307,7 +316,6 @@ class grotesquery:
             dice["magic"] += 3
             secondSpecialty = [random.choice(["Bash", "Bring", "Guard" "Wreath"])]
             Humans.correctSpecialties(abl, secondSpecialty)
-
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Grotesquery", element, type, drop, rank)

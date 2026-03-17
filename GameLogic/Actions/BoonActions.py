@@ -56,7 +56,7 @@ def usefulBoons(fighter, enemies):
 
     for enemy in enemies:
         dmgTypes += enemyDamageTypes(enemy)        
-        if Movement.getTargetDistance(fighter, enemy) > 2: boonPreferences += ["Shroud"]
+        if Movement.getTargetDistance(fighter, enemy) > 2: boonPreferences += ["Conceal", "Shroud"]
         if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
     
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Venom"]):
@@ -94,7 +94,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
         lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
         lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         
-        if boon in ["Evade", "Regenerate", "Slip"]: target = fighter
+        if boon in ["Conceal", "Evade", "Regenerate", "Slip"]: target = fighter
         else:
             match boon:
                 case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])

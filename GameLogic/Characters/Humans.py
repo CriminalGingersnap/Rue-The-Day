@@ -53,7 +53,9 @@ class archer:
         job = "Archer"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Broadhead"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["attacks"] += ["Bodkin"]
@@ -62,13 +64,12 @@ class archer:
                 abl["specialty"] = [random.choice(["Bodkin", "Broadhead"])]
                 
                 if rank in ["Elite", "Master"]:
-                    abl["boons"] += ["Quick Inventory"]
+                    abl["boons"] += ["Conceal"]
                 
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Bodkin", "Broadhead"])]
+                        secondSpecialty = [random.choice(["Bodkin", "Broadhead", "Conceal"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
@@ -77,7 +78,9 @@ class brute:
         job = "Brute"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["hindrances"] += ["Harry"]
@@ -92,7 +95,6 @@ class brute:
                         secondSpecialty = [random.choice(["Bash", "Bind", "Harry", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
@@ -101,7 +103,9 @@ class dragonslayer:
         job = "Dragonslayer"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bodkin"]})
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
@@ -110,13 +114,12 @@ class dragonslayer:
                 abl["specialty"] = [random.choice(["Bodkin", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    abl["hindrances"] += ["Misdirect"]
+                    abl["boons"] += ["Conceal"]
                     
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Bodkin", "Misdirect", "Wreath"])]
+                        secondSpecialty = [random.choice(["Bodkin", "Conceal", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
@@ -125,7 +128,9 @@ class knight:
         job = "Knight"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Guard"]
@@ -140,7 +145,6 @@ class knight:
                         secondSpecialty = [random.choice(["Bash", "Guard", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
@@ -149,7 +153,9 @@ class mage:
         job = "Mage"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             if element == "Fey": abl["boons"] += ["Focus"]
@@ -168,7 +174,6 @@ class mage:
                         if element == "Fey": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
@@ -177,7 +182,9 @@ class paladin:
         job, element = "Paladin", "Blessed"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Sling"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Sling"]})
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
@@ -192,7 +199,6 @@ class paladin:
                         secondSpecialty = [random.choice(["Sling", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
@@ -201,7 +207,9 @@ class warlock:
         job = "Warlock"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["attacks"] += ["Bring"]
@@ -216,6 +224,5 @@ class warlock:
                         secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         inv = Inventory.humanInventory(rank, element, job).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)

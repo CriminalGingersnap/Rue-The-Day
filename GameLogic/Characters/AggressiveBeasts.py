@@ -25,13 +25,13 @@ class bear:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["hp"], cndt["massive"] = "max", True
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         dice = {"martial": 2, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Claw"]})
 
         if rank == "Elder":
-            if element == "Fey": abl["boons"] += ["Slip"]
+            if element == "Fey": abl["areas"] += ["Slip"]
         
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, drop, rank)
 
@@ -42,13 +42,13 @@ class hound:
         cndt["social"] = True
         stats["speed"] = "max"
         
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
         dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "hindrances": ["Harry"]})
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Hound", element, type, drop, rank)
 
@@ -58,13 +58,13 @@ class ferret:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["avoidance"] = "max"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
         dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "hindrances": ["Bind"]})
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Ferret", element, type, drop, rank)
 
@@ -75,12 +75,12 @@ class lion:
         stats["hp"], stats["speed"] = "high", "max"
         cndt["social"] = True
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         dice = {"martial": 2, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Claw"]})
 
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
         
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, drop, rank)
 
@@ -90,13 +90,13 @@ class moose:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["hp"], cndt["massive"] = "max", True
 
-        abl = Characters.setAbilities(type, {"attacks": ["Kick", "Gore"]})
         dice = {"martial": 2, "magic": 0}
-
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Kick", "Gore"]})
+        
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Moose", element, type, drop, rank)
 
@@ -105,11 +105,11 @@ class sheep:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
         dice = {"martial": 1, "magic": 0}
-
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram"], "boons": ["Guard"]})
+        
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Sheep", element, type, drop, rank)

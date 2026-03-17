@@ -1,8 +1,8 @@
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Roll
 from . import Area_Apply as Apply, DamageTypes as Damage
-from Maps import Map_Update as uMap, Map_Instantiate as iMap
+from Maps import Map_Update as uMap
 
-areaAbilities = ["Bless", "Breath", "Hex"]
+areaAbilities = ["Bless", "Breath", "Hex", "Slip"]
 
 def execute(fighter, groups, ability, battleMap) -> None:
     phrase = markSpace(fighter, groups, ability, battleMap)
@@ -11,23 +11,32 @@ def execute(fighter, groups, ability, battleMap) -> None:
 
 def markSpace(fighter, groups, ability, battleMap) -> str:
     phrase, range, dmgType, dType = "", 10, "", "cur_mag"
+    scale = max(fighter.atrb[dType], 2)
+
     dmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
+    if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
 
     match ability:
         case "Breath":
             phrase = " exhales " + fighter.atrb["cur_elm"] + " breath"
             range = 1
-        case "Bless": phrase, dmgType = " blesses the ground!"
+        case "Bless": phrase = " blesses the ground!"
         case "Hex":
             article = "a"
             if fighter.atrb["cur_elm"][0] in ["A", "E", "I", "O", "U"]: article = "an"
-            phrase, dmgType = " places " + article + fighter.atrb["cur_elm"] + " hex!"
-    
-    if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
+            phrase = " places " + article + fighter.atrb["cur_elm"] + " hex!"
+        case "Slip": 
+            phrase = " slips between spaces! Rolling range."
+            range = Roll.roll(fighter, fighter.atrb["cur_mag"], "Slip", "magic")
+            scale = max(0, scale - 1)
     
     markedSpace = findSpace(fighter, groups, range)
-    affectSpace(fighter, markedSpace, dmgType, dType, battleMap)
+    affectSpace(fighter, markedSpace, dmgType, scale, battleMap)
     fighter.atrb[dType] = 0
+
+    if ability == "Slip":
+        tossRow, tossColumn = markedSpace[0], markedSpace[1]
+        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
     return fighter.name + phrase
 
@@ -41,9 +50,8 @@ def findSpace(fighter, groups, range) -> list:
     return markedSpace
 
 
-def affectSpace(fighter, markSpace, dmgType, dType, battleMap) -> None:
+def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
     effectRow, effectColumn = markSpace[0], markSpace[1]
-    scale = max(fighter.atrb[dType], 2)
     coverage, intenseCoverage = scale - 2, scale - 4
 
     atmosphere = Apply.getAtmosphere(3, dmgType)
@@ -72,7 +80,7 @@ def throwStone(fighter, stone, groups, battleMap) -> str:
     dmgType = Damage.convertElmToDmg(elm)
 
     if "Fey" in stone:
-        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossSpace[1], fighter)
+        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
         if potency == 3:
             tossSpace = findSpace(fighter, groups, 4)
             tossRow, tossColumn = tossSpace[0], tossSpace[1]

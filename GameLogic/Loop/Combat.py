@@ -74,11 +74,6 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                             if target.cndt["dead"] == False:
                                 Attacks.execute(fighter, target, ability, dice)
                             else: Select.waitPrint("Attack canceled against slain target.")
-                        case "boon":
-                            match ability:
-                                case "Shroud":
-                                    Boons.applyShroud(target)
-                                    Commitments.checkReach(fighter)
                                     
                     fighter.actionQueue.remove(action)
             Phases.outro(fighter, validFighters, battleMap)

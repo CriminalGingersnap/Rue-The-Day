@@ -5,7 +5,7 @@ from Systems import Inventory
 
 
 def setCommon(element) -> list:
-    rank, type = "Elder", "beast"
+    rank, type = "Boss", "beast"
 
     traits = Characters.setTraits()
     cndt = traits[0]
@@ -25,8 +25,8 @@ class hydra:
         cndt["aquatic"] = True
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
-        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bash", "Bite"], "boons": ["Regenerate"]})
         dice = {"martial": 4, "magic": 2}
+        abl = Characters.setAbilities(type, dice, {"area": ["Breath"], "attacks": ["Bash", "Bite"], "boons": ["Regenerate"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -41,8 +41,8 @@ class kraken:
         cndt["aquatic"] = True
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind", "Harry"]})
         dice = {"martial": 6, "magic": 0}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind", "Harry"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -56,8 +56,8 @@ class deathShell:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
-        abl = Characters.setAbilities(type, {"areas": ["Hex"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
         dice = {"martial": 2, "magic": 4}
+        abl = Characters.setAbilities(type, dice, {"areas": ["Hex"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -70,11 +70,10 @@ class dreamGiant:
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-                
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
-        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bring"], "hindrances": ["Compel", "Shroud"]})
         dice = {"martial": 0, "magic": 6}
+        abl = Characters.setAbilities(type, dice, {"area": ["Breath"], "attacks": ["Bring"], "hindrances": ["Compel", "Shroud"]})
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Dream Giant", element, type, drop, rank)
@@ -84,12 +83,11 @@ class glacierWorm:
         element = "Ice"
         common = setCommon(element)
 
-        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-                
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]   
         stats["avoidance"], stats["hp"], stats["speed"]  = "low", "boss", "low"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spit"], "boons": ["Wreath"], "reactions": ["Flare"]})
         dice = {"martial": 3, "magic": 3}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram", "Spit"], "boons": ["Wreath"], "reactions": ["Flare"]})
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Glacier Worm", element, type, drop, rank)
@@ -100,11 +98,10 @@ class volcanoStrider:
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-                
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Kick", "Spray"], "boons": ["Guard"]})
         dice = {"martial": 6, "magic": 0}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Kick", "Spray"], "boons": ["Guard"]})
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Volcano Strider", element, type, drop, rank)

@@ -17,10 +17,10 @@ class crab:
         cndt["aquatic"], cndt["armored"], cndt["skittish"] = True, True, False
         stats["hp"], stats["speed"] = "high", "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Guard"]})
         dice = {"martial": 2, "magic": 0}
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Pinch"], "boons": ["Guard"]})
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, drop, rank)
 
@@ -30,10 +30,10 @@ class leech:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["aggressive"], cndt["aquatic"], cndt["skittish"] = True, True, False
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"],"boons": ["Wreath"]})
         dice = {"martial": 1, "magic": 1}
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"],"boons": ["Wreath"]})
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Leech", element, type, drop, rank)
 
@@ -44,10 +44,10 @@ class mussel:
         cndt["armored"] = True
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"boons": ["Guard"]})
         dice = {"martial": 1, "magic": 0}
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"boons": ["Guard"]})
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, drop, rank)
 
@@ -58,10 +58,10 @@ class octopus:
         cndt["aggressive"], cndt["aquatic"] = True, True
         stats["hp"], stats["speed"] = "mid", "mid"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind"]})
         dice = {"martial": 2, "magic": 0}
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind"]})
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Octopus", element, type, drop, rank)
     
@@ -71,10 +71,10 @@ class urchin:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
         dice = {"martial": 1, "magic": 0}
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Urchin", element, type, drop, rank)
 
@@ -83,9 +83,9 @@ class worm:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
         dice = {"martial": 0, "magic": 1}
-
         Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"]})
+
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Worm", element, type, drop, rank)

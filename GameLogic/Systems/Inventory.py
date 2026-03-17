@@ -32,10 +32,10 @@ class humanInventory:
                     "Blessed Pearl": 0,
                     "Toxin Pearl": 0,
                 },
-                "Unique": {
-                    "Metamorphosis (Fey)": 0,
-                    "Metamorphosis (Flame)": 0,
-                    "Metamorphosis (Ice)": 0
+                "Shards": {
+                    "Fey": 0,
+                    "Flame": 0,
+                    "Ice": 0
                 }
             }
         }
@@ -142,6 +142,7 @@ class beastInventory:
                 case "Juvenile" | "Fresh": drop["Stones"] = {alignment + " Pearl": 1}
                 case "Adult" | "Wizened": drop["Stones"] = {alignment + " Pearl": 2}
                 case "Elder" | "Ancient": drop["Stones"] = {alignment + " Core": 1}
+                case "Boss": drop["Shards"] = {alignment + ": 1"}
 
         self.inventory = drop
 

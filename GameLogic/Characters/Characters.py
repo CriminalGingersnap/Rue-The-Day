@@ -27,8 +27,14 @@ class character:
         Select.waitPrint(self.name + " instantiated!")
 
      
-def setAbilities(type, additions) -> dict:
-    abilities = {"areas": [], "attacks": [], "boons": [], "hindrances": [], "items": [], "reactions": [], "specialty": [], "mastery": []}
+def setAbilities(type, dice, additions) -> dict:
+    abilities = {"areas": ["Evade"], "attacks": [], "boons": [], "hindrances": [], "items": [], "reactions": [], "specialty": [], "mastery": []}
+    
+    if dice["martial"] > 0:
+        abilities["areas"] += ["Set"]
+        if dice["magic"] > 0:
+            abilities["areas"] += ["Empower"]
+    
     abilities.update(additions)
     if (type == "human") and ("Quick Inventory" not in abilities["boons"]): abilities["boons"] += ["Inventory"]
 

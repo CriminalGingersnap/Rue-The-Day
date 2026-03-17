@@ -6,12 +6,8 @@ import random
 
 
 def moveAction(fighter, groups, battleMap) -> None:
-    posOptions = ["Evade"] + fighter.abl["areas"]
-    if fighter.atrb["base_mar"] > 0:
-        posOptions += ["Set"]
-        if fighter.atrb["base_mag"] > 0:
-            posOptions += ["Empower"]
-
+    posOptions = fighter.abl["areas"]
+    
     hasInventory = any(invAbl in fighter.abl["boons"] for invAbl in ["Inventory", "Quick Inventory"])
     if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
 
