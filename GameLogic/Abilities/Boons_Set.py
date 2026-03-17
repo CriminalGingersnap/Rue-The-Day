@@ -2,7 +2,7 @@ from Systems import PlayerSelect as Select
 from . import DamageTypes as Damage
 
 
-martialBoons = ["Bristle", "Evade", "Guard"]
+martialBoons = ["Evade", "Guard"]
 magicBoons = ["Focus", "Shroud", "Wreath"]
 
 
@@ -31,9 +31,6 @@ def boonComment(fighter, principal, boon) -> None:
     trueBoon = boon
 
     match boon:
-        case "Bristle":
-            phrase += " bristles!"
-            trueBoon = "Guard"
         case "Guard": phrase += " guards " + end
         case "Evade":
             phrase += " evades!"

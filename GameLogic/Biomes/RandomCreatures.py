@@ -17,6 +17,7 @@ def creatures(type, majorBiome, element, diceBudget) -> list:
             case "moose": beast = AggressiveBeasts.moose(element, rankChoice).ch
             case "mole": beast = AvoidantBeasts.mole(element, rankChoice).ch
             case "rabbit": beast = AvoidantBeasts.rabbit(element, rankChoice).ch
+            case "seal": beast = AvoidantBeasts.seal(element, rankChoice).ch
 
             case "crocodile": beast = Reptiles.crocodile(element, rankChoice).ch
             case "drake": beast = Reptiles.drake(element, rankChoice).ch

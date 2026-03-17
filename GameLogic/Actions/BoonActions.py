@@ -60,7 +60,7 @@ def usefulBoons(fighter, enemies):
         if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
     
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Venom"]):
-        boonPreferences += ["Bristle", "Evade", "Guard"]
+        boonPreferences += ["Evade", "Guard"]
 
     return boonPreferences
 

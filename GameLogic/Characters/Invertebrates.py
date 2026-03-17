@@ -17,7 +17,7 @@ class crab:
         cndt["aquatic"], cndt["armored"], cndt["skittish"] = True, True, False
         stats["hp"], stats["speed"] = "high", "min"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Pinch"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Guard"]})
         dice = {"martial": 2, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -71,7 +71,7 @@ class urchin:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["speed"] = "min"
 
-        abl = Characters.setAbilities(type, {"boons": ["Bristle"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
         dice = {"martial": 1, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)

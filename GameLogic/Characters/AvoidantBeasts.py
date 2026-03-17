@@ -32,7 +32,6 @@ class camel:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
-            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -49,7 +48,6 @@ class deer:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Shroud"]
-            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -81,8 +79,23 @@ class rabbit:
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
-            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, drop, rank)
+
+class seal:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["aquatic"], cndt["skittish"] = True, True
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"]})
+        dice = {"martial": 1, "magic": 0}
+
+        if rank == "Elder":
+            if element == "Fey": abl["boons"] += ["Disorient"]
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Seal", element, type, drop, rank)

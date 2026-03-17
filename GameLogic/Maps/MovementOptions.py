@@ -9,7 +9,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
     topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
     hazards = uMap.majorHazards + uMap.minorHazards
-    waterLine = 0
+    aquatic, waterLine = fighter.cndt["aquatic"], 0
 
     npc, simulation, anyContact = fighter.rank != "player", None, False
     if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.rank)
@@ -30,22 +30,26 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     for runs in range(fighter.atrb["base_sp"] * 2):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
-                stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine, fighter.cndt["aquatic"])
+                if "~" in battleMap[row][column]: waterLine = max(waterLine, (heightDict[sightSpace[-1]] + 1))
+
+                sightSpace = sightMap[row][column]
+                stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine, aquatic)
+                
                 if stepCount <= fighter.atrb["cur_sp"]:
                     freeSpace = False
-                    if "___" in sightMap[row][column]:
+                    if "___" in sightSpace:
                         movementMap[row][column] = "_:" + str(stepCount)
                         freeSpace = True
-                    elif "~" in sightMap[row][column]:
+                    elif "~~~" in sightSpace:
                         movementMap[row][column] = "~:" + str(stepCount)
-                        waterLine = max(waterLine, (heightDict[sightMap[row][column][-1]] + 1))
-                    elif ")" in sightMap[row][column]: movementMap[row][column] = "):" + str(stepCount)
-                    elif "/" in sightMap[row][column]: movementMap[row][column] = "/:" + str(stepCount)
-                    elif "." in sightMap[row][column]: movementMap[row][column] = ".:" + str(stepCount)
-                    elif sightMap[row][column][2] in iMap.intStrings: movementMap[row][column] = "!:" + str(stepCount)
+                        if aquatic: freeSpace = True
+                    elif ")" in sightSpace: movementMap[row][column] = "):" + str(stepCount)
+                    elif "/" in sightSpace: movementMap[row][column] = "/:" + str(stepCount)
+                    elif "." in sightSpace: movementMap[row][column] = ".:" + str(stepCount)
+                    elif sightSpace[2] in iMap.intStrings: movementMap[row][column] = "!:" + str(stepCount)
 
                     if npc and freeSpace:
-                        contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightMap[row][column])
+                        contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightSpace)
                         if contact: anyContact = True
                         else: movementMap[row][column] = "!:" + str(stepCount)
 
@@ -54,25 +58,30 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             for row in range(topEdge, bottomEdge):
                 if "!:" in movementMap[row][column]:
                     stepCount = movementMap[row][column].split(':')[1]
+                    terrain = sightMap[row][column][1]
+
                     if int(stepCount) < fighter.atrb["cur_sp"] // 2:
-                        movementMap[row][column] = "_:" + stepCount
+                        movementMap[row][column] = terrain + ":" + stepCount
 
     counter = 2
     for column in range(12):
         for row in range(12):
+            moveSpace = movementMap[row][column]
             elevation = sightMap[row][column][-1]
-            terrain = movementMap[row][column][1]
+            terrain = sightMap[row][column][1]
 
-            if (":" in movementMap[row][column]) and not any(marker in movementMap[row][column] for marker in [".", "!", ")", "/"]):
-                stepCount = movementMap[row][column].split(':')[1]
-                if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
-                else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
-                counter += 1
+            if (":" in moveSpace) and not any(marker in moveSpace for marker in [".", "!", ")", "/"]):
+                if ("~" not in moveSpace) or aquatic:
+                    stepCount = moveSpace.split(':')[1]
+                    if counter < 10: moveSpace = terrain + str(counter) + ":" + str(stepCount) + elevation
+                    else: moveSpace = str(counter) + ":" + str(stepCount) + elevation
+                    counter += 1
 
-            if "." in movementMap[row][column]: movementMap[row][column] = terrain + ".._" + elevation
-            elif ")" in movementMap[row][column]: movementMap[row][column] = ")()(" + elevation
-            elif "/" in movementMap[row][column]: movementMap[row][column] = "////" + elevation
-            elif "!" in movementMap[row][column]: movementMap[row][column] = "/!!/" + elevation
+            if "." in moveSpace: movementMap[row][column] = terrain + ".._" + elevation
+            elif ")" in moveSpace: movementMap[row][column] = ")()(" + elevation
+            elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
+            elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation
+            elif ("~" in moveSpace) and not aquatic: movementMap[row][column] = "~~~~" + elevation
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]

@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Roll
 from . import Cards
 
 
@@ -6,27 +6,54 @@ def updateAce(ace, biome):
     aces = Cards.setFronts("Aces")
     backs = Cards.setBacks(4)
 
-    Select.conversationPrint("The weather shifts.")
+    Select.waitPrint("Rolling to determine change in weather.")
+    threshold = 0
 
-    match ace:
-        case "Spades":
-            ace = "Clubs"
-            backs[0] = aces[0]
-            Select.conversationPrint("Rain falls thick from heavy clouds. Water collects in deep pools.")
-        case "Clubs":
-            ace = "Hearts"
-            backs[1] = aces[1]
-            Select.conversationPrint("The rain abates. Water recedes while fog accumulates.")    
-        case "Hearts":
-            ace = "Diamonds"
-            backs[2] = aces[2]
-            Select.conversationPrint("Fog and mist linger over the land, though standing water is nowhere to be seen.")
-        case "Diamonds":
-            ace = "Spades"
-            backs[3] = aces[3]
-            Select.conversationPrint("The soil dries beneath warm sunlight. Water vanishes even from the air.")
+    match biome:
+        case "Holy Desert" | "Rot Locus":
+            match ace:
+                case "Spades" | "Clubs": threshold = 3
+                case "Hearts": threshold = 5
+                case "Diamonds": threshold = 12
+        case "Holy Scrubland" | "Frozen Glacier" | "Rot Encroachment":
+            match ace:
+                case "Spades" | "Clubs": threshold = 5
+                case "Hearts": threshold = 7
+                case "Diamonds": threshold = 9
+        case "Dream Sea-Cave" | "Frozen Fjord" | "Marshland" | "Shoreline": 
+            match ace:
+                case "Spades" | "Clubs": threshold = 9
+                case "Hearts": threshold = 5
+                case "Diamonds": threshold = 3
+        case _: threshold = 7
 
-    Cards.printDeck(backs)
+    Select.waitPrint("Rolling to trigger change in weather. Current threshold: " + str(threshold))
+    roll = Roll.roll(None, 2, None, None)
+
+    if roll >= threshold:
+        Select.conversationPrint("The weather shifts.")
+
+        match ace:
+            case "Spades":
+                ace = "Clubs"
+                backs[0] = aces[0]
+                Select.conversationPrint("Tides rise or rain falls thick from heavy clouds. Whatever its source, water collects in deep pools.")
+            case "Clubs":
+                ace = "Hearts"
+                backs[1] = aces[1]
+                Select.conversationPrint("Rain abates or tides recede. Water levels drop while heavy fog accumulates.")    
+            case "Hearts":
+                ace = "Diamonds"
+                backs[2] = aces[2]
+                Select.conversationPrint("Fog and mist linger quietly over the land, though standing water is nowhere to be seen.")
+            case "Diamonds":
+                ace = "Spades"
+                backs[3] = aces[3]
+                Select.conversationPrint("Strong winds or bright sunlight drive out what remains of moisture. Water vanishes even from the air.")
+
+        Cards.printDeck(backs)
+    else: "The weather holds."
+
     return ace
 
 
@@ -63,13 +90,19 @@ def setMapConditions(biome):
 
 def setAtmosphere(biome, extent) -> dict:
     atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxin": 0}
+    majorBiomes = ["Burning Volcano", "Dreamwood Depths", "Frozen Glacier", "Holy Desert", "Rot Locus"]
 
+    if biome in majorBiomes:
+        atmosphere["Mana"] = extent
+        extent += 3
+    
     match biome:
+        case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
         case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
         case "Holy Desert" | "Holy Scrubland": atmosphere["Sacred"] = extent
         case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["Dazzle"] = extent
         case "Frozen Glacier" | "Frozen Fjord": atmosphere["Rime"] = extent
         case "Burning Volcano" | "Burning Peninsula": atmosphere["Smoke"] = extent
-
-    atmosphere["Mana"] = extent
+        case "Marshland": atmosphere["Toxin"] = extent
+    
     return atmosphere

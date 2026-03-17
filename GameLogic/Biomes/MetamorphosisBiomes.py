@@ -56,10 +56,10 @@ def fjordEncounter(roll, budget) -> list:
         case 5: members = RandomCreatures.creatures("hound", "Flame", majorBiome, budget)
         case 6: members = RandomCreatures.creatures("moose", "Fey", majorBiome, budget)
         case 7: members = RandomCreatures.creatures("sheep", element, majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("worm", element, majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("urchin", element, majorBiome, budget)
-        case 10: members = RandomCreatures.creatures("deer", element, majorBiome, budget)
-        case 11: members = RandomCreatures.creatures("rabbit", element, majorBiome, budget)
+        case 8: members = RandomCreatures.creatures("urchin", element, majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("seal", element, majorBiome, budget)
+        case 10: members = RandomCreatures.creatures("rabbit", element, majorBiome, budget)
+        case 11: members = RandomCreatures.creatures("worm", element, majorBiome, budget)
         case 12: members = undeadEncounters("Fjord", majorBiome, budget)
 
     return members
@@ -80,8 +80,8 @@ def glacierEncounters(roll, budget) -> list:
         case 7: members = RandomCreatures.creatures("mole", "Flame", majorBiome, budget)
         case 8: members = RandomCreatures.creatures("sheep", element, majorBiome, budget)
         case 9: members = RandomCreatures.creatures("urchin", element, majorBiome, budget)
-        case 10: members = RandomCreatures.creatures("worm", "Flame", majorBiome, budget)
-        case 11: members = RandomCreatures.creatures("rabbit", element, majorBiome, budget)
+        case 10: members = RandomCreatures.creatures("seal", element, majorBiome, budget)
+        case 11: members = RandomCreatures.creatures("worm", "Flame", majorBiome, budget)
         case 12: members = undeadEncounters("Glacier", majorBiome, budget)
     
     return members

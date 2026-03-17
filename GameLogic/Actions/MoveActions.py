@@ -63,7 +63,7 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
     if stationary:
-        if (target == "None") and ("Empower" in posOptions): posOptions -= ["Empower"]
+        if (target == "None") and ("Empower" in posOptions): posOptions.remove(["Empower"])
         choice = random.choice(posOptions)
     if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
     elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap)

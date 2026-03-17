@@ -66,7 +66,7 @@ class centipede:
         cndt["aggressive"] = True
         stats["speed"] = "high"
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
         dice = {"martial": 2, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -80,7 +80,7 @@ class waspNest:
         cndt["aggressive"] = True
         stats["avoidance"], stats["speed"] = "min", "min"
         
-        abl = Characters.setAbilities(type, {"attacks": ["Sting"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Harry"]})
         dice = {"martial": 1, "magic": 0}
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)

@@ -45,8 +45,11 @@ def attack(fighter, target, attack, dice) -> None:
 
 
 def contact(fighter, target, dmgType, baseDmg, cleanHit):
+    bonusDmgType = "None"
+
     if cleanHit:
         baseDmg *= 3
+        bonusDmgType = Damage.identifyBonusDamageType(fighter, dmgType)
         Select.waitPrint("Attack hits cleanly!")
     else: Select.waitPrint("Attack barely connects!")
 
@@ -56,6 +59,6 @@ def contact(fighter, target, dmgType, baseDmg, cleanHit):
     Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
     Conditions.takeDamage(target, dmgType, appliedDmg)
 
-    if cleanHit and (dmgType == "Pierce"):
-        Select.waitPrint("Attack inflicts additional " + str(baseDmg) + " Bleed damage!")
-        Conditions.takeDamage(target, dmgType, "Bleed")
+    if bonusDmgType != "None":
+        Select.waitPrint("Attack inflicts additional " + str(baseDmg) + " " + bonusDmgType + " damage!")
+        Conditions.takeDamage(target, bonusDmgType, baseDmg)

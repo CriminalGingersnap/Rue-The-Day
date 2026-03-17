@@ -2,8 +2,8 @@ from Systems import PlayerSelect as Select
 from . import Boons_Apply as Boons
 
 
-pierceAttacks = ["Bodkin", "Bite", "Bristle", "Broadhead", "Claw", "Gore", "Stab"]
-crushAttacks = ["Bash", "Pinch", "Ram", "Sling", "Kick"]
+pierceAttacks = ["Bodkin", "Bite", "Broadhead", "Claw", "Stab"]
+crushAttacks = ["Bash", "Gore", "Pinch", "Ram", "Sling", "Kick"]
 venomAttacks = ["Spray", "Sting"]
 rotAttacks = ["Spit"]
 
@@ -18,17 +18,22 @@ def convertElmToDmg(elm) -> str:
         case "Toxin": return "Venom"
         case _: return "None"
 
+def identifyBonusDamageType(fighter, baseDmgType) -> str:
+    if fighter.type == "elemental": return "None"
+    else:
+        fighterDmgType = convertElmToDmg(fighter.atrb["cur_elm"])
+        if fighterDmgType != "None": return fighterDmgType
+        elif baseDmgType == "Pierce": return "Bleed"
 
 def identifyDamageType(fighter, ability) -> str:
-    damageType = ""
-    
-    if ability in pierceAttacks: damageType = "Pierce"
-    elif ability in crushAttacks: damageType = "Crush"
-    elif ability in venomAttacks: damageType = "Venom"
-    elif ability in rotAttacks: damageType = "Rot"
-    else: damageType = convertElmToDmg(fighter.atrb["cur_elm"])
+    fighterDmgType = convertElmToDmg(fighter.atrb["cur_elm"])
 
-    return damageType
+    if fighter.type == "elemental": return fighterDmgType
+    elif ability in pierceAttacks: return "Pierce"
+    elif ability in crushAttacks: return "Crush"
+    elif ability in venomAttacks: return "Venom"
+    elif ability in rotAttacks: return "Rot"
+    else: return fighterDmgType
 
 
 def applyResistance(damage, dmgType, target) -> int:

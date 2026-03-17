@@ -30,7 +30,6 @@ class bear:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Slip"]
-            else: abl["boons"] += ["Wreath"]
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -48,7 +47,6 @@ class hound:
 
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
-            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -65,7 +63,6 @@ class ferret:
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
-            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -81,7 +78,7 @@ class lion:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         dice = {"martial": 2, "magic": 0}
 
-        if rank == "Elder": abl["boons"] += ["Wreath"]
+        if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
         
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -98,7 +95,6 @@ class moose:
 
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
-            else: abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
@@ -112,7 +108,7 @@ class sheep:
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
         dice = {"martial": 1, "magic": 0}
 
-        if rank == "Elder": abl["boons"] += ["Wreath"]
+        if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
