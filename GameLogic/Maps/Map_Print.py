@@ -29,13 +29,13 @@ def printOptionsMap(instanceMap, mapName) -> None:
         for column in range(12):
             space = instanceMap[row][column]
             topHalf = finishSpace(instanceMap[row][column], mapName)
-            if space[2] in iMap.intStrings: console.print("[red]" + topHalf + "[/red]", end = "") 
+            if space[1] in iMap.intStrings: console.print("[red]" + topHalf + "[/red]", end = "") 
             else: print(topHalf, end = "")            
         print()
 
         for column in range(12):
             space = instanceMap[row][column]
-            if space[2] in iMap.intStrings: console.print("[red]" + space + "[/red]", end = "") 
+            if space[1] in iMap.intStrings: console.print("[red]" + space + "[/red]", end = "") 
             else: print(space, end = "")
         print()
     print()

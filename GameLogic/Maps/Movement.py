@@ -9,11 +9,12 @@ def moveFighter(fighter, battleMap, target, closeRanks) -> None:
     spaceOptions, firstSpace, lastSpace = moveOptions[0], moveOptions[1], moveOptions[2]
     stationary, moveChoice = False, None
 
-    if fighter.rank == "player": moveChoice = movePlayer(movementMap, lastSpace)
+    player = fighter.rank in ["player", "world"]
+    if player: moveChoice = movePlayer(movementMap, lastSpace)
     else: moveChoice = moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks)
 
     if int(moveChoice) != 1:
-        if fighter.rank != "player": Select.waitPrint(fighter.name + " moves.")
+        if not player: Select.waitPrint(fighter.name + " moves.")
 
         row = spaceOptions[moveChoice][0]
         column = spaceOptions[moveChoice][1]

@@ -2,7 +2,7 @@ from Characters import AggressiveBeasts, AvoidantBeasts, Invertebrates, Insects,
 import random
 
 
-def creatures(type, majorBiome, element, diceBudget) -> list:
+def creatures(type, element, majorBiome, diceBudget) -> list:
     beastList, rankOptions = [], getAnimalRankOptions(majorBiome)
 
     while diceBudget > 0:

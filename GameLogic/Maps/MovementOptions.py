@@ -11,7 +11,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     hazards = uMap.majorHazards + uMap.minorHazards
     aquatic, waterLine = fighter.cndt["aquatic"], 0
 
-    npc, simulation, anyContact = fighter.rank != "player", None, False
+    npc, simulation, anyContact = fighter.rank not in ["player", "world"], None, False
     if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.rank)
     sightMap = fighter.sightMap
 
@@ -73,8 +73,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             if (":" in moveSpace) and not any(marker in moveSpace for marker in [".", "!", ")", "/"]):
                 if ("~" not in moveSpace) or aquatic:
                     stepCount = moveSpace.split(':')[1]
-                    if counter < 10: moveSpace = terrain + str(counter) + ":" + str(stepCount) + elevation
-                    else: moveSpace = str(counter) + ":" + str(stepCount) + elevation
+                    if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
+                    else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                     counter += 1
 
             if "." in moveSpace: movementMap[row][column] = terrain + ".._" + elevation

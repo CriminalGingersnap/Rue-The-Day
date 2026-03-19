@@ -4,7 +4,7 @@ from Systems import Inventory
 
 def setCommon(element, rank) -> list:
     common = Insects.setCommon(element, rank)
-    common[1]["armored"], common[1]["reposed"], common["skittish"] = False, True, True
+    common[1]["armored"], common[1]["reposed"], common[1]["skittish"] = False, True, True
     common[3] = "invertebrate"
 
     return common
