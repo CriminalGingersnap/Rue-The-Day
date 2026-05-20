@@ -5,12 +5,13 @@ club, heart, diamond, spade = "\u2663", "\u2665", "\u2666", "\u2660"
 
 
 def drawNumbers(quantity) -> int:
-    numberValues = []
+    numberValues = [[], []]
     numbers = setFronts("Numbers")
     numberChoices = pickCard(numbers, quantity)
+    drawNumbers = numberChoices[0]
 
-    for card in numberChoices:
-        numberValues += [findValue(numbers[card][3])]
+    for card in drawNumbers: numberValues[0] += [findValue(numbers[card])]
+    numberValues[1] = numberChoices[1]
 
     return numberValues
 
@@ -64,31 +65,41 @@ def printDeck(deck):
 
 
 def pickCard(hand, picks) -> list:
-    drawn, backs = [], setBacks(len(hand))
+    drawn, down, backs = [], [], setBacks(len(hand))
     printDeck(backs)
 
+    autoSelect = Select.yesNo("Auto-select?")
+
     for pick in range(picks):
-        Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
+        if not autoSelect: Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
         
         while True:
-            answer = int(Select.takeInput(1, len(hand))) - 1
+            if not autoSelect: answer = int(Select.takeInput(1, len(hand))) - 1
+            else: answer = random.randint(1, len(hand)) - 1
+
             if answer not in drawn:
                 backs[answer] = hand[answer]
                 drawn += [answer]
                 printDeck(backs)
                 break
-            else: Select.waitPrint("Please select a new card.")
 
-    return drawn
+            elif not autoSelect: Select.waitPrint("Please select a new card.")
+
+    for recount in range(len(hand)):
+        if "?" in backs[recount]: down += hand[recount]
+
+    return [drawn, down]
 
 
-def findSuit(line) -> str:
+def findSuit(card) -> str:
+    line = card[1]
     if club in line: return "Clubs"
     elif diamond in line: return "Diamonds"
     elif heart in line: return "Hearts"
     elif spade in line: return "Spades"
 
-def findValue(line) -> str:
+def findValue(card) -> str:
+    line = card[3]
     if "2" in line: return 2
     elif "3" in line: return 3
     elif "4" in line: return 4

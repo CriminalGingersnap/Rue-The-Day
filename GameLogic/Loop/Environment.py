@@ -63,8 +63,9 @@ def randomEnvironment(biome):
     slope = mapConditions[1]
     budget = mapConditions[2]
     atmosphere = mapConditions[3]
+    curse = mapConditions[4]
 
-    return {"atmosphere": atmosphere, "obstructions": obstructions, "slope": slope, "budget": budget}
+    return {"atmosphere": atmosphere, "obstructions": obstructions, "slope": slope, "budget": budget, "curse": curse}
 
 
 def setMapConditions(biome):
@@ -76,16 +77,17 @@ def setMapConditions(biome):
     Select.waitPrint("The final pair determines enemy dice budgets.")
     
     numberValues = Cards.drawNumbers(5)
-    slope = slopeOptions[numberValues[0] - 1]
-    obstructionValue = numberValues[1]
-    atmosphereValue = numberValues[2]
-    budget = [numberValues[3], numberValues[4]]
+    drawn, down = numberValues[0], numberValues[1]
+    slope = slopeOptions[drawn[0] - 1]
+    obstructionValue = drawn[1]
+    atmosphereValue = drawn[2]
+    budget = [drawn[3], drawn[4]]
 
     if slope == "ruin": obstructions["pit"] = obstructionValue
     else: obstructions["wall"] = obstructionValue
     atmosphere = setAtmosphere(biome, atmosphereValue)
 
-    return [obstructions, slope, budget, atmosphere]
+    return [obstructions, slope, budget, atmosphere, down]
 
 
 def setAtmosphere(biome, extent) -> dict:

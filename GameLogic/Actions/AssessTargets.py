@@ -72,7 +72,7 @@ def findLowestRes(targets, dmgType):
     prevResLow = 1
 
     for target in targets:
-        resInt = rankRes(target, dmgType)
+        resInt = rankRes(target, dmgType) + target.effects["Guard"]["dice"]
         if target.effects["Wreath"]["dice"] > 0:
             compatible = Boons.checkCompatibility(dmgType, target.effects["Wreath"]["additional"])
             if compatible: resInt += (3 * target.effects["Wreath"]["dice"])
@@ -84,12 +84,12 @@ def findLowestRes(targets, dmgType):
     return lowestResTarget
 
 def rankRes(target, dmgType) -> int:
-    resString, resInt = target.atrb["cur_res"][dmgType], 0
-    match resString:
+    resInt = 0
+    match target.atrb["cur_res"][dmgType]:
         case "vulnerable": resInt = 0
-        case "normal": resInt = 1
-        case "resistant": resInt = 2
-        case "immune": resInt = 3
+        case "normal": resInt = 3
+        case "resistant": resInt = 6
+        case "immune": resInt = 9
 
     return resInt
 

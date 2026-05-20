@@ -45,8 +45,11 @@ def applyFocus(principal):
 
 def applyGuard(principal):
     bonus = apply(principal, "Guard")
+    flatBonus =  principal.effects["Wreath"]["dice"]
     if bonus > 0: Select.waitPrint(principal.name + "'s AV increases by " + str(bonus) + ".\n")
-    return bonus
+    if flatBonus > 0: Select.waitPrint(principal.name + "'s wreath increases AV by " + str(bonus) + ".\n")
+
+    return bonus + flatBonus
 
 
 def applyHeal(principal, ability) -> str:
@@ -81,7 +84,10 @@ def applyWreath(principal, attackDmgType) -> int:
 
         Select.waitPrint(principal.name + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
 
-    return bonus
+    flatBonus = principal.effects["Guard"]["dice"]
+    if flatBonus > 0: Select.waitPrint(principal.name + "'s guard blocks " + str(bonus) + " magic damage.\n")
+
+    return bonus + flatBonus
 
 def checkCompatibility(attackDmgType, responseDmgType) -> bool:
     compatible = False

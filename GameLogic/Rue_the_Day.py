@@ -18,18 +18,17 @@ Laura.equipment["armor"] = None
 
 group1 = [Martin, Laura]
 
-# gameMap1 = World.metamorphosisMap()
-tutorial = World.kingKillerMap()
-worldMap = tutorial.worldMap
-marker = tutorial.marker
+tutorialWorld = World.kingKillerMap()
+worldMap = tutorialWorld.worldMap
+marker = tutorialWorld.marker
 
 worldMap[0][6] = "w___↑"
 worldMap[2][6] = "w_..↑"
-worldMap[2][7] = ")()(↑"
+worldMap[2][7] = "w_!!↑"
 marker.position = [2, 6]
 # World.printWorldMap(tutorial)
-# input("L")
 
+inTutorial = True
 
 while True:
     marker.sightMap = World.createSightMap(worldMap, marker.position, "world")
@@ -41,12 +40,14 @@ while True:
 
         row, column = marker.position[0], marker.position[1]
         letter = worldMap[row][column][0]
-        biome = tutorial.legend[letter]
+        biome = tutorialWorld.legend[letter]
         Encounters.encounterLoop(group1, biome)
 
     marker.lastCleared.appendleft(marker.position)
     marker.lastCleared.pop()
 
-    print(list(marker.lastCleared))
-
-    # if marker.position == [0, 6]:
+    if inTutorial and ([0, 6] in marker.lastCleared):
+        inTutorial = False
+        gameWorld = World.metamorphosisMap()
+        worldMap = gameWorld.worldMap
+        marker = gameWorld.marker

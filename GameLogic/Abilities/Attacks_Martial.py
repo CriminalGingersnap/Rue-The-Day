@@ -1,5 +1,4 @@
 from . import DamageTypes as Damage, Boons_Apply as Boons, Hindrances_Apply as Hinder, Reactions
-from Actions import AssessTargets as Assess
 from Systems import PlayerSelect as Select, Roll, Conditions
 
 
@@ -8,6 +7,8 @@ def getProbableAv(fighter, dmgType, target) -> int:
 
     probAv += target.effects["Guard"]["dice"] * 3
     probAv -= target.effects["Disorient"]["dice"] * 3
+    probAv += target.effects["Wreath"]["dice"]
+
     probAv += fighter.effects["Misdirect"]["dice"] * 3
     probAv -= fighter.effects["Focus"]["dice"] * 3
 
@@ -35,30 +36,26 @@ def attack(fighter, target, attack, dice) -> None:
     attempt += (attemptIncrease - attemptReduction)
     av += (avIncrease - avReduction)
 
-    if attempt >= av // 2:
-        if attempt >= av: contact(fighter, target, dmgType, dice, True)
-        else: contact(fighter, target, dmgType, dice, False)
-    else: Select.waitPrint("Attack misses!")    
-
+    contact(fighter, target, dmgType, dice, attempt, av)
+    
     if avIncrease > 0: Reactions.applyRiposte(target, fighter, "Guard")
     if attemptReduction > 0: Reactions.applyRiposte(target, fighter, "Misdirect")
 
 
-def contact(fighter, target, dmgType, baseDmg, cleanHit):
-    bonusDmgType = "None"
+def contact(fighter, target, dmgType, baseDmg, attempt, av):
+    if attempt >= (av // 2):
+        if attempt >= (av * 2):
+            baseDmg *= 6
+            Select.waitPrint("Devastating blow!")
+        elif attempt >= av:
+            baseDmg *= 3
+            Select.waitPrint("Clean hit!")
+        else: Select.waitPrint("Glancing blow!")
 
-    if cleanHit:
-        baseDmg *= 3
-        bonusDmgType = Damage.identifyBonusDamageType(fighter, dmgType)
-        Select.waitPrint("Attack hits cleanly!")
-    else: Select.waitPrint("Attack barely connects!")
+        physicalAbsorption = Boons.applyWreath(target, dmgType)
+        appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-    physicalAbsorption = Boons.applyWreath(target, dmgType)
-    appliedDmg = max(0, baseDmg - physicalAbsorption)
+        Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+        Conditions.takeDamage(target, dmgType, appliedDmg)
 
-    Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
-    Conditions.takeDamage(target, dmgType, appliedDmg)
-
-    if bonusDmgType != "None":
-        Select.waitPrint("Attack inflicts additional " + str(baseDmg) + " " + bonusDmgType + " damage!")
-        Conditions.takeDamage(target, bonusDmgType, baseDmg)
+    else: Select.waitPrint("Attack misses!")

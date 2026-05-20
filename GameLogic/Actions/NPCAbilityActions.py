@@ -5,7 +5,7 @@ from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances
 import random
 
 
-def npcAction(fighter, groups, space) -> None:
+def npcAction(fighter, groups) -> None:
     reachable, fightingAllies, fightingEnemies = groups["reachable"], groups["fightingAllies"], groups["fightingEnemies"]
     actionOptions = []
     

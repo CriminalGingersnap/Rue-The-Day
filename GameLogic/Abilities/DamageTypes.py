@@ -18,13 +18,6 @@ def convertElmToDmg(elm) -> str:
         case "Toxin": return "Venom"
         case _: return "None"
 
-def identifyBonusDamageType(fighter, baseDmgType) -> str:
-    if fighter.type == "elemental": return "None"
-    else:
-        fighterDmgType = convertElmToDmg(fighter.atrb["cur_elm"])
-        if fighterDmgType != "None": return fighterDmgType
-        elif baseDmgType == "Pierce": return "Bleed"
-
 def identifyDamageType(fighter, ability) -> str:
     fighterDmgType = convertElmToDmg(fighter.atrb["cur_elm"])
 

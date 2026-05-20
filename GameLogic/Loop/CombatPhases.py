@@ -72,12 +72,9 @@ def abilityStage(fighter, enemies, allies, battleMap) -> None:
     groups = Sort.getGroups(fighter, allies, enemies)
     reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
-    if len(fightingEnemies) > 0:
-        space = battleMap[fighter.position[0]][fighter.position[1]]
-
+    if fighter.cndt["reposed"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
+    elif len(fightingEnemies) > 0:
         if fighter.rank == "player":
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)
             PlayerAbl.takeAction(fighter, actionChoice, reachable)
-        elif fighter.cndt["reposed"]:
-            fighter.atrb["cur_mar"], fighter.atrb["cur_mag"], fighter.atrb["cur_sp"] = 0, 0, 0
-        else: NPCAbl.npcAction(fighter, groups, space)
+        else: NPCAbl.npcAction(fighter, groups)
