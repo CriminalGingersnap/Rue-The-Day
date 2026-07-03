@@ -9,7 +9,7 @@ def encounterLoop(playerGroup, biome):
     
     while play:
         mapConditions = Environment.randomEnvironment(biome)
-        enemyGroups = Biomes.setFoes(biome, mapConditions["budget"])
+        enemyGroups = Biomes.setFoes(biome, mapConditions["budget"], mapConditions["curse"])
 
         battleMap = None
         if mapConditions["slope"] == "ruin":

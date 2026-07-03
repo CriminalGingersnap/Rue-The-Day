@@ -27,16 +27,15 @@ def setBody(value, suit) -> list:
 def setFronts(type) -> list:
     deck = []
 
-    for suit in [club, heart, diamond, spade]:
-        match type:
-            case "Aces":
-                deck += [setBody("A", suit)]
-            case "Numbers":
-                for number in range(2, 10):
-                    deck += [setBody(str(number), suit)]
-                deck = deck[:8]
+    match type:
+        case "Aces":
+            for suit in [club, heart, diamond, spade]: deck += [setBody("A", suit)]
+        case "Numbers":
+            for suit in [club, heart, diamond, spade]:
+                for number in range(2, 10): deck += [setBody(str(number), suit)]
+                random.shuffle(deck)
+                deck = deck[:6]
 
-    random.shuffle(deck)
     return deck
 
 def setBacks(length) -> list:
@@ -47,11 +46,11 @@ def setBacks(length) -> list:
 
 
 def printDeck(deck):
-    row, rowCount = 0, int(len(deck) / 4)
-    excess = (len(deck) % 4)
+    row, rowCount = 0, int(len(deck) / 3)
+    excess = (len(deck) % 3)
 
     while row <= rowCount:
-        cardNum, rowOffset = 4, 4 * row
+        cardNum, rowOffset = 3, 3 * row
         if row == rowCount: cardNum = excess
 
         if cardNum > 0:
@@ -80,13 +79,13 @@ def pickCard(hand, picks) -> list:
             if answer not in drawn:
                 backs[answer] = hand[answer]
                 drawn += [answer]
-                printDeck(backs)
+                if not autoSelect: printDeck(backs)
                 break
 
             elif not autoSelect: Select.waitPrint("Please select a new card.")
 
     for recount in range(len(hand)):
-        if "?" in backs[recount]: down += hand[recount]
+        if "?" in backs[recount][1]: down += hand[recount]
 
     return [drawn, down]
 

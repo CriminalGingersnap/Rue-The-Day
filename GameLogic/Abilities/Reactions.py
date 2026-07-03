@@ -54,12 +54,12 @@ def applyReinforcements(fighter, allies, battleMap):
                 for newMember in quantity:
                     ant = Insects.ant().ch
                     allies += [ant]
-                    pMap.firstPlacement(battleMap, ant, 6)
+                    pMap.firstPlacement(battleMap, ant)
             elif fighter.job == "Hound":
                 for newMember in quantity:
                     hound = AggressiveBeasts.hound(fighter.element).ch
                     allies += [hound]
-                    pMap.firstPlacement(battleMap, hound, 6)
+                    pMap.firstPlacement(battleMap, hound)
             
             for ally in allies:
                 fighter.cndt["calling"]["quantity"] = 0

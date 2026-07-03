@@ -1,18 +1,20 @@
-from Characters import Elementals
 from . import MetamorphosisBiomes as Metamorphosis, KingKillerBiomes as Kingdom, BenedictionBiomes as Benediction
 from Systems import Roll, PlayerSelect as Select
-import random
+from Loop import Cards
 
 
-def setFoes(biome, budgets) -> list:
+def setFoes(biome, budgets, curseCard) -> list:
     Select.waitPrint("Rolling to determine encounter number.")
     Select.waitPrint("First roll:")
-    roll1, roll2 = Roll.roll(None, 1, None, None), 0
+    roll1 = Roll.roll(None, 1, None, None)
 
-    if biome not in ["Northern Stronghold", "Northern Road", "Southern Stronghold", "Southern Road"]:
-        Select.waitPrint("Second roll:")
-        roll2 = Roll.roll(None, 2, None, None)
-    else: roll2 = roll1
+    Select.waitPrint("Second roll:")
+    roll2 = Roll.roll(None, 1, None, None)
+
+    Select.waitPrint("Applying curse card:")
+    Cards.printDeck([curseCard])
+    roll2 += Cards.findValue(curseCard)
+    Select.waitPrint("Modified second roll: " + str(roll2))
 
     rolls = [roll1, roll2]
     rollNum, groups = 0, [[], []]
@@ -51,7 +53,7 @@ def setFoes(biome, budgets) -> list:
             member.name += "[" + str(memberIndex) + "]"
             memberIndex += 1
         
-        groups = members
+        groups[rollNum] = members
         rollNum += 1
 
     return groups

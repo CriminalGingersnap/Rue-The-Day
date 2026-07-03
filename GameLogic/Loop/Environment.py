@@ -59,13 +59,12 @@ def updateAce(ace, biome):
 
 def randomEnvironment(biome):
     mapConditions = setMapConditions(biome)
-    obstructions = mapConditions[0]
-    slope = mapConditions[1]
-    budget = mapConditions[2]
-    atmosphere = mapConditions[3]
-    curse = mapConditions[4]
 
-    return {"atmosphere": atmosphere, "obstructions": obstructions, "slope": slope, "budget": budget, "curse": curse}
+    return {"atmosphere": mapConditions[0],
+             "obstructions": mapConditions[1],
+              "slope": mapConditions[2],
+               "budget": mapConditions[3],
+                "curse": mapConditions[4]}
 
 
 def setMapConditions(biome):
@@ -73,11 +72,12 @@ def setMapConditions(biome):
     obstructions = {"wall": 0, "trap": 0, "pit": 0}
     
     Select.waitPrint("\nDraw five numbered cards.")   
-    Select.waitPrint("The first three determine topographical slope, obstruction density, and atmospheric density.")   
-    Select.waitPrint("The final pair determines enemy dice budgets.")
+    Select.quickPrint("The first three determine topographical slope, obstruction density, and atmospheric density.")   
+    Select.quickPrint("The next pair determines enemy dice budgets.")
+    Select.waitPrint("The final card determines curse status.")
     
     numberValues = Cards.drawNumbers(5)
-    drawn, down = numberValues[0], numberValues[1]
+    drawn, faceDown = numberValues[0], numberValues[1]
     slope = slopeOptions[drawn[0] - 1]
     obstructionValue = drawn[1]
     atmosphereValue = drawn[2]
@@ -87,7 +87,7 @@ def setMapConditions(biome):
     else: obstructions["wall"] = obstructionValue
     atmosphere = setAtmosphere(biome, atmosphereValue)
 
-    return [obstructions, slope, budget, atmosphere, down]
+    return [atmosphere, obstructions, slope, budget, faceDown]
 
 
 def setAtmosphere(biome, extent) -> dict:

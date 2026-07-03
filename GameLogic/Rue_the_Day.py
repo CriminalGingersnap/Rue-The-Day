@@ -9,12 +9,12 @@ from Systems import PlayerSelect as Select
 Martin = Humans.knight("Basic", "Master").ch
 Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
 # Martin.abl["items"] += ["Loot", "Transfer"]
-Martin.equipment["armor"] = None
+Martin.equipment["armor"] = {"name": None, "modifier": 0}
 
 Laura = Humans.mage("Flame", "Master").ch
 Laura.rank, Laura.name, Laura.initials = "player", "Laura", "L."
 # Laura.abl["items"] += ["Craft", "Transfer"]
-Laura.equipment["armor"] = None
+Laura.equipment["armor"] = {"name": None, "modifier": 0}
 
 group1 = [Martin, Laura]
 

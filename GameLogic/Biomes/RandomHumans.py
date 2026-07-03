@@ -10,7 +10,7 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         soldierRankOptions += ["Master"]
 
     if diceBudget > 4:
-        beast = AggressiveBeasts.hound(element, random.choice["Adult", "Juvenile"]).ch
+        beast = AggressiveBeasts.hound(element, random.choice(["Adult", "Juvenile"])).ch
         diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])
         warriorList += [beast]
 
