@@ -3,9 +3,9 @@ from Systems import PlayerSelect as Select, Conditions
 from Abilities import DamageTypes as Damage
 import random
 
-majorHazards = ["B", "D", "C", "F", "H", "P", "R", "V"]
-minorHazards = ["b", "d", "c", "f", "h", "p", "r", "v"]
-lingeringHazards = ["#", "@", "%", "+", "}", "&"]
+majorHazards =     ["B", "D", "C", "F", "H", "P", "R", "V"]
+minorHazards =     ["b", "d", "c", "f", "h", "p", "r", "v"]
+lingeringHazards = ["#", "@",      "%", "+",      "}", "&"]
 hazards = majorHazards + minorHazards
 
 

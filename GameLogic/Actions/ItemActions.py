@@ -6,87 +6,75 @@ import random
 
 def itemAction(fighter, groups, battleMap) -> None:
     while fighter.itemUse > 0:
-        itemChoice = "None"
+        inventory = getInventory(fighter)
 
-        if fighter.rank == "player": itemChoice = pcSelectItem(fighter)
-        else: itemChoice = npcSelectItem(fighter, groups)
+        if inventory["Total"] > 0:
+            del inventory["Total"]
+            selection = "None"
 
-        if itemChoice != "None": Use.execute(fighter, itemChoice, groups, battleMap)
+            if fighter.rank == "player": selection = pcSelectItem(inventory)
+            else: selection = npcSelectItem(fighter, groups, inventory)
 
-
-def pcSelectItem(fighter) -> str:
-    itemOptions = getInventory(fighter)
-    categoryOptions, objectOptions = ["None"], ["None"]
-
-    if itemOptions["Total"] == 0: return "None"
-    else:
-        del itemOptions["Total"]
-        Select.waitPrint("Select item:")
-        
-        for category in itemOptions:
-            if len(itemOptions[category]) > 0: categoryOptions += [category]
-
-        categoryChoice, item = Select.makeSelection(categoryOptions), ""
-        if categoryChoice != "None":
-            for object in itemOptions[categoryChoice]: objectOptions += [object]
-            item = Select.makeSelection(objectOptions)
-            item = item.split('(')[0]
-
-            if item == "None": return "None"
-            else:
-                depleteItem(fighter, item, categoryChoice)
-                return [categoryChoice, item]
-
-        else: return "None"
+            if selection != "None":
+                category, item, application = selection[0], selection[1], selection[2],
+                fighter.inventory[category][item] -= 1
+                Use.execute(fighter, category, item, application, groups, battleMap)
 
 
-def npcSelectItem(fighter, groups):
-    heldItems = getInventory(fighter)
-    itemPreferences, enemyDmgTypes = [], []
-    allowList = blockList = ["Burn", "Freeze", "Dream", "Rot", "Venom"]
+def pcSelectItem(inventory) -> str:
+    Select.waitPrint("Select item:")
+    category = Select.makeSelection(["None"] + list(inventory.keys()))
 
-    if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): itemPreferences += ["Vigor"]
-    if fighter.atrb["base_mag"] > 0: itemPreferences += ["Corpse", "Flame", "Fey", "Ice", "Blessed", "Toxin"]
+    if category != "None":            
+        item = Select.makeSelection(["None"] + inventory[category])
 
+        if item != "None":
+            Select.waitPrint("Select application:")
+            application = Select.makeSelection(["Detonate", "Extract"])
+            return [category, item, application]
+
+    return "None"
+
+
+def npcSelectItem(fighter, groups, inventory) -> str:
+    preferences, enemyDmgTypes = {"Detonate": [], "Extract": []}, []
+    blockList = allowlist = ["Burn", "Dream", "Freeze", "Holy", "Rot", "Venom"]
+
+    if fighter.atrb["base_mag"] > 0:
+        blockList -= fighter.equipment["weapon"]["dmgTypes"]
+        allowlist -= blockList
+
+    if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): preferences += ["Sanguine"]
 
     for enemy in groups["fightingEnemies"]: enemyDmgTypes += Boons.enemyDamageTypes(enemy)
     
-    if fighter.atrb["base_mag"] > 0:
-        weaponDmgTypes = fighter.equipment["weapon"]["dmgTypes"]
-        blockList -= weaponDmgTypes
-        allowList -= blockList
-    
-    if ("Burn" in enemyDmgTypes) and ("Burn" in allowList) and ("Freeze" not in enemyDmgTypes):
-        itemPreferences += ["Flameblood"]
-    if ("Freeze" in enemyDmgTypes) and ("Freeze" in allowList) and ("Burn" not in enemyDmgTypes):
-        itemPreferences += ["Iceblood"]
-    if any(dType in enemyDmgTypes for dType in ["Crush", "Dream", "Pierce"]):
-        if ("Dream" in allowList) and ("Rot" not in enemyDmgTypes): itemPreferences += ["Feyblood"]
+    if ("Burn" in enemyDmgTypes) and ("Freeze" not in enemyDmgTypes):
+        if "Burn" in allowlist: preferences["Extract"] += ["Flame"]
+        preferences["Detonate"] += ["Ice"]
+    if ("Freeze" in enemyDmgTypes) and ("Burn" not in enemyDmgTypes):
+        if "Freeze" in allowlist: preferences["Extract"] += ["Ice"]
+        preferences["Detonate"] += ["Flame"]
+    if any(dType in enemyDmgTypes for dType in ["Crush", "Dream", "Pierce"]) and ("Rot" not in enemyDmgTypes):
+        if "Dream" in allowlist: preferences["Extract"] += ["Fey"]
     if any(dType in enemyDmgTypes for dType in ["Rot", "Venom"]):
-        if ("Rot" in allowList) and ("Holy" not in enemyDmgTypes): itemPreferences += ["Corpseblood"]
-        if "Venom" in allowList: itemPreferences += ["Toxinblood"]
+        if ("Holy" not in enemyDmgTypes):
+            if "Holy" in allowlist: preferences["Extract"] += ["Blessed"]
+            if "Rot" in allowlist: preferences["Extract"] += ["Corpse"]
+            preferences["Detonate"] += ["Blessed"]
+        if "Venom" in allowlist: preferences["Extract"] += ["Toxin"]
+    else: preferences["Detonate"] += ["Toxin"]
 
-    categoryChoice, itemChoice = "", "None"
-    categoryOptions, itemOptions = [], {
-        "Dusts": [],
-        "Gourd": [],
-        "Pills": [],
-        "Tinctures": []
-    }   
+    choices, selection = [], "None"
 
-    for category in itemOptions:
-        for item in itemPreferences:
-            if item in heldItems[category]:
-                categoryOptions += [category]
-                itemOptions[category] += [item]
+    for category in inventory:
+        for item in preferences["Detonate"]:
+            if item in inventory[category]: choices += [[category, item, "detonate"]]
+        for item in preferences["Extract"]:
+            if item in inventory[category]: choices += [[category, item, "extract"]]
     
-    if len(categoryOptions) > 0:
-        categoryChoice = random.choice(categoryOptions)
-        itemChoice = random.choice(itemOptions[categoryChoice])
+    if len(choices) > 0: selection = random.choice(choices)
 
-    if itemChoice != "None": depleteItem(fighter, itemChoice, categoryChoice)
-
-    return [categoryChoice, itemChoice]
+    return selection
 
 
 def hasItems(fighter) -> bool:
@@ -98,63 +86,25 @@ def hasItems(fighter) -> bool:
     return hasItems
 
 def getInventory(fighter) -> dict:
-    isPlayer = fighter.rank == "player"
     items = {
-        "Stones": [],
-        "Dusts": [],
-        "Gourd": [],
-        "Pills": [],
-        "Tinctures": [],
+        "Cores": [],
+        "Pearls": [],
         "Total": 0  
     } 
 
-    dusts = fighter.inventory["Vials"]["Contents"]["Dusts"]
-    tinctures = fighter.inventory["Vials"]["Contents"]["Tinctures"]
-    pills = fighter.inventory["Pill Box"]["Contents"]["Pills"]
-    stones = fighter.inventory["Pill Box"]["Contents"]["Stones"]
-    gourd = fighter.inventory["Gourd"]["Contents"]
+    cores = fighter.inventory["Cores"]
+    pearls = fighter.inventory["Pearls"]
 
-    for dust in dusts:
-        if dusts[dust] > 0:
-            entry = dust
-            if isPlayer: entry += "(" + str(dusts[dust]) + ")"
-            items["Dusts"] += [entry]
+    for core in cores:
+        if cores[core] > 0: 
+            items["Cores"] += [core]
+            items["Total"] += 1
+    for pearl in pearls:
+        if pearls[pearl] > 0:
+            items["Pearls"] += [pearl]
             items["Total"] += 1
 
-    for stone in stones:
-        if stones[stone] > 0:
-            entry = stone
-            if isPlayer: entry += "(" + str(stones[stone]) + ")"
-            items["Stones"] += [entry]
-            items["Total"] += 1
-    
-    if fighter.atrb["base_elm"] != "Corpse":
-        for drink in gourd:
-            if gourd[drink] > 0:
-                entry = drink
-                if isPlayer: entry += "(" + str(gourd[drink]) + ")"
-                items["Gourd"] += [entry]
-                items["Total"] += 1
-        for pill in pills:
-            if pills[pill] > 0:
-                entry = pill
-                if isPlayer: entry += "(" + str(pills[pill]) + ")"
-                items["Pills"] += [entry]
-                items["Total"] += 1
-        for tincture in tinctures:
-            if tinctures[tincture] > 0:
-                entry = tincture
-                if isPlayer: entry += "(" + str(tinctures[tincture]) + ")"
-                items["Tinctures"] += [entry]
-                items["Total"] += 1
+    if len(items["Cores"]) == 0: del items["Cores"]
+    if len(items["Pearls"]) == 0: del items["Pearls"]
 
     return items
-
-
-def depleteItem(fighter, item, category):
-    if category in ["Pills", "Stones"]:
-        fighter.inventory["Pill Box"]["Contents"][category][item] -= 1
-    elif category in ["Dusts", "Tinctures"]:
-        fighter.inventory["Vials"]["Contents"][category][item] -= 1
-    elif category == "Gourd":
-        fighter.inventory["Gourd"]["Contents"][category][item] -= 1

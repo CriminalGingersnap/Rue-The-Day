@@ -70,7 +70,7 @@ class archer:
                         secondSpecialty = [random.choice(["Bodkin", "Broadhead", "Conceal"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class brute:
@@ -95,7 +95,7 @@ class brute:
                         secondSpecialty = [random.choice(["Bash", "Bind", "Harry", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class dragonslayer:
@@ -120,7 +120,7 @@ class dragonslayer:
                         secondSpecialty = [random.choice(["Bodkin", "Conceal", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class knight:
@@ -145,7 +145,7 @@ class knight:
                         secondSpecialty = [random.choice(["Bash", "Guard", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class mage:
@@ -174,7 +174,7 @@ class mage:
                         if element == "Fey": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class paladin:
@@ -199,7 +199,7 @@ class paladin:
                         secondSpecialty = [random.choice(["Sling", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
 
 class warlock:
@@ -224,5 +224,5 @@ class warlock:
                         secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
         
-        inv = Inventory.humanInventory(rank, element, job).inventory
+        inv = Inventory.humanInventory(rank, element).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)

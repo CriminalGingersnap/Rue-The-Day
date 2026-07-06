@@ -1,6 +1,6 @@
-from . import CombatPhases as Phases
+from . import CombatPhases as Phases, Loot
 from Actions import Sort
-from Abilities import AttackAbilities as Attacks, Boons_Apply as Boons, Hindrances_Apply as Hinder
+from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
 from Systems import Commitments, PlayerSelect as Select
 from Maps import Map_Update as uMap
 
@@ -21,8 +21,11 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
         if not (playerVictory or playerDefeat):
             playerDefeat = battle(group3, group1 + group2, battleMap)
 
-    if playerVictory: return True
-    else: return False
+    if playerVictory:
+        Loot.searchAll(group1, group2 + group3)
+        return True
+    else:
+        return False
 
 
 def battle(offenseGroup, targetGroup, battleMap) -> bool:

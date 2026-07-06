@@ -68,18 +68,15 @@ def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
         battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
-def throwStone(fighter, stone, groups, battleMap) -> str:
+def throwStone(fighter, category, element, groups, battleMap) -> None:
     tossSpace = findSpace(fighter, groups, 4)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
-    elm, potency = "", 2
+    potency = 2
 
-    if "Pearl" in stone: elm = stone.split(" Pearl")[0]
-    else:
-        elm = stone.split(" Core")[0]
-        potency = 3
-    dmgType = Damage.convertElmToDmg(elm)
+    if category == "Core": potency = 3
+    dmgType = Damage.convertElmToDmg(element)
 
-    if "Fey" in stone:
+    if element == "Fey":
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
         if potency == 3:
             tossSpace = findSpace(fighter, groups, 4)
@@ -93,7 +90,6 @@ def throwStone(fighter, stone, groups, battleMap) -> str:
     battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
     Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
 
-    return fighter.name + " throws a " + stone + "!"
 
 def getStoneDmgType(stone) -> str:
     dmgType = ""
@@ -105,15 +101,3 @@ def getStoneDmgType(stone) -> str:
     elif "Toxin" in stone: dmgType = "Venom"
 
     return dmgType
-
-
-def enchant(fighter, battleMap) -> None:
-    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
-    atmosphere, phrase = battleMap[fighterRow][fighterColumn][0], ""
-
-    if atmosphere == "*": atmosphere = "M"
-    else: atmosphere = "m"
-    phrase = " casts magic dust into the air!"
-
-    battleMap[fighterRow][fighterColumn] = atmosphere + battleMap[fighterRow][fighterColumn][1:]
-    Select.waitPrint(fighter.name + phrase)
