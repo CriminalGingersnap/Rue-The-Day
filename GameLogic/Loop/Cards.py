@@ -67,22 +67,28 @@ def pickCard(hand, picks) -> list:
     drawn, down, backs = [], [], setBacks(len(hand))
     printDeck(backs)
 
-    autoSelect = Select.yesNo("Auto-select?")
+    autoSelect = Select.yesNo("Forgo selection and take cards in order?")
 
-    for pick in range(picks):
-        if not autoSelect: Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
-        
-        while True:
-            if not autoSelect: answer = int(Select.takeInput(1, len(hand))) - 1
-            else: answer = random.randint(1, len(hand)) - 1
+    if autoSelect:
+        for cardNum in range(picks):
+            backs[cardNum] = hand[cardNum]
+            drawn += [cardNum]
+        printDeck(backs)
+    
+    else:
+        for pick in range(picks):
+            Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
+            
+            while True:
+                answer = int(Select.takeInput(1, len(hand))) - 1
 
-            if answer not in drawn:
-                backs[answer] = hand[answer]
-                drawn += [answer]
-                if not autoSelect: printDeck(backs)
-                break
+                if answer not in drawn:
+                    backs[answer] = hand[answer]
+                    drawn += [answer]
+                    printDeck(backs)
+                    break
 
-            elif not autoSelect: Select.waitPrint("Please select a new card.")
+                else: Select.waitPrint("Please select a new card.")
 
     for recount in range(len(hand)):
         if "?" in backs[recount][1]: down += hand[recount]

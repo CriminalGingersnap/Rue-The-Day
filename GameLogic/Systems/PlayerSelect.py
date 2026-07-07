@@ -83,3 +83,32 @@ def takeInput(floor, ceiling):
             except ValueError:
                 if ceiling == (floor + 1): print("Enter either " + str(floor) + " or " + str(ceiling) + ".")
                 else: print("Enter a number between " + str(floor) + " and ", str(ceiling) + ".")
+
+
+def listSelection(options, cap, prompt):
+    ceiling, selection = len(options), []
+    waitPrint(prompt)
+
+    if cap == 0: waitPrint("Action skipped. Limit reached.")
+    elif ceiling == 0: waitPrint("Action skipped. No options in category.")
+    else:
+        quickPrint("Enter a comma separated list. Ex: 1,4,9")
+        # support ranges. ex 2-4
+        
+        for option in options:
+            quickPrint(str(options.index(option)+1) + ": " + str(option))
+
+        while True:
+            try:
+                answerList = input("-> ").split(",")
+                if len(answerList) > cap: raise SyntaxError
+                elif not all((1 <= answer <= ceiling) for answer in answerList): raise ValueError
+                else:
+                    for answer in answerList: selection += [options[answer - 1]]
+            
+            except SyntaxError:
+                print("Quantity of selected values cannot exceed " + str(cap) + ".")
+            except ValueError:
+                print("All comma-separated values must be numbers between 1 and ", str(ceiling) + ".")
+    
+    return selection

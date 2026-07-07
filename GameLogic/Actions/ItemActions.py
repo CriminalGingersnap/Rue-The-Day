@@ -12,7 +12,7 @@ def itemAction(fighter, groups, battleMap) -> None:
             del inventory["Total"]
             selection = "None"
 
-            if fighter.rank == "player": selection = pcSelectItem(inventory)
+            if fighter.rank == "player": selection = pcSelectItem(fighter.job, inventory)
             else: selection = npcSelectItem(fighter, groups, inventory)
 
             if selection != "None":
@@ -21,12 +21,14 @@ def itemAction(fighter, groups, battleMap) -> None:
                 Use.execute(fighter, category, item, application, groups, battleMap)
 
 
-def pcSelectItem(inventory) -> str:
+def pcSelectItem(job, inventory) -> str:
     category = Select.pickOption(list(inventory.keys()), "item category")
     item = Select.pickOption(["None"] + inventory[category], "item")
 
     if item != "None":
-        application = Select.pickOption(["Detonate", "Extract"], "application")
+        options = ["Detonate", "Extract"]
+        if job == "Paladin": del options["Extract"]
+        application = Select.pickOption(options, "application")
         return [category, item, application]
 
     return "None"
@@ -36,7 +38,8 @@ def npcSelectItem(fighter, groups, inventory) -> str:
     preferences, enemyDmgTypes = {"Detonate": [], "Extract": []}, []
     blockList = allowlist = ["Burn", "Dream", "Freeze", "Holy", "Rot", "Venom"]
 
-    if fighter.atrb["base_mag"] > 0:
+    if fighter.job == "Paladin": allowlist = []
+    elif fighter.atrb["base_mag"] > 0:
         blockList -= fighter.equipment["weapon"]["dmgTypes"]
         allowlist -= blockList
 

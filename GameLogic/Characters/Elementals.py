@@ -189,7 +189,7 @@ class ogre:
         stats["hp"] = "max"
 
         dice = {"martial": 2, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"areas": ["Slip"], "attacks": ["Bash"], "hindrances": ["Disorient"]})
+        abl = Characters.setAbilities(type, dice, {"areas": ["Slip"], "attacks": ["Bash"], "boons": ["Regenerate"]})
 
         if rank == "Greater": 
             dice["martial"] += 2
@@ -304,18 +304,59 @@ class grotesquery:
         cndt["massive"] = True        
         stats["avoidance"], stats["hp"], stats["speed"]  = "low", "max", "low"
 
-        dice = {"martial": 2, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Bring"], "boons": ["Guard", "Wreath"]})
+        dice = {"martial": 3, "magic": 0}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
 
         if rank == "Greater":
             dice["magic"] += 1
             dice["martial"] += 1
 
-        abl["specialty"] = [random.choice(["Bash", "Bring", "Guard" "Wreath"])]
+        abl["specialty"] = [random.choice(["Bash", "Stab", "Guard"])]
         if rank == "Greater":
             dice["magic"] += 3
-            secondSpecialty = [random.choice(["Bash", "Bring", "Guard" "Wreath"])]
+            secondSpecialty = [random.choice(["Bash", "Stab", "Guard"])]
             Humans.correctSpecialties(abl, secondSpecialty)
 
         drop = Inventory.elementalInventory(element, rank).inventory
         self.ch = Characters.character(abl, dice, cndt, stats, "Grotesquery", element, type, drop, rank)
+
+class shadow:
+    def __init__(self, element, rank) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        
+        stats["avoidance"] = "max"
+        stats["speed"] = "low"
+
+        dice = {"martial": 0, "magic": 3}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "hindrances": ["Disorient", "Misdirect"]})
+        
+        if rank == "Greater":
+            dice["magic"] += 2
+            abl["mastery"] = [random.choice(["Bring", "Heal"])]
+        else: abl["specialty"] = [random.choice(["Bring", "Heal"])]
+
+        if element == "Holy": abl["areas"] += ["Bless"]
+        else: abl["areas"] += ["Hex"]
+
+        drop = Inventory.elementalInventory(element, rank).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Shadow", element, type, drop, rank)
+        
+class slime:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+
+        stats["avoidance"] = "min"
+        stats["speed"] = "low"
+
+        dice = {"martial": 1, "magic": 2}
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Pinch"], "boons": ["Wreath"], "hindrances": ["Harry"]})
+
+        if rank == "Greater":
+            dice["magic"] += 2
+            abl["mastery"] = [random.choice(["Harry", "Pinch", "Wreath"])]
+        else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Wreath"])]
+
+        drop = Inventory.elementalInventory(element, rank).inventory
+        self.ch = Characters.character(abl, dice, cndt, stats, "Slime", element, type, drop, rank)
