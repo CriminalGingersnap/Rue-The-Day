@@ -7,12 +7,7 @@ import random
 
 def pcSelectBoon(fighter):
     boonOptions = usableBoons(fighter)
-
-    if len(boonOptions) == 1: return boonOptions[0]
-    else:
-        Select.waitPrint("Choose Boon:")
-        answer = Select.makeSelection(boonOptions) 
-        return answer
+    return Select.pickOption(boonOptions, "boon") 
 
 def pcSelectBoonTarget(allies):
     choice = "None"

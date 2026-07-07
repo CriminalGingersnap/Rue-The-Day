@@ -27,8 +27,7 @@ def chooseAction(fighter, reachable) -> str:
                 else: actionOptions += ["Hindrance -> " + usableHindrances[0]]
             else: actionOptions += ["Hinder"]
        
-    Select.waitPrint("\nChoose " + fighter.name + "'s Ability Action:")
-    choice =  Select.makeSelection(actionOptions + ["End Turn"])
+    choice =  Select.pickOption(actionOptions + ["End Turn"], fighter.name + "'s ability action")
     
     if "Boon" in choice: choice = "Boon"
     elif "Attack" in choice: choice = "Attack"

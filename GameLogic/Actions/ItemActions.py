@@ -22,16 +22,12 @@ def itemAction(fighter, groups, battleMap) -> None:
 
 
 def pcSelectItem(inventory) -> str:
-    Select.waitPrint("Select item:")
-    category = Select.makeSelection(["None"] + list(inventory.keys()))
+    category = Select.pickOption(list(inventory.keys()), "item category")
+    item = Select.pickOption(["None"] + inventory[category], "item")
 
-    if category != "None":            
-        item = Select.makeSelection(["None"] + inventory[category])
-
-        if item != "None":
-            Select.waitPrint("Select application:")
-            application = Select.makeSelection(["Detonate", "Extract"])
-            return [category, item, application]
+    if item != "None":
+        application = Select.pickOption(["Detonate", "Extract"], "application")
+        return [category, item, application]
 
     return "None"
 

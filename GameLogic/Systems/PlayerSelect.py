@@ -37,26 +37,31 @@ def waitPrint(text):
 
 
 def targetSelect(targets) -> int:
-    if len(targets) == 1: return targets[0]
+    targetNames = []
+    for target in targets: targetNames += [target.name]
+    
+    name = pickOption(targetNames, "target")
+
+    for target in targets:
+        if target.name == name: return target
+
+
+def pickOption(options, category) -> str:    
+    if len(options) > 1:
+        waitPrint("Select " + category + ":")
+        return makeSelection(options)
     else:
-        targetNames = []
+        waitPrint("Sole option selected automatically: " + category)
+        return options[0]
 
-        for target in targets:
-            targetNames += [target.name]
-        
-        waitPrint("Choose Target:")
-        name = makeSelection(targetNames)
-
-        for target in targets:
-            if target.name == name: return target
-
-def makeSelection(options) -> int:
+def makeSelection(options) -> str:
     for option in options:
         quickPrint(str(options.index(option)+1) + ": " + str(option))
 
     selection = takeInput(1, len(options))
     print()
     return options[selection - 1]
+
 
 def yesNo(prompt) -> bool:
     waitPrint(prompt)

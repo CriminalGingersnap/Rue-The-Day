@@ -9,7 +9,7 @@ def weaponAllows(fighter, ability) -> bool:
     
     if fighter.type in ["human", "undead"]:
         dmgType = Damage.identifyDamageType(fighter, ability)
-        weaponDmgTypes = fighter.equipment["weapon"]["dmgTypes"]  
+        weaponDmgTypes = fighter.equipment["weapon"]["dmgTypes"]
         if dmgType not in weaponDmgTypes: compatible = False   
 
     return compatible
@@ -30,12 +30,7 @@ def usableAttacks(fighter, enemies) -> list:
 
 def pcSelectAttack(fighter, enemies) -> str:
     attackOptions = usableAttacks(fighter, enemies)
-    
-    if len(attackOptions) == 1: return attackOptions[0]
-    else:
-        Select.waitPrint("Choose Attack: ")
-        answer = Select.makeSelection(attackOptions)
-        return answer
+    return Select.pickOption(attackOptions, "attack")
 
 
 def npcSelectAttack(fighter, target) -> str:
@@ -64,10 +59,12 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     target = closestEnemy
 
     if (not pickClosest) and fighter.cndt["sapient"] and random.choice([True, False]):
-        job = fighter.job
+        job, weaponDmgTypes = fighter.job, fighter.equipment["weapon"]["dmgTypes"]
+
         if lowestHPEnemy.atrb["cur_hp"] < 6: target = lowestHPEnemy
         elif job in ["Archer", "Brute", "Dragonslayer", "Knight"]:
-            target = random.choice([highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
+            if "Pierce" in weaponDmgTypes: target = random.choice([lowestResPierceEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
+            elif "Crush" in weaponDmgTypes: target = random.choice([lowestResCrushEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
         elif fighter.element != "Basic":
             match fighter.element:
                 case "Corpse": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResRotEnemy])

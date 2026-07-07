@@ -19,8 +19,7 @@ def moveAction(fighter, groups, battleMap) -> None:
     
 
 def movePlayer(fighter, groups, posOptions, battleMap) -> None:
-    Select.waitPrint("Choose " + fighter.name + "'s Positional Action:")
-    answer = Select.makeSelection(posOptions)
+    answer = Select.pickOption(posOptions, fighter.name + "'s positional action")
 
     if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)
