@@ -1,6 +1,5 @@
 import random
 from . import Characters, Animals
-import Systems.Inventory as Inventory
 
 
 def setCommon(element, rank) -> list:
@@ -31,9 +30,8 @@ class bear:
 
         if rank == "Elder":
             if element == "Fey": abl["areas"] += ["Slip"]
-        
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, drop, rank)
+
+        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, rank)
 
 class hound:
     def __init__(self, element, rank) -> None:
@@ -49,8 +47,7 @@ class hound:
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Hound", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Hound", element, type, rank)
 
 class ferret:
     def __init__(self, element, rank) -> None:        
@@ -65,8 +62,7 @@ class ferret:
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ferret", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ferret", element, type, rank)
 
 class lion:
     def __init__(self, element, rank) -> None:
@@ -80,9 +76,8 @@ class lion:
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Claw"]})
 
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
-        
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, drop, rank)
+
+        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, rank)
 
 class moose:
     def __init__(self, element, rank) -> None:        
@@ -97,8 +92,7 @@ class moose:
         if rank == "Elder":
             if element == "Fey": abl["hindrances"] += ["Misdirect"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Moose", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Moose", element, type, rank)
 
 class sheep:
     def __init__(self, element, rank) -> None:
@@ -111,5 +105,4 @@ class sheep:
         
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sheep", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Sheep", element, type, rank)

@@ -35,16 +35,16 @@ def handleAftermath(victorGroup, loserGroups) -> bool:
     for fighter in victorGroup:
         Commitments.clearCommitments(fighter)
 
-        if fighter.type == "totem": fighter.cndt["reposed"] = True
+        if fighter.props["type"] == "totem": fighter.cndt["reposed"] = True
         
         if fighter.atrb["cur_hp"] <= 0:
-            Select.waitPrint(fighter.name + " requires immediate resuscitation!")
+            Select.waitPrint(fighter.props["name"] + " requires immediate resuscitation!")
             takeRest = True
         elif fighter.atrb["fatigue"] >=  fighter.atrb["endurance"]:
-            Select.waitPrint(fighter.name + " collapses from exhaustion!")
+            Select.waitPrint(fighter.props["name"] + " collapses from exhaustion!")
             takeRest = True
         elif fighter.atrb["corruption"] >=  Conditions.getTolerance(fighter):
-            Select.waitPrint(fighter.name + " collapses from sickness!")
+            Select.waitPrint(fighter.props["name"] + " collapses from sickness!")
             takeRest = True
 
     if not takeRest: takeRest = Select.yesNo("Rest?")

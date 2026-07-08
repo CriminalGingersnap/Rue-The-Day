@@ -52,12 +52,8 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             uMap.activateHazards(fighter, battleMap)
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
             Phases.movementStage(fighter, foes, friends, battleMap)
+            
         uMap.updateHazards(battleMap)
-
-        for fighter in validFighters:
-            if fighter.itemUse > 0:
-                fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
-                Phases.inventoryStage(fighter, foes, friends, battleMap)
             
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
@@ -68,7 +64,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         for fighter in validFighters:
             if len(fighter.actionQueue) > 0:
                 Commitments.checkReach(fighter)
-                Select.waitPrint("\nExecuting " + fighter.name + "'s actions:")
+                Select.waitPrint("\nExecuting " + fighter.props["name"] + "'s actions:")
 
                 for action in fighter.actionQueue:
                     ability, target, dice = action[1], action[2], action[3]

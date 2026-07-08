@@ -12,7 +12,7 @@ def getGroups(fighter, allies, enemies) -> list:
 def setAlive(fighter, fightingAllies, battleMap) -> bool:
     if fighter.atrb["cur_hp"] <= 0:
         fighter.cndt["dead"] = True
-        Select.slowPrint(fighter.name + " has 0 hit points remaining and will perish soon.")
+        Select.slowPrint(fighter.props["name"] + " has 0 hit points remaining and will perish soon.")
         Reactions.applyPheromones(fighter, fightingAllies)
         uMap.removeFighter(fighter, battleMap)
         
@@ -35,7 +35,7 @@ def sortVisible(contingent, sightMap) -> list:
     for fighter in contingent:
         for row in range(12):
             for column in range(12):
-                if fighter.initials in sightMap[row][column]: visible += [fighter]
+                if fighter.props["initials"] in sightMap[row][column]: visible += [fighter]
         
         if fighter not in visible: invisible += [fighter]
     

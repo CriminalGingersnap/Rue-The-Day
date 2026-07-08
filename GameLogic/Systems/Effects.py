@@ -2,7 +2,7 @@ import Systems.PlayerSelect as Select
 
 
 def removeEffect(fighter, effect):
-    Select.waitPrint(effect + " ends on " + fighter.name + ".")
+    Select.waitPrint(effect + " ends on " + fighter.props["name"] + ".")
     fighter.effects[effect] = {"dice": 0, "source": None, "ability": None, "additional": None}
 
 
@@ -18,7 +18,7 @@ def updateItemEffects(fighter):
             fighter.itemEffects[effect]["duration"] -= 1
 
 def removeItemEffect(fighter, effect) -> None:
-    Select.waitPrint(effect + " ends on " + fighter.name + ".")
+    Select.waitPrint(effect + " ends on " + fighter.props["name"] + ".")
 
     match effect:
         case "Imbue": removeImbue(fighter)

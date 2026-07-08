@@ -9,7 +9,7 @@ def attack(fighter, target, attack, dice) -> None:
     baseDmg = Roll.roll(fighter, dice, attack, "magic")
     appliedDmg = max(0, baseDmg - absorption)
 
-    Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
     Conditions.takeDamage(target, dmgType, appliedDmg)
 
     if absorption > baseDmg: Reactions.applyRiposte(target, fighter, "Wreath")

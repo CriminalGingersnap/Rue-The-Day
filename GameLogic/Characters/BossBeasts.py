@@ -1,7 +1,6 @@
 # Mark dragon "shadow" with "_^^_" and leviathan with "_vv_" 
 
 from . import Characters, Animals
-from Systems import Inventory
 
 
 def setCommon(element) -> list:
@@ -29,8 +28,7 @@ class hydra:
         abl = Characters.setAbilities(type, dice, {"area": ["Breath"], "attacks": ["Bash", "Bite"], "boons": ["Regenerate"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Kraken", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Kraken", element, type, rank)
 
 class kraken:
     def __init__(self) -> None:
@@ -45,8 +43,7 @@ class kraken:
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind", "Harry"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Kraken", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Kraken", element, type, rank)
 
 class deathShell:
     def __init__(self) -> None:
@@ -60,8 +57,7 @@ class deathShell:
         abl = Characters.setAbilities(type, dice, {"areas": ["Hex"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Death Shell", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Death Shell", element, type, rank)
 
 
 class dreamGiant:
@@ -75,8 +71,7 @@ class dreamGiant:
         dice = {"martial": 0, "magic": 6}
         abl = Characters.setAbilities(type, dice, {"area": ["Breath"], "attacks": ["Bring"], "hindrances": ["Compel", "Shroud"]})
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Dream Giant", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Dream Giant", element, type, rank)
 
 class glacierWorm:
     def __init__(self) -> None:
@@ -89,8 +84,7 @@ class glacierWorm:
         dice = {"martial": 3, "magic": 3}
         abl = Characters.setAbilities(type, dice, {"attacks": ["Ram", "Spit"], "boons": ["Wreath"], "reactions": ["Flare"]})
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Glacier Worm", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Glacier Worm", element, type, rank)
 
 class volcanoStrider:
     def __init__(self) -> None:
@@ -103,5 +97,4 @@ class volcanoStrider:
         dice = {"martial": 6, "magic": 0}
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Kick", "Spray"], "boons": ["Guard"]})
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Volcano Strider", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Volcano Strider", element, type, rank)

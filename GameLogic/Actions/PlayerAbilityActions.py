@@ -13,21 +13,21 @@ def chooseAction(fighter, reachable) -> str:
     if (fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0):
         if len(usableBoons) > 0:
             if len(usableBoons) == 1:
-                if len(reachable["boonReachable"]) == 1: actionOptions += ["Boon -> " + usableBoons[0] + " -> " + reachable["boonReachable"][0].name]
+                if len(reachable["boonReachable"]) == 1: actionOptions += ["Boon -> " + usableBoons[0] + " -> " + reachable["boonReachable"][0].props["name"]]
                 else: actionOptions += ["Boon -> " + usableBoons[0]]
             else: actionOptions += ["Boon"]
         if len(usableAttacks) > 0:
             if len(usableAttacks) == 1:
-                if len(reachable["attackReachable"]) == 1: actionOptions += ["Attack -> " + usableAttacks[0] + " -> " + reachable["attackReachable"][0].name]
+                if len(reachable["attackReachable"]) == 1: actionOptions += ["Attack -> " + usableAttacks[0] + " -> " + reachable["attackReachable"][0].props["name"]]
                 else: actionOptions += ["Attack -> " + usableAttacks[0]]
             else: actionOptions += ["Attack"]
         if len(usableHindrances) > 0:
             if len(usableHindrances) == 1:
-                if len(reachable["hinderReachable"]) == 1: actionOptions += ["Hindrance -> " + usableHindrances[0] + " -> " + reachable["hinderReachable"][0].name]
+                if len(reachable["hinderReachable"]) == 1: actionOptions += ["Hindrance -> " + usableHindrances[0] + " -> " + reachable["hinderReachable"][0].props["name"]]
                 else: actionOptions += ["Hindrance -> " + usableHindrances[0]]
             else: actionOptions += ["Hinder"]
        
-    choice =  Select.pickOption(actionOptions + ["End Turn"], fighter.name + "'s ability action")
+    choice =  Select.pickOption(actionOptions + ["End Turn"], fighter.props["name"] + "'s ability action")
     
     if "Boon" in choice: choice = "Boon"
     elif "Attack" in choice: choice = "Attack"

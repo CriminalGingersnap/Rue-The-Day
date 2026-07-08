@@ -38,12 +38,12 @@ def waitPrint(text):
 
 def targetSelect(targets) -> int:
     targetNames = []
-    for target in targets: targetNames += [target.name]
+    for target in targets: targetNames += [target.props["name"]]
     
     name = pickOption(targetNames, "target")
 
     for target in targets:
-        if target.name == name: return target
+        if target.props["name"] == name: return target
 
 
 def pickOption(options, category) -> str:    

@@ -18,7 +18,7 @@ def applyRiposte(principal, enemy, commitment) -> None:
         if any(reaction in source.abl["reactions"] for reaction in ["Riposte", "Flare"]):
             expense = 0
 
-            if source.rank == "player":
+            if source.props["rank"] == "player":
                 match ability:
                     case "Bind" | "Guard": proceed = Select.yesNo("Trigger riposte?")
                     case "Wreath": proceed = Select.yesNo("Trigger flare?")
@@ -37,8 +37,8 @@ def applyRiposte(principal, enemy, commitment) -> None:
 
 
 def applyPheromones(fighter, allies):
-    if (fighter.job == "Ant") and not fighter.cndt["calling"]["used"]:
-        Select.waitPrint("The dead " + fighter.name + " releases pheromones!")
+    if (fighter.props["job"] == "Ant") and not fighter.cndt["calling"]["used"]:
+        Select.waitPrint("The dead " + fighter.props["name"] + " releases pheromones!")
         socialRoll(fighter, allies)
         
 def applyReinforcements(fighter, allies, battleMap):
@@ -50,12 +50,12 @@ def applyReinforcements(fighter, allies, battleMap):
         elif delay == 0:
             Select.slowPrint(str(quantity) + " enemy reinforcements arrive!")
 
-            if fighter.job == "Ant":
+            if fighter.props["job"] == "Ant":
                 for newMember in quantity:
                     ant = Insects.ant().ch
                     allies += [ant]
                     pMap.firstPlacement(battleMap, ant)
-            elif fighter.job == "Hound":
+            elif fighter.props["job"] == "Hound":
                 for newMember in quantity:
                     hound = AggressiveBeasts.hound(fighter.element).ch
                     allies += [hound]
@@ -67,10 +67,10 @@ def applyReinforcements(fighter, allies, battleMap):
         fighter.cndt["calling"]["delay"] -= 1
 
 def applySocial(fighter, allies):
-    if fighter.job == "Hound":
-        if not any(ally.type == "human" for ally in allies):
+    if fighter.props["job"] == "Hound":
+        if not any(ally.props["type"] == "human" for ally in allies):
             if fighter.cndt["social"] and not fighter.cndt["calling"]["used"]:
-                Select.waitPrint(fighter.name + " howls to the rest of its pack!")
+                Select.waitPrint(fighter.props["name"] + " howls to the rest of its pack!")
                 socialRoll(fighter, allies)
                
 
@@ -79,7 +79,7 @@ def socialRoll(fighter, allies):
     Select.waitPrint("Rolling delay (secret).")
     quantity, delay = random.randint(1, 6), random.randint(1, 6)
 
-    if fighter.job == "Ant":
+    if fighter.props["job"] == "Ant":
         Select.waitPrint("Both quantity and delay double for ants.")
         delay *= 2
         quantity *= 2
@@ -87,4 +87,4 @@ def socialRoll(fighter, allies):
     for ally in allies:
         ally.cndt["calling"]["delay"] = delay
         ally.cndt["calling"]["quantity"] = quantity
-        if ally.job == fighter.job: ally.cndt["calling"]["used"] = True
+        if ally.props["job"] == fighter.props["job"]: ally.cndt["calling"]["used"] = True

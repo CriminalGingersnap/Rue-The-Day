@@ -19,12 +19,12 @@ def sortItems(players):
         updateStones(player, playerStock, cap)
 
 def updateStones(player, stock, cap):
-    phrase = player.name + " can carry " + cap + " more "
+    phrase = player.props["name"] + " can carry " + cap + " more "
     if cap == 1: Select.waitPrint(phrase + "item.")
     else: Select.waitPrint(phrase + "items.")
 
-    pearlUpdates = Select.listSelection(stock["Pearls"], cap, "Assign pearls to " + player.name + ".")
-    coreUpdates = Select.listSelection(stock["Cores"], cap, "Assign cores to " + player.name + ".")
+    pearlUpdates = Select.listSelection(stock["Pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
+    coreUpdates = Select.listSelection(stock["Cores"], cap, "Assign cores to " + player.props["name"] + ".")
 
     for pearl in pearlUpdates:
         player.inventory["Pearls"][pearl] += 1
@@ -38,8 +38,8 @@ def lootFoes(players, enemies):
     humans, nonHumans = [], []
 
     for enemy in enemies:
-        if enemy.type == "human": humans += [enemy]
-        elif enemy.rank == "Boss": continue
+        if enemy.props["type"] == "human": humans += [enemy]
+        elif enemy.props["rank"] == "Boss": continue
         else: nonHumans += enemy
     
     if len(humans) > 0: lootSimple(players, humans)
@@ -65,15 +65,14 @@ def lootEchos(players, nonHumans) -> None:
         if len(recentDead) > 0:
             Select.waitPrint("Echos of the slain linger within their fallen bodies.")            
             for player in players:
-                if (len(recentDead) > 0) and Select.yesNo("Bind a new echo to " + player.name + "?"):
+                if (len(recentDead) > 0) and Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
                     echo = Select.targetSelect(recentDead)
                     echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
-                    echo.cndt["summoned"], echo.rank = True, "player"
+                    echo.cndt["summoned"], echo.props["rank"] = True, "player"
                     player.inventory["Echos"] = echo
                     
                     del nonHumans[enemy]
                     del recentDead[enemy]
-    
 
 
 def getStock(party) -> dict:    

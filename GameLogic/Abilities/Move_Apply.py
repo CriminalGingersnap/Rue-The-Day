@@ -1,7 +1,7 @@
 
 from Systems import PlayerSelect as Select, Conditions
-from Abilities import Boons_Set as Boons
-from . import Attacks_Martial as Martial, Area_Set as Area
+from . import Attacks_Martial as Martial, Boons_Set as Boons
+from Actions import ItemActions
 
 stationaryAbilities = ["Inventory", "Empower", "Evade", "Examine", "Set"]
 
@@ -14,7 +14,7 @@ def execute(fighter, groups, ability, battleMap) -> None:
         case "Empower": applyEmpower(visibleTargets)
         case "Examine": applyExamine(visibleTargets)
         case "Evade": applyEvade(fighter)
-        case "Inventory": applyInventory(fighter)
+        case "Inventory": ItemActions.itemAction(fighter, groups, battleMap)
         case "Set": applySet(fighter)
 
     fighter.atrb["cur_sp"] = 0
@@ -24,7 +24,7 @@ def applyEmpower(fighter) -> None:
     Conditions.decrementTolerance(fighter, fighter.atrb["cur_mag"])
     fighter.atrb["cur_mar"] += fighter.atrb["cur_mag"]
     fighter.atrb["cur_mag"] = 0
-    Select.waitPrint(fighter.name + " empowers their body with magic!")  
+    Select.waitPrint(fighter.props["name"] + " empowers their body with magic!")  
 
 
 def applyEvade(fighter) -> None:
@@ -36,29 +36,16 @@ def applyEvade(fighter) -> None:
     Boons.boonComment(fighter, fighter, "Evade")   
 
 
-def applyInventory(fighter) -> None:
-    phrase = ""
-
-    if "Quick Inventory" in fighter.abl["boons"]:
-        fighter.itemUse = 2
-        phrase = "access two items!"
-    else: 
-        fighter.itemUse = 1    
-        phrase = "access an item!"
-    
-    Select.waitPrint(fighter.name + " opens their inventory to " + phrase)
-
-
 def applySet(fighter) -> None:
     fighter.atrb["cur_mar"] += 1
-    Select.waitPrint(fighter.name + " sets in place!") 
+    Select.waitPrint(fighter.props["name"] + " sets in place!") 
 
 
 def applyExamine(visibleTargets) -> None:
     examinee = Select.targetSelect(visibleTargets)
 
     if examinee != "None":
-        Select.waitPrint("\n" + examinee.name + "'s base stats:")
+        Select.waitPrint("\n" + examinee.props["name"] + "'s base stats:")
         av, reach = Martial.getBaseAv("Stab", "Pierce", examinee), examinee.equipment["weapon"]["reach"]
         hp, stamina, speed, tolerance = examinee.atrb["cur_hp"], examinee.atrb["stamina"],  examinee.atrb["base_sp"], examinee.atrb["tolerance"]
         strAV, strHP, strStamina, strSpeed, strTolerance, strReach = str(av), str(hp), str(stamina), str(speed), str(tolerance), str(reach)
@@ -96,12 +83,12 @@ def applyExamine(visibleTargets) -> None:
             if len(examinee.commitments[commitment]["targets"]) > 0:
                 Select.quickPrint(commitment + " -> ")
                 for target in examinee[commitment]["targets"]:
-                    Select.quickPrint(target.name, end = " | ")
+                    Select.quickPrint(target.props["name"], end = " | ")
 
         Select.waitPrint("\nEffects: ")
         for effect in examinee.effects:
             if examinee.effects[effect]["dice"] > 0:
-                Select.quickPrint(effect + " <- " + examinee.effects[effect]["source"].name, end = " | ")
+                Select.quickPrint(effect + " <- " + examinee.effects[effect]["source"].props["name"], end = " | ")
 
         Select.waitPrint("\nItem Effects:")
         for effect in examinee.itemEffects:

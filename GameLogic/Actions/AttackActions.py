@@ -7,7 +7,7 @@ import random
 def weaponAllows(fighter, ability) -> bool:
     compatible = True
     
-    if fighter.type in ["human", "undead"]:
+    if fighter.props["type"] in ["human", "undead"]:
         dmgType = Damage.identifyDamageType(fighter, ability)
         weaponDmgTypes = fighter.equipment["weapon"]["dmgTypes"]
         if dmgType not in weaponDmgTypes: compatible = False   
@@ -59,7 +59,7 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     target = closestEnemy
 
     if (not pickClosest) and fighter.cndt["sapient"] and random.choice([True, False]):
-        job, weaponDmgTypes = fighter.job, fighter.equipment["weapon"]["dmgTypes"]
+        job, weaponDmgTypes = fighter.props["job"], fighter.equipment["weapon"]["dmgTypes"]
 
         if lowestHPEnemy.atrb["cur_hp"] < 6: target = lowestHPEnemy
         elif job in ["Archer", "Brute", "Dragonslayer", "Knight"]:

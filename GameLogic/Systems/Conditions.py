@@ -8,7 +8,7 @@ def decrementStamina(fighter, potency):
         elif fighter.atrb["stamina"] == 1:
             fighter.atrb["fatigue"] += 1
             fighter.atrb["stamina"] = fighter.atrb["endurance"]
-            Select.waitPrint(fighter.name + " gains a point of fatigue!")
+            Select.waitPrint(fighter.props["name"] + " gains a point of fatigue!")
 
 def decrementTolerance(fighter, potency) -> None:
     for point in range(potency):
@@ -17,11 +17,11 @@ def decrementTolerance(fighter, potency) -> None:
             if fighter.atrb["tolerance"] == 1:
                 fighter.atrb["corruption"] += 1
                 fighter.atrb["tolerance"] = getTolerance(fighter)
-                Select.waitPrint(fighter.name + " gains a point of instability!")
+                Select.waitPrint(fighter.props["name"] + " gains a point of instability!")
                 Select.waitPrint("Magic rolls become unstable!")
     
     if fighter.atrb["corruption"] > 0:
-        Select.waitPrint(fighter.name + " takes " + str(potency) + " Bleed damage!")
+        Select.waitPrint(fighter.props["name"] + " takes " + str(potency) + " Bleed damage!")
         takeDamage(fighter, "Bleed", potency)
 
 def getTolerance(fighter) -> int:
@@ -33,7 +33,7 @@ def getTolerance(fighter) -> int:
 def recoverHP(principal, points):
     if points > 0:
         principal.atrb["cur_hp"] = min(principal.atrb["base_hp"], principal.atrb["cur_hp"] + points)
-        Select.waitPrint(principal.name + " receives " + str(points) + " of healing.\n")
+        Select.waitPrint(principal.props["name"] + " receives " + str(points) + " of healing.\n")
 
 def takeDamage(target, dmgType, damage) -> None:
     damage = Damage.applyResistance(damage, dmgType, target)
@@ -45,7 +45,7 @@ def takeDamage(target, dmgType, damage) -> None:
 
 
 def setInjury(target):
-    phrase1, phrase2 = target.name + " is ", "Speed reduced "
+    phrase1, phrase2 = target.props["name"] + " is ", "Speed reduced "
     print = False
 
     if target.atrb["quart_hp"] < target.atrb["cur_hp"] <= target.atrb["half_hp"]:

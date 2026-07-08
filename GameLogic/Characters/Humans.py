@@ -1,5 +1,4 @@
 from . import Characters, Animals
-import Systems.Inventory as Inventory
 import random
 
 
@@ -70,8 +69,7 @@ class archer:
                         secondSpecialty = [random.choice(["Bodkin", "Broadhead", "Conceal"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class brute:
     def __init__(self, element, rank) -> None:
@@ -94,9 +92,8 @@ class brute:
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bash", "Bind", "Harry", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
-        
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class dragonslayer:
     def __init__(self, element, rank) -> None:
@@ -120,8 +117,7 @@ class dragonslayer:
                         secondSpecialty = [random.choice(["Bodkin", "Conceal", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class knight:
     def __init__(self, element, rank) -> None:
@@ -144,9 +140,8 @@ class knight:
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bash", "Guard", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
-        
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class mage:
     def __init__(self, element, rank) -> None:
@@ -174,8 +169,7 @@ class mage:
                         if element == "Fey": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class paladin:
     def __init__(self, rank) -> None:
@@ -199,8 +193,7 @@ class paladin:
                         secondSpecialty = [random.choice(["Sling", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class warlock:
     def __init__(self, element, rank) -> None:
@@ -223,6 +216,5 @@ class warlock:
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
-        
-        inv = Inventory.humanInventory(rank, element).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, inv, rank)
+
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)

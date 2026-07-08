@@ -26,7 +26,7 @@ def commitDice(fighter, principal, boon) -> None:
 
 
 def boonComment(fighter, principal, boon) -> None:
-    phrase, end = fighter.name, principal.name + "!"
+    phrase, end = fighter.props["name"], principal.props["name"] + "!"
     if fighter == principal: end = "self!"
     trueBoon = boon
 

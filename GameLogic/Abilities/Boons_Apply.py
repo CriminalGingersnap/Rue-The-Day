@@ -8,7 +8,7 @@ def expend(source, dice, ability, dType) -> int:
         expenditure = 0
 
         if dice == 1: expenditure = 1
-        elif source.rank == "player":
+        elif source.props["rank"] == "player":
             Select.waitPrint("Expend dice(" + str(dice) + "):")
             expenditure = Select.takeInput(1, dice)
         else: expenditure = random.randint(1, dice)
@@ -40,14 +40,14 @@ def apply(principal, ability) -> int:
 
 def applyFocus(principal):
     bonus = apply(principal, "Focus")
-    if bonus > 0: Select.waitPrint(principal.name + "'s attempt increases by " + str(bonus) + ".")
+    if bonus > 0: Select.waitPrint(principal.props["name"] + "'s attempt increases by " + str(bonus) + ".")
     return bonus
 
 def applyGuard(principal):
     bonus = apply(principal, "Guard")
     flatBonus =  principal.effects["Wreath"]["dice"]
-    if bonus > 0: Select.waitPrint(principal.name + "'s AV increases by " + str(bonus) + ".\n")
-    if flatBonus > 0: Select.waitPrint(principal.name + "'s wreath increases AV by " + str(bonus) + ".\n")
+    if bonus > 0: Select.waitPrint(principal.props["name"] + "'s AV increases by " + str(bonus) + ".\n")
+    if flatBonus > 0: Select.waitPrint(principal.props["name"] + "'s wreath increases AV by " + str(bonus) + ".\n")
 
     return bonus + flatBonus
 
@@ -64,7 +64,7 @@ def applyShroud(fighter) -> bool:
     if roll > 0:
         distance = max((12 - roll[0]), 1)
         fighter.effects["Shroud"]["additional"] = distance
-        Select.waitPrint(fighter.name + " is invisible beyond a distance of " + str(distance) + ".")
+        Select.waitPrint(fighter.props["name"] + " is invisible beyond a distance of " + str(distance) + ".")
 
     return visible
 
@@ -82,10 +82,10 @@ def applyWreath(principal, attackDmgType) -> int:
             Select.waitPrint("Wreath provides half protection against it's own element!")
             Select.waitPrint("Total reduced to " + str(bonus) + "!")
 
-        Select.waitPrint(principal.name + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
+        Select.waitPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
 
     flatBonus = principal.effects["Guard"]["dice"]
-    if flatBonus > 0: Select.waitPrint(principal.name + "'s guard blocks " + str(bonus) + " magic damage.\n")
+    if flatBonus > 0: Select.waitPrint(principal.props["name"] + "'s guard blocks " + str(bonus) + " magic damage.\n")
 
     return bonus + flatBonus
 

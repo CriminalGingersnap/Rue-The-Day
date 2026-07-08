@@ -5,14 +5,14 @@ import random
 def firstPlacement(instanceMap, fighter) -> None:
     rightEdgeEmpty = []
 
-    if fighter.rank != "player":
+    if fighter.props["rank"] != "player":
         for row in range(4):
             if instanceMap[row][11] not in iMap.impermissible: rightEdgeEmpty += [row]
 
     available = False
     while not available:
         column, row = 0, random.randint(0, 3)
-        if fighter.rank == "player": column = random.randint(0, 1)
+        if fighter.props["rank"] == "player": column = random.randint(0, 1)
         else: column = random.randint(5, 10)
 
         available = visitSpace(instanceMap, row, column, fighter, rightEdgeEmpty)
@@ -26,7 +26,7 @@ def visitSpace(instanceMap, row, column, fighter, endTargets) -> bool:
     if "___" in instanceMap[row][column]:
         instanceMap[row][column] = marker
 
-        if fighter.rank == "player":
+        if fighter.props["rank"] == "player":
             walkable = walk(instanceMap, row, 0, column + 1)[0]
             if not walkable: instanceMap[row][column] = iMap.emptySpace
             return walkable

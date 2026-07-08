@@ -5,20 +5,19 @@ import random
 
 
 def itemAction(fighter, groups, battleMap) -> None:
-    while fighter.itemUse > 0:
-        inventory = getInventory(fighter)
+    inventory = getInventory(fighter)
 
-        if inventory["Total"] > 0:
-            del inventory["Total"]
-            selection = "None"
+    if inventory["Total"] > 0:
+        del inventory["Total"]
+        selection = "None"
 
-            if fighter.rank == "player": selection = pcSelectItem(fighter.job, inventory)
-            else: selection = npcSelectItem(fighter, groups, inventory)
+        if fighter.props["rank"] == "player": selection = pcSelectItem(fighter.props["job"], inventory)
+        else: selection = npcSelectItem(fighter, groups, inventory)
 
-            if selection != "None":
-                category, item, application = selection[0], selection[1], selection[2],
-                fighter.inventory[category][item] -= 1
-                Use.execute(fighter, category, item, application, groups, battleMap)
+        if selection != "None":
+            category, item, application = selection[0], selection[1], selection[2],
+            fighter.inventory[category][item] -= 1
+            Use.execute(fighter, category, item, application, groups, battleMap)
 
 
 def pcSelectItem(job, inventory) -> str:
@@ -38,7 +37,7 @@ def npcSelectItem(fighter, groups, inventory) -> str:
     preferences, enemyDmgTypes = {"Detonate": [], "Extract": []}, []
     blockList = allowlist = ["Burn", "Dream", "Freeze", "Holy", "Rot", "Venom"]
 
-    if fighter.job == "Paladin": allowlist = []
+    if fighter.props["job"] == "Paladin": allowlist = []
     elif fighter.atrb["base_mag"] > 0:
         blockList -= fighter.equipment["weapon"]["dmgTypes"]
         allowlist -= blockList
@@ -78,7 +77,7 @@ def npcSelectItem(fighter, groups, inventory) -> str:
 
 def hasItems(fighter) -> bool:
     hasItems = False
-    if fighter.type in "human":
+    if fighter.props["type"] in "human":
         itemOptions = getInventory(fighter)
         if itemOptions["Total"] > 0: return True
 

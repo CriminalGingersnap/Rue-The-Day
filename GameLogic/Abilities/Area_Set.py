@@ -38,7 +38,7 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
         tossRow, tossColumn = markedSpace[0], markedSpace[1]
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
-    return fighter.name + phrase
+    return fighter.props["name"] + phrase
 
 def findSpace(fighter, groups, range) -> list:
     column, row = fighter.position[1], fighter.position[0]

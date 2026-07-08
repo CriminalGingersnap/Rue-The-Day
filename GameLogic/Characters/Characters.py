@@ -1,30 +1,24 @@
-from Systems import Equipment, PlayerSelect as Select
+from Systems import Equipment, PlayerSelect as Select, Inventory
 import random, copy
 
 
 class character:
-    def __init__(self, abl, dice, cndt, stats, job, elm, type, inv, rank)-> None:
-        self.inventory, self.job, self.rank, self.type = inv, job, rank, type
-        self.name = rank + " " + job + "(" + elm + ")"
-
+    def __init__(self, abl, dice, cndt, stats, job, elm, type, rank)-> None:
         self.atrb = setAttributes(rank, stats, cndt, elm, dice)
         self.abl, self.cndt = abl, cndt
 
-        self.equipment = Equipment.setEquipment(type, job, elm, cndt["armored"], cndt)
-
         dicts = setDicts()
-        self.commitments = dicts[0]
-        self.effects = dicts[1]
-        self.itemEffects = dicts[2]
+        self.commitments, self.effects, self.itemEffects = dicts[0], dicts[1], dicts[2]
+
+        self.equipment = Equipment.setEquipment(type, job, elm, cndt)
+        self.inventory = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
+        name, initials = rank + " " + job + "(" + elm + ")", job[0] + job[-2]
+        self.props = { "job": job, "rank": rank, "type": type, "name": name, "initials": initials }
 
         self.actionQueue, self.position = [], []
-        self.itemUse = 0
-        self.skills = {"Tracking": False, "Alchemy": False, "Augury": False}
-
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
-        self.initials = job[0] + job[-2]
 
-        Select.waitPrint(self.name + " instantiated!")
+        Select.waitPrint(self.props["name"] + " instantiated!")
 
      
 def setAbilities(type, dice, additions) -> dict:
@@ -36,7 +30,7 @@ def setAbilities(type, dice, additions) -> dict:
             abilities["areas"] += ["Empower"]
     
     abilities.update(additions)
-    if (type == "human") and ("Quick Inventory" not in abilities["boons"]): abilities["boons"] += ["Inventory"]
+    if type == "human": abilities["boons"] += ["Inventory"]
 
     abilityList = abilities["attacks"] + abilities["boons"] + abilities["hindrances"] + abilities["reactions"]
     if type not in ["human", "elemental"]: abilities["specialty"] = random.choice(abilityList)

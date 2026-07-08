@@ -55,7 +55,7 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
         physicalAbsorption = Boons.applyWreath(target, dmgType)
         appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-        Select.waitPrint(fighter.name + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+        Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
         Conditions.takeDamage(target, dmgType, appliedDmg)
 
     else: Select.waitPrint("Attack misses!")

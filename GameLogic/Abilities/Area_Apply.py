@@ -23,7 +23,7 @@ def selectSpace(fighter, groups, boarders) -> int:
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
                 if any(openSpace in optionsMap[row][column] for openSpace in [emptySpace, poolSpace]) and not ("?" == optionsMap[row][column][-1]):
-                    if fighter.rank == "player": optionDict[str(counter)] = [row, column]
+                    if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
                     elif enemyCanSee(row, column, enemies) and allyNotInRange(row, column, allies):
                         optionDict[str(counter)] = [row, column]
 
@@ -38,7 +38,7 @@ def selectSpace(fighter, groups, boarders) -> int:
                     counter += 1
 
         choice = ""
-        if fighter.rank == "player":
+        if fighter.props["rank"] == "player":
             Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(1, counter)
         elif len(optionsMap) > 0: choice = random.randint(1, counter)

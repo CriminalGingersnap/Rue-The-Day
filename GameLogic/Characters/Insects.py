@@ -1,5 +1,4 @@
 from . import Characters, Animals
-import Systems.Inventory as Inventory
 import random
 
 
@@ -29,8 +28,7 @@ class ant:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "hindrances": ["Harry"]})
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ant", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ant", element, type, rank)
 
 class beetle:
     def __init__(self, element, rank) -> None:
@@ -43,8 +41,7 @@ class beetle:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Ram", "Spray"]})
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Beetle", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Beetle", element, type, rank)
         
 class isopod:
     def __init__(self, element, rank) -> None:                
@@ -56,8 +53,7 @@ class isopod:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Ram"], "boons": ["Guard"]})
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Isopod", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Isopod", element, type, rank)
 
 class centipede:
     def __init__(self, element, rank) -> None:                
@@ -70,8 +66,7 @@ class centipede:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "hindrances": ["Bind"]})
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Centipede", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Centipede", element, type, rank)
 
 class waspNest:
     def __init__(self, element, rank) -> None:                
@@ -84,5 +79,4 @@ class waspNest:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Sting"], "hindrances": ["Harry"]})
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wasp Nest", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wasp Nest", element, type, rank)

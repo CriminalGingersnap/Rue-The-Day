@@ -27,7 +27,7 @@ def execute(fighter, target, attack, dice) -> dict:
 
 
 def attackComment(fighter, target, attack):
-    phrase, end = fighter.name, target.name + "!"
+    phrase, end = fighter.props["name"], target.props["name"] + "!"
         
     if attack == "Bring":
         match fighter.atrb["cur_elm"]:

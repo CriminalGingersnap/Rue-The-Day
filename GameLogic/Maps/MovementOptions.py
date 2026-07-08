@@ -11,8 +11,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     hazards = uMap.majorHazards + uMap.minorHazards
     aquatic, waterLine = fighter.cndt["aquatic"], 0
 
-    npc, simulation, anyContact = fighter.rank not in ["player", "world"], None, False
-    if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.rank)
+    npc, simulation, anyContact = fighter.props["rank"] not in ["player", "world"], None, False
+    if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.props["rank"])
     sightMap = fighter.sightMap
 
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -22,7 +22,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             if movementMap[row][column][-1] == "]": movementMap[row][column] = movementMap[row][column][:-1] + "|"
             if movementMap[row][column][0] in hazards:
                 if fighter.cndt["sapient"] and (movementMap[fighterRow][fighterColumn][0] not in hazards):
-                    if fighter.rank != "player": movementMap[row][column] = iMap.pit
+                    if fighter.props["rank"] != "player": movementMap[row][column] = iMap.pit
                 else: movementMap[row][column] = "_" + movementMap[row][column][1:]
 
     movementMap[fighterRow][fighterColumn] = "_1:0"

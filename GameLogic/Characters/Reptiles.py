@@ -1,5 +1,4 @@
 from . import Characters, Animals
-import Systems.Inventory as Inventory
 import random
 
 
@@ -32,8 +31,7 @@ class crocodile:
         if rank != "Juvenile":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Crocodile", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Crocodile", element, type, rank)
 
 class drake:
     def __init__(self, element, rank) -> None:
@@ -48,8 +46,7 @@ class drake:
 
         if rank != "Juvenile": abl["area"] += ["Breath"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, rank)
         
 class lizard:
     def __init__(self, element, rank) -> None:        
@@ -64,8 +61,7 @@ class lizard:
         if rank != "Juvenile":
             if element == "Fey": abl["areas"] += ["Slip"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, rank)
 
 class tortoise:
     def __init__(self, element, rank) -> None:        
@@ -80,8 +76,7 @@ class tortoise:
 
         if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "tortoise", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "tortoise", element, type, rank)
 
 class turtle:
     def __init__(self, element, rank) -> None:
@@ -96,8 +91,7 @@ class turtle:
 
         if rank != "Juvenile": abl["boons"] += ["Shroud"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Snapping Turtle", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Snapping Turtle", element, type, rank)
 
 class wyrm:
     def __init__(self, element, rank) -> None:
@@ -112,5 +106,4 @@ class wyrm:
         if rank != "Juvenile":
             if element == "Fey": abl["hindrances"] += ["Disorient"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, rank)

@@ -7,17 +7,15 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
 
     match application:
         case "Detonate":
-            Select.waitPrint(fighter.name + " throws " + end)
+            Select.waitPrint(fighter.props["name"] + " throws " + end)
             Area.throwStone(fighter, category, element, groups, battleMap)
         case "Extract":
-            Select.waitPrint(fighter.name + " consumes the essence of " + end)
+            Select.waitPrint(fighter.props["name"] + " consumes the essence of " + end)
             if element == "Sanguine": invigorate(fighter, category)
             else: imbue(fighter, category, element)            
             match category:
                 case "Pearls": Conditions.decrementTolerance(fighter, 2)
                 case "Cores": Conditions.decrementTolerance(fighter, 4)
-
-    fighter.itemUse -= 1
 
 
 def imbue(fighter, category, element) -> None:
@@ -89,9 +87,9 @@ def evolve(fighter, item) -> None:
         case "Feyheart": fighter.atrb["base_elm"] = "Fey"
         case "Iceheart": fighter.atrb["base_elm"] = "Ice"
 
-    Select.waitPrint(fighter.name + " begins" + item + " evolution.")
-    Select.waitPrint(fighter.name + " adopts the " + fighter.atrb["base_elm"] + " element!")
-    Select.waitPrint(fighter.name + " gains:")
+    Select.waitPrint(fighter.props["name"] + " begins" + item + " evolution.")
+    Select.waitPrint(fighter.props["name"] + " adopts the " + fighter.atrb["base_elm"] + " element!")
+    Select.waitPrint(fighter.props["name"] + " gains:")
     for buff in ["12 HP", "12 Endurance", "2 Martial Dice", "2 Magic Dice", "The 'Animate' Item Action", "The 'Regenerate' Boon", "The 'Seal' Hindrance"]:
         Select.waitPrint(buff)
     Select.waitPrint("And the 'Inviolable' condition!")

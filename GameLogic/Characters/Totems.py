@@ -1,5 +1,4 @@
 from . import Characters
-import Systems.Inventory as Inventory
 
 
 # Totems cannot differentiate friend from foe and will randomly target fighters within range.
@@ -47,8 +46,7 @@ class hex:
 
         abl = Characters.setAbilities(type, dice, {"areas": ["Hex"]})
 
-        drop = Inventory.totemInventory(element, job).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Hex")
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Hex")
 
 
 class sentry:
@@ -58,8 +56,7 @@ class sentry:
 
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"]})
 
-        drop = Inventory.totemInventory(element, job).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Sentry")
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Sentry")
 
 
 class ward:
@@ -69,7 +66,6 @@ class ward:
 
         abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"]})
         
-        drop = Inventory.totemInventory(element, job).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, drop, "Ward")
+        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Ward")
 
 # Agents of the king have a chance to bring this with them.

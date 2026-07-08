@@ -1,5 +1,4 @@
 from . import Characters, Animals
-import Systems.Inventory as Inventory
 import random
 
 
@@ -34,8 +33,7 @@ class camel:
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Focus"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Camel", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Camel", element, type, rank)
 
 class deer:
     def __init__(self, element, rank) -> None:
@@ -50,8 +48,7 @@ class deer:
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Misdirect"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Deer", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Deer", element, type, rank)
 
 class mole:
     def __init__(self, element, rank) -> None:        
@@ -64,8 +61,7 @@ class mole:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, rank)
 
 class rabbit:
     def __init__(self, element, rank) -> None:
@@ -81,8 +77,7 @@ class rabbit:
         if rank == "Elder":
             if element == "Fey": abl["areas"] += ["Slip"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, rank)
 
 class seal:
     def __init__(self, element, rank) -> None:
@@ -97,5 +92,4 @@ class seal:
         if rank == "Elder":
             if element == "Fey": abl["boons"] += ["Disorient"]
 
-        drop = Inventory.beastInventory(stats["hp"], element, rank, type).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Seal", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Seal", element, type, rank)

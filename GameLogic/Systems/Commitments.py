@@ -30,7 +30,7 @@ def clearCommitments(fighter):
 
 
 def removeCommitment(fighter, target, commitment):
-    Select.waitPrint("Commitment " + commitment + " terminates on " + target.name + ".")
+    Select.waitPrint("Commitment " + commitment + " terminates on " + target.props["name"] + ".")
     Effects.removeEffect(target, commitment)
     
     fighter.commitments[commitment] = {"targets": [], "additional": None}

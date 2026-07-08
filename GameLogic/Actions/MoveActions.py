@@ -8,10 +8,9 @@ import random
 def moveAction(fighter, groups, battleMap) -> None:
     posOptions = fighter.abl["areas"]
     
-    hasInventory = any(invAbl in fighter.abl["boons"] for invAbl in ["Inventory", "Quick Inventory"])
-    if hasInventory and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
+    if ("Inventory" in fighter.abl["boons"]) and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
 
-    if fighter.rank == "player":
+    if fighter.props["rank"] == "player":
         posOptions += ["Examine"]
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
         movePlayer(fighter, groups, posOptions, battleMap)
@@ -19,7 +18,7 @@ def moveAction(fighter, groups, battleMap) -> None:
     
 
 def movePlayer(fighter, groups, posOptions, battleMap) -> None:
-    answer = Select.pickOption(posOptions, fighter.name + "'s positional action")
+    answer = Select.pickOption(posOptions, fighter.props["name"] + "'s positional action")
 
     if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)
@@ -40,7 +39,7 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
     if fighter.atrb["cur_sp"] > 0:
         target, closeRanks = "None", False
 
-        if (fighter.type == "human") and (len(reachableAllies) == 1) and (len(fightingAllies) > 1):
+        if (fighter.props["type"] == "human") and (len(reachableAllies) == 1) and (len(fightingAllies) > 1):
             closeRanks = True
 
             fightingAlliesMinusSelf = []

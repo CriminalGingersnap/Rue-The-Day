@@ -3,7 +3,7 @@ import random
 
 # talismans absorb a set amount of elemental damage before being destroyed.
 
-def setEquipment(type, job, element, natArmor, cndt) -> list:
+def setEquipment(type, job, element, cndt) -> list:
     equipment = {"weapon": {"name": None, "modifier": 0, "reach": 1},
                   "armor": {"name": None, "modifier": 0},
                    "shield": {"name": None, "modifier": 0}}
@@ -15,7 +15,7 @@ def setEquipment(type, job, element, natArmor, cndt) -> list:
     elif type in ["elemental", "totem"]:
         equipment["weapon"]["reach"] = 12
     else:
-        if natArmor: equipment["armor"] = {"modifier": 2}
+        if cndt["armored"]: equipment["armor"] = {"modifier": 2}
         if cndt["massive"]: equipment["weapon"]["reach"] = 2
 
     return equipment

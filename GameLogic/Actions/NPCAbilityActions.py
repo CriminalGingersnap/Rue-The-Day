@@ -31,4 +31,4 @@ def npcAction(fighter, groups) -> None:
             case "Hinder": Hinder.commitDice(fighter, hindranceTarget, hindranceChoice)
     else:
         if any(dice > 0 for dice in [fighter.atrb["cur_mar"], fighter.atrb["cur_mag"]]):
-            Select.waitPrint(fighter.name + " foregoes action.")
+            Select.waitPrint(fighter.props["name"] + " foregoes action.")

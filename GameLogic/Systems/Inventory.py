@@ -21,26 +21,32 @@ pearls = {
     "Toxin": 0
 }
 
-class humanInventory:
-    def __init__(self, rank, element) -> None:
-        pillBox = {
-            "Capacity": 10,
-            "Cores": copy.deepcopy(cores),
-            "Pearls": copy.deepcopy(pearls),
-            "Shards": {
-                "Fey": 0,
-                "Flame": 0,
-                "Ice": 0
-            },
-            "Echos": {
-                None
-            }
+
+def setInventory(type, rank, element, hp) -> dict:
+    match type:
+        case "human": return humanInventory(element, rank)
+        case "beast": return beastInventory(hp, element, rank, type)
+        case "elemental": return elementalInventory(element, rank)
+        case "totem": return totemInventory(element, rank)
+
+
+def humanInventory(element, rank) -> dict:
+    global cores, pearls
+    
+    pillBox = {
+        "Capacity": 10,
+        "Cores": copy.deepcopy(cores),
+        "Pearls": copy.deepcopy(pearls),
+        "Shards": {
+            "Fey": 0,
+            "Flame": 0,
+            "Ice": 0
+        },
+        "Echos": {
+            None
         }
+    }
 
-        setHumanDrop(rank, element, pillBox)            
-        self.inventory = pillBox
-
-def setHumanDrop(rank, element, pillBox):
     if element != "Corpse":
         budget = ""
 
@@ -62,58 +68,57 @@ def setHumanDrop(rank, element, pillBox):
         pillBox["Pearls"][random.choice(["Ice", "Flame", "Toxin"])] = pearls
         pillBox["Cores"][random.choice(["Ice", "Flame"])] = cores
 
-
-class beastInventory:
-    def __init__(self, hp, alignment, rank, type) -> None:
-        drop = {"Cores": {alignment: 0}, "Pearls": {alignment: 0}}
-        vitaVolume = 0
-
-        if alignment == "Corpse":
-            match hp:
-                case "mid": vitaVolume = 1
-                case "high": vitaVolume = 2
-                case "max": vitaVolume = 3      
-        elif type in ["insect", "invertebrate"]:
-            match hp:
-                case "low": vitaVolume = 1
-                case "mid": vitaVolume = 2
-                case "high": vitaVolume = 3
-                case "max": vitaVolume = 4
-        else:
-            match hp:
-                case "min": vitaVolume = 1
-                case "low": vitaVolume = 2
-                case "mid": vitaVolume = 3
-                case "high": vitaVolume = 4
-                case "max": vitaVolume = 5
-                
-        drop["Pearls"]["Sanguine"] = vitaVolume
-
-        if alignment != "Basic":
-            match rank:
-                case "Adult" | "Wizened": drop["Pearls"][alignment] = 1
-                case "Elder" | "Ancient": drop["Pearls"][alignment] = 2
-                case "Boss": drop["Shards"][alignment] = 1
-
-        self.inventory = drop
+    return pillBox
 
 
-class elementalInventory:
-    def __init__(self, alignment, rank) -> None:
-        drop = {"Cores": {alignment: 0}, "Pearls": {alignment: 0}}
+def beastInventory(hp, element, rank, type) -> dict:
+    drop = {"Cores": {element: 0}, "Pearls": {element: 0}}
+    vitaVolume = 0
 
-        if rank == "Lesser": drop["Cores"][alignment] = 1
-        else: drop["Cores"][alignment] = 2
+    if element == "Corpse":
+        match hp:
+            case "mid": vitaVolume = 1
+            case "high": vitaVolume = 2
+            case "max": vitaVolume = 3      
+    elif type in ["insect", "invertebrate"]:
+        match hp:
+            case "low": vitaVolume = 1
+            case "mid": vitaVolume = 2
+            case "high": vitaVolume = 3
+            case "max": vitaVolume = 4
+    else:
+        match hp:
+            case "min": vitaVolume = 1
+            case "low": vitaVolume = 2
+            case "mid": vitaVolume = 3
+            case "high": vitaVolume = 4
+            case "max": vitaVolume = 5
+            
+    drop["Pearls"]["Sanguine"] = vitaVolume
 
-        self.inventory = drop
-
-class totemInventory:
-    def __init__(self, alignment, rank) -> None:
-        drop = {"Cores": {alignment: 0}, "Pearls": {alignment: 0}}
-
+    if element != "Basic":
         match rank:
-            case "Standard": drop["Pearls"][alignment] = 1
-            case "Totem": drop["Pearls"][alignment] = 2
-            case "Monument": drop["Cores"][alignment] = 1        
+            case "Adult" | "Wizened": drop["Pearls"][element] = 1
+            case "Elder" | "Ancient": drop["Pearls"][element] = 2
+            case "Boss": drop["Shards"][element] = 1
 
-        self.inventory = drop
+    return drop
+
+
+def elementalInventory(element, rank) -> dict:
+    drop = {"Cores": {element: 0}, "Pearls": {element: 0}}
+
+    if rank == "Lesser": drop["Cores"][element] = 1
+    else: drop["Cores"][element] = 2
+
+    return drop
+
+def totemInventory(element, rank) -> dict:
+    drop = {"Cores": {element: 0}, "Pearls": {element: 0}}
+
+    match rank:
+        case "Standard": drop["Pearls"][element] = 1
+        case "Totem": drop["Pearls"][element] = 2
+        case "Monument": drop["Cores"][element] = 1        
+
+    return drop

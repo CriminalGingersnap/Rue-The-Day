@@ -10,7 +10,7 @@ hazards = majorHazards + minorHazards
 
 
 def setMarker(fighter, space):
-    initial = fighter.initials
+    initial = fighter.props["initials"]
     atmosphere, terrain, elevation = space[0], space[1], space[-1]    
     return atmosphere + terrain + initial + elevation
 
@@ -23,7 +23,7 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
 
     if battleMap[row][column][-1] == "]":
         dmgType = random.choice(["Burn", "Crush", "Freeze", "Pierce", "Rot", "Venom"])
-        Select.waitPrint(fighter.name + " triggers a " + dmgType + " trap!")
+        Select.waitPrint(fighter.props["name"] + " triggers a " + dmgType + " trap!")
         battleMap[row][column] = battleMap[row][column][:-1] + Elevation.down
         battleMap[row][column] = dmgType[0] + battleMap[row][column][1:]
     
@@ -38,10 +38,10 @@ def removeFighter(fighter, instanceMap):
 
 
 def revealOthers(fighter, allies, enemies, sightMap):
-    if fighter.rank == "player":
+    if fighter.props["rank"] == "player":
         for ally in allies:
             row, column = ally.position[0], ally.position[1]
-            if (ally.name != fighter.name) and (Visibility.unseen in sightMap[row][column]):
+            if (ally.props["name"] != fighter.props["name"]) and (Visibility.unseen in sightMap[row][column]):
                 elevation = sightMap[row][column][-1]
                 sightMap[row][column] = " ..?" + elevation
         for enemy in enemies:
@@ -97,7 +97,7 @@ def activateHazards(fighter, battleMap):
         points, dmgType = 0, identifyAtmosphere(atmosphere)
         scale = getScale(atmosphere)
         
-        if (fighter.type == "elemental") and (fighterDmgType == dmgType): Conditions.recoverHP(fighter, scale)
+        if (fighter.props["type"] == "elemental") and (fighterDmgType == dmgType): Conditions.recoverHP(fighter, scale)
         else:
             match scale:
                 case 3: points = random.randint(2, 12)

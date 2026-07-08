@@ -1,4 +1,4 @@
-from Actions import MoveActions as Move, ItemActions
+from Actions import MoveActions as Move
 from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl, Sort
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
 from Systems import PlayerSelect as Select, Conditions, Effects, Commitments
@@ -9,7 +9,7 @@ def resetFighter(fighter) -> None:
     fighter.atrb["cur_sp"] = fighter.atrb["base_sp"] - fighter.atrb["fatigue"]
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
 
-    if fighter.type == "human":
+    if fighter.props["type"] == "human":
         equipment = fighter.equipment
         speedLoss = ((equipment["armor"]["modifier"] + equipment["shield"]["modifier"] + equipment["weapon"]["modifier"]) // 2) - 1
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
@@ -18,25 +18,23 @@ def resetFighter(fighter) -> None:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
         case 2: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 2
         case 3: fighter.atrb["cur_sp"] = min(fighter.atrb["base_sp"], 1)
-   
     fighter.atrb["cur_sp"] = max(0, fighter.atrb["cur_sp"])
-    fighter.itemUse = 0
 
     Commitments.clearCommitments(fighter)
     Effects.updateItemEffects(fighter)
 
 
 def setSight(fighter, enemies, allies, battleMap):
-    sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.rank)
+    sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.props["rank"])
     uMap.hideShrouded(fighter, enemies + allies, sightMap)
 
-    if fighter.rank == "player":
+    if fighter.props["rank"] == "player":
         uMap.revealOthers(fighter, allies, enemies, sightMap)
         uMap.hideTraps(fighter, sightMap)
     else:
-        Select.waitPrint(fighter.name + "'s turn")
+        Select.waitPrint(fighter.props["name"] + "'s turn")
 
-    Print.printSightMap(battleMap, sightMap, fighter.name + "'s Sight Map")
+    Print.printSightMap(battleMap, sightMap, fighter.props["name"] + "'s Sight Map")
 
     return sightMap
 
@@ -51,7 +49,7 @@ def outro(fighter, allies, battleMap):
         Conditions.decrementStamina(fighter, intensity)
         Reactions.applySocial(fighter, allies)
     
-    if fighter.rank != "player": input("Press Enter to conclude " + fighter.name + "'s turn.")    
+    if fighter.props["rank"] != "player": input("Press Enter to conclude " + fighter.props["name"] + "'s turn.")    
     
     Items.regenerate(fighter)
     Reactions.applyReinforcements(fighter, allies, battleMap)
@@ -62,11 +60,6 @@ def movementStage(fighter, enemies, allies, battleMap) -> None:
         groups = Sort.getGroups(fighter, allies, enemies)
         Move.moveAction(fighter, groups, battleMap)
 
-def inventoryStage(fighter, enemies, allies, battleMap) -> None:
-    if fighter.itemUse > 0:
-        Select.waitPrint("\n" + fighter.name + "'s inventory stage.")
-        groups = Sort.getGroups(fighter, allies, enemies)
-        ItemActions.itemAction(fighter, groups, battleMap)
 
 def abilityStage(fighter, enemies, allies, battleMap) -> None:
     groups = Sort.getGroups(fighter, allies, enemies)
@@ -74,7 +67,7 @@ def abilityStage(fighter, enemies, allies, battleMap) -> None:
 
     if fighter.cndt["reposed"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
     elif len(fightingEnemies) > 0:
-        if fighter.rank == "player":
+        if fighter.props["rank"] == "player":
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)
             PlayerAbl.takeAction(fighter, actionChoice, reachable)
         else: NPCAbl.npcAction(fighter, groups)

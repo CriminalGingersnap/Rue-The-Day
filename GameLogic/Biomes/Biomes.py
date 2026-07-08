@@ -50,7 +50,7 @@ def setFoes(biome, budgets, curseCard) -> list:
             
         memberIndex = 1
         for member in members:
-            member.name += "[" + str(memberIndex) + "]"
+            member.props["name"] += "[" + str(memberIndex) + "]"
             memberIndex += 1
         
         groups[rollNum] = members

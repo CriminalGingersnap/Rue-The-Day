@@ -77,7 +77,7 @@ def usableBoons(fighter):
 def npcSelectBoonTarget(fighter, allies, boon):
     target = "None"
 
-    if fighter.type not in ["human", "elemental"]:
+    if fighter.props["type"] not in ["human", "elemental"]:
         if fighter in allies: target = fighter
     elif len(allies) > 0:
         lowestAVAlly = Assess.findLowestAV(fighter, allies)

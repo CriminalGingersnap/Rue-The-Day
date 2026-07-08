@@ -1,5 +1,4 @@
 from . import Characters, Humans
-from Systems import Inventory
 import random
 
 
@@ -56,8 +55,7 @@ class dancer:
             abl["mastery"] = [random.choice(["Bind", "Stab"])]
         else: abl["specialty"] = [random.choice(["Bind", "Stab"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Dancer", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Dancer", element, type, rank)
         
 class hulk: # it walks on three legs like a strand beast
     def __init__(self, element, rank) -> None:
@@ -77,8 +75,7 @@ class hulk: # it walks on three legs like a strand beast
             abl["mastery"] = [random.choice(["Guard", "Ram", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Guard", "Ram", "Wreath"])]
         
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Hulk", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Hulk", element, type, rank)
 
 class wraith:
     def __init__(self, element, rank) -> None:        
@@ -96,8 +93,7 @@ class wraith:
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wraith", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wraith", element, type, rank)
         
 
 class hive:
@@ -118,8 +114,7 @@ class hive:
             abl["mastery"] = [random.choice(["Bodkin", "Sting", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Bodkin", "Sting", "Wreath"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sprite Hive", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Sprite Hive", element, type, rank)
 
 class ooze:
     def __init__(self, element, rank) -> None:
@@ -137,8 +132,7 @@ class ooze:
             abl["mastery"] = [random.choice(["Harry", "Pinch", "Regenerate"])]
         else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Regenerate"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ooze", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ooze", element, type, rank)
 
 class puffer:
     def __init__(self, element, rank) -> None:        
@@ -156,8 +150,7 @@ class puffer:
             abl["mastery"] = [random.choice(["Bring", "Guard"])]
         else: abl["specialty"] = [random.choice(["Bring", "Guard"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Puffer Fish", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Puffer Fish", element, type, rank)
 
 
 class satyr:
@@ -176,8 +169,7 @@ class satyr:
             abl["mastery"] = [random.choice(["Broadhead", "Conceal", "Sling"])]
         else: abl["specialty"] = [random.choice(["Broadhead", "Conceal", "Sling"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Satyr", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Satyr", element, type, rank)
 
 class ogre:
     def __init__(self, element, rank) -> None:        
@@ -196,8 +188,7 @@ class ogre:
             abl["mastery"] = [random.choice(["Bash", "Disorient", "Slip"])]
         else: abl["specialty"] = [random.choice(["Bash", "Disorient", "Slip"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ogre", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Ogre", element, type, rank)
 
 class nymph:
     def __init__(self, element, rank) -> None:        
@@ -212,8 +203,7 @@ class nymph:
             abl["mastery"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Nymph", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Nymph", element, type, rank)
 
 
 class bull:
@@ -229,8 +219,7 @@ class bull:
             abl["mastery"] = [random.choice(["Bind", "Gore", "Kick"])]
         else: abl["specialty"] = [random.choice(["Bind", "Gore", "Kick"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bull", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Bull", element, type, rank)
 
 class obelisk:
     def __init__(self, element, rank) -> None:
@@ -253,8 +242,7 @@ class obelisk:
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, rank)
 
 class sphinx:
     def __init__(self, element, rank) -> None:        
@@ -273,8 +261,7 @@ class sphinx:
             abl["mastery"] = [random.choice(["Bash", "Claw", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Bash", "Claw", "Wreath"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sphinx", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Sphinx", element, type, rank)
 
 
 class wisp:
@@ -292,8 +279,7 @@ class wisp:
             abl["mastery"] = [random.choice(["Compel", "Misdirect", "Seal"])]
         else: abl["specialty"] = [random.choice(["Compel", "Misdirect", "Seal"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wisp", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Wisp", element, type, rank)
 
 
 
@@ -317,8 +303,7 @@ class grotesquery:
             secondSpecialty = [random.choice(["Bash", "Stab", "Guard"])]
             Humans.correctSpecialties(abl, secondSpecialty)
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Grotesquery", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Grotesquery", element, type, rank)
 
 class shadow:
     def __init__(self, element, rank) -> None:        
@@ -339,8 +324,7 @@ class shadow:
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Shadow", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Shadow", element, type, rank)
         
 class slime:
     def __init__(self, element, rank) -> None:
@@ -358,5 +342,4 @@ class slime:
             abl["mastery"] = [random.choice(["Harry", "Pinch", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Wreath"])]
 
-        drop = Inventory.elementalInventory(element, rank).inventory
-        self.ch = Characters.character(abl, dice, cndt, stats, "Slime", element, type, drop, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Slime", element, type, rank)

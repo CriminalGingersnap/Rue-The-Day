@@ -24,7 +24,7 @@ def commitDice(fighter, target, hindrance) -> None:
 
 
 def hindranceComment(fighter, target, hindrance) -> str:
-    phrase, end = fighter.name, target.name + "!"
+    phrase, end = fighter.props["name"], target.props["name"] + "!"
     trueHindrance = hindrance
 
     match hindrance:

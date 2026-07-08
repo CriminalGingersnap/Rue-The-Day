@@ -21,7 +21,7 @@ def convertElmToDmg(elm) -> str:
 def identifyDamageType(fighter, ability) -> str:
     fighterDmgType = convertElmToDmg(fighter.atrb["cur_elm"])
 
-    if fighter.type == "elemental": return fighterDmgType
+    if fighter.props["type"] == "elemental": return fighterDmgType
     elif ability in pierceAttacks: return "Pierce"
     elif ability in crushAttacks: return "Crush"
     elif ability in venomAttacks: return "Venom"

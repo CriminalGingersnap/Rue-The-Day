@@ -83,14 +83,14 @@ class kingKillerMap:
 
 class mapMarker:
     def __init__(self, worldMap, start):
-        self.initials, self.position = "..", start
-        self.rank, self.type = "world", "marker"
+        self.props["initials"], self.position = "..", start
+        self.props["rank"], self.props["type"] = "world", "marker"
 
         self.cndt = {"aquatic": False}
         self.atrb = {"base_sp": 3, "cur_sp": 3}
 
         self.lastCleared = deque([[],[],[],[],[],[],[]])
-        self.sightMap = createSightMap(worldMap, start, self.rank)
+        self.sightMap = createSightMap(worldMap, start, self.props["rank"])
 
         Select.waitPrint("World map instantiated!")
 
