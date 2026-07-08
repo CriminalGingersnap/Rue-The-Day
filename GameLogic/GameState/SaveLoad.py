@@ -57,7 +57,7 @@ def saveWorld(world, campaign, template)-> None:
     save = {
         "map": world.worldMap,
         "legend": world.legend,
-        "start": world.start
+        "start": world.marker.position
     }
     
     with open(setFilePath(campaign, template), 'w') as jsonFile:
