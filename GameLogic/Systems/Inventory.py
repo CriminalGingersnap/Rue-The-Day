@@ -42,9 +42,7 @@ def humanInventory(element, rank) -> dict:
             "Flame": 0,
             "Ice": 0
         },
-        "Echos": {
-            None
-        }
+        "Echos": None
     }
 
     if element != "Corpse":

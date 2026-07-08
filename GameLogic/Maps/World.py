@@ -20,7 +20,8 @@ class benedictionMap:
 
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
         self.legend = {"d": "Dream Sea-Cave","T": "Toxic Hydra Lair", "h": "Holy Scrubland", "H": "Holy Desert", "r": "Rot Encroachment", "R": "Rot Locus", "s": "Shoreline", "S": "Sea Monster"}
-        self.marker = mapMarker(self.worldMap, [5, 9])
+        self.start = [5, 9]
+        self.marker = mapMarker(self.worldMap, self.start)
 
 class infestationMap:
     def __init__(self) -> None:
@@ -39,7 +40,8 @@ class infestationMap:
 
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
         self.legend = {"h": "Holy Scrubland", "K": "Kingdom Stronghold", "k": "Kingdom Road", "m": "Marshland", "M": "Marsh Depths", "o": "Outlaw Camp", "s": "Shoreline", "u": "Unsettled Land", "V": "Vampire Lair"}
-        self.marker = mapMarker(self.worldMap, [3, 10])
+        self.start = [3, 10]
+        self.marker = mapMarker(self.worldMap, self.start)
 
 
 class metamorphosisMap:
@@ -59,7 +61,8 @@ class metamorphosisMap:
                 
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
         self.legend = {"b": "Burning Peninsula", "B": "Burning Volcano", "d": "Dreamwood Periphery", "D": "Dreamwood Depths", "f": "Frozen Fjord", "F": "Frozen Glacier", "w": "Wildlands Pass", "W": "Wildlands Bay"}
-        self.marker = mapMarker(self.worldMap, [11, 6])
+        self.start = [11, 6]
+        self.marker = mapMarker(self.worldMap, self.start)
 
 class kingKillerMap:
     def __init__(self) -> None:
@@ -78,16 +81,17 @@ class kingKillerMap:
 
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
         self.legend = {"w": "Wildlands Pass", "K": "Kingdom Stronghold", "k": "Kingdom Road", "m": "Marshland", "M": "Marsh Depths", "o": "Outlaw Camp", "o": "Outlaw Stronghold", "s": "Shoreline", "u": "Unsettled Land"}
-        self.marker = mapMarker(self.worldMap, [0, 6])
+        self.start = [0, 6]
+        self.marker = mapMarker(self.worldMap, self.start)
 
 
 class mapMarker:
     def __init__(self, worldMap, start):
-        self.props["initials"], self.position = "..", start
-        self.props["rank"], self.props["type"] = "world", "marker"
+        self.position = start
 
-        self.cndt = {"aquatic": False}
         self.atrb = {"base_sp": 3, "cur_sp": 3}
+        self.cndt = {"aquatic": False}
+        self.props = {"initials": "..", "rank": "world", "type": "marker"}
 
         self.lastCleared = deque([[],[],[],[],[],[],[]])
         self.sightMap = createSightMap(worldMap, start, self.props["rank"])

@@ -28,7 +28,7 @@ def applyEmpower(fighter) -> None:
 
 
 def applyEvade(fighter) -> None:
-    fighter.commitments["Guard"]["targets"] += [fighter]
+    fighter.commits["Guard"]["targets"] += [fighter]
     fighter.effects["Guard"]["source"] = fighter
     fighter.effects["Guard"]["ability"] = "Evade"
     fighter.effects["Guard"]["dice"] += 1
@@ -46,7 +46,7 @@ def applyExamine(visibleTargets) -> None:
 
     if examinee != "None":
         Select.waitPrint("\n" + examinee.props["name"] + "'s base stats:")
-        av, reach = Martial.getBaseAv("Stab", "Pierce", examinee), examinee.equipment["weapon"]["reach"]
+        av, reach = Martial.getBaseAv("Stab", "Pierce", examinee), examinee.equip["weapon"]["reach"]
         hp, stamina, speed, tolerance = examinee.atrb["cur_hp"], examinee.atrb["stamina"],  examinee.atrb["base_sp"], examinee.atrb["tolerance"]
         strAV, strHP, strStamina, strSpeed, strTolerance, strReach = str(av), str(hp), str(stamina), str(speed), str(tolerance), str(reach)
         
@@ -60,16 +60,16 @@ def applyExamine(visibleTargets) -> None:
         
         if (examinee.cndt["armored"]):
             armorStatement = "Naturally armored. "
-        elif examinee.equipment["armor"]["name"] != None:
-            armorStatement = "Wearing " + examinee.equipment["armor"]["name"] + " armor. "
+        elif examinee.equip["armor"]["name"] != None:
+            armorStatement = "Wearing " + examinee.equip["armor"]["name"] + " armor. "
         else: armorStatement = "Unarmored."
 
-        if examinee.equipment["shield"]["name"] != None:
-            shieldStatement = "Carrying a " + examinee.equipment["shield"]["name"] + " shield. "
-        if examinee.equipment["weapon"]["name"] != None:
+        if examinee.equip["shield"]["name"] != None:
+            shieldStatement = "Carrying a " + examinee.equip["shield"]["name"] + " shield. "
+        if examinee.equip["weapon"]["name"] != None:
             article = "a "
-            if examinee.equipment["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
-            weaponStatement = "Wielding " + article + examinee.equipment["weapon"]["name"] + ". "
+            if examinee.equip["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
+            weaponStatement = "Wielding " + article + examinee.equip["weapon"]["name"] + ". "
 
         Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + shieldStatement)
         Select.waitPrint("Health: " + strHP)
@@ -79,8 +79,8 @@ def applyExamine(visibleTargets) -> None:
         Select.waitPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))
 
         Select.waitPrint("\nCommitments: ")
-        for commitment in examinee.commitments:
-            if len(examinee.commitments[commitment]["targets"]) > 0:
+        for commitment in examinee.commits:
+            if len(examinee.commits[commitment]["targets"]) > 0:
                 Select.quickPrint(commitment + " -> ")
                 for target in examinee[commitment]["targets"]:
                     Select.quickPrint(target.props["name"], end = " | ")

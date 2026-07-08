@@ -11,9 +11,9 @@ def searchAll(players, enemies) -> None:
 def sortItems(players):
     playerStock = getStock(players)
     for player in players:
-        player.inventory["Cores"] = copy.deepcopy(Inventory.cores)
-        player.inventory["Pearls"] = copy.deepcopy(Inventory.pearls)
-        cap = player.inventory["Capacity"]
+        player.inv["Cores"] = copy.deepcopy(Inventory.cores)
+        player.inv["Pearls"] = copy.deepcopy(Inventory.pearls)
+        cap = player.inv["Capacity"]
 
         Select.waitPrint("Items not selected by any party member will be lost.")
         updateStones(player, playerStock, cap)
@@ -27,10 +27,10 @@ def updateStones(player, stock, cap):
     coreUpdates = Select.listSelection(stock["Cores"], cap, "Assign cores to " + player.props["name"] + ".")
 
     for pearl in pearlUpdates:
-        player.inventory["Pearls"][pearl] += 1
+        player.inv["Pearls"][pearl] += 1
         stock.remove([pearl])
     for core in coreUpdates:
-        player.inventory["Cores"][core] += 1
+        player.inv["Cores"][core] += 1
         stock.remove([core])
 
 
@@ -52,7 +52,7 @@ def lootSimple(players, enemies) -> None:
     stock = getStock(enemies)    
     for player in players:
         inventory = Items.getInventory(player)
-        allowance = player.inventory["Capacity"] - inventory["Total"]
+        allowance = player.inv["Capacity"] - inventory["Total"]
 
         updateStones(player, stock, allowance)
 
@@ -69,21 +69,21 @@ def lootEchos(players, nonHumans) -> None:
                     echo = Select.targetSelect(recentDead)
                     echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
                     echo.cndt["summoned"], echo.props["rank"] = True, "player"
-                    player.inventory["Echos"] = echo
+                    player.inv["Echos"] = echo
                     
                     del nonHumans[enemy]
                     del recentDead[enemy]
 
 
 def getStock(party) -> dict:    
-    stock = { "Cores": [], "Pearls": [] }
+    stock = {"Cores": [], "Pearls": []}
 
     for fighter in party:
-        for pearl in fighter.inventory["Pearls"]:
-            for quantity in fighter.inventory["Pearls"][pearl]:
+        for pearl in fighter.inv["Pearls"]:
+            for quantity in fighter.inv["Pearls"][pearl]:
                 stock["Pearls"] += [pearl]
-        for core in fighter.inventory["Cores"]:
-            for quantity in fighter.inventory["Cores"][core]:
+        for core in fighter.inv["Cores"]:
+            for quantity in fighter.inv["Cores"][core]:
                 stock["Cores"] += [core]
 
     stock.sort()

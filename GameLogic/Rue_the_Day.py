@@ -1,22 +1,39 @@
-# Design rule #1: One mystery per action
+# Design rules
+#  #1: One mystery per action
+#  #2: Complex outcomes from simple systems
+#  #3: Minimize interruptions and downtime
 
 from Characters import Humans
-from Loop import Encounters
+from Loop import Encounters, Loot
 from Maps import World, Movement
 from Systems import PlayerSelect as Select
+from GameState import SaveLoad as Save
 
+
+# Martin = Save.nullCharacter()
+# Save.saveCharacter(Willem, "Metamorphosis", "Willem")
+# Save.loadCharacter(Martin, "Metamorphosis", "Willem")
+
+# testWorld = Save.nullWorld()
+# Save.saveWorld(tutorialWorld, "Metamorphosis", "Map")
+# Save.loadWorld(testWorld, "Metamorphosis", "Map")
 
 Martin = Humans.knight("Basic", "Master").ch
-Martin.rank, Martin.name, Martin.initials = "player", "Martin", "M."
-# Martin.abl["items"] += ["Loot", "Transfer"]
-Martin.equipment["armor"] = {"name": None, "modifier": 0}
+Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "W."
+Martin.equip["armor"] = {"name": None, "modifier": 0}
+
+Willem = Humans.dragonslayer("Basic", "Master").ch
+Willem.props["rank"], Willem.props["name"], Willem.props["initials"] = "player", "Willem", "W."
+Willem.equip["armor"] = {"name": None, "modifier": 0}
 
 Laura = Humans.mage("Flame", "Master").ch
-Laura.rank, Laura.name, Laura.initials = "player", "Laura", "L."
-# Laura.abl["items"] += ["Craft", "Transfer"]
-Laura.equipment["armor"] = {"name": None, "modifier": 0}
+Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "player", "Laura", "L."
+Laura.equip["armor"] = {"name": None, "modifier": 0}
 
-group1 = [Martin, Laura]
+# group1 = [Martin, Laura]
+group1 = [Laura]
+group2 = [Martin, Willem]
+
 
 tutorialWorld = World.kingKillerMap()
 worldMap = tutorialWorld.worldMap
@@ -26,7 +43,6 @@ worldMap[0][6] = "w___↑"
 worldMap[2][6] = "w_..↑"
 worldMap[2][7] = "w_!!↑"
 marker.position = [2, 6]
-# World.printWorldMap(tutorial)
 
 inTutorial = True
 

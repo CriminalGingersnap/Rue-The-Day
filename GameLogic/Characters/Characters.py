@@ -8,12 +8,12 @@ class character:
         self.abl, self.cndt = abl, cndt
 
         dicts = setDicts()
-        self.commitments, self.effects, self.itemEffects = dicts[0], dicts[1], dicts[2]
+        self.commits, self.effects, self.itemEffects = dicts[0], dicts[1], dicts[2]
 
-        self.equipment = Equipment.setEquipment(type, job, elm, cndt)
-        self.inventory = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
+        self.equip = Equipment.setEquipment(type, job, elm, cndt)
+        self.inv = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
         name, initials = rank + " " + job + "(" + elm + ")", job[0] + job[-2]
-        self.props = { "job": job, "rank": rank, "type": type, "name": name, "initials": initials }
+        self.props = {"job": job, "rank": rank, "type": type, "name": name, "initials": initials}
 
         self.actionQueue, self.position = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -22,7 +22,7 @@ class character:
 
      
 def setAbilities(type, dice, additions) -> dict:
-    abilities = {"areas": ["Evade"], "attacks": [], "boons": [], "hindrances": [], "items": [], "reactions": [], "specialty": [], "mastery": []}
+    abilities = {"areas": ["Evade"], "attacks": [], "boons": [], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
     
     if dice["martial"] > 0:
         abilities["areas"] += ["Set"]
@@ -62,8 +62,7 @@ def setAttributes(rank, stats, cndt, elm, dice):
                       "base_mar": dice["martial"], "base_mag": dice["magic"], "cur_mar": dice["martial"], "cur_mag": dice["magic"],
                        "nat_res": copy.deepcopy(stats["resist"]), "cur_res": copy.deepcopy(stats["resist"]),
                         "endurance": endurance, "stamina": endurance, "tolerance": tolerance,
-                         "corruption": 0, "fatigue": 0, "injury": 0,
-                          "rank": rank}
+                         "corruption": 0, "fatigue": 0, "injury": 0,}
     
     return attributes
 

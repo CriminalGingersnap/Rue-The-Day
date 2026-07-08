@@ -41,7 +41,7 @@ def getSpaceDistance(row1, row2, column1, column2) -> int:
 
 def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) -> str:
     targetDistance = getTargetDistance(fighter, target)
-    reach = fighter.equipment["weapon"]["reach"]
+    reach = fighter.equip["weapon"]["reach"]
 
     closestIndex = 1
     leastToTarget = leastFromFighter = targetDistance

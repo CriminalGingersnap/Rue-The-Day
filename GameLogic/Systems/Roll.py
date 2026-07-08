@@ -15,7 +15,7 @@ def roll(fighter, dice, ability, dType) -> int:
 
 def mods(fighter, ability, dType) -> int:
     phrase, mod = " | ", 0
-    weapon = fighter.equipment["weapon"]["modifier"]
+    weapon = fighter.equip["weapon"]["modifier"]
     
     if weapon > 0:
         mod += weapon

@@ -15,7 +15,7 @@ def commitDice(fighter, principal, boon) -> None:
     trueBoon = boonComment(fighter, principal, boon)
 
     if newDice > principal.effects[trueBoon]["dice"]:
-        fighter.commitments[trueBoon]["targets"] += [principal]
+        fighter.commits[trueBoon]["targets"] += [principal]
         principal.effects[trueBoon]["source"] = fighter
         principal.effects[trueBoon]["ability"] = boon
         if boon == "Wreath":

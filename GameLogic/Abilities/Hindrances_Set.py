@@ -16,7 +16,7 @@ def commitDice(fighter, target, hindrance) -> None:
     trueHindrance = hindranceComment(fighter, target, hindrance)
 
     if newDice > target.effects[trueHindrance]["dice"]:
-        fighter.commitments[trueHindrance]["targets"] += [target]
+        fighter.commits[trueHindrance]["targets"] += [target]
         target.effects[trueHindrance]["source"] = fighter
         target.effects[trueHindrance]["ability"] = hindrance
 

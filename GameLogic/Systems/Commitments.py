@@ -5,9 +5,9 @@ from . import Effects, PlayerSelect as Select
 
 
 def checkReach(fighter) -> None:
-    for commitment in fighter.commitments:
-        if len(fighter.commitments[commitment]["targets"]) > 0:
-            targets = fighter.commitments[commitment]["targets"]
+    for commitment in fighter.commits:
+        if len(fighter.commits[commitment]["targets"]) > 0:
+            targets = fighter.commits[commitment]["targets"]
             
             uMap.hideShrouded(fighter, targets, fighter.sightMap)
             reachable = Sort.sortReachable(fighter, targets, targets)
@@ -23,9 +23,9 @@ def checkReach(fighter) -> None:
                 
 
 def clearCommitments(fighter):
-    for commitment in fighter.commitments:
-        if len(fighter.commitments[commitment]["targets"]) > 0:
-            for target in fighter.commitments[commitment]["targets"]:
+    for commitment in fighter.commits:
+        if len(fighter.commits[commitment]["targets"]) > 0:
+            for target in fighter.commits[commitment]["targets"]:
                 removeCommitment(fighter, target, commitment)
 
 
@@ -33,4 +33,4 @@ def removeCommitment(fighter, target, commitment):
     Select.waitPrint("Commitment " + commitment + " terminates on " + target.props["name"] + ".")
     Effects.removeEffect(target, commitment)
     
-    fighter.commitments[commitment] = {"targets": [], "additional": None}
+    fighter.commits[commitment] = {"targets": [], "additional": None}

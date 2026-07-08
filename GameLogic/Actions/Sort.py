@@ -51,7 +51,7 @@ def canReachAny(fighter, group, ability):
     return reachAny
 
 def canReach(fighter, target, ability) -> bool:
-    reachable, weaponReach = False, fighter.equipment["weapon"]["reach"]
+    reachable, weaponReach = False, fighter.equip["weapon"]["reach"]
     abilityReach = min(getReach(ability), weaponReach)
 
     distance = Movement.getTargetDistance(fighter, target)

@@ -15,8 +15,8 @@ def getProbableAv(fighter, dmgType, target) -> int:
     return probAv
 
 def getBaseAv(attack, dmgType, target) -> int:
-    av = (target.atrb["cur_av"] - target.atrb["injury"]) + target.equipment["shield"]["modifier"]
-    if (dmgType == "Pierce") and (attack != "Bodkin"): av += target.equipment["armor"]["modifier"]
+    av = (target.atrb["cur_av"] - target.atrb["injury"]) + target.equip["shield"]["modifier"]
+    if (dmgType == "Pierce") and (attack != "Bodkin"): av += target.equip["armor"]["modifier"]
 
     return max(av, 0)
 

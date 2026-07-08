@@ -28,7 +28,7 @@ def apply(principal, ability) -> int:
     elif specific in Boons_Set.magicBoons + Hindrances_Set.magicHindrances: dType = "magic"
 
     if (source != None) and (dice > 0):
-        if principal in source.commitments[ability]["targets"]:
+        if principal in source.commits[ability]["targets"]:
             Select.waitPrint(specific + " triggered!")
 
             roll = expend(source, dice, specific, dType)

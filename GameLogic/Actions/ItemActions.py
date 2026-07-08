@@ -16,7 +16,7 @@ def itemAction(fighter, groups, battleMap) -> None:
 
         if selection != "None":
             category, item, application = selection[0], selection[1], selection[2],
-            fighter.inventory[category][item] -= 1
+            fighter.inv[category][item] -= 1
             Use.execute(fighter, category, item, application, groups, battleMap)
 
 
@@ -39,7 +39,7 @@ def npcSelectItem(fighter, groups, inventory) -> str:
 
     if fighter.props["job"] == "Paladin": allowlist = []
     elif fighter.atrb["base_mag"] > 0:
-        blockList -= fighter.equipment["weapon"]["dmgTypes"]
+        blockList -= fighter.equip["weapon"]["dmgTypes"]
         allowlist -= blockList
 
     if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): preferences += ["Sanguine"]
@@ -90,8 +90,8 @@ def getInventory(fighter) -> dict:
         "Total": 0  
     } 
 
-    cores = fighter.inventory["Cores"]
-    pearls = fighter.inventory["Pearls"]
+    cores = fighter.inv["Cores"]
+    pearls = fighter.inv["Pearls"]
 
     for core in cores:
         if cores[core] > 0: 
