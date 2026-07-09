@@ -42,7 +42,7 @@ def setCommon(job, element, rank) -> list:
 
 def correctSpecialties(abl, secondSpecialty):
     if secondSpecialty == abl["specialty"]:
-        abl["mastery"] = [secondSpecialty]
+        abl["mastery"] = secondSpecialty
         abl["specialty"].remove(secondSpecialty[0])
     else: abl["specialty"] += secondSpecialty 
 

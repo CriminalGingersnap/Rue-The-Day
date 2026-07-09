@@ -1,7 +1,7 @@
 from Abilities import DamageTypes as Damage
 import random
 
-# talismans absorb a set amount of elemental damage before being destroyed.
+# talismans shield gives no physical advantage but raises elemental resistance.
 
 def setEquipment(type, job, rank, element, cndt, skills) -> list:
     equipment = {"armor": {"name": None, "modifier": 0, "element": "Basic"},
@@ -53,63 +53,73 @@ def setKit(job, twoHanded, burden) -> list:
 def setWeapon(job, element, skills) -> list:
     longMelee, shortMelee = ["Poleaxe", "Spear", "Staff"], ["Axe", "Mace", "War Pick"]
     bluntMelee, sharpMelee = ["Mace", "Poleaxe", "Staff", "War Pick"], ["Axe", "Poleaxe", "Spear", "War Pick"]
-    elementList = ["Ice", "Flame", "Fey", "Corpse", "Blessed"]
+
+    meleeOptions = []
+    if "Bash" in skills: meleeOptions += bluntMelee
+    if "Stab" in skills: meleeOptions += sharpMelee
+    if not any(meleeSkill in skills for meleeSkill in ["Bash", "Stab"]):
+        meleeOptions = bluntMelee + sharpMelee
 
     weapon = {"name": "", "twoHanded": False, "modifier": 1, "dmgTypes": [], "reach": 1}
-
     isTwoHanded = random.choice([True, False])
-    weapon["twoHanded"] = isTwoHanded
-    if isTwoHanded: weapon["modifier"] += 1
 
-    if job == "Mage":
-        weapon["reach"], weapon["name"] = 8, element
-        weaponElements = [element]
-        elementList.remove(element)
+    match job:
+        case "Mage":
+            elementList = ["Ice", "Flame", "Fey", "Corpse", "Blessed"]
 
-        if isTwoHanded: weaponElements += [random.choice(elementList)]
+            weapon["reach"], weapon["name"] = 8, element
+            weaponElements = [element]
+            elementList.remove(element)
 
-        for elm in weaponElements:
-            dmgType = Damage.convertElmToDmg(elm)
-            weapon["dmgTypes"] += [dmgType]
+            if isTwoHanded: weaponElements += [random.choice(elementList)]
 
-        if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
-        else: weapon["name"] += " Flag"
-    
-    elif job in ["Brute", "Knight"]:
-        if isTwoHanded:
-            weapon["name"] = random.choice(longMelee)
-            weapon["reach"] = 2
-        else: weapon["name"] = random.choice(shortMelee)
+            for elm in weaponElements:
+                dmgType = Damage.convertElmToDmg(elm)
+                weapon["dmgTypes"] += [dmgType]
 
-        if weapon["name"] in bluntMelee: weapon["dmgTypes"] += ["Crush"]
-        if weapon["name"] in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
-    
-    elif job == "Archer":
-        weapon["reach"] = 8
-        weapon["twoHanded"] = True
-        weapon["name"] = "Bow"
-        weapon["dmgTypes"] += ["Pierce"]
-        
-    elif job == "Dragonslayer":
-        weapon["reach"] = 8
-        weapon["twoHanded"] = True
-        weapon["name"] = "Pennant Bow"
-        weapon["dmgTypes"] += ["Pierce", element]
+            if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
+            else: weapon["name"] += " Flag"
 
-    elif job == "Paladin":
-        weapon["reach"] = 8
-        weapon["twoHanded"] = False
-        weapon["name"] = "Sling"
-        weapon["dmgTypes"] += ["Crush", "Holy"]
+        case "Archer" | "Dragonslayer":
+            weapon["reach"] = 8
+            weapon["twoHanded"] = True
+            weapon["dmgTypes"] += ["Pierce"]
 
-    elif job == "Warlock":
-        weaponName = random.choice(longMelee)
-        if weaponName in bluntMelee: weapon["dmgTypes"] += ["Crush"]
-        if weaponName in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
-        weapon["name"] = "Pennant" + weaponName
+            if job == "Archer": weapon["name"] = "Bow"
+            else:
+                weapon["name"] = "Pennant Bow"
+                weapon["dmgTypes"] += [element]
 
-        weapon["reach"] = 8
-        weapon["twoHanded"] = True
-        weapon["dmgTypes"] += [element]
+        case "Brute" | "Knight":
+            if isTwoHanded:
+                longOptions = list(set(meleeOptions).intersection(longMelee))
+                weapon["name"] = random.choice(longOptions)
+                weapon["reach"] = 2
+            else:
+                shortOptions = list(set(meleeOptions).intersection(shortMelee))
+                weapon["name"] = random.choice(shortOptions)
+
+            if weapon["name"] in bluntMelee: weapon["dmgTypes"] += ["Crush"]
+            if weapon["name"] in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
+
+        case "Paladin":
+            weapon["reach"] = 8
+            weapon["twoHanded"] = False
+            weapon["name"] = "Sling"
+            weapon["dmgTypes"] += ["Crush", "Holy"]
+
+        case "Warlock":
+            longOptions = list(set(meleeOptions).intersection(longMelee))
+            weaponName = random.choice(longOptions)
+
+            if weaponName in bluntMelee: weapon["dmgTypes"] += ["Crush"]
+            if weaponName in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
+            weapon["name"] = "Pennant" + weaponName
+
+            weapon["reach"] = 8
+            weapon["twoHanded"] = True
+            weapon["dmgTypes"] += [element]
+
+    if weapon["twoHanded"]: weapon["modifier"] += 1
 
     return weapon

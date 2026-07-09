@@ -33,8 +33,8 @@ def setAbilities(type, dice, additions) -> dict:
     if type == "human": abilities["boons"] += ["Inventory"]
 
     abilityList = abilities["attacks"] + abilities["boons"] + abilities["hindrances"] + abilities["reactions"]
-    if type not in ["human", "elemental"]: abilities["specialty"] = random.choice(abilityList)
-    if type == "elemental": abilities["mastery"] = random.choice(abilityList)
+    if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]
+    elif type == "elemental": abilities["mastery"] = [random.choice(abilityList)]
 
     return abilities
 
