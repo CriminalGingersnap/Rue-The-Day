@@ -1,4 +1,5 @@
 from Systems import PlayerSelect as Select, Conditions, Commitments
+from GameState import SaveLoad as Save
 from Biomes import Biomes
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 from . import Environment, Combat
@@ -6,6 +7,7 @@ from . import Environment, Combat
 
 def encounterLoop(playerGroup, biome):
     play, ace = True, "Clubs"
+    players = playerGroup["members"]
     
     while play:
         mapConditions = Environment.randomEnvironment(biome)
@@ -13,12 +15,12 @@ def encounterLoop(playerGroup, biome):
 
         battleMap = None
         if mapConditions["slope"] == "ruin":
-            battleMap = dMap.createMap(playerGroup, enemyGroups, mapConditions, ace)
-        else: battleMap = iMap.createMap(playerGroup, enemyGroups, mapConditions, ace)
+            battleMap = dMap.createMap(players, enemyGroups, mapConditions, ace)
+        else: battleMap = iMap.createMap(players, enemyGroups, mapConditions, ace)
 
-        playerVictory = Combat.engage(playerGroup, enemyGroups, battleMap)
+        playerVictory = Combat.engage(players, enemyGroups, battleMap)
         if playerVictory:
-            takeRest = handleAftermath(playerGroup, enemyGroups)
+            takeRest = handleAftermath(players)
             if takeRest:
                 takeRest(playerGroup)
                 ace = Environment.updateAce(ace, biome)
@@ -29,7 +31,7 @@ def encounterLoop(playerGroup, biome):
         play = Select.yesNo("Continue?")
 
 
-def handleAftermath(victorGroup, loserGroups) -> bool:
+def handleAftermath(victorGroup) -> bool:
     takeRest = False
 
     for fighter in victorGroup:
@@ -52,7 +54,7 @@ def handleAftermath(victorGroup, loserGroups) -> bool:
 
 
 def takeRest(group):
-    for fighter in group:
+    for fighter in group["members"]:
         fighter.atrb["stamina"] = fighter.atrb["endurance"]
         fighter.atrb["fatigue"] = 0
 
@@ -63,4 +65,5 @@ def takeRest(group):
         fighter.atrb["cur_hp"] = fighter.atrb["base_hp"]
         fighter.atrb["injury"] = 0
 
-    # increment day count
+        group["days"] += 1
+        Save.saveGroup(group)

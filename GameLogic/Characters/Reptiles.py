@@ -56,7 +56,7 @@ class lizard:
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Evade"]})
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"]})
 
         if rank != "Juvenile":
             if element == "Fey": abl["areas"] += ["Slip"]

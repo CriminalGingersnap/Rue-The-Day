@@ -61,7 +61,9 @@ def applyExamine(visibleTargets) -> None:
         if (examinee.cndt["armored"]):
             armorStatement = "Naturally armored. "
         elif examinee.equip["armor"]["name"] != None:
-            armorStatement = "Wearing " + examinee.equip["armor"]["name"] + " armor. "
+            armorName = examinee.equip["armor"]["name"]
+            if examinee.equip["armor"]["element"] != "Basic": armorName += " " + examinee.equip["armor"]["element"]
+            armorStatement = "Wearing " + armorName + " armor. "
         else: armorStatement = "Unarmored."
 
         if examinee.equip["shield"]["name"] != None:

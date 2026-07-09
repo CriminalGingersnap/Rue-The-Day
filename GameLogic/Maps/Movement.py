@@ -10,7 +10,7 @@ def moveFighter(fighter, battleMap, target, closeRanks) -> None:
     stationary, moveChoice = False, None
 
     player = fighter.props["rank"] in ["player", "world"]
-    if player: moveChoice = movePlayer(movementMap, lastSpace)
+    if player: moveChoice = movePlayer(movementMap, lastSpace, fighter.props["name"])
     else: moveChoice = moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks)
 
     if int(moveChoice) != 1:
@@ -76,8 +76,8 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
     return str(closestIndex)
 
 
-def movePlayer(movementMap, lastSpace) -> str:
-    Print.printOptionsMap(movementMap, "Movement Map")
+def movePlayer(movementMap, lastSpace, name) -> str:
+    Print.printOptionsMap(movementMap, name+ "'s Options Map")
 
     Select.waitPrint("Space:")
     return str(Select.takeInput(1, lastSpace))

@@ -91,7 +91,7 @@ class mapMarker:
 
         self.atrb = {"base_sp": 3, "cur_sp": 3}
         self.cndt = {"aquatic": False}
-        self.props = {"initials": "..", "rank": "world", "type": "marker"}
+        self.props = {"initials": "..", "name": "World", "rank": "world", "type": "marker"}
 
         self.lastCleared = deque([[],[],[],[],[],[],[]])
         self.sightMap = createSightMap(worldMap, start, self.props["rank"])
@@ -109,19 +109,3 @@ def createSightMap(worldMap, position, rank):
                 sightMap[row][column] = Visibility.unseen + worldMap[row][column][-1]
 
     return sightMap
-
-
-def printWorldMap(world):
-    displayList = []
-
-    Print.printSightMap(world.worldMap, world.marker.sightMap, "World Map")
-
-    for column in range(12):
-        for row in range(12):
-            biome = world.marker.sightMap[row][column][0]
-            if biome not in displayList: displayList += biome
-            
-    Select.waitPrint("Map Legend:")
-    for letter in world.legend:
-        if letter in displayList:
-            Select.waitPrint("  | " + letter + " -> " + world.legend[letter])

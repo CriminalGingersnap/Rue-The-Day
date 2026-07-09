@@ -91,6 +91,9 @@ def rankRes(target, dmgType) -> int:
         case "resistant": resInt = 6
         case "immune": resInt = 9
 
+    if Boons.checkCompatibility(dmgType, target.equip["armor"]["element"]):
+        resInt += target.equip["armor"]["modifier"]
+
     return resInt
 
 

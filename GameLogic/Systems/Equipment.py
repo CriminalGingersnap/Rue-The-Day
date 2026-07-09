@@ -3,17 +3,22 @@ import random
 
 # talismans absorb a set amount of elemental damage before being destroyed.
 
-def setEquipment(type, job, element, cndt) -> list:
-    equipment = {"weapon": {"name": None, "modifier": 0, "reach": 1},
-                  "armor": {"name": None, "modifier": 0},
-                   "shield": {"name": None, "modifier": 0}}
+def setEquipment(type, job, rank, element, cndt, skills) -> list:
+    equipment = {"armor": {"name": None, "modifier": 0, "element": "Basic"},
+                  "shield": {"name": None, "modifier": 0},
+                   "weapon": {"name": None, "modifier": 0, "reach": 1}}
 
     if type  == "human":
         equipment["armor"] = setKit(job, False, 0)
-        equipment["weapon"] = setWeapon(job, element)
+        equipment["weapon"] = setWeapon(job, element, skills)
         equipment["shield"] = setKit(job, equipment["weapon"]["twoHanded"], equipment["armor"]["modifier"])
+
+        if job == "Paladin": equipment["armor"]["element"] = "Blessed"
+        elif rank in ["Elite", "Master"]:
+            equipment["armor"]["element"] = random.choice(["Flame", "Fey", "Ice", "Toxin"])
+
     elif type in ["elemental", "totem"]:
-        equipment["weapon"]["reach"] = 12
+        equipment["weapon"]["reach"] = 8
     else:
         if cndt["armored"]: equipment["armor"] = {"modifier": 2}
         if cndt["massive"]: equipment["weapon"]["reach"] = 2
@@ -22,14 +27,14 @@ def setEquipment(type, job, element, cndt) -> list:
 
 
 def setKit(job, twoHanded, burden) -> list:
-    kit = {"name": "", "modifier": 0}
+    kit = {"name": "", "modifier": 0, "element": "Basic"}
     options = []
 
     if twoHanded:
         kit["name"] = None
     else:
         capacity = 2 - burden
-        if job == "Knight": capacity += 2
+        if job in ["Brute", "Knight"]: capacity += 2
 
         if capacity > 0:
             options += ["Light"]
@@ -45,7 +50,11 @@ def setKit(job, twoHanded, burden) -> list:
 
     return kit
 
-def setWeapon(job, element) -> list:
+def setWeapon(job, element, skills) -> list:
+    longMelee, shortMelee = ["Poleaxe", "Spear", "Staff"], ["Axe", "Mace", "War Pick"]
+    bluntMelee, sharpMelee = ["Mace", "Poleaxe", "Staff", "War Pick"], ["Axe", "Poleaxe", "Spear", "War Pick"]
+    elementList = ["Ice", "Flame", "Fey", "Corpse", "Blessed"]
+
     weapon = {"name": "", "twoHanded": False, "modifier": 1, "dmgTypes": [], "reach": 1}
 
     isTwoHanded = random.choice([True, False])
@@ -53,8 +62,8 @@ def setWeapon(job, element) -> list:
     if isTwoHanded: weapon["modifier"] += 1
 
     if job == "Mage":
-        weapon["reach"], weapon["name"] = 10, element
-        weaponElements, elementList = [element], ["Ice", "Flame", "Fey", "Corpse", "Blessed"]
+        weapon["reach"], weapon["name"] = 8, element
+        weaponElements = [element]
         elementList.remove(element)
 
         if isTwoHanded: weaponElements += [random.choice(elementList)]
@@ -66,10 +75,7 @@ def setWeapon(job, element) -> list:
         if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
         else: weapon["name"] += " Flag"
     
-    elif job in ["Brute", "Knight", "Warlock"]:
-        longMelee, shortMelee = ["Poleaxe", "Spear", "Staff"], ["Axe", "Mace", "War Pick"]
-        bluntMelee, sharpMelee = ["Mace", "Poleaxe", "Staff", "War Pick"], ["Axe", "Poleaxe", "Spear", "War Pick"]
-
+    elif job in ["Brute", "Knight"]:
         if isTwoHanded:
             weapon["name"] = random.choice(longMelee)
             weapon["reach"] = 2
@@ -95,5 +101,15 @@ def setWeapon(job, element) -> list:
         weapon["twoHanded"] = False
         weapon["name"] = "Sling"
         weapon["dmgTypes"] += ["Crush", "Holy"]
+
+    elif job == "Warlock":
+        weaponName = random.choice(longMelee)
+        if weaponName in bluntMelee: weapon["dmgTypes"] += ["Crush"]
+        if weaponName in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
+        weapon["name"] = "Pennant" + weaponName
+
+        weapon["reach"] = 8
+        weapon["twoHanded"] = True
+        weapon["dmgTypes"] += [element]
 
     return weapon

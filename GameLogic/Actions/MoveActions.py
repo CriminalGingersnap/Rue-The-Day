@@ -1,7 +1,7 @@
 from Systems import PlayerSelect as Select
 from . import ItemActions, BoonActions as Boons, AttackActions as Attacks
 from Abilities import Move_Apply as Moves, Area_Set as Area
-from Maps import Movement, Map_Update as uMap
+from Maps import Movement
 import random
 
 

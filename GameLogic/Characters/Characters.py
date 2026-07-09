@@ -10,7 +10,7 @@ class character:
         dicts = setDicts()
         self.commits, self.effects, self.itemEffects = dicts[0], dicts[1], dicts[2]
 
-        self.equip = Equipment.setEquipment(type, job, elm, cndt)
+        self.equip = Equipment.setEquipment(type, job, rank, elm, cndt, abl["specialty"] + abl["mastery"])
         self.inv = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
         name, initials = rank + " " + job + "(" + elm + ")", job[0] + job[-2]
         self.props = {"job": job, "rank": rank, "type": type, "name": name, "initials": initials}
@@ -22,7 +22,7 @@ class character:
 
      
 def setAbilities(type, dice, additions) -> dict:
-    abilities = {"areas": ["Evade"], "attacks": [], "boons": [], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
+    abilities = {"areas": [], "attacks": [], "boons": ["Evade"], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
     
     if dice["martial"] > 0:
         abilities["areas"] += ["Set"]

@@ -72,7 +72,7 @@ class rabbit:
 
         dice = {"martial": 0, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"boons": ["Conceal", "Evade"]})
+        abl = Characters.setAbilities(type, dice, {"boons": ["Conceal"]})
 
         if rank == "Elder":
             if element == "Fey": abl["areas"] += ["Slip"]

@@ -4,13 +4,6 @@ from pathlib import Path
 import json
 
 
-class nullWorld:
-    def __init__(self) -> None:
-        self.worldMap = []
-        self.legend = {}
-        self.start = []
-        self.marker = None
-
 class nullCharacter:
     def __init__(self) -> None:        
         self.actionQueue, self.position = [], []
@@ -26,12 +19,19 @@ class nullCharacter:
         self.inv = {}
         self.props = {}
 
+class nullWorld:
+    def __init__(self) -> None:
+        self.worldMap = []
+        self.legend = {}
+        self.start = []
+        self.marker = None
 
-def saveCharacter(fighter, campaign, template) -> None:
+
+def saveCharacter(fighter, campaign, name) -> None:
     if fighter.inv["Echos"] == None:
-        setFilePath(campaign, template + "sEcho").unlink(missing_ok = True)
+        setFilePath(campaign, name + "sEcho").unlink(missing_ok = True)
     else:
-        saveCharacter(fighter.inv["Echos"], campaign, template + "sEcho")
+        saveCharacter(fighter.inv["Echos"], campaign, name + "sEcho")
         fighter.inv["Echos"] = None
     
     save = {
@@ -43,11 +43,11 @@ def saveCharacter(fighter, campaign, template) -> None:
         "props": fighter.props
     }
     
-    with open(setFilePath(campaign, template), 'w') as jsonFile:
+    with open(setFilePath(campaign, name), 'w') as jsonFile:
         json.dump(save, jsonFile, indent=4)
 
-def loadCharacter(fighter, campaign, template) -> None:
-    with open(setFilePath(campaign, template), 'r') as jsonFile:
+def loadCharacter(fighter, campaign, name) -> None:
+    with open(setFilePath(campaign, name), 'r') as jsonFile:
         load = json.load(jsonFile)
         fighter.abl = load["abl"]
         fighter.atrb = load["atrb"]
@@ -58,28 +58,70 @@ def loadCharacter(fighter, campaign, template) -> None:
 
     try:
         echo = nullCharacter()
-        loadCharacter(echo, "Metamorphosis", template + "sEcho")
+        loadCharacter(echo, "Metamorphosis", name + "sEcho")
         fighter.inv["Echos"] = echo
     except FileNotFoundError: pass
 
 
-def saveWorld(world, campaign, template)-> None:
+def saveWorld(world, campaign)-> None:
     save = {
         "map": world.worldMap,
         "legend": world.legend,
         "start": world.marker.position
     }
     
-    with open(setFilePath(campaign, template), 'w') as jsonFile:
+    with open(setFilePath(campaign, "World"), 'w') as jsonFile:
         json.dump(save, jsonFile, indent=4)
 
-def loadWorld(world, campaign, template) -> None:
-    with open(setFilePath(campaign, template), 'r') as jsonFile:
+def loadWorld(world, campaign) -> None:
+    with open(setFilePath(campaign, "World"), 'r') as jsonFile:
         load = json.load(jsonFile)
         world.worldMap = load["map"]
         world.legend = load["legend"]
         world.start = load["start"]
         world.marker = World.mapMarker(load["map"], load["start"])
+
+
+def saveGroup(group) -> None:
+    memberNames = []
+    for member in group["members"]:
+        saveCharacter(member, group["campaign"], member.props["name"])
+        memberNames += [member.props["name"]]
+    
+    saveWorld(group["world"], group["campaign"], "Map")
+
+    save = {
+        "campaign": group["campaign"],
+        "days": group["days"],
+        "members": memberNames,
+    }
+
+    with open(setFilePath(group["campaign"], "Group"), 'w') as jsonFile:
+        json.dump(save, jsonFile, indent=4)
+
+def loadGroup(campaign) -> dict:
+    nullWorld = nullWorld()
+
+    group = {
+        "campaign": "",
+        "days": 0,
+        "members": [],
+        "world": nullWorld
+    }
+
+    with open(setFilePath(campaign, "Group"), 'r') as jsonFile:
+        load = json.load(jsonFile)
+        group["campaign"] = load["campaign"]
+        group["days"] = load["days"]
+
+        for name in load["members"]:
+            nullPC = nullCharacter()
+            loadCharacter(nullPC, "Metamorphosis", name)
+            group["members"] += [nullPC]
+
+    loadWorld(nullWorld, campaign, "Map")
+
+    return group
 
 
 def setFilePath(campaign, template) -> Path:

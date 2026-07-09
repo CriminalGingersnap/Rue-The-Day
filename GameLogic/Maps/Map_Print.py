@@ -26,12 +26,13 @@ def printOptionsMap(instanceMap, mapName) -> None:
     Select.waitPrint("\n" + mapName + ":\n")
 
     for row in range(12):
-        for column in range(12):
-            space = instanceMap[row][column]
-            topHalf = finishSpace(instanceMap[row][column], mapName)
-            if space[1] in iMap.intStrings: console.print("[red]" + topHalf + "[/red]", end = "") 
-            else: print(topHalf, end = "")            
-        print()
+        if "World" not in mapName:
+            for column in range(12):
+                space = instanceMap[row][column]
+                topHalf = finishSpace(instanceMap[row][column], mapName)
+                if space[1] in iMap.intStrings: console.print("[red]" + topHalf + "[/red]", end = "") 
+                else: print(topHalf, end = "")            
+            print()
 
         for column in range(12):
             space = instanceMap[row][column]
@@ -64,3 +65,26 @@ def printSightMap(battleMap, sightMap, mapName) -> None:
             else: console.print("[red]" + sightSpace + "[/red]", end = "")
         print()
     print()
+
+
+def printWorldMap(world) -> None:
+    displayList = []
+
+    Select.waitPrint("\nWorld Map:\n")
+    for row in range(12):
+        for column in range(12):
+            biome = world.marker.sightMap[row][column][0]
+            if biome not in displayList: displayList += biome
+
+            worldSpace = world.worldMap[row][column]
+
+            if "~" in worldSpace: console.print("[blue]" + worldSpace + "[/blue]", end = "")
+            elif "/" in worldSpace: console.print("[gray]" + worldSpace + "[/gray]", end = "")
+            else: print(worldSpace, end = "")
+        print()
+    print()
+            
+    Select.waitPrint("Map Legend:")
+    for letter in world.legend:
+        if letter in displayList:
+            Select.waitPrint("  | " + letter + " -> " + world.legend[letter])

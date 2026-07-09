@@ -150,7 +150,7 @@ class mage:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"], "boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             if element == "Fey": abl["boons"] += ["Focus"]

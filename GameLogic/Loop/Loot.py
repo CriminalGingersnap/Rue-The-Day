@@ -23,15 +23,18 @@ def updateStones(player, stock, cap):
     if cap == 1: Select.waitPrint(phrase + "item.")
     else: Select.waitPrint(phrase + "items.")
 
-    pearlUpdates = Select.listSelection(stock["Pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
-    coreUpdates = Select.listSelection(stock["Cores"], cap, "Assign cores to " + player.props["name"] + ".")
+    if cap > 0:
+        pearlUpdates = Select.listSelection(stock["Pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
+        for pearl in pearlUpdates:
+            player.inv["Pearls"][pearl] += 1
+            stock.remove([pearl])
+            cap -= 1
 
-    for pearl in pearlUpdates:
-        player.inv["Pearls"][pearl] += 1
-        stock.remove([pearl])
-    for core in coreUpdates:
-        player.inv["Cores"][core] += 1
-        stock.remove([core])
+    if cap > 0:
+        coreUpdates = Select.listSelection(stock["Cores"], cap, "Assign cores to " + player.props["name"] + ".")
+        for core in coreUpdates:
+            player.inv["Cores"][core] += 1
+            stock.remove([core])
 
 
 def lootFoes(players, enemies):
@@ -42,7 +45,10 @@ def lootFoes(players, enemies):
         elif enemy.props["rank"] == "Boss": continue
         else: nonHumans += enemy
     
-    if len(humans) > 0: lootSimple(players, humans)
+    if len(humans) > 0:
+        Select.waitPrint("Searching enemies for useful items.")
+        if Select.yesNo("Swap equipment?"): lootEquipment(players, humans)
+        lootSimple(players, humans)
     if len(nonHumans) > 0:
         lootEchos(players, nonHumans)
         lootSimple(nonHumans)
@@ -55,6 +61,51 @@ def lootSimple(players, enemies) -> None:
         allowance = player.inv["Capacity"] - inventory["Total"]
 
         updateStones(player, stock, allowance)
+
+
+def lootEquipment(players, humans) -> None:
+    for player in players:
+        nullOption = {"name": None, "modifier": 0}
+        compatibleJobs, carryWeight = [], 2
+        armorList, shieldList, weaponList = [], [], []
+
+        if player.equip["armor"]["name"] is not None: armorList += [player.equip["armor"]]
+        if player.equip["shield"]["name"] is not None: shieldList += [player.equip["shield"]]
+        if player.equip["weapon"]["name"] is not None: weaponList += [enemy.equip["weapon"]]
+
+        if player.props["job"] in ["Brute", "Knight"]:
+            compatibleJobs += ["Brute", "Knight"]
+            carryWeight += 2
+        elif player.props["job"] in ["Mage", "Warlock"]:
+            compatibleJobs += ["Mage", "Warlock"]
+        else: compatibleJobs += [player.props["job"]]
+
+        for enemy in humans:
+            if enemy.equip["armor"]["name"] is not None:
+                if not (enemy.equip["armor"]["modifier"] > carryWeight): armorList += [enemy.equip["armor"]]
+            if enemy.equip["shield"]["name"] is not None:
+                if not (enemy.equip["shield"]["modifier"] > carryWeight): shieldList += [enemy.equip["shield"]]
+            if enemy.equip["weapon"]["name"] is not None:
+                if enemy.props["job"] in compatibleJobs: weaponList += [enemy.equip["weapon"]]
+        
+        if len(weaponList) == 1:
+            player.equip["weapon"] = weaponList[0]
+            Select.waitPrint(player.equip["weapon"]["name"] + " selected due to being the only compatible option.")
+        elif len(weaponList) > 1: player.equip["weapon"] = Select.pickOption(weaponList)
+
+        if len(armorList) > 0: player.equip["armor"] = Select.pickOption([nullOption] + armorList)
+        carryWeight -= player.equip["armor"]["modifier"]
+        
+        if player.equip["weapon"]["twoHanded"]: shieldList = []
+        else:
+            for shield in shieldList:
+                if shield["modifier"] > carryWeight: shieldList.remove[shield]
+
+        if len(shieldList) == 0:
+            player.equip["shield"] = nullOption
+            Select.waitPrint("No usable shields.")
+        else: player.equip["shield"] = Select.pickOption([nullOption] + shieldList)
+
 
 def lootEchos(players, nonHumans) -> None:
     if any(player.cndt["endowed"] for player in players):

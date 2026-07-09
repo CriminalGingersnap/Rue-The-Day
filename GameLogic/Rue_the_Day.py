@@ -5,18 +5,10 @@
 
 from Characters import Humans
 from Loop import Encounters, Loot
-from Maps import World, Movement
+from Maps import World, Movement, Map_Print as Print
 from Systems import PlayerSelect as Select
 from GameState import SaveLoad as Save
 
-
-# Martin = Save.nullCharacter()
-# Save.saveCharacter(Willem, "Metamorphosis", "Willem")
-# Save.loadCharacter(Martin, "Metamorphosis", "Willem")
-
-# testWorld = Save.nullWorld()
-# Save.saveWorld(tutorialWorld, "Metamorphosis", "Map")
-# Save.loadWorld(testWorld, "Metamorphosis", "Map")
 
 Martin = Humans.knight("Basic", "Master").ch
 Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "W."
@@ -30,10 +22,6 @@ Laura = Humans.mage("Flame", "Master").ch
 Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "player", "Laura", "L."
 Laura.equip["armor"] = {"name": None, "modifier": 0}
 
-# group1 = [Martin, Laura]
-group1 = [Laura]
-group2 = [Martin, Willem]
-
 
 tutorialWorld = World.kingKillerMap()
 worldMap = tutorialWorld.worldMap
@@ -43,6 +31,20 @@ worldMap[0][6] = "w___↑"
 worldMap[2][6] = "w_..↑"
 worldMap[2][7] = "w_!!↑"
 marker.position = [2, 6]
+
+group1 = {
+    "campaign": "Metamorphosis",
+    "days": 0,
+    "members": [Laura],
+    "world": tutorialWorld
+}
+
+group2 = {
+    "campaign": "Metamorphosis",
+    "days": 0,
+    "members": [Martin, Willem],
+    "world": tutorialWorld
+}
 
 inTutorial = True
 

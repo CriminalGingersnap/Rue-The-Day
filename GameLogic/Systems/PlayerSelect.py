@@ -46,7 +46,7 @@ def targetSelect(targets) -> int:
         if target.props["name"] == name: return target
 
 
-def pickOption(options, category) -> str:    
+def pickOption(options, category):    
     if len(options) > 1:
         waitPrint("Select " + category + ":")
         return makeSelection(options)
@@ -54,7 +54,7 @@ def pickOption(options, category) -> str:
         waitPrint("Sole option selected automatically: " + category)
         return options[0]
 
-def makeSelection(options) -> str:
+def makeSelection(options):
     for option in options:
         quickPrint(str(options.index(option)+1) + ": " + str(option))
 
@@ -89,11 +89,11 @@ def listSelection(options, cap, prompt):
     ceiling, selection = len(options), []
     waitPrint(prompt)
 
-    if cap == 0: waitPrint("Action skipped. Limit reached.")
+    if cap <= 0: waitPrint("Action skipped. Limit reached.")
     elif ceiling == 0: waitPrint("Action skipped. No options in category.")
     else:
-        quickPrint("Enter a comma separated list. Ex: 1,4,9")
-        # support ranges. ex 2-4
+        quickPrint("Enter a comma separated list without spaces (Ex: 1,4,9).")
+        quickPrint("The list may include dashed sections (Ex: 1-4,9).")
         
         for option in options:
             quickPrint(str(options.index(option)+1) + ": " + str(option))
@@ -101,6 +101,13 @@ def listSelection(options, cap, prompt):
         while True:
             try:
                 answerList = input("-> ").split(",")
+                for answer in answerList:
+                    if "-" in answer:
+                        answerList.remove(answer)
+                        start, end = int(answer.split("-")[0]), int(answer.split("-")[1])
+                        for inclusion in range(start, end):
+                            answerList += [inclusion]
+
                 if len(answerList) > cap: raise SyntaxError
                 elif not all((1 <= answer <= ceiling) for answer in answerList): raise ValueError
                 else:
@@ -109,6 +116,8 @@ def listSelection(options, cap, prompt):
             except SyntaxError:
                 print("Quantity of selected values cannot exceed " + str(cap) + ".")
             except ValueError:
-                print("All comma-separated values must be numbers between 1 and ", str(ceiling) + ".")
+                print("All values must be numbers between 1 and ", str(ceiling) + ".")
+            except TypeError:
+                print("All values must be numeric.")
     
     return selection

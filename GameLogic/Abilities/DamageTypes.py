@@ -41,6 +41,16 @@ def applyResistance(damage, dmgType, target) -> int:
     if tRes != "normal":
         Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
 
+    armorType = convertElmToDmg(target.equip["armor"]["element"])
+    if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
+        Select.waitPrint("Target is wearing armor resistant to " + dmgType + " damage!")
+        reduction = target.equip["armor"]["modifier"] * .1
+
+        if dmgType == armorType:
+            Select.waitPrint("Enchanted armor provides half protection against its own element!")
+            multiplier = max(0, multiplier - reduction)
+        else:  multiplier = max(0, multiplier - (reduction * 2))
+
     return int(damage * multiplier)
 
 
@@ -60,11 +70,7 @@ def modifyResistance(target, dmgType, potency, direction):
                         case "resistant": res = "immune"
                         case "normal": res = "immune"
                         case "vulnerable": res = "resistant"
-                case 3:
-                    match natRes:
-                        case "resistant": res = "immune"
-                        case "normal": res = "immune"
-                        case "vulnerable": res = "immune"
+                case 3: res = "immune"
         case "negative":
             match potency:
                 case 1:
@@ -77,10 +83,6 @@ def modifyResistance(target, dmgType, potency, direction):
                         case "immune": res = "normal"
                         case "resistant": res = "vulnerable"
                         case "normal": res = "vulnerable"
-                case 3:
-                    match natRes:
-                        case "immune": res = "vulnerable"
-                        case "resistant": res = "vulnerable"
-                        case "normal": res = "vulnerable"
+                case 3: res = "vulnerable"
 
     target.atrb["cur_res"][dmgType] = res
