@@ -55,16 +55,16 @@ def humanInventory(element, rank) -> dict:
             case "Elite": budget = 5
             case "Master": budget = 6
         
-        vita, pearls, cores = random.randint(0, min(budget, 3)), 0, 0
+        vita, pearlCount, coreCount = random.randint(0, min(budget, 3)), 0, 0
         budget -= vita
         if budget > 0:
-            pearls = random.randint(0, budget)
-            budget -= pearls
-        if budget > 1: cores = random.randint(1, (budget // 2))
+            pearlCount = random.randint(0, budget)
+            budget -= pearlCount
+        if budget > 1: coreCount = random.randint(1, (budget // 2))
 
         pillBox["Pearls"]["Sanguine"] = vita
-        pillBox["Pearls"][random.choice(["Ice", "Flame", "Toxin"])] = pearls
-        pillBox["Cores"][random.choice(["Ice", "Flame"])] = cores
+        pillBox["Pearls"][random.choice(["Ice", "Flame", "Toxin"])] = pearlCount
+        pillBox["Cores"][random.choice(["Ice", "Flame"])] = coreCount
 
     return pillBox
 

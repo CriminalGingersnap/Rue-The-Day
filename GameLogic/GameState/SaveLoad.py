@@ -4,8 +4,6 @@ from pathlib import Path
 import json
 
 
-save_dir = Path(__file__).resolve().parent
-
 class nullWorld:
     def __init__(self) -> None:
         self.worldMap = []
@@ -30,6 +28,12 @@ class nullCharacter:
 
 
 def saveCharacter(fighter, campaign, template) -> None:
+    if fighter.inv["Echos"] == None:
+        setFilePath(campaign, template + "sEcho").unlink(missing_ok = True)
+    else:
+        saveCharacter(fighter.inv["Echos"], campaign, template + "sEcho")
+        fighter.inv["Echos"] = None
+    
     save = {
         "abl": fighter.abl,
         "atrb": fighter.atrb,
@@ -51,6 +55,12 @@ def loadCharacter(fighter, campaign, template) -> None:
         fighter.equip = load["equip"]
         fighter.inv = load["inv"]
         fighter.props = load["props"]
+
+    try:
+        echo = nullCharacter()
+        loadCharacter(echo, "Metamorphosis", template + "sEcho")
+        fighter.inv["Echos"] = echo
+    except FileNotFoundError: pass
 
 
 def saveWorld(world, campaign, template)-> None:
@@ -74,4 +84,5 @@ def loadWorld(world, campaign, template) -> None:
 
 def setFilePath(campaign, template) -> Path:
     fileName = campaign + '/' + template + '.json'
+    save_dir = Path(__file__).resolve().parent
     return save_dir / fileName
