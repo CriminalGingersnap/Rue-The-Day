@@ -26,7 +26,7 @@ class camel:
         stats["avoidance"], stats["hp"] = "mid", "max"
         cndt["social"], cndt["massive"] = True, True
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, dice, {"attacks": ["Spit", "Kick"]})
 

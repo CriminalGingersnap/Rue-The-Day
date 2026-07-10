@@ -1,5 +1,5 @@
-from Systems import PlayerSelect as Select, Conditions
-from . import Area_Set as Area, DamageTypes as Damage
+from Systems import Damage, PlayerSelect as Select, Conditions
+from . import Area_Set as Area
 
 
 def execute(fighter, category, element, application, groups, battleMap) -> None:
@@ -14,16 +14,16 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             if element == "Sanguine": invigorate(fighter, category)
             else: imbue(fighter, category, element)            
             match category:
-                case "Pearls": Conditions.decrementTolerance(fighter, 2)
-                case "Cores": Conditions.decrementTolerance(fighter, 4)
+                case "pearls": Conditions.decrementTolerance(fighter, 2)
+                case "cores": Conditions.decrementTolerance(fighter, 4)
 
 
 def imbue(fighter, category, element) -> None:
     potency, dmgCat1, dmgCat2, dmgCat3 = 0, "", "", ""
 
     match category:
-        case "Pearls": potency = 1
-        case "Cores": potency = 2
+        case "pearls": potency = 1
+        case "cores": potency = 2
 
     if fighter.itemEffects["Imbue"]["additional"] == element:
         potency = min(fighter.itemEffects["Imbue"]["potency"] + potency, 3)
@@ -49,8 +49,8 @@ def invigorate(fighter, category) -> None:
     potency = 0
 
     match category:
-        case "Pearls": potency = 1
-        case "Cores": potency = 2
+        case "pearls": potency = 1
+        case "cores": potency = 2
 
     if not fighter.cndt["lifeless"]:
         fighter.itemEffects["Invigorate"]["duration"] = 3

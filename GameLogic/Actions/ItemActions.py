@@ -85,24 +85,39 @@ def hasItems(fighter) -> bool:
 
 def getInventory(fighter) -> dict:
     items = {
-        "Cores": [],
-        "Pearls": [],
+        "cores": [],
+        "pearls": [],
         "Total": 0  
     } 
 
-    cores = fighter.inv["Cores"]
-    pearls = fighter.inv["Pearls"]
+    cores = fighter.inv["cores"]
+    pearls = fighter.inv["pearls"]
 
     for core in cores:
         if cores[core] > 0: 
-            items["Cores"] += [core]
+            items["cores"] += [core]
             items["Total"] += 1
     for pearl in pearls:
         if pearls[pearl] > 0:
-            items["Pearls"] += [pearl]
+            items["pearls"] += [pearl]
             items["Total"] += 1
 
-    if len(items["Cores"]) == 0: del items["Cores"]
-    if len(items["Pearls"]) == 0: del items["Pearls"]
+    if len(items["cores"]) == 0: del items["cores"]
+    if len(items["pearls"]) == 0: del items["pearls"]
 
     return items
+
+
+def swapShield(fighter) -> None:
+    Select.waitPrint(fighter.name + " exchanges " + fighter.equip["shield"] + " for " + fighter.inv["spare"]["shield"] + ".")
+
+    tempShield = fighter.inv["spare"]["shield"]
+    fighter.inv["spare"]["shield"] = fighter.equip["shield"]
+    fighter.equip["shield"] = tempShield
+
+def swapWeapon(fighter) -> None:
+    Select.waitPrint(fighter.name + " exchanges " + fighter.equip["weapon"] + " for " + fighter.inv["spare"]["weapon"] + ".")
+
+    tempWeapon = fighter.inv["spare"]["weapon"]
+    fighter.inv["spare"]["weapon"] = fighter.equip["weapon"]
+    fighter.equip["weapon"] = tempWeapon

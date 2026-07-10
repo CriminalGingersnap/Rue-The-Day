@@ -4,7 +4,7 @@ import random, copy
 
 class character:
     def __init__(self, abl, dice, cndt, stats, job, elm, type, rank)-> None:
-        self.atrb = setAttributes(rank, stats, cndt, elm, dice)
+        self.atrb = setAttributes(stats, cndt, elm, dice)
         self.abl, self.cndt = abl, cndt
 
         dicts = setDicts()
@@ -39,10 +39,10 @@ def setAbilities(type, dice, additions) -> dict:
     return abilities
 
 
-def setAttributes(rank, stats, cndt, elm, dice):
-    av_range = {"min": 0, "low": random.randint(0,3), "mid": random.randint(3,6), "high": random.randint(6,9), "max": random.randint(9,12)}
+def setAttributes(stats, cndt, elm, dice):
+    av_range = {"min": random.randint(1,3), "low": random.randint(3,6), "mid": random.randint(6,9), "high": random.randint(9,12), "max": random.randint(12,15)}
     hp_range = {"min": 6, "low": random.randint(6,12), "mid": random.randint(12,18), "high": random.randint(18,24), "max": random.randint(24,30), "boss": 36}
-    sp_range = {"min": 0, "low": random.randint(1,3), "mid": random.randint(3,5), "high": random.randint(5,7), "max": random.randint(7,9)}
+    sp_range = {"min": 0, "low": random.randint(1,3), "mid": random.randint(4,5), "high": random.randint(5,7), "max": random.randint(7,9)}
 
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4

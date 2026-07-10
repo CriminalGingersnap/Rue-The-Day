@@ -1,5 +1,5 @@
-from Systems import PlayerSelect as Select, Roll
-from . import Area_Apply as Apply, DamageTypes as Damage
+from Systems import Damage, PlayerSelect as Select, Roll
+from . import Area_Apply as Apply
 from Maps import Map_Update as uMap
 
 areaAbilities = ["Bless", "Breath", "Hex", "Slip"]

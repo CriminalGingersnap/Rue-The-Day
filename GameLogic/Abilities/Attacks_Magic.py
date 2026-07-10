@@ -1,5 +1,5 @@
-from . import DamageTypes as Damage, Boons_Apply as Boons, Reactions
-from Systems import PlayerSelect as Select, Roll, Conditions
+from . import Boons_Apply as Boons, Reactions
+from Systems import PlayerSelect as Select, Roll, Conditions, Damage
 
 
 def attack(fighter, target, attack, dice) -> None:

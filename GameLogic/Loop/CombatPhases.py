@@ -10,8 +10,10 @@ def resetFighter(fighter) -> None:
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
 
     if fighter.props["type"] == "human":
-        equipment = fighter.equip
-        speedLoss = ((equipment["armor"]["modifier"] + equipment["shield"]["modifier"] + equipment["weapon"]["modifier"]) // 2) - 1
+        speedLoss = ((
+                fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
+                  + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"]
+                  ) // 2) - 1
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
     match fighter.atrb["injury"]:

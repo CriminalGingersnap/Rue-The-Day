@@ -1,5 +1,5 @@
-from . import DamageTypes as Damage, Boons_Apply as Boons, Hindrances_Apply as Hinder, Reactions
-from Systems import PlayerSelect as Select, Roll, Conditions
+from . import Boons_Apply as Boons, Hindrances_Apply as Hinder, Reactions
+from Systems import PlayerSelect as Select, Roll, Conditions, Damage
 
 
 def getProbableAv(fighter, dmgType, target) -> int:
@@ -47,10 +47,15 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
         if attempt >= (av * 2):
             baseDmg *= 6
             Select.waitPrint("Devastating blow!")
-        elif attempt >= av:
-            baseDmg *= 3
+        elif attempt >= (av + (av // 2)):
+            baseDmg *= 5
             Select.waitPrint("Clean hit!")
+        elif attempt >= av:
+            baseDmg *= 4
+            Select.waitPrint("Contact!")
         else: Select.waitPrint("Glancing blow!")
+
+        baseDmg += fighter.equip["weapon"]["modifier"]
 
         physicalAbsorption = Boons.applyWreath(target, dmgType)
         appliedDmg = max(0, baseDmg - physicalAbsorption)

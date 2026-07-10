@@ -1,4 +1,5 @@
-from Abilities import Attacks_Martial as Martial, DamageTypes as Damage, Boons_Apply as Boons
+from Abilities import Attacks_Martial as Martial, Boons_Apply as Boons
+from Systems import Damage
 from Maps import Movement
 import random
 

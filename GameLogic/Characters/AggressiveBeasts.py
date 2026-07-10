@@ -38,7 +38,6 @@ class hound:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["social"] = True
-        stats["speed"] = "max"
         
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -53,7 +52,7 @@ class ferret:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        stats["avoidance"] = "max"
+        stats["avoidance"] = "high"
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -68,7 +67,7 @@ class lion:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        stats["hp"], stats["speed"] = "high", "max"
+        stats["hp"] = "high"
         cndt["social"] = True
 
         dice = {"martial": 2, "magic": 0}

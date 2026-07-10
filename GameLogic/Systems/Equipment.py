@@ -1,27 +1,30 @@
-from Abilities import DamageTypes as Damage
-import random
+import Damage
+import random, copy
 
-# talismans shield gives no physical advantage but raises elemental resistance.
+nullKit = {"name": None, "modifier": 0,  "element": "Basic"}
+nullWeapon = {"name": None, "modifier": 0, "reach": 1}
 
 def setEquipment(type, job, rank, element, cndt, skills) -> list:
-    equipment = {"armor": {"name": None, "modifier": 0, "element": "Basic"},
-                  "shield": {"name": None, "modifier": 0},
-                   "weapon": {"name": None, "modifier": 0, "reach": 1}}
+    global nullKit, nullWeapon
+
+    equipment = {"armor": copy.deepcopy(nullKit),
+                  "shield": copy.deepcopy(nullKit),
+                   "weapon": copy.deepcopy(nullWeapon)}
 
     if type  == "human":
-        equipment["armor"] = setKit(job, False, 0)
         equipment["weapon"] = setWeapon(job, element, skills)
-        equipment["shield"] = setKit(job, equipment["weapon"]["twoHanded"], equipment["armor"]["modifier"])
+        equipment["armor"] = setKit(job, False, 0, equipment["weapon"]["modifier"])
+        equipment["shield"] = setKit(job, equipment["weapon"]["twoHanded"], equipment["armor"]["modifier"] + equipment["weapon"]["modifier"])
+        updateKit(equipment, job, rank)
 
-        if job == "Paladin": equipment["armor"]["element"] = "Blessed"
-        elif rank in ["Elite", "Master"]:
-            equipment["armor"]["element"] = random.choice(["Flame", "Fey", "Ice", "Toxin"])
-
-    elif type in ["elemental", "totem"]:
-        equipment["weapon"]["reach"] = 8
     else:
+        equipment["weapon"]["modifier"] = 1
         if cndt["armored"]: equipment["armor"] = {"modifier": 2}
-        if cndt["massive"]: equipment["weapon"]["reach"] = 2
+        if cndt["massive"]:
+            equipment["weapon"]["reach"] = 2
+            equipment["weapon"]["modifier"] = 2
+        if type in ["elemental", "totem"]: equipment["weapon"]["reach"] = 8
+        if type == "elemental": equipment["weapon"]["modifier"] = 3      
 
     return equipment
 
@@ -30,8 +33,7 @@ def setKit(job, twoHanded, burden) -> list:
     kit = {"name": "", "modifier": 0, "element": "Basic"}
     options = []
 
-    if twoHanded:
-        kit["name"] = None
+    if twoHanded: kit["name"] = None
     else:
         capacity = 2 - burden
         if job in ["Brute", "Knight"]: capacity += 2
@@ -49,6 +51,16 @@ def setKit(job, twoHanded, burden) -> list:
                 case "Light": kit["modifier"] = 1
 
     return kit
+
+def updateKit(equipment, job, rank):    
+    if job == "Paladin": equipment["armor"]["element"] = "Blessed"
+    elif rank in ["Adept", "Elite", "Master"]:
+        equipment["armor"]["element"] = random.choice(["Flame", "Fey", "Ice", "Toxin"])
+
+        if (not equipment["weapon"]["twoHanded"]) and (equipment["shield"]["name"] == None):
+            equipment["shield"]["name"] = "Talisman"
+            equipment["shield"]["element"] = random.choice(["Blessed", "Flame", "Fey", "Ice", "Toxin"])
+
 
 def setWeapon(job, element, skills) -> list:
     longMelee, shortMelee = ["Poleaxe", "Spear", "Staff"], ["Axe", "Mace", "War Pick"]

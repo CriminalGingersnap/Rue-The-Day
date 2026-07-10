@@ -1,5 +1,5 @@
-from Systems import PlayerSelect as Select
-from . import Boons_Apply as Boons
+import PlayerSelect as Select
+from Abilities import Boons_Apply as Boons
 
 
 pierceAttacks = ["Bodkin", "Bite", "Broadhead", "Claw", "Stab"]
@@ -38,18 +38,27 @@ def applyResistance(damage, dmgType, target) -> int:
         case "immune": multiplier = 0
         case "vulnerable": multiplier = 2
 
-    if tRes != "normal":
-        Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
+    if tRes != "normal": Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
 
+    protections, reduction = [], 0
     armorType = convertElmToDmg(target.equip["armor"]["element"])
-    if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
-        Select.waitPrint("Target is wearing armor resistant to " + dmgType + " damage!")
-        reduction = target.equip["armor"]["modifier"] * .1
+    shieldType = convertElmToDmg(target.equip["shield"]["element"])
 
-        if dmgType == armorType:
-            Select.waitPrint("Enchanted armor provides half protection against its own element!")
+    if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
+        Select.waitPrint("Target is wearing " + target.equip["armor"]["element"] + " armor!")
+        reduction = target.equip["armor"]["modifier"] * .1
+        protections += [armorType]
+
+    if (multiplier > 0) and Boons.checkCompatibility(dmgType, shieldType):
+        Select.waitPrint("Target carries a talisman of " + target.equip["shield"]["element"] + "!")
+        reduction = .2
+        protections += [shieldType]
+
+    for protection in protections:
+        if dmgType == protection:
+            Select.waitPrint("Enchantments provide half protection against their own element!")
             multiplier = max(0, multiplier - reduction)
-        else:  multiplier = max(0, multiplier - (reduction * 2))
+        else: multiplier = max(0, multiplier - (reduction * 2))
 
     return int(damage * multiplier)
 

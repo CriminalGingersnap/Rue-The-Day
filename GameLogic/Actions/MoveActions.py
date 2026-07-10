@@ -9,6 +9,8 @@ def moveAction(fighter, groups, battleMap) -> None:
     posOptions = fighter.abl["areas"]
     
     if ("Inventory" in fighter.abl["boons"]) and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
+    if (fighter.inv["spares"]["weapon"]["name"] != None): posOptions += ["Swap Weapon"]
+    if (fighter.inv["spares"]["shield"]["name"] != None): posOptions += ["Swap Shield"]
 
     if fighter.props["rank"] == "player":
         posOptions += ["Examine"]

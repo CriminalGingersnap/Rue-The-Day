@@ -15,11 +15,6 @@ def roll(fighter, dice, ability, dType) -> int:
 
 def mods(fighter, ability, dType) -> int:
     phrase, mod = " | ", 0
-    weapon = fighter.equip["weapon"]["modifier"]
-    
-    if weapon > 0:
-        mod += weapon
-        phrase += "+" + str(weapon) + " (Weapon) | "
 
     if ability in fighter.abl["specialty"]:
         mod += 1
@@ -29,6 +24,11 @@ def mods(fighter, ability, dType) -> int:
         phrase += "+2 (Mastery) | "
 
     if dType == "magic":
+        weapon = fighter.equip["weapon"]["modifier"]        
+        if weapon > 0:
+            mod += weapon
+            phrase += "+" + str(weapon) + " (Weapon) | "
+
         if fighter.atrb["corruption"] > 0:
             if random.choice([True, False]):
                 mod += fighter.atrb["corruption"]
@@ -38,17 +38,17 @@ def mods(fighter, ability, dType) -> int:
                 phrase += "-"
             phrase += str(fighter.atrb["corruption"]) + " (Instability) | "
     
-    if dType == "martial":            
-        if fighter.atrb["injury"] > 0:
-            mod -=  fighter.atrb["injury"]
-            phrase += "-" + str(fighter.atrb["injury"]) + " (Injury) | "
+    elif dType == "martial":
+        if fighter.atrb["fatigue"] > 0:
+            mod -= fighter.atrb["fatigue"]
+            phrase += "-" + str(fighter.atrb["fatigue"]) + " (Fatigue) | "
         if fighter.itemEffects["Invigorate"]["duration"] > 0:
             mod += fighter.itemEffects["Invigorate"]["potency"]
             phrase += "+" + fighter.itemEffects["Invigorate"]["potency"] + " (Invigoration) | "
-    
-    if fighter.atrb["fatigue"] > 0:
-        mod -= fighter.atrb["fatigue"]
-        phrase += "-" + str(fighter.atrb["fatigue"]) + " (Fatigue) | "
+
+    if fighter.atrb["injury"] > 0:
+        mod -=  fighter.atrb["injury"]
+        phrase += "-" + str(fighter.atrb["injury"]) + " (Injury) | "
 
     Select.waitPrint("Modifiers: " + str(mod) + phrase)
     return mod

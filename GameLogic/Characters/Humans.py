@@ -84,7 +84,7 @@ class brute:
             abl["hindrances"] += ["Harry"]
 
             if rank in ["Adept", "Elite", "Master"]:
-                abl["specialty"] = [random.choice(["Bash", "Guard", "Stab"])]
+                abl["specialty"] = [random.choice(["Bash", "Harry", "Stab"])]
                 
                 if rank in ["Elite", "Master"]:
                     abl["hindrances"] += ["Bind"]

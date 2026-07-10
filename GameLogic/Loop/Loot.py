@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select, Inventory
+from Systems import PlayerSelect as Select, Inventory, Equipment
 from Actions import ItemActions as Items
 import copy
 
@@ -11,8 +11,8 @@ def searchAll(players, enemies) -> None:
 def sortItems(players):
     playerStock = getStock(players)
     for player in players:
-        player.inv["Cores"] = copy.deepcopy(Inventory.cores)
-        player.inv["Pearls"] = copy.deepcopy(Inventory.pearls)
+        player.inv["cores"] = copy.deepcopy(Inventory.cores)
+        player.inv["pearls"] = copy.deepcopy(Inventory.pearls)
         cap = player.inv["Capacity"]
 
         Select.waitPrint("Items not selected by any party member will be lost.")
@@ -24,16 +24,16 @@ def updateStones(player, stock, cap):
     else: Select.waitPrint(phrase + "items.")
 
     if cap > 0:
-        pearlUpdates = Select.listSelection(stock["Pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
+        pearlUpdates = Select.listSelection(stock["pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
         for pearl in pearlUpdates:
-            player.inv["Pearls"][pearl] += 1
+            player.inv["pearls"][pearl] += 1
             stock.remove([pearl])
             cap -= 1
 
     if cap > 0:
-        coreUpdates = Select.listSelection(stock["Cores"], cap, "Assign cores to " + player.props["name"] + ".")
+        coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"] + ".")
         for core in coreUpdates:
-            player.inv["Cores"][core] += 1
+            player.inv["cores"][core] += 1
             stock.remove([core])
 
 
@@ -64,20 +64,22 @@ def lootSimple(players, enemies) -> None:
 
 
 def lootEquipment(players, humans) -> None:
+    nullKit = copy.deepcopy(Equipment.nullKit)
+    nullWeapon = copy.deepcopy(Equipment.nullWeapon)
+
     for player in players:
-        nullOption = {"name": None, "modifier": 0}
-        compatibleJobs, carryWeight = [], 2
+        compatibleJobs, carryWeight = [], player.atrb["base_sp"] - 2
         armorList, shieldList, weaponList = [], [], []
 
         if player.equip["armor"]["name"] is not None: armorList += [player.equip["armor"]]
         if player.equip["shield"]["name"] is not None: shieldList += [player.equip["shield"]]
         if player.equip["weapon"]["name"] is not None: weaponList += [enemy.equip["weapon"]]
+        if player.inv["spares"]["shield"]["name"] is not None: shieldList += [player.inv["spares"]["shield"]]
+        if player.inv["spares"]["weapon"]["name"] is not None: weaponList += [player.inv["spares"]["weapon"]]
 
-        if player.props["job"] in ["Brute", "Knight"]:
-            compatibleJobs += ["Brute", "Knight"]
-            carryWeight += 2
-        elif player.props["job"] in ["Mage", "Warlock"]:
-            compatibleJobs += ["Mage", "Warlock"]
+        if player.props["job"] in ["Archer", "Dragonslayer"]: compatibleJobs += ["Archer", "Dragonslayer"]
+        elif player.props["job"] in ["Brute", "Knight"]: compatibleJobs += ["Brute", "Knight", "Warlock"]
+        elif player.props["job"] in ["Mage", "Warlock"]: compatibleJobs += ["Mage", "Warlock"]
         else: compatibleJobs += [player.props["job"]]
 
         for enemy in humans:
@@ -91,9 +93,16 @@ def lootEquipment(players, humans) -> None:
         if len(weaponList) == 1:
             player.equip["weapon"] = weaponList[0]
             Select.waitPrint(player.equip["weapon"]["name"] + " selected due to being the only compatible option.")
-        elif len(weaponList) > 1: player.equip["weapon"] = Select.pickOption(weaponList)
+        elif len(weaponList) > 1:
+            player.equip["weapon"] = Select.pickOption(weaponList, "primary weapon")
+            weaponList.remove(player.equip["weapon"])
+            player.inv["spares"]["weapon"] = Select.pickOption([nullWeapon] + weaponList, "spare weapon")
 
-        if len(armorList) > 0: player.equip["armor"] = Select.pickOption([nullOption] + armorList)
+        carryWeight -= (player.equip["weapon"]["modifier"] + player.inv["spares"]["weapon"]["modifier"])
+
+        for armor in armorList:
+            if armor["modifier"] > carryWeight: armorList.remove[armor]
+        if len(armorList) > 0: player.equip["armor"] = Select.pickOption([nullKit] + armorList, "armor")
         carryWeight -= player.equip["armor"]["modifier"]
         
         if player.equip["weapon"]["twoHanded"]: shieldList = []
@@ -101,10 +110,14 @@ def lootEquipment(players, humans) -> None:
             for shield in shieldList:
                 if shield["modifier"] > carryWeight: shieldList.remove[shield]
 
-        if len(shieldList) == 0:
-            player.equip["shield"] = nullOption
-            Select.waitPrint("No usable shields.")
-        else: player.equip["shield"] = Select.pickOption([nullOption] + shieldList)
+            if len(shieldList) == 0:
+                player.equip["shield"] = nullKit
+                Select.waitPrint("No usable shields.")
+            else:
+                player.equip["shield"] = Select.pickOption([nullKit] + shieldList, "primary shield")
+                shieldList.remove(player.equip["shield"])
+                if len(shieldList) > 0:
+                    player.inv["spares"]["shield"] = Select.pickOption([nullKit] + shieldList, "spare shield")
 
 
 def lootEchos(players, nonHumans) -> None:
@@ -120,22 +133,22 @@ def lootEchos(players, nonHumans) -> None:
                     echo = Select.targetSelect(recentDead)
                     echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
                     echo.cndt["summoned"], echo.props["rank"] = True, "player"
-                    player.inv["Echos"] = echo
+                    player.inv["echos"] = echo
                     
                     del nonHumans[enemy]
                     del recentDead[enemy]
 
 
 def getStock(party) -> dict:    
-    stock = {"Cores": [], "Pearls": []}
+    stock = {"cores": [], "pearls": []}
 
     for fighter in party:
-        for pearl in fighter.inv["Pearls"]:
-            for quantity in fighter.inv["Pearls"][pearl]:
-                stock["Pearls"] += [pearl]
-        for core in fighter.inv["Cores"]:
-            for quantity in fighter.inv["Cores"][core]:
-                stock["Cores"] += [core]
+        for pearl in fighter.inv["pearls"]:
+            for quantity in fighter.inv["pearls"][pearl]:
+                stock["pearls"] += [pearl]
+        for core in fighter.inv["cores"]:
+            for quantity in fighter.inv["cores"][core]:
+                stock["cores"] += [core]
 
     stock.sort()
     return stock

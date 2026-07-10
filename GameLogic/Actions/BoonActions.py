@@ -1,5 +1,5 @@
-from Abilities import DamageTypes as Damage, Boons_Set as Boons, Boons_Apply
-from Systems import PlayerSelect as Select
+from Abilities import Boons_Set as Boons, Boons_Apply
+from Systems import PlayerSelect as Select, Damage
 from Maps import Movement
 from . import AssessTargets as Assess, AttackActions
 import random

@@ -1,8 +1,6 @@
 import random, copy
+from . import Equipment
 
-# Martin crafts a blunt weapon after their first encounter with a pierce resistant enemy
-# If he equips the blunt weapon, his damage type changes from pierce to blunt.
-# Swapping weapons requires him to expend an attack die.
 
 cores = {
     "Corpse": 0,
@@ -33,16 +31,20 @@ def setInventory(type, rank, element, hp) -> dict:
 def humanInventory(element, rank) -> dict:
     global cores, pearls
     
-    pillBox = {
+    inventory = {
         "Capacity": 10,
-        "Cores": copy.deepcopy(cores),
-        "Pearls": copy.deepcopy(pearls),
-        "Shards": {
+        "cores": copy.deepcopy(cores),
+        "pearls": copy.deepcopy(pearls),
+        "shards": {
             "Fey": 0,
             "Flame": 0,
             "Ice": 0
         },
-        "Echos": None
+        "spares": {
+            "shield": copy.deepcopy(Equipment.nullKit),
+            "weapon": copy.deepcopy(Equipment.nullWeapon)
+        },
+        "echos": None
     }
 
     if element != "Corpse":
@@ -62,15 +64,15 @@ def humanInventory(element, rank) -> dict:
             budget -= pearlCount
         if budget > 1: coreCount = random.randint(1, (budget // 2))
 
-        pillBox["Pearls"]["Sanguine"] = vita
-        pillBox["Pearls"][random.choice(["Ice", "Flame", "Toxin"])] = pearlCount
-        pillBox["Cores"][random.choice(["Ice", "Flame"])] = coreCount
+        inventory["pearls"]["Sanguine"] = vita
+        inventory["pearls"][random.choice(["Ice", "Flame", "Toxin"])] = pearlCount
+        inventory["cores"][random.choice(["Ice", "Flame"])] = coreCount
 
-    return pillBox
+    return inventory
 
 
 def beastInventory(hp, element, rank, type) -> dict:
-    drop = {"Cores": {element: 0}, "Pearls": {element: 0}}
+    drop = {"cores": {element: 0}, "pearls": {element: 0}}
     vitaVolume = 0
 
     if element == "Corpse":
@@ -92,31 +94,31 @@ def beastInventory(hp, element, rank, type) -> dict:
             case "high": vitaVolume = 4
             case "max": vitaVolume = 5
             
-    drop["Pearls"]["Sanguine"] = vitaVolume
+    drop["pearls"]["Sanguine"] = vitaVolume
 
     if element != "Basic":
         match rank:
-            case "Adult" | "Wizened": drop["Pearls"][element] = 1
-            case "Elder" | "Ancient": drop["Pearls"][element] = 2
-            case "Boss": drop["Shards"][element] = 1
+            case "Adult" | "Wizened": drop["pearls"][element] = 1
+            case "Elder" | "Ancient": drop["pearls"][element] = 2
+            case "Boss": drop["shards"][element] = 1
 
     return drop
 
 
 def elementalInventory(element, rank) -> dict:
-    drop = {"Cores": {element: 0}, "Pearls": {element: 0}}
+    drop = {"cores": {element: 0}, "pearls": {element: 0}}
 
-    if rank == "Lesser": drop["Cores"][element] = 1
-    else: drop["Cores"][element] = 2
+    if rank == "Lesser": drop["cores"][element] = 1
+    else: drop["cores"][element] = 2
 
     return drop
 
 def totemInventory(element, rank) -> dict:
-    drop = {"Cores": {element: 0}, "Pearls": {element: 0}}
+    drop = {"cores": {element: 0}, "pearls": {element: 0}}
 
     match rank:
-        case "Standard": drop["Pearls"][element] = 1
-        case "Totem": drop["Pearls"][element] = 2
-        case "Monument": drop["Cores"][element] = 1        
+        case "Standard": drop["pearls"][element] = 1
+        case "Totem": drop["pearls"][element] = 2
+        case "Monument": drop["cores"][element] = 1        
 
     return drop

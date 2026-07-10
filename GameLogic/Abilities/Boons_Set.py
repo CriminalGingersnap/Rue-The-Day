@@ -1,5 +1,4 @@
-from Systems import PlayerSelect as Select
-from . import DamageTypes as Damage
+from Systems import PlayerSelect as Select, Damage
 
 
 martialBoons = ["Conceal", "Evade", "Guard"]

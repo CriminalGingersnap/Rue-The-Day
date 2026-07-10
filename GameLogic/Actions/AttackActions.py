@@ -1,5 +1,5 @@
-from Systems import PlayerSelect as Select, Equipment
-from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder, DamageTypes as Damage
+from Systems import PlayerSelect as Select, Damage
+from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
 from . import AssessTargets as Assess, Sort
 import random
 

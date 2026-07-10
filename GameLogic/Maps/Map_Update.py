@@ -1,6 +1,5 @@
 from . import Visibility, Movement, Elevation
-from Systems import PlayerSelect as Select, Conditions
-from Abilities import DamageTypes as Damage
+from Systems import PlayerSelect as Select, Conditions, Damage
 import random
 
 majorHazards =     ["B", "D", "C", "F", "H", "P", "R", "V"]

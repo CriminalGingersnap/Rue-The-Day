@@ -3,7 +3,7 @@ from Systems import PlayerSelect as Select, Conditions
 from . import Attacks_Martial as Martial, Boons_Set as Boons
 from Actions import ItemActions
 
-stationaryAbilities = ["Inventory", "Empower", "Evade", "Examine", "Set"]
+stationaryAbilities = ["Inventory", "Empower", "Evade", "Examine", "Set", "Swap Shield", "Swap Weapon"]
 
 
 def execute(fighter, groups, ability, battleMap) -> None: 
@@ -16,6 +16,8 @@ def execute(fighter, groups, ability, battleMap) -> None:
         case "Evade": applyEvade(fighter)
         case "Inventory": ItemActions.itemAction(fighter, groups, battleMap)
         case "Set": applySet(fighter)
+        case "Swap Shield": ItemActions.swapShield(fighter)
+        case "Swap Weapon": ItemActions.swapWeapon(fighter)
 
     fighter.atrb["cur_sp"] = 0
 
@@ -67,7 +69,10 @@ def applyExamine(visibleTargets) -> None:
         else: armorStatement = "Unarmored."
 
         if examinee.equip["shield"]["name"] != None:
-            shieldStatement = "Carrying a " + examinee.equip["shield"]["name"] + " shield. "
+            shieldName = examinee.equip["shield"]["name"]
+            if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"]
+            else: shieldName += " shield"
+            shieldStatement = "Carrying a " + shieldName + ". "
         if examinee.equip["weapon"]["name"] != None:
             article = "a "
             if examinee.equip["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
