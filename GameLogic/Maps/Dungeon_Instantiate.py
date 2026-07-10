@@ -10,11 +10,11 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     setColumns([mainMap, secondMap, thirdMap])
     
     Select.waitPrint("Placing PCs...")
-    for fighter in playerGroup: pMap.firstPlacement(mainMap, fighter)
+    for fighter in playerGroup: pMap.firstPlacement(mainMap, 4, fighter)
     Select.waitPrint("Placing Group 1 NPCs...")
-    for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, fighter)
+    for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, 4, fighter)
     Select.waitPrint("Placing Group 2 NPCs...")
-    for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, fighter)
+    for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, 4, fighter)
 
     battleMap = iMap.combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 

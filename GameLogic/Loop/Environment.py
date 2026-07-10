@@ -78,7 +78,7 @@ def setMapConditions(biome):
     
     numberValues = Cards.drawNumbers(5)
     drawn, faceDown = numberValues[0], numberValues[1]
-    slope = slopeOptions[drawn[0] - 1]
+    slope = slopeOptions[drawn[0] - 2]
     obstructionValue = drawn[1]
     atmosphereValue = drawn[2]
     budget = [drawn[3], drawn[4]]

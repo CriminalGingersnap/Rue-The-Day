@@ -1,4 +1,4 @@
-import Damage
+from . import Damage
 import random, copy
 
 nullKit = {"name": None, "modifier": 0,  "element": "Basic"}
@@ -13,7 +13,7 @@ def setEquipment(type, job, rank, element, cndt, skills) -> list:
 
     if type  == "human":
         equipment["weapon"] = setWeapon(job, element, skills)
-        equipment["armor"] = setKit(job, False, 0, equipment["weapon"]["modifier"])
+        equipment["armor"] = setKit(job, False, equipment["weapon"]["modifier"])
         equipment["shield"] = setKit(job, equipment["weapon"]["twoHanded"], equipment["armor"]["modifier"] + equipment["weapon"]["modifier"])
         updateKit(equipment, job, rank)
 

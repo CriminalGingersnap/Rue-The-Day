@@ -2,45 +2,62 @@ from . import Map_Instantiate as iMap, Map_Update as uMap
 import random
 
 
-def firstPlacement(instanceMap, fighter) -> None:
-    rightEdgeEmpty = []
-
-    if fighter.props["rank"] != "player":
-        for row in range(4):
-            if instanceMap[row][11] not in iMap.impermissible: rightEdgeEmpty += [row]
-
+def firstPlacement(instanceMap, rowCount, fighter) -> None:
     available = False
     while not available:
-        column, row = 0, random.randint(0, 3)
+        column, row = 0, random.randint(0, (rowCount - 1))
         if fighter.props["rank"] == "player": column = random.randint(0, 1)
         else: column = random.randint(5, 10)
 
-        available = visitSpace(instanceMap, row, column, fighter, rightEdgeEmpty)
+        available = visitSpace(instanceMap, rowCount, row, column, fighter)
 
     fighter.position = [row, column]
 
 
-def visitSpace(instanceMap, row, column, fighter, endTargets) -> bool:
+def visitSpace(instanceMap, rowCount, row, column, fighter) -> bool:
     marker = uMap.setMarker(fighter, instanceMap[row][column])
 
     if "___" in instanceMap[row][column]:
         instanceMap[row][column] = marker
 
         if fighter.props["rank"] == "player":
-            walkable = walk(instanceMap, row, 0, column + 1)[0]
-            if not walkable: instanceMap[row][column] = iMap.emptySpace
-            return walkable
+            walkable = walk(instanceMap, rowCount, row, 0, column + 1)
+        else: walkable = walk(instanceMap, rowCount, row, column, 12)
 
-        else:
-            walkResult = walk(instanceMap, row, column, 12)
-            walkable = walkResult[0]
-            endRow = walkResult[1]
+    if not walkable: instanceMap[row][column] = iMap.emptySpace
+    return walkable
 
-            if (not walkable) or (endRow not in endTargets):
-                instanceMap[row][column] = iMap.emptySpace
-                return False
-            else: return True    
-    else: return False
+
+def walk(instanceMap, rowCount, startingRow, startingColumn, rightStop):
+    currentColumn, makingProgress = startingColumn + 1, True
+    upRow, downRow = max(0, startingRow - 1), min(11, startingRow + 1)
+
+    while (currentColumn < rightStop) and makingProgress:
+        for row in range(upRow, downRow):
+            if instanceMap[row][currentColumn] not in iMap.impermissible:
+                upRow, downRow = max(0, startingRow - 1), min(11, startingRow + 1)
+                currentColumn += 1
+                makingProgress = True
+                break
+            else: makingProgress = False
+        
+        if not makingProgress:
+            for row in range(0, upRow):
+                if instanceMap[upRow][currentColumn] not in iMap.impermissible:
+                    upRow -= 1
+                    downRow += 1
+                    makingProgress = True
+                    break
+
+        if not makingProgress:
+            for row in range(downRow, rowCount):
+                if instanceMap[row][currentColumn] not in iMap.impermissible:
+                    upRow += 1
+                    downRow -= 1
+                    makingProgress = True
+                    break
+
+    return makingProgress
 
 
 def placeObstruction(instanceMap, obstruction) -> bool:
@@ -48,7 +65,7 @@ def placeObstruction(instanceMap, obstruction) -> bool:
 
     if instanceMap[row][column] == iMap.emptySpace:
         instanceMap[row][column] = obstruction
-        walkable = walk(instanceMap, random.randint(0, 11), 0, 12)[0]
+        walkable = walk(instanceMap, 12, row, max(0, column - 1), 12)
         if not walkable: instanceMap[row][column] = iMap.emptySpace
         return walkable
     else:
@@ -80,32 +97,3 @@ def placeTrap(instanceMap):
         return True
     else:
         return False
-
-
-def walk(instanceMap, startingRow, staringColumn, columnLimit) -> bool:
-    previousFreeRow, nextColumn = startingRow, staringColumn
-    makingProgress, visited = True, []
-
-    while makingProgress and (nextColumn < columnLimit):
-        topLimit, bottomLimit = max(0, previousFreeRow - 1), min(11, previousFreeRow + 1)
-
-        gotOne = False
-        for row in range(topLimit, bottomLimit):
-            while (nextColumn < columnLimit) and (instanceMap[row][nextColumn] not in iMap.impermissible):
-                previousFreeRow = row
-                nextColumn += 1
-                gotOne = True
-                visited = []
-
-        if not gotOne:
-            visited += [previousFreeRow]
-            if (topLimit > 0) and (topLimit not in visited) and (instanceMap[topLimit][nextColumn - 1] not in iMap.impermissible):
-                previousFreeRow -= 1
-                gotOne = True
-            elif (bottomLimit < 11) and (bottomLimit not in visited) and (instanceMap[bottomLimit][nextColumn - 1] not in iMap.impermissible):
-                previousFreeRow += 1
-                gotOne = True
-
-        makingProgress = gotOne
-
-    return [makingProgress, previousFreeRow]

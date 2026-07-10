@@ -1,4 +1,4 @@
-import PlayerSelect as Select
+from . import PlayerSelect as Select
 from Abilities import Boons_Apply as Boons
 
 

@@ -26,10 +26,10 @@ def setCommon(element, rank) -> list:
     if rank == "Random": rank = random.choice(["Lesser", "Greater"])
 
     traits = Characters.setTraits()
-    res = traits[1].update({"Pierce": "immune", "Crush": "normal", "Dream": "resistant",
-                             "Burn": "normal", "Freeze": "normal", "Venom": "immune",
-                               "Holy": "normal", "Rot": "immune"})
-    stats = {"avoidance": "mid", "hp": "high", "resist": res, "speed": "mid"}
+    traits[1].update({"Pierce": "immune", "Crush": "normal", "Dream": "resistant",
+                       "Burn": "normal", "Freeze": "normal", "Venom": "immune",
+                        "Holy": "normal", "Rot": "immune"})
+    stats = {"avoidance": "mid", "hp": "high", "resist": traits[1], "speed": "mid"}
     cndt = traits[0]
     cndt["lifeless"], cndt["sapient"] = True, True
 

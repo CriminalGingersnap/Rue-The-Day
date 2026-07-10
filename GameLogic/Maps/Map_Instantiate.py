@@ -16,23 +16,20 @@ intStrings = ["1","2","3","4","5","6","7","8","9"]
 def combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups) -> list:
     battleMap = [[], [], [], [], [], [], [], [], [], [], [], []]
 
-    mapGroup1 = {"map": mainMap, "group": playerGroup}
-    mapGroup2 = {"map": secondMap, "group": enemyGroups[0]}
-    mapGroup3 = {"map": thirdMap, "group": enemyGroups[1]}
-    mapGroupOrder = [mapGroup1, mapGroup2, mapGroup3]
-    random.shuffle(mapGroupOrder)
+    mapGroups = [
+        {"map": mainMap, "group": playerGroup},
+        {"map": secondMap, "group": enemyGroups[0]},
+        {"map": thirdMap, "group": enemyGroups[1]}
+    ]
+    random.shuffle(mapGroups)
+    map1, map2, map3 = mapGroups[0]["map"], mapGroups[1]["map"], mapGroups[2]["map"]
 
-    for row in range(4):
-        map1 = mapGroupOrder[0]["map"]
-        battleMap[row] += map1[row]
-    for row in range(4, 8):
-        map2 = mapGroupOrder[1]["map"]
-        battleMap[row] += map2[row - 4]
-        for fighter in mapGroupOrder[1]["group"]: fighter.position[0] += 4
-    for row in range(8, 12):
-        map3 = mapGroupOrder[2]["map"]
-        battleMap[row] += map3[row - 8]
-        for fighter in mapGroupOrder[2]["group"]: fighter.position[0] += 8
+    for row in range(4): battleMap[row] += map1[row]
+    for row in range(4, 8): battleMap[row] += map2[row - 4]
+    for row in range(8, 12): battleMap[row] += map3[row - 8]
+
+    for fighter in mapGroups[1]["group"]: fighter.position[0] += 4
+    for fighter in mapGroups[2]["group"]: fighter.position[0] += 8
             
     return battleMap
 
@@ -48,11 +45,11 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
             thirdMap[row] += box
     
     Select.waitPrint("Placing PCs...")
-    for fighter in playerGroup: pMap.firstPlacement(mainMap, fighter)
+    for fighter in playerGroup: pMap.firstPlacement(mainMap, 4, fighter)
     Select.waitPrint("Placing Group 1 NPCs...")
-    for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, fighter)
+    for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, 4, fighter)
     Select.waitPrint("Placing Group 2 NPCs...")
-    for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, fighter)
+    for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, 4, fighter)
     
     battleMap = combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 
