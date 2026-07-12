@@ -47,14 +47,14 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     highestMAREnemy = Assess.findHighestMAR(enemies)
     lowestAVEnemy = Assess.findLowestAV(fighter, enemies)
     lowestHPEnemy = Assess.findLowestHP(enemies)
-    lowestResBurnEnemy = Assess.findLowestRes(enemies, "Burn")
+    lowestResFlameEnemy = Assess.findLowestRes(enemies, "Flame")
     lowestResCrushEnemy = Assess.findLowestRes(enemies, "Crush")
     lowestResDreamEnemy = Assess.findLowestRes(enemies, "Dream")
-    lowestResFreezeEnemy = Assess.findLowestRes(enemies, "Freeze")
+    lowestResIceEnemy = Assess.findLowestRes(enemies, "Ice")
     lowestResHolyEnemy = Assess.findLowestRes(enemies, "Holy")
     lowestResPierceEnemy = Assess.findLowestRes(enemies, "Pierce")
     lowestResRotEnemy = Assess.findLowestRes(enemies, "Rot")
-    lowestResVenomEnemy = Assess.findLowestRes(enemies, "Venom")
+    lowestResToxicEnemy = Assess.findLowestRes(enemies, "Toxic")
 
     target = closestEnemy
     if not pickClosest:
@@ -67,10 +67,10 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
                     weaponDmgTypes = fighter.equip["weapon"]["dmgTypes"]
                     if "Pierce" in weaponDmgTypes: target = random.choice([lowestResPierceEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
                     elif "Crush" in weaponDmgTypes: target = random.choice([lowestResCrushEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
-                case "Corpse": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResRotEnemy])
-                case "Fey": target = random.choice([highestMAGEnemy, lowestResDreamEnemy])
-                case "Flame": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResBurnEnemy])
-                case "Blessed":
+                case "Rot": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResRotEnemy])
+                case "Dream": target = random.choice([highestMAGEnemy, lowestResDreamEnemy])
+                case "Flame": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResFlameEnemy])
+                case "Holy":
                     nonLivingTargets = Assess.findUndead(enemies)
                     if len(nonLivingTargets) > 0:
                         highestMARUndead = Assess.findHighestMAR(nonLivingTargets)
@@ -78,7 +78,7 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
                         lowestHPUndead = Assess.findLowestHP(nonLivingTargets)
                         target = random.choice([highestMARUndead, lowestAVUndead, lowestHPUndead])
                     else: target = random.choice([highestMAGEnemy, lowestAVEnemy, lowestResHolyEnemy])
-                case "Ice": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResFreezeEnemy])
-                case "Venom": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResVenomEnemy])
+                case "Ice": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResIceEnemy])
+                case "Toxic": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResToxicEnemy])
 
     return target

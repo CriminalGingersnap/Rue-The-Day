@@ -29,8 +29,8 @@ def setFoes(biome, budgets, curseCard) -> list:
             case "Frozen Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
             case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, budget)
             case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, budget)
-            case "Burning Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
-            case "Burning Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
+            case "Flaming Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
+            case "Flaming Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
 
             case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
             case "Northern Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
@@ -51,6 +51,7 @@ def setFoes(biome, budgets, curseCard) -> list:
         memberIndex = 1
         for member in members:
             member.props["name"] += "[" + str(memberIndex) + "]"
+            member.props["initials"] = str(rollNum) + str(memberIndex)
             memberIndex += 1
         
         groups[rollNum] = members

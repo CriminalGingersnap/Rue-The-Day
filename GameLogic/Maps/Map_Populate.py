@@ -82,7 +82,7 @@ def placeFog(instanceMap, type) -> bool:
         elif type == "Mana": instanceMap[row][column] = iMap.manaWell
         elif type == "Mist": instanceMap[row][column] = iMap.mistSpace
         elif type == "Rime": instanceMap[row][column] = iMap.rimeSpace
-        elif type == "Blessed": instanceMap[row][column] = iMap.sacredSpace
+        elif type == "Sacred": instanceMap[row][column] = iMap.sacredSpace
         elif type == "Smoke": instanceMap[row][column] = iMap.smokeSpace
         elif type == "Toxic": instanceMap[row][column] = iMap.toxicSpace
         return True

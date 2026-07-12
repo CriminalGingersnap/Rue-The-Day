@@ -3,7 +3,7 @@ from . import Area_Set as Area
 
 
 def execute(fighter, category, element, application, groups, battleMap) -> None:
-    end = " an elemental " + element + " " + category + "!"
+    end = " a condensed " + element + " " + category + "!"
 
     match application:
         case "Detonate":
@@ -11,7 +11,7 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             Area.throwStone(fighter, category, element, groups, battleMap)
         case "Extract":
             Select.waitPrint(fighter.props["name"] + " consumes the essence of " + end)
-            if element == "Sanguine": invigorate(fighter, category)
+            if element == "Bleed": invigorate(fighter, category)
             else: imbue(fighter, category, element)            
             match category:
                 case "pearls": Conditions.decrementTolerance(fighter, 2)
@@ -29,12 +29,12 @@ def imbue(fighter, category, element) -> None:
         potency = min(fighter.itemEffects["Imbue"]["potency"] + potency, 3)
 
     match element:
-        case "Corpse": dmgCat1, dmgCat2, dmgCat3 = ["Rot"], ["Venom"], ["Holy"]
-        case "Flame": dmgCat1, dmgCat2, dmgCat3  = ["Burn"], ["Venom"], ["Freeze"]
-        case "Fey": dmgCat1, dmgCat2, dmgCat3 = ["Dream"], ["Crush", "Pierce", "Venom"], ["Rot"]       
-        case "Ice": dmgCat1, dmgCat2, dmgCat3 = ["Freeze"], ["Venom"], ["Burn"]
-        case "Blessed": dmgCat1, dmgCat2, dmgCat3 = ["Holy", "Rot"], ["Venom"], []
-        case "Toxic": dmgCat1, dmgCat2, dmgCat3 = ["Venom"], ["Rot"], []
+        case "Rot": dmgCat1, dmgCat2, dmgCat3 = ["Rot"], ["Toxic"], ["Holy"]
+        case "Flame": dmgCat1, dmgCat2, dmgCat3  = ["Flame"], ["Toxic"], ["Ice"]
+        case "Dream": dmgCat1, dmgCat2, dmgCat3 = ["Dream"], ["Crush", "Pierce", "Toxic"], ["Rot"]       
+        case "Ice": dmgCat1, dmgCat2, dmgCat3 = ["Ice"], ["Toxic"], ["Flame"]
+        case "Holy": dmgCat1, dmgCat2, dmgCat3 = ["Holy", "Rot"], ["Toxic"], []
+        case "Toxic": dmgCat1, dmgCat2, dmgCat3 = ["Toxic"], ["Rot"], []
 
     for dmgType in dmgCat1: Damage.modifyResistance(fighter, dmgType, potency, "positive")
     for dmgType in dmgCat2: Damage.modifyResistance(fighter, dmgType, 1, "positive")
@@ -77,20 +77,19 @@ def evolve(fighter, item) -> None:
 
     fighter.atrb["base_hp"] += 12
     fighter.atrb["endurance"] += 12
-    fighter.boons += ["Animate"]
     fighter.boons += ["Regenerate"]
     fighter.hindrance += ["Seal"]
     fighter.cndt["inviolable"] = True
 
     match item:
         case "Flameheart": fighter.atrb["base_elm"] = "Flame"
-        case "Feyheart": fighter.atrb["base_elm"] = "Fey"
+        case "Dreamheart": fighter.atrb["base_elm"] = "Dream"
         case "Iceheart": fighter.atrb["base_elm"] = "Ice"
 
     Select.waitPrint(fighter.props["name"] + " begins" + item + " evolution.")
     Select.waitPrint(fighter.props["name"] + " adopts the " + fighter.atrb["base_elm"] + " element!")
     Select.waitPrint(fighter.props["name"] + " gains:")
-    for buff in ["12 HP", "12 Endurance", "2 Martial Dice", "2 Magic Dice", "The 'Animate' Item Action", "The 'Regenerate' Boon", "The 'Seal' Hindrance"]:
+    for buff in ["12 HP", "12 Endurance", "2 Martial Dice", "2 Magic Dice", "The 'Regenerate' Boon", "The 'Seal' Hindrance"]:
         Select.waitPrint(buff)
     Select.waitPrint("And the 'Inviolable' condition!")
 

@@ -2,9 +2,9 @@ from . import Visibility, Movement, Elevation
 from Systems import PlayerSelect as Select, Conditions, Damage
 import random
 
-majorHazards =     ["B", "D", "C", "F", "H", "P", "R", "V"]
-minorHazards =     ["b", "d", "c", "f", "h", "p", "r", "v"]
-lingeringHazards = ["#", "@",      "%", "+",      "}", "&"]
+majorHazards =     ["B", "C", "D", "F", "H", "I", "P", "R", "T"]
+minorHazards =     ["b", "c", "d", "f", "h", "i", "p", "r", "t"]
+lingeringHazards = [          "@", "#", "+", "%",      "}"     ]
 hazards = majorHazards + minorHazards
 
 
@@ -21,7 +21,7 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     fighter.position = [row, column]
 
     if battleMap[row][column][-1] == "]":
-        dmgType = random.choice(["Burn", "Crush", "Freeze", "Pierce", "Rot", "Venom"])
+        dmgType = random.choice(["Crush", "Flame", "Ice", "Pierce", "Rot", "Toxic"])
         Select.waitPrint(fighter.props["name"] + " triggers a " + dmgType + " trap!")
         battleMap[row][column] = battleMap[row][column][:-1] + Elevation.down
         battleMap[row][column] = dmgType[0] + battleMap[row][column][1:]
@@ -67,14 +67,15 @@ def hideTraps(fighter, sightMap):
 
 def identifyAtmosphere(atmosphere) -> str:
     dmgType = ""
-    if atmosphere in ["b", "B", "#"]: dmgType = "Burn"
+    if atmosphere in ["b", "B"]: dmgType = "Bleed"
     if atmosphere in ["c", "C"]: dmgType = "Crush"
     elif atmosphere in ["d", "D", "@"]: dmgType = "Dream"
-    elif atmosphere in ["f", "F", "%"]: dmgType = "Freeze"
+    if atmosphere in ["f", "F", "#"]: dmgType = "Flame"
     elif atmosphere in ["h", "H", "+"]: dmgType = "Holy"
+    elif atmosphere in ["i", "I", "%"]: dmgType = "Ice"
     elif atmosphere in ["r", "R", "}"]: dmgType = "Rot"
     elif atmosphere in ["p", "P"]: dmgType == "Pierce"
-    elif atmosphere in ["v", "V", "&"]: dmgType == "Venom"
+    elif atmosphere in ["t", "T"]: dmgType == "Toxic"
     elif atmosphere in ["m", "M", "*"]: dmgType == "Mana"
 
     return dmgType
@@ -122,24 +123,28 @@ def updateHazards(battleMap):
                 scale = getScale(atmosphere)
 
                 match dmgType:
-                    case "Burn":
+                    case "Bleed":
                         match scale:
                             case 3: newAtmosphere = "b"
-                            case 2: newAtmosphere = random.choice(["B", "b", "#"])
+                            case 2: newAtmosphere = "_"
                     case "Dream":
                         match scale:
                             case 3: newAtmosphere = "d"
                             case 2: newAtmosphere = "@"
                             case 1: newAtmosphere = random.choice("*" + lingeringHazards)
-                    case "Freeze":
+                    case "Flame":
                         match scale:
-                            case 3: newAtmosphere = random.choice(["F", "f"])
-                            case 2: newAtmosphere = random.choice(["f", "%"])
+                            case 3: newAtmosphere = "f"
+                            case 2: newAtmosphere = random.choice(["F", "f", "#"])
                     case "Holy": 
                         match scale:
                             case 3: newAtmosphere = "h"
                             case 2: newAtmosphere = "+"
                             case 1: newAtmosphere = random.choice(["H", "+"])
+                    case "Ice":
+                        match scale:
+                            case 3: newAtmosphere = random.choice(["I", "i"])
+                            case 2: newAtmosphere = random.choice(["i", "%"])
                     case "Mana":
                         match scale:
                             case 3: newAtmosphere = "m"
@@ -148,10 +153,10 @@ def updateHazards(battleMap):
                         match scale:
                             case 3: newAtmosphere = "r"
                             case 2: newAtmosphere = random.choice(["r", "r", "}"])
-                    case "Venom": 
+                    case "Toxic": 
                         match scale:
-                            case 3: newAtmosphere = random.choice(["v", "&"])
-                            case 2: newAtmosphere = "&"
+                            case 3: newAtmosphere = "t"
+                            case 2: newAtmosphere = "_"
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]

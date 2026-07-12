@@ -16,7 +16,7 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
 
     if (diceBudget > 4) and (warriorType == "Soldier"):
         totemType = random.choice(["hex", "sentry", "ward"])
-        totemElement = random.choice(["Flame", "Fey", "Ice"])
+        totemElement = random.choice(["Flame", "Dream", "Ice"])
         totem = None
         match totemType:
             case "hex": totem = Totems.hex(totemElement, "Standard")
@@ -50,7 +50,7 @@ def randomHuman(rank, type, element):
         case "knight": return Humans.knight(element, rank).ch
 
     if element == "Basic": 
-        element = random.choice(["Flame", "Fey", "Ice"])
+        element = random.choice(["Flame", "Dream", "Ice"])
         
     match type:
         case "mage": return Humans.mage(element, rank).ch

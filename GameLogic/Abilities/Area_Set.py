@@ -10,11 +10,9 @@ def execute(fighter, groups, ability, battleMap) -> None:
 
 
 def markSpace(fighter, groups, ability, battleMap) -> str:
-    phrase, range, dmgType, dType = "", 10, "", "cur_mag"
-    scale = max(fighter.atrb[dType], 2)
+    phrase, range, dmgType = "", 10, ""
+    scale = max(fighter.atrb["cur_mag"], 3)
 
-    dmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
-    if dmgType in ["Bleed", "Venom"]: dType = "cur_mar"
 
     match ability:
         case "Breath":
@@ -32,7 +30,7 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
     
     markedSpace = findSpace(fighter, groups, range)
     affectSpace(fighter, markedSpace, dmgType, scale, battleMap)
-    fighter.atrb[dType] = 0
+    fighter.atrb["cur_mag"] = 0
 
     if ability == "Slip":
         tossRow, tossColumn = markedSpace[0], markedSpace[1]
@@ -68,15 +66,14 @@ def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
         battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
-def throwStone(fighter, category, element, groups, battleMap) -> None:
+def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     tossSpace = findSpace(fighter, groups, 4)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
+
     potency = 2
-
     if category == "Core": potency = 3
-    dmgType = Damage.convertElmToDmg(element)
 
-    if element == "Fey":
+    if dmgType == "Dream":
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
         if potency == 3:
             tossSpace = findSpace(fighter, groups, 4)
@@ -89,15 +86,3 @@ def throwStone(fighter, category, element, groups, battleMap) -> None:
     atmosphere = Apply.getAtmosphere(potency, dmgType)
     battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
     Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
-
-
-def getStoneDmgType(stone) -> str:
-    dmgType = ""
-    if "Blessed" in stone: dmgType = "Holy"
-    elif "Corpse" in stone: dmgType = "Rot"
-    elif "Flame" in stone: dmgType = "Burn"
-    elif "Ice" in stone: dmgType = "Freeze"
-    elif "Fey" in stone: dmgType = "Dream"
-    elif "Toxic" in stone: dmgType = "Venom"
-
-    return dmgType

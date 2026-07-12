@@ -31,10 +31,10 @@ def attackComment(fighter, target, attack):
         
     if attack == "Bring":
         match fighter.atrb["cur_elm"]:
-            case "Corpse": phrase += " rots " + end
+            case "Rot": phrase += " rots " + end
             case "Flame": phrase += " burns " + end
-            case "Fey": phrase += " spins dreams into the mind of " + end
-            case "Blessed": phrase += " calls holy wrath upon " + end
+            case "Dream": phrase += " spins dreams into the mind of " + end
+            case "Holy": phrase += " calls holy wrath upon " + end
             case "Ice": phrase += " freezes " + end
 
     else:

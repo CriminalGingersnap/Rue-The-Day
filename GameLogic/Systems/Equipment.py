@@ -57,13 +57,13 @@ def setKit(job, twoHanded, burden) -> list:
     return kit
 
 def updateKit(equipment, job, rank):    
-    if job == "Paladin": equipment["armor"]["element"] = "Blessed"
+    if job == "Paladin": equipment["armor"]["element"] = "Holy"
     elif rank in ["Adept", "Elite", "Master"]:
-        equipment["armor"]["element"] = random.choice(["Flame", "Fey", "Ice", "Toxic"])
+        equipment["armor"]["element"] = random.choice(["Dream", "Flame", "Ice", "Toxic"])
 
         if (not equipment["weapon"]["twoHanded"]) and (equipment["shield"]["name"] == None):
             equipment["shield"]["name"] = "Talisman"
-            equipment["shield"]["element"] = random.choice(["Blessed", "Flame", "Fey", "Ice", "Toxic"])
+            equipment["shield"]["element"] = random.choice(["Dream", "Holy", "Flame", "Ice", "Toxic"])
 
 
 def setWeapon(job, element, skills) -> list:
@@ -81,7 +81,7 @@ def setWeapon(job, element, skills) -> list:
 
     match job:
         case "Mage":
-            elementList = ["Ice", "Flame", "Fey", "Corpse", "Blessed"]
+            elementList = ["Dream", "Flame", "Holy", "Ice", "Rot"]
 
             weapon["reach"], weapon["name"] = 8, element
             weaponElements = [element]

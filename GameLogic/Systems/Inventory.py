@@ -3,19 +3,19 @@ from . import Equipment
 
 
 cores = {
-    "Corpse": 0,
+    "Dream": 0,
     "Flame": 0,
-    "Fey": 0,
+    "Holy": 0,
     "Ice": 0,
-    "Blessed": 0
-} 
+    "Rot": 0
+}
 pearls = {
-    "Blessed": 0,
-    "Corpse": 0,
+    "Bleed": 0,
+    "Dream": 0,
     "Flame": 0,
-    "Fey": 0,
+    "Holy": 0,
     "Ice": 0,
-    "Sanguine": 0,
+    "Rot": 0,
     "Toxic": 0
 }
 
@@ -36,7 +36,7 @@ def humanInventory(element, rank) -> dict:
         "cores": copy.deepcopy(cores),
         "pearls": copy.deepcopy(pearls),
         "shards": {
-            "Fey": 0,
+            "Dream": 0,
             "Flame": 0,
             "Ice": 0
         },
@@ -47,7 +47,7 @@ def humanInventory(element, rank) -> dict:
         "echos": None
     }
 
-    if element != "Corpse":
+    if element != "Rot":
         budget = ""
 
         match rank:
@@ -64,7 +64,7 @@ def humanInventory(element, rank) -> dict:
             budget -= pearlCount
         if budget > 1: coreCount = random.randint(1, (budget // 2))
 
-        inventory["pearls"]["Sanguine"] = vita
+        inventory["pearls"]["Bleed"] = vita
         inventory["pearls"][random.choice(["Ice", "Flame", "Toxic"])] = pearlCount
         inventory["cores"][random.choice(["Ice", "Flame"])] = coreCount
 
@@ -75,7 +75,7 @@ def beastInventory(hp, element, rank, type) -> dict:
     drop = {"cores": {element: 0}, "pearls": {element: 0}}
     vitaVolume = 0
 
-    if element == "Corpse":
+    if element == "Rot":
         match hp:
             case "mid": vitaVolume = 1
             case "high": vitaVolume = 2
@@ -94,7 +94,7 @@ def beastInventory(hp, element, rank, type) -> dict:
             case "high": vitaVolume = 4
             case "max": vitaVolume = 5
             
-    drop["pearls"]["Sanguine"] = vitaVolume
+    drop["pearls"]["Bleed"] = vitaVolume
 
     if element != "Basic":
         match rank:

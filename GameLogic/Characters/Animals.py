@@ -3,28 +3,28 @@ def setAnimalResistance(element, rank, stats):
     if rank in ["Elder", "Master"]: mainRes, holyRes = "immune", "normal"
     if element != "Basic":
         stats["resist"]["Holy"] = holyRes
-        stats["resist"]["Venom"] = "resistant"
+        stats["resist"]["Toxic"] = "resistant"
     
     match element:
-        case "Blessed":
+        case "Holy":
             stats["resist"]["Holy"] = mainRes
             stats["resist"]["Rot"] = mainRes
-        case "Corpse":
+        case "Rot":
             stats["resist"]["Rot"] = mainRes
             stats["resist"]["Holy"] = "vulnerable"
-        case "Fey":
+        case "Dream":
             stats["resist"]["Dream"] = mainRes
             stats["resist"]["Pierce"] = "resistant"
             stats["resist"]["Crush"] = "resistant"
             stats["resist"]["Rot"] = "vulnerable"
         case "Flame":
-            stats["resist"]["Burn"] = mainRes
-            stats["resist"]["Freeze"] = "vulnerable"
+            stats["resist"]["Flame"] = mainRes
+            stats["resist"]["Ice"] = "vulnerable"
         case "Ice":
-            stats["resist"]["Freeze"] = mainRes
-            stats["resist"]["Burn"] = "vulnerable"
+            stats["resist"]["Ice"] = mainRes
+            stats["resist"]["Flame"] = "vulnerable"
         case "Toxic":
-            stats["resist"]["Venom"] = mainRes
+            stats["resist"]["Toxic"] = mainRes
             stats["resist"]["Rot"] = "resistant"
 
 
@@ -34,7 +34,7 @@ def incrementDice(dice, rank) -> list:
         if rank == "Elder": dice["magic"] += 1
 
 def updateRank(cndt, element, rank):
-    if element == "Corpse":
+    if element == "Rot":
         cndt["lifeless"] = True
         match rank:
             case "Juvenile" | "Small" | "Novice": rank = "Fresh"

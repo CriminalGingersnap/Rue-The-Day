@@ -53,6 +53,7 @@ inTutorial = True
 
 while True:
     marker.sightMap = World.createSightMap(worldMap, marker.position, "world")
+    Print.printWorldMap(tutorialWorld)
     Movement.moveFighter(marker, worldMap, None, None)
     marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 

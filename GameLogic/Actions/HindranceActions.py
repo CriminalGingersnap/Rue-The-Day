@@ -75,11 +75,11 @@ def compellableTargets(fighter, enemies):
 
 def canCompel(fighter, enemy) -> bool:
     canCompel = False
-    if fighter.atrb["cur_elm"] == "Blessed": True
-    elif enemy.atrb["cur_elm"] != "Blessed":
+    if fighter.atrb["cur_elm"] == "Holy": True
+    elif enemy.atrb["cur_elm"] != "Holy":
         if (fighter.atrb["cur_elm"] == "Flame") and (enemy.atrb["cur_elm"] != "Ice"): True
-        elif (fighter.atrb["cur_elm"] == "Fey") and (enemy.atrb["cur_elm"] != "Corpse"): True
+        elif (fighter.atrb["cur_elm"] == "Dream") and (enemy.atrb["cur_elm"] != "Rot"): True
         elif (fighter.atrb["cur_elm"] == "Ice") and (enemy.atrb["cur_elm"] != "Flame"): True
-        elif (fighter.atrb["cur_elm"] in ["Corpse", "Venom"]): True
+        elif (fighter.atrb["cur_elm"] == "Rot"): True
 
     return canCompel

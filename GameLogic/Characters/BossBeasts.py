@@ -47,7 +47,7 @@ class kraken:
 
 class deathShell:
     def __init__(self) -> None:
-        element = "Corpse"
+        element = "Rot"
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
@@ -62,7 +62,7 @@ class deathShell:
 
 class dreamGiant:
     def __init__(self) -> None:
-        element = "Fey"
+        element = "Dream"
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]

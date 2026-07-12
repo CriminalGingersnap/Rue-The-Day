@@ -41,10 +41,10 @@ def marshEncounters(roll, budget) -> list:
         case 9: members = RandomCreatures.creatures("tortoise", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("deer", element, majorBiome, budget)
         case 11: members = RandomCreatures.creatures("worm", element, majorBiome, budget)        
-        case 12: members = RandomCreatures.creatures("turtle", "Corpse", majorBiome, budget)
-        case 13: members = RandomCreatures.creatures("wyrm", "Corpse", majorBiome, budget)
-        case 14: members = RandomCreatures.creatures("crocodile", "Corpse", majorBiome, budget)
-        case 15: members = members = RandomHumans.warriors("Outlaw", "Corpse", majorBiome, budget)
+        case 12: members = RandomCreatures.creatures("turtle", "Rot", majorBiome, budget)
+        case 13: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
+        case 14: members = RandomCreatures.creatures("crocodile", "Rot", majorBiome, budget)
+        case 15: members = members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
 
     return members
 
@@ -64,9 +64,9 @@ def unsettledEncounters(roll, budget) -> list:
         case 9: members = RandomCreatures.creatures("sheep", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("deer", element, majorBiome, budget)
         case 11: members = RandomCreatures.creatures("rabbit", element, majorBiome, budget)        
-        case 12: members = RandomCreatures.creatures("lizard", "Corpse", majorBiome, budget)
-        case 13: members = RandomCreatures.creatures("wyrm", "Corpse", majorBiome, budget)
-        case 14: members = RandomCreatures.creatures("lion", "Corpse", majorBiome, budget)
-        case 15: members = members = RandomHumans.warriors("Outlaw", "Corpse", majorBiome, budget)
+        case 12: members = RandomCreatures.creatures("lizard", "Rot", majorBiome, budget)
+        case 13: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
+        case 14: members = RandomCreatures.creatures("lion", "Rot", majorBiome, budget)
+        case 15: members = members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
 
     return members

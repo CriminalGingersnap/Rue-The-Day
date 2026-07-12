@@ -91,10 +91,9 @@ def applyWreath(principal, attackDmgType) -> int:
 
 def checkCompatibility(attackDmgType, responseDmgType) -> bool:
     compatible = False
-    if (attackDmgType in ["Burn", "Freeze"]) and (responseDmgType in ["Burn", "Freeze"]): compatible = True
+    if (attackDmgType in ["Flame", "Ice"]) and (responseDmgType in ["Flame", "Ice"]): compatible = True
     elif (attackDmgType in ["Holy", "Rot"]) and (responseDmgType == "Holy"): compatible = True
     elif (attackDmgType in ["Crush", "Pierce", "Dream"]) and (responseDmgType == "Dream"): compatible = True
-    elif (attackDmgType in ["Dream", "Rot", "Venom"]) and (responseDmgType == "Rot"): compatible = True
-    elif (attackDmgType in ["Rot", "Venom"]) and (responseDmgType == "Venom"): compatible = True
+    elif (attackDmgType in ["Dream", "Rot", "Toxic"]) and (responseDmgType == "Rot"): compatible = True
 
     return compatible

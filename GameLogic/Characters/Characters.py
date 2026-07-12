@@ -12,8 +12,9 @@ class character:
 
         self.equip = Equipment.setEquipment(type, job, rank, elm, cndt, abl["specialty"] + abl["mastery"], abl["attacks"])
         self.inv = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
-        name, initials = rank + " " + job + "(" + elm + ")", job[0] + job[-2]
-        self.props = {"job": job, "rank": rank, "type": type, "name": name, "initials": initials}
+        
+        name = rank + " " + job + "(" + elm + ")"
+        self.props = {"job": job, "rank": rank, "type": type, "name": name, "initials": ""}
 
         self.actionQueue, self.position = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -51,7 +52,7 @@ def setAttributes(stats, cndt, elm, dice):
 
     if cndt["lifeless"]:
         cndt["aggressive"], cndt["sapient"], cndt["social"] = True, False, False
-        stats["resist"]["Bleed"], stats["resist"]["Dream"], stats["resist"]["Venom"] = "immune", "immune", "immune"
+        stats["resist"]["Bleed"], stats["resist"]["Dream"], stats["resist"]["Toxic"] = "immune", "immune", "immune"
         endurance *= 3
     if elm == "Basic": tolerance *= 2
 
@@ -75,9 +76,9 @@ def setTraits():
                        "massive": False, "reposed": False, "running": False,
                         "skittish": False, "social": False, "sapient": False}
     
-    resistances = {"Bleed": "normal", "Burn": "normal", "Crush": "normal", "Dream": "normal",
-                    "Freeze": "normal", "Holy": "immune", "Pierce": "normal",
-                     "Rot": "normal","Venom": "normal"} 
+    resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal", "Dream": "normal",
+                    "Ice": "normal", "Holy": "immune", "Pierce": "normal",
+                     "Rot": "normal","Toxic": "normal"} 
 
     return [conditions, resistances]
 

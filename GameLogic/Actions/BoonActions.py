@@ -27,12 +27,6 @@ def npcSelectBoon(fighter, enemies):
     if boonOptions != []: return random.choice(boonOptions)
     else: return "None"
 
-def enemyDamageTypes(enemy):
-    damageTypes = []
-    for attack in enemy.abl["attacks"]:
-        damageTypes += Damage.identifyDamageType(enemy.atrb["cur_elm"], attack)
-    
-    return damageTypes
 
 def canWreath(fighter, dmgTypes) -> bool:
     fighterDmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
@@ -47,14 +41,12 @@ def canWreath(fighter, dmgTypes) -> bool:
 def usefulBoons(fighter, enemies):
     dmgTypes, boonPreferences = [], ["Flee", "Heal", "Regenerate"]
 
-    # if ally hp < nat: heal
-
     for enemy in enemies:
-        dmgTypes += enemyDamageTypes(enemy)        
+        dmgTypes += enemy.equip["weapon"]["dmgTypes"]
         if Movement.getTargetDistance(fighter, enemy) > 2: boonPreferences += ["Conceal", "Shroud"]
         if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
     
-    if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Venom"]):
+    if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]):
         boonPreferences += ["Evade", "Guard"]
 
     return boonPreferences
@@ -82,10 +74,10 @@ def npcSelectBoonTarget(fighter, allies, boon):
     elif len(allies) > 0:
         lowestAVAlly = Assess.findLowestAV(fighter, allies)
         lowestHPAlly = Assess.findLowestHP(allies)
-        lowestResBurnAlly = Assess.findLowestRes(allies, "Burn")
         lowestResCrushAlly = Assess.findLowestRes(allies, "Crush")
         lowestResDreamAlly = Assess.findLowestRes(allies, "Dream")
-        lowestResFreezeAlly = Assess.findLowestRes(allies, "Freeze")
+        lowestResFlameAlly = Assess.findLowestRes(allies, "Flame")
+        lowestResIceAlly = Assess.findLowestRes(allies, "Ice")
         lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
         lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         
@@ -98,9 +90,9 @@ def npcSelectBoonTarget(fighter, allies, boon):
                 case "Wreath":
                     dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
                     match dmgType:
-                        case "Burn": target = random.choice([lowestHPAlly, lowestResFreezeAlly])
                         case "Dream": target = random.choice([lowestHPAlly, lowestResCrushAlly, lowestResPierceAlly])
-                        case "Freeze": target = random.choice([lowestHPAlly, lowestResBurnAlly])
+                        case "Flame": target = random.choice([lowestHPAlly, lowestResIceAlly])
+                        case "Ice": target = random.choice([lowestHPAlly, lowestResFlameAlly])
                         case "Holy": target = random.choice([lowestHPAlly, lowestResRotAlly])
                         case "Rot": target = random.choice([lowestHPAlly, lowestResDreamAlly])
 

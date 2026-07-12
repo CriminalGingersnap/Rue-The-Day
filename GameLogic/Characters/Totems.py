@@ -8,7 +8,7 @@ def setCommon(job) -> list:
 
     traits = Characters.setTraits()
     traits[1].update({"Pierce": "resistant", "Crush": "normal", "Dream": "immune",
-                       "Burn": "vulnerable", "Freeze": "normal", "Venom": "immune",
+                       "Flame": "vulnerable", "Ice": "normal", "Toxic": "immune",
                         "Holy": "normal", "Rot": "normal"})
     stats = {"avoidance": "min", "hp": "low", "resist": traits[1], "speed": "min"}
     cndt = traits[0]
@@ -20,7 +20,7 @@ def setCommon(job) -> list:
         if job in ["Gate", "Monument"]:
             cndt["massive"] = True
             stats["hp"] = "max"
-            stats["resist"]["Burn"] = "normal"
+            stats["resist"]["Flame"] = "normal"
 
         match job:
             case "Door": stats["hp"] = "mid"

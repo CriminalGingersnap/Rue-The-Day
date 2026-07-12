@@ -35,31 +35,34 @@ def pcSelectItem(job, inventory) -> str:
 
 def npcSelectItem(fighter, groups, inventory) -> str:
     preferences, enemyDmgTypes = {"Detonate": [], "Extract": []}, []
-    blockList = allowlist = ["Burn", "Dream", "Freeze", "Holy", "Rot", "Venom"]
+    blockList = allowlist = ["Flame", "Dream", "Ice", "Holy", "Rot", "Toxic"]
 
     if fighter.props["job"] == "Paladin": allowlist = []
     elif fighter.atrb["base_mag"] > 0:
         blockList -= fighter.equip["weapon"]["dmgTypes"]
         allowlist -= blockList
 
-    if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): preferences += ["Sanguine"]
+    if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): preferences += ["Bleed"]
 
-    for enemy in groups["fightingEnemies"]: enemyDmgTypes += Boons.enemyDamageTypes(enemy)
+    for enemy in groups["fightingEnemies"]: enemyDmgTypes += enemy.equip["weapon"]["dmgTypes"]
     
-    if ("Burn" in enemyDmgTypes) and ("Freeze" not in enemyDmgTypes):
-        if "Burn" in allowlist: preferences["Extract"] += ["Flame"]
+    if ("Flame" in enemyDmgTypes) and ("Ice" not in enemyDmgTypes):
+        if "Flame" in allowlist: preferences["Extract"] += ["Flame"]
         preferences["Detonate"] += ["Ice"]
-    if ("Freeze" in enemyDmgTypes) and ("Burn" not in enemyDmgTypes):
-        if "Freeze" in allowlist: preferences["Extract"] += ["Ice"]
+    elif ("Ice" in enemyDmgTypes) and ("Flame" not in enemyDmgTypes):
+        if "Ice" in allowlist: preferences["Extract"] += ["Ice"]
         preferences["Detonate"] += ["Flame"]
+
     if any(dType in enemyDmgTypes for dType in ["Crush", "Dream", "Pierce"]) and ("Rot" not in enemyDmgTypes):
-        if "Dream" in allowlist: preferences["Extract"] += ["Fey"]
-    if any(dType in enemyDmgTypes for dType in ["Rot", "Venom"]):
-        if ("Holy" not in enemyDmgTypes):
-            if "Holy" in allowlist: preferences["Extract"] += ["Blessed"]
-            if "Rot" in allowlist: preferences["Extract"] += ["Corpse"]
-            preferences["Detonate"] += ["Blessed"]
-        if "Venom" in allowlist: preferences["Extract"] += ["Toxic"]
+        if "Dream" in allowlist: preferences["Extract"] += ["Dream"]
+
+    if "Rot" in enemyDmgTypes:
+        if "Holy" in allowlist: preferences["Extract"] += ["Holy"]
+        if "Holy" not in enemyDmgTypes: preferences["Detonate"] += ["Holy"]
+        if "Rot" in allowlist: preferences["Extract"] += ["Rot"]
+
+    if any(dmgType in enemyDmgTypes for dmgType in ["Rot", "Toxic"]):
+        if "Toxic" in allowlist: preferences["Extract"] += ["Toxic"]
     else: preferences["Detonate"] += ["Toxic"]
 
     choices, selection = [], "None"

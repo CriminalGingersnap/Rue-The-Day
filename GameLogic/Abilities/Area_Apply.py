@@ -65,14 +65,15 @@ def getAtmosphere(scale, dmgType) -> str:
     atmosphere, big, little, lingering = "_", "", "", ""
 
     match dmgType:
-        case "Burn": big, little, lingering = "B", "b", "#"
+        case "Bleed": big, little, lingering = "B", "b"
         case "Crush": big, little = "C", "c"
         case "Dream": big, little, lingering = "D", "d", "@"
-        case "Freeze": big, little, lingering = "F", "f", "%"
+        case "Flame": big, little, lingering = "F", "f", "#"
+        case "Ice": big, little, lingering = "I", "i", "%"
         case "Holy": big, little, lingering = "H", "h", "+"
         case "Pierce": big, little = "P", "p"
         case "Rot": big, little, lingering = "R", "r", "}"
-        case "Venom": big, little, lingering = "V", "v", "&"
+        case "Toxic": big, little, lingering = "T", "t", "&"
 
     match scale:
         case 1: atmosphere = lingering

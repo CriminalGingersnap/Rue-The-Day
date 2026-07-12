@@ -8,25 +8,12 @@ venomAttacks = ["Spray", "Sting"]
 rotAttacks = ["Spit"]
 
 
-def convertElmToDmg(elm) -> str:
-    match elm:
-        case "Basic": return "Bleed"
-        case "Blessed": return "Holy"
-        case "Corpse": return "Rot"
-        case "Fey": return "Dream"
-        case "Flame": return "Burn"
-        case "Ice": return "Freeze"
-        case "Toxic": return "Venom"
-        case _: return "None"
-
 def identifyDamageType(element, ability) -> str:
-    fighterDmgType = convertElmToDmg(element)
-
     if ability in pierceAttacks: return "Pierce"
     elif ability in crushAttacks: return "Crush"
-    elif ability in venomAttacks: return "Venom"
+    elif ability in venomAttacks: return "Toxic"
     elif ability in rotAttacks: return "Rot"
-    else: return fighterDmgType
+    else: return element
 
 
 def applyResistance(damage, dmgType, target) -> int:
@@ -41,8 +28,8 @@ def applyResistance(damage, dmgType, target) -> int:
     if tRes != "normal": Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
 
     protections, reduction = [], 0
-    armorType = convertElmToDmg(target.equip["armor"]["element"])
-    shieldType = convertElmToDmg(target.equip["shield"]["element"])
+    armorType = target.equip["armor"]["element"]
+    shieldType = target.equip["shield"]["element"]
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
         Select.waitPrint("Target is wearing " + target.equip["armor"]["element"] + " armor!")

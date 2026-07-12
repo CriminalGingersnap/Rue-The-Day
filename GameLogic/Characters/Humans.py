@@ -153,27 +153,27 @@ class mage:
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"], "boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            if element == "Fey": abl["boons"] += ["Focus"]
+            if element == "Dream": abl["boons"] += ["Focus"]
             else: abl["attacks"] += ["Bring"]
             
             if rank in ["Adept", "Elite", "Master"]:
-                if element == "Fey": abl["specialty"] = [random.choice(["Focus", "Wreath"])]
+                if element == "Dream": abl["specialty"] = [random.choice(["Focus", "Wreath"])]
                 else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if element == "Fey": abl["hindrances"] += ["Disorient"]
+                    if element == "Dream": abl["hindrances"] += ["Disorient"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bring", "Wreath"])]
-                        if element == "Fey": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
+                        if element == "Dream": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
 
 class paladin:
     def __init__(self, rank) -> None:
-        job, element = "Paladin", "Blessed"
+        job, element = "Paladin", "Holy"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)

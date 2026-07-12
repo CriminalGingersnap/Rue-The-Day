@@ -37,11 +37,11 @@ def updateAce(ace, biome):
             case "Spades":
                 ace = "Clubs"
                 backs[0] = aces[0]
-                Select.conversationPrint("Tides rise or rain falls thick from heavy clouds. Whatever its source, water collects in deep pools.")
+                Select.conversationPrint("Tides rise, or rain falls thick from heavy clouds. Whatever its source, water collects in deep pools.")
             case "Clubs":
                 ace = "Hearts"
                 backs[1] = aces[1]
-                Select.conversationPrint("Rain abates or tides recede. Water levels drop while heavy fog accumulates.")    
+                Select.conversationPrint("Rain abates, or tides recede. Water levels drop while heavy fog accumulates.")    
             case "Hearts":
                 ace = "Diamonds"
                 backs[2] = aces[2]
@@ -92,7 +92,7 @@ def setMapConditions(biome):
 
 def setAtmosphere(biome, extent) -> dict:
     atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxic": 0}
-    majorBiomes = ["Burning Volcano", "Dreamwood Depths", "Frozen Glacier", "Holy Desert", "Rot Locus"]
+    majorBiomes = ["Flaming Volcano", "Dreamwood Depths", "Frozen Glacier", "Holy Desert", "Rot Locus"]
 
     if biome in majorBiomes:
         atmosphere["Mana"] = extent
@@ -104,7 +104,7 @@ def setAtmosphere(biome, extent) -> dict:
         case "Holy Desert" | "Holy Scrubland": atmosphere["Sacred"] = extent
         case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["Dazzle"] = extent
         case "Frozen Glacier" | "Frozen Fjord": atmosphere["Rime"] = extent
-        case "Burning Volcano" | "Burning Peninsula": atmosphere["Smoke"] = extent
+        case "Flaming Volcano" | "Flaming Peninsula": atmosphere["Smoke"] = extent
         case "Marshland": atmosphere["Toxic"] = extent
     
     return atmosphere
