@@ -34,7 +34,7 @@ def imbue(fighter, category, element) -> None:
         case "Fey": dmgCat1, dmgCat2, dmgCat3 = ["Dream"], ["Crush", "Pierce", "Venom"], ["Rot"]       
         case "Ice": dmgCat1, dmgCat2, dmgCat3 = ["Freeze"], ["Venom"], ["Burn"]
         case "Blessed": dmgCat1, dmgCat2, dmgCat3 = ["Holy", "Rot"], ["Venom"], []
-        case "Toxin": dmgCat1, dmgCat2, dmgCat3 = ["Venom"], ["Rot"], []
+        case "Toxic": dmgCat1, dmgCat2, dmgCat3 = ["Venom"], ["Rot"], []
 
     for dmgType in dmgCat1: Damage.modifyResistance(fighter, dmgType, potency, "positive")
     for dmgType in dmgCat2: Damage.modifyResistance(fighter, dmgType, 1, "positive")

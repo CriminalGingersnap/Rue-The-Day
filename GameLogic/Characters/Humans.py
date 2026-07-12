@@ -161,7 +161,7 @@ class mage:
                 else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if element == "Fey": abl["hindrance"] += ["Disorient"]
+                    if element == "Fey": abl["hindrances"] += ["Disorient"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":

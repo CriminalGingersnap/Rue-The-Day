@@ -32,6 +32,9 @@ worldMap[2][6] = "w_..↑"
 worldMap[2][7] = "w_!!↑"
 marker.position = [2, 6]
 
+marker.lastCleared.appendleft(marker.position)
+marker.lastCleared.pop()
+
 group1 = {
     "campaign": "Metamorphosis",
     "days": 0,

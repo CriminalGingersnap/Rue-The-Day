@@ -17,7 +17,7 @@ def setCommon(element) -> list:
 
 class hydra:
     def __init__(self) -> None:
-        element = "Toxin"
+        element = "Toxic"
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]

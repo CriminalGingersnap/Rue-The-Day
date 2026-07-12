@@ -14,7 +14,7 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
     scale = max(fighter.atrb[dType], 2)
 
     dmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
-    if dmgType in ["Crush", "Pierce", "Venom"]: dType = "cur_mar"
+    if dmgType in ["Bleed", "Venom"]: dType = "cur_mar"
 
     match ability:
         case "Breath":
@@ -98,6 +98,6 @@ def getStoneDmgType(stone) -> str:
     elif "Flame" in stone: dmgType = "Burn"
     elif "Ice" in stone: dmgType = "Freeze"
     elif "Fey" in stone: dmgType = "Dream"
-    elif "Toxin" in stone: dmgType = "Venom"
+    elif "Toxic" in stone: dmgType = "Venom"
 
     return dmgType

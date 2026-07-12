@@ -59,8 +59,8 @@ def npcSelectItem(fighter, groups, inventory) -> str:
             if "Holy" in allowlist: preferences["Extract"] += ["Blessed"]
             if "Rot" in allowlist: preferences["Extract"] += ["Corpse"]
             preferences["Detonate"] += ["Blessed"]
-        if "Venom" in allowlist: preferences["Extract"] += ["Toxin"]
-    else: preferences["Detonate"] += ["Toxin"]
+        if "Venom" in allowlist: preferences["Extract"] += ["Toxic"]
+    else: preferences["Detonate"] += ["Toxic"]
 
     choices, selection = [], "None"
 

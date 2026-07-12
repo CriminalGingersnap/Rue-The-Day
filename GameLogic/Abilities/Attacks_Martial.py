@@ -23,7 +23,7 @@ def getBaseAv(attack, dmgType, target) -> int:
 
 def attack(fighter, target, attack, dice) -> None:
     avIncrease = 0
-    dmgType = Damage.identifyDamageType(fighter, attack)
+    dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], attack)
     av = getBaseAv(attack, dmgType, target)
 
     attemptIncrease = Boons.applyFocus(fighter)
@@ -55,12 +55,19 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
             Select.waitPrint("Contact!")
         else: Select.waitPrint("Glancing blow!")
 
-        baseDmg += fighter.equip["weapon"]["modifier"]
-
-        physicalAbsorption = Boons.applyWreath(target, dmgType)
-        appliedDmg = max(0, baseDmg - physicalAbsorption)
-
-        Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
-        Conditions.takeDamage(target, dmgType, appliedDmg)
+        bonusType = Damage.convertElmToDmg(fighter.atrb["elm"])
+        if dmgType == bonusType:
+            baseDmg += fighter.equip["weapon"]["modifier"]
+            inflict(fighter, target, dmgType, baseDmg)        
+        else:
+            inflict(fighter, target, dmgType, baseDmg)
+            inflict(fighter, target, bonusType, fighter.equip["weapon"]["modifier"])
 
     else: Select.waitPrint("Attack misses!")
+
+def inflict(fighter, target, dmgType, baseDmg):
+    physicalAbsorption = Boons.applyWreath(target, dmgType)
+    appliedDmg = max(0, baseDmg - physicalAbsorption)
+
+    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+    Conditions.takeDamage(target, dmgType, appliedDmg)

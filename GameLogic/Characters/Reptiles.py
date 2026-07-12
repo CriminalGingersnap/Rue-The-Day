@@ -26,10 +26,9 @@ class crocodile:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Conceal"]})
 
-        if rank != "Juvenile":
-            if element == "Fey": abl["hindrances"] += ["Disorient"]
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Conceal"]})
+        if rank != "Juvenile": abl["hindrances"] += ["Disorient"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Crocodile", element, type, rank)
 
@@ -42,8 +41,8 @@ class drake:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Gore"]})
 
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Gore"]})
         if rank != "Juvenile": abl["area"] += ["Breath"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, rank)
@@ -56,10 +55,9 @@ class lizard:
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"]})
 
-        if rank != "Juvenile":
-            if element == "Fey": abl["areas"] += ["Slip"]
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"]})
+        if rank != "Juvenile": abl["areas"] += ["Slip"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, rank)
 
@@ -101,9 +99,8 @@ class wyrm:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Spray"]})
 
-        if rank != "Juvenile":
-            if element == "Fey": abl["hindrances"] += ["Disorient"]
+        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Spray"]})
+        if rank != "Juvenile": abl["hindrances"] += ["Focus"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, rank)

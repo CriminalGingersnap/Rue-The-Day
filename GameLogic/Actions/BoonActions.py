@@ -30,7 +30,7 @@ def npcSelectBoon(fighter, enemies):
 def enemyDamageTypes(enemy):
     damageTypes = []
     for attack in enemy.abl["attacks"]:
-        damageTypes += Damage.identifyDamageType(enemy, attack)
+        damageTypes += Damage.identifyDamageType(enemy.atrb["cur_elm"], attack)
     
     return damageTypes
 
@@ -96,7 +96,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
                 case "Heal": target = lowestHPAlly
                 case "Shroud": target = random.choice([fighter, lowestHPAlly])
                 case "Wreath":
-                    dmgType = Damage.identifyDamageType(fighter, boon)
+                    dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
                     match dmgType:
                         case "Burn": target = random.choice([lowestHPAlly, lowestResFreezeAlly])
                         case "Dream": target = random.choice([lowestHPAlly, lowestResCrushAlly, lowestResPierceAlly])

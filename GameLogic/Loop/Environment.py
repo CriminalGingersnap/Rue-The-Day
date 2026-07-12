@@ -91,7 +91,7 @@ def setMapConditions(biome):
 
 
 def setAtmosphere(biome, extent) -> dict:
-    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxin": 0}
+    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxic": 0}
     majorBiomes = ["Burning Volcano", "Dreamwood Depths", "Frozen Glacier", "Holy Desert", "Rot Locus"]
 
     if biome in majorBiomes:
@@ -105,6 +105,6 @@ def setAtmosphere(biome, extent) -> dict:
         case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["Dazzle"] = extent
         case "Frozen Glacier" | "Frozen Fjord": atmosphere["Rime"] = extent
         case "Burning Volcano" | "Burning Peninsula": atmosphere["Smoke"] = extent
-        case "Marshland": atmosphere["Toxin"] = extent
+        case "Marshland": atmosphere["Toxic"] = extent
     
     return atmosphere

@@ -23,7 +23,7 @@ def setAnimalResistance(element, rank, stats):
         case "Ice":
             stats["resist"]["Freeze"] = mainRes
             stats["resist"]["Burn"] = "vulnerable"
-        case "Toxin":
+        case "Toxic":
             stats["resist"]["Venom"] = mainRes
             stats["resist"]["Rot"] = "resistant"
 

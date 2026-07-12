@@ -57,7 +57,7 @@ def applyReinforcements(fighter, allies, battleMap):
                     pMap.firstPlacement(battleMap, 12, ant)
             elif fighter.props["job"] == "Hound":
                 for newMember in quantity:
-                    hound = AggressiveBeasts.hound(fighter.element).ch
+                    hound = AggressiveBeasts.hound(fighter.atrb["cur_elm"]).ch
                     allies += [hound]
                     pMap.firstPlacement(battleMap, 12, hound)
             

@@ -16,6 +16,7 @@ def firstPlacement(instanceMap, rowCount, fighter) -> None:
 
 def visitSpace(instanceMap, rowCount, row, column, fighter) -> bool:
     marker = uMap.setMarker(fighter, instanceMap[row][column])
+    walkable = True
 
     if "___" in instanceMap[row][column]:
         instanceMap[row][column] = marker
@@ -29,43 +30,43 @@ def visitSpace(instanceMap, rowCount, row, column, fighter) -> bool:
 
 
 def walk(instanceMap, rowCount, startingRow, startingColumn, rightStop):
-    currentColumn, makingProgress = startingColumn + 1, True
-    upRow, downRow = max(0, startingRow - 1), min(11, startingRow + 1)
+    nextColumn, downStop, makingProgress = startingColumn + 1, rowCount - 1, True
+    upRow, downRow = max(0, startingRow - 1), min(downStop, startingRow + 1)
 
-    while (currentColumn < rightStop) and makingProgress:
+    while (nextColumn < rightStop) and makingProgress:
+        makingProgress = False
+
         for row in range(upRow, downRow):
-            if instanceMap[row][currentColumn] not in iMap.impermissible:
-                upRow, downRow = max(0, startingRow - 1), min(11, startingRow + 1)
-                currentColumn += 1
+            if instanceMap[row][nextColumn] not in iMap.impermissible:
+                upRow, downRow = max(0, row - 1), min(downStop, row + 1)
+                nextColumn += 1
                 makingProgress = True
                 break
-            else: makingProgress = False
         
         if not makingProgress:
             for row in range(0, upRow):
-                if instanceMap[upRow][currentColumn] not in iMap.impermissible:
-                    upRow -= 1
-                    downRow += 1
+                upRow, downRow = max(0, upRow - 1), max(1, downRow - 1)
+                if instanceMap[upRow][nextColumn] not in iMap.impermissible:
                     makingProgress = True
                     break
 
         if not makingProgress:
-            for row in range(downRow, rowCount):
-                if instanceMap[row][currentColumn] not in iMap.impermissible:
-                    upRow += 1
-                    downRow -= 1
+            for row in range(downRow, downStop):
+                upRow, downRow = min(downStop -1, upRow + 1), min(downStop, downRow + 1)
+                if instanceMap[downRow][nextColumn] not in iMap.impermissible:
                     makingProgress = True
                     break
 
     return makingProgress
 
 
-def placeObstruction(instanceMap, obstruction) -> bool:
-    row, column = random.randint(0, 11), random.randint(0, 11)
+def placeObstruction(instanceMap, obstruction, multiplier) -> bool:
+    rowCount = 4 * multiplier
+    row, column = random.randint(0, (rowCount - 1)), random.randint(0, 11)
 
     if instanceMap[row][column] == iMap.emptySpace:
         instanceMap[row][column] = obstruction
-        walkable = walk(instanceMap, 12, row, max(0, column - 1), 12)
+        walkable = walk(instanceMap, rowCount, row, max(0, column - 1), 12)
         if not walkable: instanceMap[row][column] = iMap.emptySpace
         return walkable
     else:
@@ -83,7 +84,7 @@ def placeFog(instanceMap, type) -> bool:
         elif type == "Rime": instanceMap[row][column] = iMap.rimeSpace
         elif type == "Blessed": instanceMap[row][column] = iMap.sacredSpace
         elif type == "Smoke": instanceMap[row][column] = iMap.smokeSpace
-        elif type == "Toxin": instanceMap[row][column] = iMap.toxinSpace
+        elif type == "Toxic": instanceMap[row][column] = iMap.toxicSpace
         return True
     else:
         return False

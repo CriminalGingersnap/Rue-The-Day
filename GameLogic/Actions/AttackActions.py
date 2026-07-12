@@ -8,7 +8,7 @@ def weaponAllows(fighter, ability) -> bool:
     compatible = True
     
     if fighter.props["type"] in ["human", "undead"]:
-        dmgType = Damage.identifyDamageType(fighter, ability)
+        dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], ability)
         weaponDmgTypes = fighter.equip["weapon"]["dmgTypes"]
         if dmgType not in weaponDmgTypes: compatible = False   
 
@@ -57,30 +57,28 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     lowestResVenomEnemy = Assess.findLowestRes(enemies, "Venom")
 
     target = closestEnemy
+    if not pickClosest:
+        if not fighter.cndt["sapient"]:                            
+            target = random.choice([closestEnemy, lowestHPEnemy, lowestAVEnemy])
 
-    if (not pickClosest) and fighter.cndt["sapient"] and random.choice([True, False]):
-        job, weaponDmgTypes = fighter.props["job"], fighter.equip["weapon"]["dmgTypes"]
-
-        if lowestHPEnemy.atrb["cur_hp"] < 6: target = lowestHPEnemy
-        elif job in ["Archer", "Brute", "Dragonslayer", "Knight"]:
-            if "Pierce" in weaponDmgTypes: target = random.choice([lowestResPierceEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
-            elif "Crush" in weaponDmgTypes: target = random.choice([lowestResCrushEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
-        elif fighter.element != "Basic":
-            match fighter.element:
+        else:                            
+            match fighter.atrb["cur_elm"]:
+                case "Basic":
+                    weaponDmgTypes = fighter.equip["weapon"]["dmgTypes"]
+                    if "Pierce" in weaponDmgTypes: target = random.choice([lowestResPierceEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
+                    elif "Crush" in weaponDmgTypes: target = random.choice([lowestResCrushEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
                 case "Corpse": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResRotEnemy])
-                case "Fey": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResDreamEnemy])
+                case "Fey": target = random.choice([highestMAGEnemy, lowestResDreamEnemy])
                 case "Flame": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResBurnEnemy])
-                case "Blessed": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResHolyEnemy])
+                case "Blessed":
+                    nonLivingTargets = Assess.findUndead(enemies)
+                    if len(nonLivingTargets) > 0:
+                        highestMARUndead = Assess.findHighestMAR(nonLivingTargets)
+                        lowestAVUndead = Assess.findLowestAV(fighter, nonLivingTargets)
+                        lowestHPUndead = Assess.findLowestHP(nonLivingTargets)
+                        target = random.choice([highestMARUndead, lowestAVUndead, lowestHPUndead])
+                    else: target = random.choice([highestMAGEnemy, lowestAVEnemy, lowestResHolyEnemy])
                 case "Ice": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResFreezeEnemy])
                 case "Venom": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResVenomEnemy])
-        elif job == "Paladin":
-            nonLivingTargets = Assess.findUndead(enemies)
-            if len(nonLivingTargets) > 0:
-                highestMARUndead = Assess.findHighestMAR(nonLivingTargets)
-                lowestAVUndead = Assess.findLowestAV(fighter, nonLivingTargets)
-                lowestHPUndead = Assess.findLowestHP(nonLivingTargets)
-                target = random.choice([highestMARUndead, lowestAVUndead, lowestHPUndead])
-            else:
-                target = random.choice([highestMAGEnemy, lowestAVEnemy])
 
     return target

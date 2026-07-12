@@ -16,7 +16,7 @@ pearls = {
     "Fey": 0,
     "Ice": 0,
     "Sanguine": 0,
-    "Toxin": 0
+    "Toxic": 0
 }
 
 
@@ -65,7 +65,7 @@ def humanInventory(element, rank) -> dict:
         if budget > 1: coreCount = random.randint(1, (budget // 2))
 
         inventory["pearls"]["Sanguine"] = vita
-        inventory["pearls"][random.choice(["Ice", "Flame", "Toxin"])] = pearlCount
+        inventory["pearls"][random.choice(["Ice", "Flame", "Toxic"])] = pearlCount
         inventory["cores"][random.choice(["Ice", "Flame"])] = coreCount
 
     return inventory

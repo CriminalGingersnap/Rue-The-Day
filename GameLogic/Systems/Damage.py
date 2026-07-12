@@ -10,19 +10,19 @@ rotAttacks = ["Spit"]
 
 def convertElmToDmg(elm) -> str:
     match elm:
+        case "Basic": return "Bleed"
         case "Blessed": return "Holy"
         case "Corpse": return "Rot"
         case "Fey": return "Dream"
         case "Flame": return "Burn"
         case "Ice": return "Freeze"
-        case "Toxin": return "Venom"
+        case "Toxic": return "Venom"
         case _: return "None"
 
-def identifyDamageType(fighter, ability) -> str:
-    fighterDmgType = convertElmToDmg(fighter.atrb["cur_elm"])
+def identifyDamageType(element, ability) -> str:
+    fighterDmgType = convertElmToDmg(element)
 
-    if fighter.props["type"] == "elemental": return fighterDmgType
-    elif ability in pierceAttacks: return "Pierce"
+    if ability in pierceAttacks: return "Pierce"
     elif ability in crushAttacks: return "Crush"
     elif ability in venomAttacks: return "Venom"
     elif ability in rotAttacks: return "Rot"

@@ -3,7 +3,7 @@ from Systems import PlayerSelect as Select, Roll, Conditions, Damage
 
 
 def attack(fighter, target, attack, dice) -> None:
-    dmgType = Damage.identifyDamageType(fighter, attack)
+    dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], attack)
 
     absorption = Boons.applyWreath(target, dmgType)
     baseDmg = Roll.roll(fighter, dice, attack, "magic")

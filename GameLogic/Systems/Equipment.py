@@ -2,9 +2,9 @@ from . import Damage
 import random, copy
 
 nullKit = {"name": None, "modifier": 0,  "element": "Basic"}
-nullWeapon = {"name": None, "modifier": 0, "reach": 1}
+nullWeapon = {"name": None, "modifier": 0, "dmgTypes": [], "reach": 1}
 
-def setEquipment(type, job, rank, element, cndt, skills) -> list:
+def setEquipment(type, job, rank, element, cndt, skills, attacks) -> list:
     global nullKit, nullWeapon
 
     equipment = {"armor": copy.deepcopy(nullKit),
@@ -19,6 +19,10 @@ def setEquipment(type, job, rank, element, cndt, skills) -> list:
 
     else:
         equipment["weapon"]["modifier"] = 1
+        equipment["weapon"]["dmgTypes"] = [Damage.convertElmToDmg(element)]
+        for attack in attacks:
+            attackDmg = Damage.identifyDamageType(element, attack)
+            if attackDmg not in equipment["weapon"]["dmgTypes"]: equipment["weapon"]["dmgTypes"] += [attackDmg]
         if cndt["armored"]: equipment["armor"] = {"modifier": 2}
         if cndt["massive"]:
             equipment["weapon"]["reach"] = 2
@@ -55,11 +59,11 @@ def setKit(job, twoHanded, burden) -> list:
 def updateKit(equipment, job, rank):    
     if job == "Paladin": equipment["armor"]["element"] = "Blessed"
     elif rank in ["Adept", "Elite", "Master"]:
-        equipment["armor"]["element"] = random.choice(["Flame", "Fey", "Ice", "Toxin"])
+        equipment["armor"]["element"] = random.choice(["Flame", "Fey", "Ice", "Toxic"])
 
         if (not equipment["weapon"]["twoHanded"]) and (equipment["shield"]["name"] == None):
             equipment["shield"]["name"] = "Talisman"
-            equipment["shield"]["element"] = random.choice(["Blessed", "Flame", "Fey", "Ice", "Toxin"])
+            equipment["shield"]["element"] = random.choice(["Blessed", "Flame", "Fey", "Ice", "Toxic"])
 
 
 def setWeapon(job, element, skills) -> list:
@@ -133,5 +137,6 @@ def setWeapon(job, element, skills) -> list:
             weapon["dmgTypes"] += [element]
 
     if weapon["twoHanded"]: weapon["modifier"] += 1
+    if any(dmgType in weapon["dmgTypes"] for dmgType in ["Crush", "Pierce"]): weapon["dmgTypes"] += ["Bleed"]
 
     return weapon
