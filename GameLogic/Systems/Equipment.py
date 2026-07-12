@@ -84,16 +84,12 @@ def setWeapon(job, element, skills) -> list:
             elementList = ["Dream", "Flame", "Holy", "Ice", "Rot"]
 
             weapon["reach"], weapon["name"] = 8, element
-            weaponElements = [element]
-            elementList.remove(element)
+            weapon["dmgTypes"] = [element]
 
-            if isTwoHanded: weaponElements += [random.choice(elementList)]
-
-            for elm in weaponElements:
-                dmgType = Damage.convertElmToDmg(elm)
-                weapon["dmgTypes"] += [dmgType]
-
-            if isTwoHanded: weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
+            if isTwoHanded:
+                elementList.remove(element)
+                weapon["dmgTypes"] += [random.choice(elementList)]
+                weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
             else: weapon["name"] += " Flag"
 
         case "Archer" | "Dragonslayer":

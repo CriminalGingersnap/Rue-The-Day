@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select
-from . import Map_Instantiate as iMap
+from . import Map_Instantiate as iMap, Elevation
 from rich.console import Console
 
 console = Console()
@@ -78,7 +78,9 @@ def printWorldMap(world) -> None:
 
             worldSpace = world.worldMap[row][column]
 
-            if "~" in worldSpace: console.print("[blue]" + worldSpace + "[/blue]", end = "")
+            if "~" in worldSpace:
+                if Elevation.doubleDown in worldSpace: console.print("[blue]" + worldSpace + "[/blue]", end = "")
+                else: console.print("[cyan]" + worldSpace + "[/cyan]", end = "")
             elif "/" in worldSpace: console.print("[gray]" + worldSpace + "[/gray]", end = "")
             else: print(worldSpace, end = "")
         print()
