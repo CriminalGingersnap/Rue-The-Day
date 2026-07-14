@@ -3,32 +3,27 @@ import random
 
 
 def setElementalResistance(element, stats):
-    if element == "Random":
-        element = random.choice(["Dream", "Flame", "Ice"])
+    if element == "Random": element = random.choice(["Dream", "Flame", "Ice"])
     
-    elif element == "Holy":
-        stats["resist"]["Holy"] = "immune"
-    if element == "Rot":
-        stats["resist"]["Holy"] = "vulnerable"
-        stats["resist"]["Rot"] = "immune"
-    if element == "Dream":
-        stats["resist"]["Crush"], stats["resist"]["Pierce"] = "resistant", "resistant"
-        stats["resist"]["Rot"] = "vulnerable"
-    elif element == "Flame":
-        stats["resist"]["Flame"] = "immune"
-        stats["resist"]["Ice"] = "vulnerable"
-    elif element == "Ice":
-        stats["resist"]["Ice"] = "immune"
-        stats["resist"]["Flame"] = "vulnerable"
+    match element:
+        case "Holy": stats["resist"]["Holy"] = "immune"
+        case "Rot": stats["resist"]["Holy"] = "vulnerable"
+        case "Dream":
+            stats["resist"]["Crush"], stats["resist"]["Pierce"] = "immune", "immune"
+            stats["resist"]["Rot"] = "vulnerable"
+        case "Flame":
+            stats["resist"]["Flame"] = "immune"
+            stats["resist"]["Ice"] = "vulnerable"
+        case "Ice":
+            stats["resist"]["Ice"] = "immune"
+            stats["resist"]["Flame"] = "vulnerable"
 
 def setCommon(element, rank) -> list:
     type = "elemental"
     if rank == "Random": rank = random.choice(["Lesser", "Greater"])
 
     traits = Characters.setTraits()
-    traits[1].update({"Pierce": "immune", "Crush": "normal", "Dream": "resistant",
-                       "Flame": "normal", "Ice": "normal", "Toxic": "immune",
-                        "Holy": "normal", "Rot": "immune"})
+    traits[1].update({"Pierce": "immune", "Rot": "immune"})
     stats = {"avoidance": "mid", "hp": "high", "resist": traits[1], "speed": "mid"}
     cndt = traits[0]
     cndt["lifeless"], cndt["sapient"] = True, True

@@ -50,9 +50,7 @@ def pickOption(options, category):
     if len(options) > 1:
         waitPrint("Select " + category + ":")
         return makeSelection(options)
-    else:
-        waitPrint("Sole option selected automatically: " + category)
-        return options[0]
+    else: return options[0]
 
 def makeSelection(options):
     for option in options:

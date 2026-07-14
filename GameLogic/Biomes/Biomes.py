@@ -14,7 +14,8 @@ def setFoes(biome, budgets, curseCard) -> list:
     Select.waitPrint("Applying curse card:")
     Cards.printDeck([curseCard])
     roll2 += Cards.findValue(curseCard)
-    Select.waitPrint("Modified second roll: " + str(roll2))
+    Select.waitPrint("Modified second roll: " + str(roll2) + "\n")
+    Select.waitPrint("")
 
     rolls = [roll1, roll2]
     rollNum, groups = 0, [[], []]
@@ -25,8 +26,8 @@ def setFoes(biome, budgets, curseCard) -> list:
         match biome:
             case "Wildlands Pass": members = Metamorphosis.passEncounters(roll, budget)
             case "Wildlands Bay": members = Metamorphosis.bayEncounters(roll, budget)
-            case "Frozen Fjord": members = Metamorphosis.fjordEncounter(roll, budget)
-            case "Frozen Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
+            case "Icy Fjord": members = Metamorphosis.fjordEncounter(roll, budget)
+            case "Icy Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
             case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, budget)
             case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, budget)
             case "Flaming Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
@@ -35,6 +36,7 @@ def setFoes(biome, budgets, curseCard) -> list:
             case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
             case "Northern Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
             case "Marshland": members = Kingdom.marshEncounters(roll, budget)
+            # case "Marsh Depths": members = Kingdom.marshEncounters(roll, budget)
             case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, rollNum, "Camp", budget)
             case "Unsettled": members = Kingdom.unsettledEncounters(roll, budget)
 

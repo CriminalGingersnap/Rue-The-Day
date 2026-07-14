@@ -4,7 +4,7 @@
 #  #3: Minimize interruptions and downtime
 
 from Characters import Humans
-from Loop import Encounters, Loot
+from Loop import Encounters
 from Maps import World, Movement, Map_Print as Print
 from Systems import PlayerSelect as Select
 from GameState import SaveLoad as Save
@@ -12,15 +12,15 @@ from GameState import SaveLoad as Save
 
 Martin = Humans.knight("Basic", "Master").ch
 Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "W."
-Martin.equip["armor"] = {"name": None, "modifier": 0}
+Martin.equip["armor"].update({"name": "None", "modifier": 0})
 
 Willem = Humans.dragonslayer("Basic", "Master").ch
 Willem.props["rank"], Willem.props["name"], Willem.props["initials"] = "player", "Willem", "W."
-Willem.equip["armor"] = {"name": None, "modifier": 0}
+Willem.equip["armor"].update({"name": "None", "modifier": 0})
 
 Laura = Humans.mage("Flame", "Master").ch
 Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "player", "Laura", "L."
-Laura.equip["armor"] = {"name": None, "modifier": 0}
+Laura.equip["armor"].update({"name": "None", "modifier": 0})
 
 
 tutorialWorld = World.kingKillerMap()
@@ -65,8 +65,12 @@ while True:
         biome = tutorialWorld.legend[letter]
         Encounters.encounterLoop(group1, biome)
 
-    marker.lastCleared.appendleft(marker.position)
-    marker.lastCleared.pop()
+        marker.lastCleared.appendleft(marker.position)
+        marker.lastCleared.pop()
+
+    elif marker.position == marker.lastCleared[0]:
+        takeRest = Select.yesNo("Rest and Save Game?")
+        if takeRest: Encounters.takeRest(group1)
 
     if inTutorial and ([0, 6] in marker.lastCleared):
         inTutorial = False

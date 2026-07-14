@@ -1,8 +1,8 @@
 from . import Damage
 import random, copy
 
-nullKit = {"name": None, "modifier": 0,  "element": "Basic"}
-nullWeapon = {"name": None, "modifier": 0, "dmgTypes": [], "reach": 1}
+nullKit = {"name": "None", "modifier": 0,  "element": "Basic"}
+nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1}
 
 def setEquipment(type, job, rank, element, cndt, skills, attacks) -> list:
     global nullKit, nullWeapon
@@ -23,7 +23,7 @@ def setEquipment(type, job, rank, element, cndt, skills, attacks) -> list:
         for attack in attacks:
             attackDmg = Damage.identifyDamageType(element, attack)
             if attackDmg not in equipment["weapon"]["dmgTypes"]: equipment["weapon"]["dmgTypes"] += [attackDmg]
-        if cndt["armored"]: equipment["armor"] = {"modifier": 2}
+        if cndt["armored"]: equipment["armor"]["modifier"] = 2
         if cndt["massive"]:
             equipment["weapon"]["reach"] = 2
             equipment["weapon"]["modifier"] = 2
@@ -34,10 +34,10 @@ def setEquipment(type, job, rank, element, cndt, skills, attacks) -> list:
 
 
 def setKit(job, twoHanded, burden) -> list:
-    kit = {"name": "", "modifier": 0, "element": "Basic"}
+    kit = copy.deepcopy(nullKit)
     options = []
 
-    if twoHanded: kit["name"] = None
+    if twoHanded: kit["name"] = "None"
     else:
         capacity = 3 - burden
         if job in ["Brute", "Knight"]: capacity += 2
@@ -59,11 +59,11 @@ def setKit(job, twoHanded, burden) -> list:
 def updateKit(equipment, job, rank):    
     if job == "Paladin": equipment["armor"]["element"] = "Holy"
     elif rank in ["Adept", "Elite", "Master"]:
-        equipment["armor"]["element"] = random.choice(["Dream", "Flame", "Ice", "Toxic"])
+        equipment["armor"]["element"] = random.choice(["Dream", "Flame", "Ice", "Rot"])
 
-        if (not equipment["weapon"]["twoHanded"]) and (equipment["shield"]["name"] == None):
+        if (not equipment["weapon"]["twoHanded"]) and (equipment["shield"]["name"] == "None"):
             equipment["shield"]["name"] = "Talisman"
-            equipment["shield"]["element"] = random.choice(["Dream", "Holy", "Flame", "Ice", "Toxic"])
+            equipment["shield"]["element"] = random.choice(["Dream", "Holy", "Flame", "Ice", "Rot"])
 
 
 def setWeapon(job, element, skills) -> list:

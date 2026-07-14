@@ -1,9 +1,7 @@
 def setAnimalResistance(element, rank, stats):    
     mainRes, holyRes = "resistant", "resistant"
     if rank in ["Elder", "Master"]: mainRes, holyRes = "immune", "normal"
-    if element != "Basic":
-        stats["resist"]["Holy"] = holyRes
-        stats["resist"]["Toxic"] = "resistant"
+    if element not in ["Basic", "Toxic"]: stats["resist"]["Holy"] = holyRes
     
     match element:
         case "Holy":
@@ -13,9 +11,9 @@ def setAnimalResistance(element, rank, stats):
             stats["resist"]["Rot"] = mainRes
             stats["resist"]["Holy"] = "vulnerable"
         case "Dream":
-            stats["resist"]["Dream"] = mainRes
-            stats["resist"]["Pierce"] = "resistant"
-            stats["resist"]["Crush"] = "resistant"
+            stats["resist"]["Pierce"] = mainRes
+            stats["resist"]["Crush"] = mainRes
+            stats["resist"]["Dream"] = "vulnerable"
             stats["resist"]["Rot"] = "vulnerable"
         case "Flame":
             stats["resist"]["Flame"] = mainRes

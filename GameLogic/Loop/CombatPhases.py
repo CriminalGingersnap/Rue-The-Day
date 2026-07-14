@@ -61,10 +61,11 @@ def movementStage(fighter, enemies, allies, battleMap) -> None:
         groups = Sort.getGroups(fighter, allies, enemies)
         Move.moveAction(fighter, groups, battleMap)
 
-        echo = fighter.inv["echo"]
-        if (echo != None) and (echo.itemEffects["Animate"]["duration"] == 3):
-            allies += [echo]
-            fighter.inv["echo"] = None
+        if "echo" in fighter.inv:
+            echo = fighter.inv["echo"]
+            if (echo != "None") and (echo.itemEffects["Animate"]["duration"] == 3):
+                allies += [echo]
+                fighter.inv["echo"] = "None"
 
 
 def abilityStage(fighter, enemies, allies, battleMap) -> None:

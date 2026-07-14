@@ -9,7 +9,7 @@ from Maps import Map_Update as uMap
 
 
 def engage(playerGroup, enemyGroups, battleMap) -> list:
-    input("Press Enter to begin combat.")
+    input("\nPress Enter to begin combat.")
 
     playerVictory, playerDefeat = False, False
     group1, group2, group3 = playerGroup, enemyGroups[0], enemyGroups[1]
@@ -46,13 +46,13 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, offenseGroup
             Hinder.applyCompel(fighter, "Seal")
             if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
-        
-        for fighter in validFighters:
             uMap.activateHazards(fighter, battleMap)
+        
+        uMap.updateHazards(battleMap)
+
+        for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
             Phases.movementStage(fighter, foes, friends, battleMap)
-            
-        uMap.updateHazards(battleMap)
             
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)

@@ -3,7 +3,7 @@ from . import Area_Set as Area
 
 
 def execute(fighter, category, element, application, groups, battleMap) -> None:
-    end = " a condensed " + element + " " + category + "!"
+    end = "a condensed " + element + " " + category.split("s")[0] + "!"
 
     match application:
         case "Animate":
@@ -29,7 +29,7 @@ def animate(fighter, groups) -> None:
 
 
 def imbue(fighter, category, element) -> None:
-    potency, dmgCat1, dmgCat2, dmgCat3 = 0, "", "", ""
+    potency, dmgCat1, dmgCat2 = 0, "", ""
 
     match category:
         case "pearls": potency = 1
@@ -39,16 +39,18 @@ def imbue(fighter, category, element) -> None:
         potency = min(fighter.itemEffects["Imbue"]["potency"] + potency, 3)
 
     match element:
-        case "Rot": dmgCat1, dmgCat2, dmgCat3 = ["Rot"], ["Toxic"], ["Holy"]
-        case "Flame": dmgCat1, dmgCat2, dmgCat3  = ["Flame"], ["Toxic"], ["Ice"]
-        case "Dream": dmgCat1, dmgCat2, dmgCat3 = ["Dream"], ["Crush", "Pierce", "Toxic"], ["Rot"]       
-        case "Ice": dmgCat1, dmgCat2, dmgCat3 = ["Ice"], ["Toxic"], ["Flame"]
-        case "Holy": dmgCat1, dmgCat2, dmgCat3 = ["Holy", "Rot"], ["Toxic"], []
-        case "Toxic": dmgCat1, dmgCat2, dmgCat3 = ["Toxic"], ["Rot"], []
+        case "Dream": dmgCat1, dmgCat2 = ["Crush", "Pierce"], ["Dream", "Rot"]       
+        case "Flame": dmgCat1, dmgCat2  = ["Flame"], ["Ice"]
+        case "Holy": dmgCat1, dmgCat2 = ["Holy", "Rot"], []
+        case "Ice": dmgCat1, dmgCat2 = ["Ice"], ["Flame"]
+        case "Rot": dmgCat1, dmgCat2 = ["Rot", "Toxic"], ["Holy"]
 
     for dmgType in dmgCat1: Damage.modifyResistance(fighter, dmgType, potency, "positive")
-    for dmgType in dmgCat2: Damage.modifyResistance(fighter, dmgType, 1, "positive")
-    for dmgType in dmgCat3: Damage.modifyResistance(fighter, dmgType, potency, "negative")
+    for dmgType in dmgCat2: Damage.modifyResistance(fighter, dmgType, potency, "negative")
+
+    if element not in ["Holy", "Rot"]:
+        if potency == 2: fighter.atrb["cur_res"]["Holy"] = "normal"
+        else: fighter.atrb["cur_res"]["Holy"] = "resistant"
 
     fighter.itemEffects["Imbue"]["potency"] = potency
     fighter.itemEffects["Imbue"]["duration"] = 3

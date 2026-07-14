@@ -54,6 +54,7 @@ def applyExamine(visibleTargets) -> None:
         
         if av < 10: strAV += " "
         if hp < 10: strHP += " "
+        if reach < 10: strReach += " "
         if speed < 10: strSpeed += " "
         if stamina < 10: strStamina += " "
         if tolerance < 10: strTolerance += " "
@@ -62,28 +63,31 @@ def applyExamine(visibleTargets) -> None:
         
         if (examinee.cndt["armored"]):
             armorStatement = "Naturally armored. "
-        elif examinee.equip["armor"]["name"] != None:
+        elif examinee.equip["armor"]["name"] != "None":
             armorName = examinee.equip["armor"]["name"]
             if examinee.equip["armor"]["element"] != "Basic": armorName += " " + examinee.equip["armor"]["element"]
             armorStatement = "Wearing " + armorName + " armor. "
         else: armorStatement = "Unarmored."
 
-        if examinee.equip["shield"]["name"] != None:
+        if examinee.equip["shield"]["name"] != "None":
             shieldName = examinee.equip["shield"]["name"]
             if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"]
             else: shieldName += " shield"
             shieldStatement = "Carrying a " + shieldName + ". "
-        if examinee.equip["weapon"]["name"] != None:
+        if examinee.equip["weapon"]["name"] != "None":
             article = "a "
             if examinee.equip["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
             weaponStatement = "Wielding " + article + examinee.equip["weapon"]["name"] + ". "
 
-        Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + shieldStatement)
-        Select.waitPrint("Health: " + strHP)
-        Select.waitPrint("Reach: " + strReach + " | "  + weaponStatement)
-        Select.waitPrint("Speed: " + strSpeed)
-        Select.waitPrint("Stamina: " + strStamina + "   | Fatigue: " + str(examinee.atrb["fatigue"]))
-        Select.waitPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))
+        Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + " " + shieldStatement)
+        Select.quickPrint("Health:    " + strHP + " | ")
+        Select.quickPrint("Reach:     " + strReach + " | "  + weaponStatement)
+        Select.quickPrint("Speed:     " + strSpeed + " | " + "Remaining movement: " + str(examinee.atrb["cur_sp"]))
+        Select.quickPrint("Stamina:   " + strStamina + " | Fatigue: " + str(examinee.atrb["fatigue"]))
+        Select.quickPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))
+        Select.quickPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]))
+        Select.quickPrint("Element: " + examinee.atrb["cur_elm"])
+        Select.quickPrint("Rank: " + examinee.props["rank"])
 
         Select.waitPrint("\nCommitments: ")
         for commitment in examinee.commits:
@@ -92,16 +96,15 @@ def applyExamine(visibleTargets) -> None:
                 for target in examinee[commitment]["targets"]:
                     Select.quickPrint(target.props["name"], end = " | ")
 
-        Select.waitPrint("\nEffects: ")
+        Select.quickPrint("Effects: ")
         for effect in examinee.effects:
             if examinee.effects[effect]["dice"] > 0:
                 Select.quickPrint(effect + " <- " + examinee.effects[effect]["source"].props["name"], end = " | ")
 
-        Select.waitPrint("\nItem Effects:")
+        Select.quickPrint("Item Effects:")
         for effect in examinee.itemEffects:
             if examinee.itemEffects[effect]["duration"] > 0:
                 Select.quickPrint(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", end = " | ")
 
-        Select.waitPrint("\nPending actions: " + str(len(examinee.actionQueue)) + " | " + "Remaining movement: " + str(examinee.atrb["cur_sp"]))
-        Select.waitPrint("Element: " + examinee.atrb["cur_elm"] + " | " + "Rank: " + examinee.atrb["rank"])
-        Select.waitPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]) + "\n")
+        input("Press Enter to continue")
+        Select.waitPrint("")

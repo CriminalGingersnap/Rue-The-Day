@@ -22,6 +22,12 @@ def selectSpace(fighter, groups, boarders) -> int:
         counter, optionDict = 1, {}
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
+                if any(intString in optionsMap[row][column] for intString in iMap.intStrings):
+                    elevation = optionsMap[row][column][-1]
+                    optionsMap[row][column] = " !!_" + elevation
+
+        for column in range(leftEdge, rightEdge+1):
+            for row in range(topEdge, bottomEdge+1):
                 if any(openSpace in optionsMap[row][column] for openSpace in [emptySpace, poolSpace]) and not ("?" == optionsMap[row][column][-1]):
                     if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
                     elif enemyCanSee(row, column, enemies) and allyNotInRange(row, column, allies):

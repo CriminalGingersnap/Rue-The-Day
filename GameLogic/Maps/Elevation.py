@@ -206,10 +206,11 @@ def flood(battleMap, row, column, severity):
     if severity == 2: elevation = down
 
     if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
-        if "." in battleMap[row][column]:
+        if any(fighterMark in battleMap[row][column] for fighterMark in ["."] + iMap.intStrings):
             battleMap[row][column] = battleMap[row][column][:-1] + middle
         elif doubleDown in battleMap[row][column]: 
             battleMap[row][column] = iMap.pool[:-1] + elevation
 
         elif ("/" not in battleMap[row][column]) and (severity == 2) and (down in battleMap[row][column]):
-            battleMap[row][column] = iMap.pool[:-1] + elevation
+            if random.choice([True, False, False]): battleMap[row][column] = iMap.pool[:-1] + elevation
+            else: battleMap[row][column] = battleMap[row][column][:-1] + middle

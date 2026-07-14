@@ -30,9 +30,10 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     for runs in range(fighter.atrb["base_sp"] * 2):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
+                sightSpace = sightMap[row][column]
+
                 if "~" in battleMap[row][column]: waterLine = max(waterLine, (heightDict[sightSpace[-1]] + 1))
 
-                sightSpace = sightMap[row][column]
                 stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine, aquatic)
                 
                 if stepCount <= fighter.atrb["cur_sp"]:

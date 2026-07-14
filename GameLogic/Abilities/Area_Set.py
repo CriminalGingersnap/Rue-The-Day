@@ -70,7 +70,7 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
 
     potency = 2
-    if category == "Core": potency = 3
+    if category == "cores": potency = 3
 
     if dmgType == "Dream":
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)

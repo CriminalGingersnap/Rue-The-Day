@@ -17,16 +17,14 @@ pearls = {
     "Holy": 0,
     "Ice": 0,
     "Rot": 0,
-    "Toxic": 0
 }
 
 
 def setInventory(type, rank, element, hp) -> dict:
     match type:
         case "human": return humanInventory(element, rank)
-        case "beast": return beastInventory(hp, element, rank, type)
-        case "elemental": return elementalInventory(element, rank)
-        case "totem": return totemInventory(element, rank)
+        case "beast" | "invertebrate" | "insect" | "reptile": return beastInventory(hp, element, rank, type)
+        case "elemental" | "totem": return elementalInventory(element, rank)
 
 
 def humanInventory(element, rank) -> dict:
@@ -45,11 +43,11 @@ def humanInventory(element, rank) -> dict:
             "shield": copy.deepcopy(Equipment.nullKit),
             "weapon": copy.deepcopy(Equipment.nullWeapon)
         },
-        "echo": None
+        "echo": "None"
     }
 
     if element != "Rot":
-        budget, pearlCount, coreCount, echo = "", 0, 0, None
+        budget, pearlCount, coreCount, echo = "", 0, 0, "None"
 
         match rank:
             case "Novice": budget = 2
@@ -69,14 +67,22 @@ def humanInventory(element, rank) -> dict:
         if budget > 1:
             echo = RandomCreatures.creatures("random", "Basic", "False", budget)[0]
             echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
-            echo.cndt["lifeless"] = True
+            setLifeless(echo)
 
         inventory["pearls"]["Bleed"] = vita
-        inventory["pearls"][random.choice(["Ice", "Flame", "Toxic"])] = pearlCount
-        inventory["cores"][random.choice(["Ice", "Flame"])] = coreCount
+        inventory["pearls"][random.choice(["Dream", "Flame", "Ice",  "Rot"])] = pearlCount
+        inventory["cores"][random.choice(["Dream", "Flame", "Ice",  "Rot"])] = coreCount
         inventory["echo"] = echo
 
     return inventory
+
+
+def setLifeless(echo):
+    echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
+    echo.atrb["nat_res"].update({"Bleed": "immune", "Dream": "immune", "Holy": "normal", "Toxic": "immune"})
+    echo.atrb["cur_res"] = copy.deepcopy(echo.atrb["nat_res"])
+
+    echo.cndt.update({"aggressive": True, "lifeless": True, "social": False})
 
 
 def beastInventory(hp, element, rank, type) -> dict:
@@ -116,17 +122,10 @@ def beastInventory(hp, element, rank, type) -> dict:
 def elementalInventory(element, rank) -> dict:
     drop = {"cores": {element: 0}, "pearls": {element: 0}}
 
-    if rank == "Lesser": drop["cores"][element] = 1
-    else: drop["cores"][element] = 2
-
-    return drop
-
-def totemInventory(element, rank) -> dict:
-    drop = {"cores": {element: 0}, "pearls": {element: 0}}
-
     match rank:
         case "Standard": drop["pearls"][element] = 1
         case "Totem": drop["pearls"][element] = 2
-        case "Monument": drop["cores"][element] = 1        
+        case "Lesser" | "Monument": drop["cores"][element] = 1        
+        case "Greater": drop["cores"][element] = 2       
 
     return drop

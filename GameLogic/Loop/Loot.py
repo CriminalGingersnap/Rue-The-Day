@@ -71,11 +71,11 @@ def lootEquipment(players, humans) -> None:
         compatibleJobs, carryWeight = [], player.atrb["base_sp"] - 1
         armorList, shieldList, weaponList = [], [], []
 
-        if player.equip["armor"]["name"] is not None: armorList += [player.equip["armor"]]
-        if player.equip["shield"]["name"] is not None: shieldList += [player.equip["shield"]]
-        if player.equip["weapon"]["name"] is not None: weaponList += [enemy.equip["weapon"]]
-        if player.inv["spares"]["shield"]["name"] is not None: shieldList += [player.inv["spares"]["shield"]]
-        if player.inv["spares"]["weapon"]["name"] is not None: weaponList += [player.inv["spares"]["weapon"]]
+        if player.equip["armor"]["name"] != "None": armorList += [player.equip["armor"]]
+        if player.equip["shield"]["name"] != "None": shieldList += [player.equip["shield"]]
+        if player.equip["weapon"]["name"] != "None": weaponList += [enemy.equip["weapon"]]
+        if player.inv["spares"]["shield"]["name"] != "None": shieldList += [player.inv["spares"]["shield"]]
+        if player.inv["spares"]["weapon"]["name"] != "None": weaponList += [player.inv["spares"]["weapon"]]
 
         if player.props["job"] in ["Archer", "Dragonslayer"]: compatibleJobs += ["Archer", "Dragonslayer"]
         elif player.props["job"] in ["Brute", "Knight"]: compatibleJobs += ["Brute", "Knight", "Warlock"]
@@ -83,11 +83,11 @@ def lootEquipment(players, humans) -> None:
         else: compatibleJobs += [player.props["job"]]
 
         for enemy in humans:
-            if enemy.equip["armor"]["name"] is not None:
+            if enemy.equip["armor"]["name"] != "None":
                 if not (enemy.equip["armor"]["modifier"] > carryWeight): armorList += [enemy.equip["armor"]]
-            if enemy.equip["shield"]["name"] is not None:
+            if enemy.equip["shield"]["name"] != "None":
                 if not (enemy.equip["shield"]["modifier"] > carryWeight): shieldList += [enemy.equip["shield"]]
-            if enemy.equip["weapon"]["name"] is not None:
+            if enemy.equip["weapon"]["name"] != "None":
                 if enemy.props["job"] in compatibleJobs: weaponList += [enemy.equip["weapon"]]
         
         if len(weaponList) == 1:
@@ -130,8 +130,8 @@ def lootEchos(players, nonHumans) -> None:
         for player in players:
             if (len(recentDead) > 0) and Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
                 echo = Select.targetSelect(recentDead)
-                echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
-                echo.cndt["lifeless"], echo.props["rank"] = True, "player"
+                Inventory.setLifeless(echo)
+                echo.props["rank"] = "player"
                 player.inv["echo"] = echo
                 
                 del nonHumans[enemy]

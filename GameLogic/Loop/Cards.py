@@ -65,11 +65,13 @@ def printDeck(deck):
 
 def pickCard(hand, picks) -> list:
     drawn, down, backs = [], [], setBacks(len(hand))
-    printDeck(backs)
+    # printDeck(backs)
 
-    autoSelect = Select.yesNo("Forgo selection and take cards in order?")
+    # autoSelect = Select.yesNo("Forgo selection and take cards in order?")
+    autoSelect = True
 
     if autoSelect:
+        Select.waitPrint("\nAuto-select enabled. Flipping first five cards.")
         for cardNum in range(picks):
             backs[cardNum] = hand[cardNum]
             drawn += [cardNum]
@@ -93,6 +95,7 @@ def pickCard(hand, picks) -> list:
     for recount in range(len(hand)):
         if "?" in backs[recount][1]: down += hand[recount]
 
+    Select.waitPrint("")
     return [drawn, down]
 
 

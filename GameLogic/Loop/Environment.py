@@ -74,7 +74,7 @@ def setMapConditions(biome):
     Select.waitPrint("\nDraw five numbered cards.")   
     Select.quickPrint("The first three determine topographical slope, obstruction density, and atmospheric density.")   
     Select.quickPrint("The next pair determines enemy dice budgets.")
-    Select.waitPrint("The final card determines curse status.")
+    Select.waitPrint("The final face-down card determines curse status.")
     
     numberValues = Cards.drawNumbers(5)
     drawn, faceDown = numberValues[0], numberValues[1]
@@ -91,8 +91,8 @@ def setMapConditions(biome):
 
 
 def setAtmosphere(biome, extent) -> dict:
-    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0, "Toxic": 0}
-    majorBiomes = ["Flaming Volcano", "Dreamwood Depths", "Frozen Glacier", "Holy Desert", "Rot Locus"]
+    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0}
+    majorBiomes = ["Icy Volcano", "Dreamwood Depths", "Icy Glacier", "Holy Desert", "Rot Locus"]
 
     if biome in majorBiomes:
         atmosphere["Mana"] = extent
@@ -100,11 +100,9 @@ def setAtmosphere(biome, extent) -> dict:
     
     match biome:
         case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
-        case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
         case "Holy Desert" | "Holy Scrubland": atmosphere["Sacred"] = extent
         case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["Dazzle"] = extent
-        case "Frozen Glacier" | "Frozen Fjord": atmosphere["Rime"] = extent
+        case "Icy Glacier" | "Icy Fjord": atmosphere["Rime"] = extent
         case "Flaming Volcano" | "Flaming Peninsula": atmosphere["Smoke"] = extent
-        case "Marshland": atmosphere["Toxic"] = extent
     
     return atmosphere

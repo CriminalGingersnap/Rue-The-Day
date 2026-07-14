@@ -7,9 +7,7 @@ def setCommon(job) -> list:
     type = "totem"
 
     traits = Characters.setTraits()
-    traits[1].update({"Pierce": "resistant", "Crush": "normal", "Dream": "immune",
-                       "Flame": "vulnerable", "Ice": "normal", "Toxic": "immune",
-                        "Holy": "normal", "Rot": "normal"})
+    traits[1].update({"Pierce": "resistant", "Flame": "vulnerable"})
     stats = {"avoidance": "min", "hp": "low", "resist": traits[1], "speed": "min"}
     cndt = traits[0]
     cndt["lifeless"], cndt["reposed"] = True, True

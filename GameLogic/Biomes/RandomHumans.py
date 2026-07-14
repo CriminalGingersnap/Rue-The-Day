@@ -19,9 +19,9 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         totemElement = random.choice(["Flame", "Dream", "Ice"])
         totem = None
         match totemType:
-            case "hex": totem = Totems.hex(totemElement, "Standard")
-            case "sentry": totem = Totems.sentry(totemElement, "Standard")
-            case "ward": totem = Totems.ward(totemElement, "Standard")
+            case "hex": totem = Totems.hex(totemElement, "Standard").ch
+            case "sentry": totem = Totems.sentry(totemElement, "Standard").ch
+            case "ward": totem = Totems.ward(totemElement, "Standard").ch
 
         diceBudget -= (totem.atrb["base_mag"] + totem.atrb["base_mar"])
         warriorList += [totem]

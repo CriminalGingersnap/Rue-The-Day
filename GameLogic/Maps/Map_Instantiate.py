@@ -1,4 +1,4 @@
-from . import Map_Populate as pMap, Elevation
+from . import Map_Populate as pMap, Elevation, Map_Print as Print
 from Systems import PlayerSelect as Select
 import random
 
@@ -10,7 +10,7 @@ fogSpace, mistSpace = "=___|", "-___|"
 smokeSpace, rimeSpace = "#___|", "%___|"
 dazzleSpace, deathSpace, sacredSpace = "+___|", "}___|", "@___|"
 
-intStrings = ["1","2","3","4","5","6","7","8","9"]
+intStrings = ["0","1","2","3","4","5","6","7","8","9"]
 
 
 def combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups) -> list:
@@ -44,16 +44,16 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
             secondMap[row] += box
             thirdMap[row] += box
     
-    Select.waitPrint("Placing obstructions and occlusions...")
+    Select.waitPrint("\nPlacing obstructions and occlusions...")
     placeOcclusions(mapConditions, mainMap, 1)
     placeOcclusions(mapConditions, secondMap, 1)
     placeOcclusions(mapConditions, thirdMap, 1)
 
     Select.waitPrint("Placing PCs...")
     for fighter in playerGroup: pMap.firstPlacement(mainMap, 4, fighter)
-    Select.waitPrint("Placing Group 1 NPCs...")
+    Select.quickPrint("Placing Group 1 NPCs...")
     for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, 4, fighter)
-    Select.waitPrint("Placing Group 2 NPCs...")
+    Select.quickPrint("Placing Group 2 NPCs...")
     for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, 4, fighter)
     
     battleMap = combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
@@ -67,22 +67,18 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
 def placeOcclusions(mapConditions, instanceMap, multiplier):
     obstacles, occlusions = mapConditions["obstructions"], mapConditions["atmosphere"]
 
-    Select.quickPrint("1. Walls")
     for i in range(obstacles["wall"] * multiplier):
         available = False
         while not available: available = pMap.placeObstruction(instanceMap, wall, multiplier)
 
-    Select.quickPrint("2. Pits")
     for i in range(obstacles["pit"] * multiplier):
         available = False
         while not available: available = pMap.placeObstruction(instanceMap, pit, multiplier)
 
-    Select.quickPrint("3. Traps")
     for i in range(obstacles["trap"] * multiplier):
         available = False
         while not available: available = pMap.placeTrap(instanceMap)
 
-    Select.quickPrint("4. Atmospheric")
     for atmo in occlusions:
         for i in range(occlusions[atmo] * multiplier):
             available = False

@@ -9,11 +9,16 @@ def moveAction(fighter, groups, battleMap) -> None:
     posOptions = fighter.abl["areas"]
     
     if ("Inventory" in fighter.abl["boons"]) and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
-    if (fighter.inv["spares"]["weapon"]["name"] != None): posOptions += ["Swap Weapon"]
-    if (fighter.inv["spares"]["shield"]["name"] != None): posOptions += ["Swap Shield"]
+    if "spares" in fighter.inv:
+        if (fighter.inv["spares"]["weapon"]["name"] != "None"): posOptions += ["Swap Weapon"]
+        if (fighter.inv["spares"]["shield"]["name"] != "None"): posOptions += ["Swap Shield"]
 
     if fighter.props["rank"] == "player":
-        posOptions += ["Examine"]
+        reachable = groups["reachable"]
+        visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
+        if len(visibleTargets) > 1: posOptions += ["Examine"]
+        else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
+
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
         movePlayer(fighter, groups, posOptions, battleMap)
     else: moveNPC(fighter, groups, posOptions, battleMap)
@@ -21,6 +26,7 @@ def moveAction(fighter, groups, battleMap) -> None:
 
 def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     answer = Select.pickOption(posOptions, fighter.props["name"] + "'s positional action")
+    if "Examine" in answer: answer = "Examine"
 
     if answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None, False)

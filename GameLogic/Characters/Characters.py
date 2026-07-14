@@ -19,7 +19,7 @@ class character:
         self.actionQueue, self.position = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
 
-        Select.waitPrint(self.props["name"] + " instantiated!")
+        Select.quickPrint(self.props["name"] + " instantiated!")
 
      
 def setAbilities(type, dice, additions) -> dict:
@@ -47,14 +47,13 @@ def setAttributes(stats, cndt, elm, dice):
 
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4
-    endurance = random.randint(quarterHealth, halfHealth)
-    tolerance = endurance
+    tolerance = endurance = halfHealth
 
     if cndt["lifeless"]:
         cndt["aggressive"], cndt["sapient"], cndt["social"] = True, False, False
-        stats["resist"]["Bleed"], stats["resist"]["Dream"], stats["resist"]["Toxic"] = "immune", "immune", "immune"
+        stats["resist"].update({"Bleed": "immune", "Dream": "immune", "Holy": "normal", "Toxic": "immune"})
         endurance *= 3
-    if elm == "Basic": tolerance *= 2
+    elif elm == "Toxic": tolerance *= 2
 
     attributes = {"base_av": av, "cur_av": av,
                    "base_hp": hp, "cur_hp": hp, "half_hp": halfHealth, "quart_hp": quarterHealth,
@@ -75,9 +74,9 @@ def setTraits():
                       "massive": False, "reposed": False, "running": False,
                        "skittish": False, "social": False, "sapient": False}
     
-    resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal", "Dream": "normal",
-                    "Ice": "normal", "Holy": "immune", "Pierce": "normal",
-                     "Rot": "normal","Toxic": "normal"} 
+    resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal",
+                    "Dream": "normal", "Ice": "normal", "Holy": "immune",
+                     "Pierce": "normal", "Rot": "normal", "Toxic": "normal"} 
 
     return [conditions, resistances]
 
