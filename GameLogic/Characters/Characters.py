@@ -41,9 +41,9 @@ def setAbilities(type, dice, additions) -> dict:
 
 
 def setAttributes(stats, cndt, elm, dice):
-    av_range = {"min": random.randint(1,3), "low": random.randint(3,6), "mid": random.randint(6,9), "high": random.randint(9,12), "max": random.randint(12,15)}
-    hp_range = {"min": 6, "low": random.randint(6,12), "mid": random.randint(12,18), "high": random.randint(18,24), "max": random.randint(24,30), "boss": 36}
-    sp_range = {"min": 0, "low": random.randint(1,3), "mid": random.randint(4,5), "high": random.randint(5,7), "max": random.randint(7,9)}
+    av_range = {"min": random.randint(0,2), "low": random.randint(3,5), "mid": random.randint(6,8), "high": random.randint(9,11), "max": random.randint(12,14)}
+    hp_range = {"min": 6, "low": random.randint(7,12), "mid": random.randint(13,18), "high": random.randint(19,24), "max": random.randint(25,30), "boss": 36}
+    sp_range = {"min": 0, "low": random.randint(2,3), "mid": random.randint(4,5), "high": random.randint(6,7), "max": random.randint(8,9)}
 
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4
@@ -71,10 +71,9 @@ def setAttributes(stats, cndt, elm, dice):
 def setTraits():
     conditions = {"aggressive": False, "armored": False, "aquatic": False,
                     "calling": {"delay": 0, "quantity": 0, "used": False},
-                     "endowed": False, "summoned": False,
-                      "dead": False, "inviolable": False, "lifeless": False,
-                       "massive": False, "reposed": False, "running": False,
-                        "skittish": False, "social": False, "sapient": False}
+                     "dead": False, "inviolable": False, "lifeless": False,
+                      "massive": False, "reposed": False, "running": False,
+                       "skittish": False, "social": False, "sapient": False}
     
     resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal", "Dream": "normal",
                     "Ice": "normal", "Holy": "immune", "Pierce": "normal",

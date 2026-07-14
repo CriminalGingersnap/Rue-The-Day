@@ -68,7 +68,7 @@ def lootEquipment(players, humans) -> None:
     nullWeapon = copy.deepcopy(Equipment.nullWeapon)
 
     for player in players:
-        compatibleJobs, carryWeight = [], player.atrb["base_sp"] - 2
+        compatibleJobs, carryWeight = [], player.atrb["base_sp"] - 1
         armorList, shieldList, weaponList = [], [], []
 
         if player.equip["armor"]["name"] is not None: armorList += [player.equip["armor"]]
@@ -121,22 +121,21 @@ def lootEquipment(players, humans) -> None:
 
 
 def lootEchos(players, nonHumans) -> None:
-    if any(player.cndt["endowed"] for player in players):
-        recentDead = []
-        for enemy in nonHumans:
-            if not enemy.cndt["lifeless"]: recentDead += [enemy]
+    recentDead = []
+    for enemy in nonHumans:
+        if not enemy.cndt["lifeless"]: recentDead += [enemy]
 
-        if len(recentDead) > 0:
-            Select.waitPrint("Echos of the slain linger within their fallen bodies.")            
-            for player in players:
-                if (len(recentDead) > 0) and Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
-                    echo = Select.targetSelect(recentDead)
-                    echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
-                    echo.cndt["summoned"], echo.props["rank"] = True, "player"
-                    player.inv["echos"] = echo
-                    
-                    del nonHumans[enemy]
-                    del recentDead[enemy]
+    if len(recentDead) > 0:
+        Select.waitPrint("Echos of the slain linger within their fallen bodies.")            
+        for player in players:
+            if (len(recentDead) > 0) and Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
+                echo = Select.targetSelect(recentDead)
+                echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
+                echo.cndt["lifeless"], echo.props["rank"] = True, "player"
+                player.inv["echo"] = echo
+                
+                del nonHumans[enemy]
+                del recentDead[enemy]
 
 
 def getStock(party) -> dict:    

@@ -55,13 +55,12 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
             Select.waitPrint("Contact!")
         else: Select.waitPrint("Glancing blow!")
 
-        bonusType = Damage.convertElmToDmg(fighter.atrb["elm"])
-        if dmgType == bonusType:
+        if dmgType == fighter.atrb["cur_elm"]:
             baseDmg += fighter.equip["weapon"]["modifier"]
             inflict(fighter, target, dmgType, baseDmg)        
         else:
             inflict(fighter, target, dmgType, baseDmg)
-            inflict(fighter, target, bonusType, fighter.equip["weapon"]["modifier"])
+            inflict(fighter, target, fighter.atrb["cur_elm"], fighter.equip["weapon"]["modifier"])
 
     else: Select.waitPrint("Attack misses!")
 

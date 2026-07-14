@@ -1,4 +1,4 @@
-import Systems.PlayerSelect as Select
+from . import PlayerSelect as Select
 
 
 def removeEffect(fighter, effect):
@@ -10,12 +10,10 @@ def updateItemEffects(fighter):
     for effect in fighter.itemEffects:
         duration = fighter.itemEffects[effect]["duration"]
 
-        if (duration == "permanent" or 0):
-            continue
-        elif duration == 1:
-            removeItemEffect(fighter, effect)
-        else:
-            fighter.itemEffects[effect]["duration"] -= 1
+        if duration == 0:
+            if fighter.itemEffects[effect]["potency"] != 0: removeItemEffect(fighter, effect)
+        else: fighter.itemEffects[effect]["duration"] -= 1
+
 
 def removeItemEffect(fighter, effect) -> None:
     Select.waitPrint(effect + " ends on " + fighter.props["name"] + ".")

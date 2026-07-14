@@ -39,8 +39,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                 input("Press Enter to resolve.")
                 return True
             else: Phases.resetFighter(fighter)
-                    
-    if len(validFighters) > 0:
+
         friends, foes = offenseGroup, validTargets
         for fighter in validFighters:
             Hinder.applyCompel(fighter, "Compel")
@@ -58,8 +57,6 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
             Phases.abilityStage(fighter, foes, friends, battleMap)
-
-        validFighters = Sort.sortLiving(offenseGroup)[0]   
         
         for fighter in validFighters:
             if len(fighter.actionQueue) > 0:
@@ -75,7 +72,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                             else: Select.waitPrint("Attack canceled against slain target.")
                                     
                     fighter.actionQueue.remove(action)
-            Phases.outro(fighter, validFighters, battleMap)
+            Phases.outro(fighter, offenseGroup, validFighters, battleMap)
             
     return False
 

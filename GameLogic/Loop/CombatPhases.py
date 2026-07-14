@@ -10,10 +10,9 @@ def resetFighter(fighter) -> None:
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
 
     if fighter.props["type"] == "human":
-        speedLoss = ((
-                fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
-                  + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"]
-                  ) // 2) - 1
+        speedLoss = (fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
+                   + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"]
+                  ) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
     match fighter.atrb["injury"]:
@@ -40,8 +39,10 @@ def setSight(fighter, enemies, allies, battleMap):
 
     return sightMap
 
-def outro(fighter, allies, battleMap):
-    alive = Sort.setAlive(fighter, allies, battleMap)
+
+def outro(fighter, allyGroup, fightingAllies, battleMap):
+    Items.regenerate(fighter)
+    alive = Sort.setAlive(fighter, fightingAllies, battleMap)
 
     if alive:
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
@@ -49,18 +50,21 @@ def outro(fighter, allies, battleMap):
             fighter.cndt["running"] = False
             intensity += 1
         Conditions.decrementStamina(fighter, intensity)
-        Reactions.applySocial(fighter, allies)
+        Reactions.applySocial(fighter, allyGroup)
+    Reactions.applyReinforcements(fighter, allyGroup, battleMap)
     
     if fighter.props["rank"] != "player": input("Press Enter to conclude " + fighter.props["name"] + "'s turn.")    
-    
-    Items.regenerate(fighter)
-    Reactions.applyReinforcements(fighter, allies, battleMap)
 
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:
     if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
         groups = Sort.getGroups(fighter, allies, enemies)
         Move.moveAction(fighter, groups, battleMap)
+
+        echo = fighter.inv["echo"]
+        if (echo != None) and (echo.itemEffects["Animate"]["duration"] == 3):
+            allies += [echo]
+            fighter.inv["echo"] = None
 
 
 def abilityStage(fighter, enemies, allies, battleMap) -> None:

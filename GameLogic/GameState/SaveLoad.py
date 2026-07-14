@@ -28,11 +28,11 @@ class nullWorld:
 
 
 def saveCharacter(fighter, campaign, name) -> None:
-    if fighter.inv["echos"] == None:
+    if fighter.inv["echo"] == None:
         setFilePath(campaign, name + "sEcho").unlink(missing_ok = True)
     else:
-        saveCharacter(fighter.inv["echos"], campaign, name + "sEcho")
-        fighter.inv["echos"] = None
+        saveCharacter(fighter.inv["echo"], campaign, name + "sEcho")
+        fighter.inv["echo"] = None
     
     save = {
         "abl": fighter.abl,
@@ -59,7 +59,7 @@ def loadCharacter(fighter, campaign, name) -> None:
     try:
         echo = nullCharacter()
         loadCharacter(echo, "Metamorphosis", name + "sEcho")
-        fighter.inv["echos"] = echo
+        fighter.inv["echo"] = echo
     except FileNotFoundError: pass
 
 

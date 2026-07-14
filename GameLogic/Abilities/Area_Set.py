@@ -13,7 +13,6 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
     phrase, range, dmgType = "", 10, ""
     scale = max(fighter.atrb["cur_mag"], 3)
 
-
     match ability:
         case "Breath":
             phrase = " exhales " + fighter.atrb["cur_elm"] + " breath"

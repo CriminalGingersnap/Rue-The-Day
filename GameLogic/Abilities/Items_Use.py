@@ -6,6 +6,9 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
     end = " a condensed " + element + " " + category + "!"
 
     match application:
+        case "Animate":
+            Select.waitPrint(fighter.props["name"] + " animates " + end)
+            animate(fighter, groups)
         case "Detonate":
             Select.waitPrint(fighter.props["name"] + " throws " + end)
             Area.throwStone(fighter, category, element, groups, battleMap)
@@ -16,6 +19,13 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             match category:
                 case "pearls": Conditions.decrementTolerance(fighter, 2)
                 case "cores": Conditions.decrementTolerance(fighter, 4)
+
+
+def animate(fighter, groups) -> None:
+    echo = fighter.inv["echo"]
+    echo.position = Area.findSpace(fighter, groups, 4)
+    echo.itemEffects["Animate"]["duration"] = 3
+    echo.itemEffects["Animate"]["additional"] = True
 
 
 def imbue(fighter, category, element) -> None:

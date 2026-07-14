@@ -62,10 +62,10 @@ def allyNotInRange(row, column, allies):
     return notInRange
 
 def getAtmosphere(scale, dmgType) -> str:
-    atmosphere, big, little, lingering = "_", "", "", ""
+    atmosphere, big, little, lingering = "_", "", "", "_"
 
     match dmgType:
-        case "Bleed": big, little, lingering = "B", "b"
+        case "Bleed": big, little = "B", "b"
         case "Crush": big, little = "C", "c"
         case "Dream": big, little, lingering = "D", "d", "@"
         case "Flame": big, little, lingering = "F", "f", "#"
@@ -73,7 +73,7 @@ def getAtmosphere(scale, dmgType) -> str:
         case "Holy": big, little, lingering = "H", "h", "+"
         case "Pierce": big, little = "P", "p"
         case "Rot": big, little, lingering = "R", "r", "}"
-        case "Toxic": big, little, lingering = "T", "t", "&"
+        case "Toxic": big, little = "T", "t"
 
     match scale:
         case 1: atmosphere = lingering

@@ -19,7 +19,7 @@ def setEquipment(type, job, rank, element, cndt, skills, attacks) -> list:
 
     else:
         equipment["weapon"]["modifier"] = 1
-        equipment["weapon"]["dmgTypes"] = [Damage.convertElmToDmg(element)]
+        equipment["weapon"]["dmgTypes"] = [element]
         for attack in attacks:
             attackDmg = Damage.identifyDamageType(element, attack)
             if attackDmg not in equipment["weapon"]["dmgTypes"]: equipment["weapon"]["dmgTypes"] += [attackDmg]
@@ -39,7 +39,7 @@ def setKit(job, twoHanded, burden) -> list:
 
     if twoHanded: kit["name"] = None
     else:
-        capacity = 2 - burden
+        capacity = 3 - burden
         if job in ["Brute", "Knight"]: capacity += 2
 
         if capacity > 0:

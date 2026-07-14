@@ -24,7 +24,8 @@ def pcSelectItem(job, inventory) -> str:
     category = Select.pickOption(list(inventory.keys()), "item category")
     item = Select.pickOption(["None"] + inventory[category], "item")
 
-    if item != "None":
+    if category == "echo": return ["echo", "spirit", "Animate"]
+    elif item != "None":
         options = ["Detonate", "Extract"]
         if job == "Paladin": del options["Extract"]
         application = Select.pickOption(options, "application")
@@ -42,9 +43,11 @@ def npcSelectItem(fighter, groups, inventory) -> str:
         blockList -= fighter.equip["weapon"]["dmgTypes"]
         allowlist -= blockList
 
-    if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6): preferences += ["Bleed"]
+    if fighter.atrb["cur_hp"] < (fighter.atrb["base_hp"] * .6):
+        preferences["Extract"] += ["Bleed"]
 
-    for enemy in groups["fightingEnemies"]: enemyDmgTypes += enemy.equip["weapon"]["dmgTypes"]
+    for enemy in groups["fightingEnemies"]:
+        enemyDmgTypes += enemy.equip["weapon"]["dmgTypes"]
     
     if ("Flame" in enemyDmgTypes) and ("Ice" not in enemyDmgTypes):
         if "Flame" in allowlist: preferences["Extract"] += ["Flame"]
@@ -90,11 +93,13 @@ def getInventory(fighter) -> dict:
     items = {
         "cores": [],
         "pearls": [],
+        "echo": None,
         "Total": 0  
     } 
 
     cores = fighter.inv["cores"]
     pearls = fighter.inv["pearls"]
+    echo = fighter.inv["echo"]
 
     for core in cores:
         if cores[core] > 0: 
@@ -107,6 +112,11 @@ def getInventory(fighter) -> dict:
 
     if len(items["cores"]) == 0: del items["cores"]
     if len(items["pearls"]) == 0: del items["pearls"]
+
+    if echo != None:
+        items["echo"] += [echo.rank + " " + echo.job]
+        items["Total"] += 1
+    else: del items["echo"]
 
     return items
 

@@ -29,11 +29,10 @@ def npcSelectBoon(fighter, enemies):
 
 
 def canWreath(fighter, dmgTypes) -> bool:
-    fighterDmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
     compatible = False
 
     for enemyDmgType in dmgTypes:
-        if Boons_Apply.checkCompatibility(enemyDmgType, fighterDmgType):
+        if Boons_Apply.checkCompatibility(enemyDmgType, fighter.atrb["cur_elm"]):
             compatible = True
 
     return compatible

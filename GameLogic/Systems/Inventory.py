@@ -44,7 +44,7 @@ def humanInventory(element, rank) -> dict:
             "shield": copy.deepcopy(Equipment.nullKit),
             "weapon": copy.deepcopy(Equipment.nullWeapon)
         },
-        "echos": None
+        "echo": None
     }
 
     if element != "Rot":

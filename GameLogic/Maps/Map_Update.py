@@ -89,7 +89,6 @@ def getScale(atmosphere) -> int:
 
 
 def activateHazards(fighter, battleMap):
-    fighterDmgType = Damage.convertElmToDmg(fighter.atrb["cur_elm"])
     row, column = fighter.position[0], fighter.position[1]
     atmosphere = battleMap[row][column][0]
 
@@ -97,7 +96,7 @@ def activateHazards(fighter, battleMap):
         points, dmgType = 0, identifyAtmosphere(atmosphere)
         scale = getScale(atmosphere)
         
-        if (fighter.props["type"] == "elemental") and (fighterDmgType == dmgType): Conditions.recoverHP(fighter, scale)
+        if (fighter.props["type"] == "elemental") and (fighter.atrb["cur_elm"] == dmgType): Conditions.recoverHP(fighter, scale)
         else:
             match scale:
                 case 3: points = random.randint(2, 12)

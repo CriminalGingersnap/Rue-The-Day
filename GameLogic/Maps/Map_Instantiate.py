@@ -7,7 +7,7 @@ impermissible = [wall, pit]
 
 emptySpace, manaWell = "____|", "*___|"
 fogSpace, mistSpace = "=___|", "-___|"
-smokeSpace, rimeSpace, toxicSpace = "#___|", "%___|", "&___|"
+smokeSpace, rimeSpace = "#___|", "%___|"
 dazzleSpace, deathSpace, sacredSpace = "+___|", "}___|", "@___|"
 
 intStrings = ["1","2","3","4","5","6","7","8","9"]
