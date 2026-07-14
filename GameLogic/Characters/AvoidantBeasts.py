@@ -68,7 +68,7 @@ class rabbit:
         cndt["skittish"] = True
         stats["avoidance"], stats["hp"] = "max", "min"
 
-        dice = {"martial": 0, "magic": 0}
+        dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, dice, {"boons": ["Conceal"]})

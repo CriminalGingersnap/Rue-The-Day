@@ -39,7 +39,7 @@ class drake:
         cndt["armored"], cndt["aggressive"], cndt["massive"] = True, True, True
         stats["hp"] = "max"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Gore"]})

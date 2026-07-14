@@ -1,5 +1,6 @@
 import random, copy
 from . import Equipment
+from Biomes import RandomCreatures
 
 
 cores = {
@@ -48,7 +49,7 @@ def humanInventory(element, rank) -> dict:
     }
 
     if element != "Rot":
-        budget = ""
+        budget, pearlCount, coreCount, echo = "", 0, 0, None
 
         match rank:
             case "Novice": budget = 2
@@ -57,16 +58,23 @@ def humanInventory(element, rank) -> dict:
             case "Elite": budget = 5
             case "Master": budget = 6
         
-        vita, pearlCount, coreCount = random.randint(0, min(budget, 3)), 0, 0
+        vita = random.randint(1, 2)
         budget -= vita
         if budget > 0:
             pearlCount = random.randint(0, budget)
             budget -= pearlCount
-        if budget > 1: coreCount = random.randint(1, (budget // 2))
+        if budget > 1:
+            coreCount = random.randint(1, (budget // 2))
+            budget -= coreCount * 2
+        if budget > 1:
+            echo = RandomCreatures.creatures("random", "Basic", "False", budget)[0]
+            echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
+            echo.cndt["lifeless"] = True
 
         inventory["pearls"]["Bleed"] = vita
         inventory["pearls"][random.choice(["Ice", "Flame", "Toxic"])] = pearlCount
         inventory["cores"][random.choice(["Ice", "Flame"])] = coreCount
+        inventory["echo"] = echo
 
     return inventory
 
