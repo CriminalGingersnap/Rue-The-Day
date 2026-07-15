@@ -32,8 +32,12 @@ def pcSelectItem(job, inventory) -> str:
 
     if answer == "None": return answer
     elif answer == "Echo": return ["echo", "spirit", "Animate"]
-    elif "->" in answer: item = answer.split(" -> ")[1]
-    else: item = Select.pickOption(["None"] + inventory[answer], "item")
+    elif "->" in answer:
+        category = answer.split(" -> ")[0]
+        item = answer.split(" -> ")[1]
+    else:
+        category = answer
+        item = Select.pickOption(["None"] + inventory[category], "item")
 
     if item != "None":
         options = ["Detonate", "Extract"]
@@ -125,7 +129,7 @@ def getInventory(fighter) -> dict:
     if len(items["Pearls"]) == 0: del items["Pearls"]
 
     if echo != "None":
-        items["Echo"] += [echo.rank + " " + echo.job]
+        items["Echo"] += [echo.props["rank"] + " " + echo.props["job"]]
         items["Total"] += 1
     else: del items["Echo"]
 

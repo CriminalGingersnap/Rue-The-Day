@@ -71,7 +71,7 @@ def getAtmosphere(scale, dmgType) -> str:
     atmosphere, big, little, lingering = "_", "", "", "_"
 
     match dmgType:
-        case "Bleed": big, little = "B", "b"
+        case "Bleed": big, little, lingering = "B", "b", "="
         case "Crush": big, little = "C", "c"
         case "Dream": big, little, lingering = "D", "d", "@"
         case "Flame": big, little, lingering = "F", "f", "#"
@@ -101,12 +101,8 @@ def spreadAtmosphere(atmosphere, dmgType, coverage, tossRow, tossColumn, battleM
         leftColumn -= 1
         rightColumn += 1
 
-    cloud, cloudSpaces = getAtmosphere(1, dmgType), []
-    if dmgType not in ["Crush", "Pierce"]:
-        cloudSpaces += addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn)
-        
     for space in spaces: setAtmosphere(atmosphere, space[0], space[1], battleMap)
-    for cloudSpace in cloudSpaces: setAtmosphere(cloud, cloudSpace[0], cloudSpace[1], battleMap)
+
 
 def addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn):
     newSpaces = []

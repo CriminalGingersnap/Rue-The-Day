@@ -84,4 +84,6 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
 
     atmosphere = Apply.getAtmosphere(potency, dmgType)
     battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
-    Apply.spreadAtmosphere(atmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
+    
+    lesserAtmosphere = Apply.getAtmosphere(potency-1, dmgType)
+    Apply.spreadAtmosphere(lesserAtmosphere, dmgType, potency, tossRow, tossColumn, battleMap)

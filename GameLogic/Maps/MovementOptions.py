@@ -83,6 +83,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
             elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation
             elif ("~" in moveSpace) and not aquatic: movementMap[row][column] = "~~~~" + elevation
+            elif (":" not in moveSpace) and any(intString in movementMap[row][column] for intString in iMap.intStrings):
+                movementMap[row][column] = "/!!/" + elevation            
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]

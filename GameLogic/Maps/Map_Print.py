@@ -7,7 +7,7 @@ console = Console()
 
 def finishSpace(space, mapName) -> str:
     atmosphere = space[0]
-    if atmosphere in ["_", "~"]: atmosphere = " "
+    if atmosphere in ["_", "~", ".", "!"] + iMap.intStrings: atmosphere = " "
 
     character = " "
     if "." in space: character = "."
