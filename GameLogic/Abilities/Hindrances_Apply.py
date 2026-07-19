@@ -1,5 +1,6 @@
 from Systems import PlayerSelect as Select
 from . import Boons_Apply as Boons
+from Actions import HindranceActions as Hinder
 
 
 def applyCompel(target, ability) -> None:
@@ -18,20 +19,25 @@ def applyCompel(target, ability) -> None:
 
 def resistCompulsion(attempt, target, ability) -> list:
     penalty = target.atrb["corruption"] + target.atrb["fatigue"]
-    threshold = max(1, ((3 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - penalty))
+    threshold = max(1, ((4 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - penalty))
 
     phrase = "Resistance Threshold: " + str(threshold) + " "
 
-    if ability == "Compel":
-        if target.cndt["sapient"]:
-            threshold += 3
-            phrase += "+3 (Sapient) | "
-        elif target.cndt["social"]:
-            threshold += 3
-            phrase += "+3 (Social) | "
+    source = target.effects[ability]["source"]
+    if not Hinder.canCompel(source, target):
+        threshold += 5
+        phrase += "+5 (Incompatible) | "
+
     if target.cndt["inviolable"]:
         threshold += 10
         phrase += "+10 (Inviolable) | "
+
+    if target.cndt["sapient"]:
+        threshold += 6
+        phrase += "+6 (Sapient) | "
+    elif target.cndt["social"] and (ability == "Compel"):
+        threshold += 3
+        phrase += "+3 (Social) | "
 
     Select.waitPrint(phrase)
     Select.waitPrint("Total: " + threshold)

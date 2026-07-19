@@ -42,10 +42,10 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
 def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
     reachable, fightingAllies, fightingEnemies = groups["reachable"], groups["fightingAllies"], groups["fightingEnemies"]
     reachableAllies, reachableEnemies = reachable["boonReachable"], reachable["attackReachable"] + reachable["hinderReachable"]
-    stationary, choice = True, ""
+    stationary, target, choice = True, "None", ""
 
     if fighter.atrb["cur_sp"] > 0:
-        target, closeRanks = "None", False
+        closeRanks = False
 
         if (fighter.props["type"] == "human") and (len(reachableAllies) == 1) and (len(fightingAllies) > 1):
             closeRanks = True

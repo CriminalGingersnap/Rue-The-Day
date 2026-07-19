@@ -3,6 +3,7 @@ import random, time
 
 
 def roll(fighter, dice, ability, dType) -> int:
+    total = 0
     if dice > 0: total = castDice(dice)
     if fighter != None: total += mods(fighter, ability, dType)
     

@@ -73,7 +73,8 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                                     
                     fighter.actionQueue.remove(action)
             Phases.outro(fighter, offenseGroup, validFighters, battleMap)
-            
+    
+    input("Press Enter to advance.")
     return False
 
 

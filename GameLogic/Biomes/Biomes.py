@@ -5,10 +5,10 @@ from Loop import Cards
 
 def setFoes(biome, budgets, curseCard) -> list:
     Select.waitPrint("Rolling to determine encounter number.")
-    Select.waitPrint("First roll:")
+    Select.quickPrint("First roll:")
     roll1 = Roll.roll(None, 1, None, None)
 
-    Select.waitPrint("Second roll:")
+    Select.quickPrint("Second roll:")
     roll2 = Roll.roll(None, 1, None, None)
 
     Select.waitPrint("Applying curse card:")
@@ -52,7 +52,7 @@ def setFoes(biome, budgets, curseCard) -> list:
             
         memberIndex = 1
         for member in members:
-            member.props["name"] += "[" + str(memberIndex) + "]"
+            member.props["name"] += "[" + str(rollNum) + str(memberIndex) + "]"
             member.props["initials"] = str(rollNum) + str(memberIndex)
             memberIndex += 1
         

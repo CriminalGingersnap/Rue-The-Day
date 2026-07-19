@@ -11,7 +11,7 @@ def execute(fighter, groups, ability, battleMap) -> None:
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
-        case "Empower": applyEmpower(visibleTargets)
+        case "Empower": applyEmpower(fighter)
         case "Examine": applyExamine(visibleTargets)
         case "Evade": applyEvade(fighter)
         case "Inventory": ItemActions.itemAction(fighter, groups, battleMap)
@@ -71,7 +71,7 @@ def applyExamine(visibleTargets) -> None:
 
         if examinee.equip["shield"]["name"] != "None":
             shieldName = examinee.equip["shield"]["name"]
-            if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"]
+            if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"] + " protection"
             else: shieldName += " shield"
             shieldStatement = "Carrying a " + shieldName + ". "
         if examinee.equip["weapon"]["name"] != "None":
@@ -106,5 +106,5 @@ def applyExamine(visibleTargets) -> None:
             if examinee.itemEffects[effect]["duration"] > 0:
                 Select.quickPrint(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", end = " | ")
 
-        input("Press Enter to continue")
+        input("\nPress Enter to continue")
         Select.waitPrint("")

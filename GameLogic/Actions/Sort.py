@@ -14,7 +14,7 @@ def setAlive(fighter, fightingAllies, battleMap) -> bool:
     
     if (fighter.atrb["cur_hp"] <= 0) or inanimate:
         fighter.cndt["dead"] = True
-        if fighter.atrb["rank"] == "player": Select.slowPrint(fighter.props["name"] + " will perish soon.")
+        if fighter.props["rank"] == "player": Select.slowPrint(fighter.props["name"] + " will perish soon.")
         Reactions.applyPheromones(fighter, fightingAllies)
         uMap.removeFighter(fighter, battleMap)
         

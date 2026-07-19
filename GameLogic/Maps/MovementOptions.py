@@ -19,11 +19,14 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     for row in range(12):
         for column in range(12):
             movementMap[row] += [sightMap[row][column]]
+            
+            if movementMap[row][column][2] in iMap.intStrings: 
+                movementMap[row][column] = movementMap[row][column][:2] + "!!" + movementMap[row][column][-1]
+            
             if movementMap[row][column][-1] == "]": movementMap[row][column] = movementMap[row][column][:-1] + "|"
-            if movementMap[row][column][0] in hazards:
-                if fighter.cndt["sapient"] and (movementMap[fighterRow][fighterColumn][0] not in hazards):
-                    if fighter.props["rank"] != "player": movementMap[row][column] = iMap.pit
-                else: movementMap[row][column] = "_" + movementMap[row][column][1:]
+            
+            if (movementMap[row][column][0] in hazards) and (movementMap[fighterRow][fighterColumn][0] not in hazards):
+                if fighter.props["rank"] != "player": movementMap[row][column] = iMap.pit
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
 
@@ -47,7 +50,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     elif ")" in sightSpace: movementMap[row][column] = "):" + str(stepCount)
                     elif "/" in sightSpace: movementMap[row][column] = "/:" + str(stepCount)
                     elif "." in sightSpace: movementMap[row][column] = ".:" + str(stepCount)
-                    elif sightSpace[2] in iMap.intStrings: movementMap[row][column] = "!:" + str(stepCount)
+                    elif "!" in sightSpace: movementMap[row][column] = "!:" + str(stepCount)
 
                     if npc and freeSpace:
                         contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightSpace)
@@ -67,6 +70,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     counter = 2
     for column in range(12):
         for row in range(12):
+            if (row == fighterRow) and (column == fighterColumn): continue
+
             moveSpace = movementMap[row][column]
             elevation = sightMap[row][column][-1]
             terrain = sightMap[row][column][1]
@@ -83,8 +88,6 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
             elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation
             elif ("~" in moveSpace) and not aquatic: movementMap[row][column] = "~~~~" + elevation
-            elif (":" not in moveSpace) and any(intString in movementMap[row][column] for intString in iMap.intStrings):
-                movementMap[row][column] = "/!!/" + elevation            
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]

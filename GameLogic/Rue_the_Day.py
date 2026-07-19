@@ -29,7 +29,7 @@ marker = tutorialWorld.marker
 
 worldMap[0][6] = "w___↑"
 worldMap[2][6] = "w_..↑"
-worldMap[2][7] = "w_!!↑"
+worldMap[2][7] = "w/!!↑"
 marker.position = [2, 6]
 
 marker.lastCleared.appendleft(marker.position)

@@ -1,5 +1,5 @@
-from Systems import Damage, PlayerSelect as Select, Roll
-from . import Area_Apply as Apply
+from Systems import PlayerSelect as Select, Roll
+from . import Area_Locate as Locate, Area_Apply as Apply
 from Maps import Map_Update as uMap
 
 areaAbilities = ["Bless", "Breath", "Hex", "Slip"]
@@ -27,7 +27,7 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
             range = Roll.roll(fighter, fighter.atrb["cur_mag"], "Slip", "magic")
             scale = max(0, scale - 1)
     
-    markedSpace = findSpace(fighter, groups, range)
+    markedSpace = Locate.findSpace(fighter, groups, range)
     affectSpace(fighter, markedSpace, dmgType, scale, battleMap)
     fighter.atrb["cur_mag"] = 0
 
@@ -36,15 +36,6 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
     return fighter.props["name"] + phrase
-
-def findSpace(fighter, groups, range) -> list:
-    column, row = fighter.position[1], fighter.position[0]
-    leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
-    topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
-    borders = [leftEdge, rightEdge, topEdge, bottomEdge]
-
-    markedSpace = Apply.selectSpace(fighter, groups, borders)
-    return markedSpace
 
 
 def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
@@ -66,7 +57,7 @@ def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
 
 
 def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
-    tossSpace = findSpace(fighter, groups, 4)
+    tossSpace = Locate.findSpace(fighter, groups, 4)
     tossRow, tossColumn = tossSpace[0], tossSpace[1]
 
     potency = 2
@@ -75,7 +66,7 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     if dmgType == "Dream":
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
         if potency == 3:
-            tossSpace = findSpace(fighter, groups, 4)
+            tossSpace = Locate.findSpace(fighter, groups, 4)
             tossRow, tossColumn = tossSpace[0], tossSpace[1]
             if (tossRow != fighter.position[0]) and (tossColumn != fighter.position[1]):
                 uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
@@ -86,4 +77,4 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
     
     lesserAtmosphere = Apply.getAtmosphere(potency-1, dmgType)
-    Apply.spreadAtmosphere(lesserAtmosphere, dmgType, potency, tossRow, tossColumn, battleMap)
+    Apply.spreadAtmosphere(lesserAtmosphere, potency, tossRow, tossColumn, battleMap)

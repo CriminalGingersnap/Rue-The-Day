@@ -1,71 +1,6 @@
-from Systems import PlayerSelect as Select
-from Maps import Map_Instantiate as iMap, Map_Print as Print, Movement
-import random
-
-
-emptySpace, poolSpace = "___", "~~~"
-
-
-def selectSpace(fighter, groups, boarders) -> int:
-    enemies, allies = groups["fightingEnemies"], groups["fightingAllies"]
-    sightMap = fighter.sightMap
-    leftEdge, rightEdge, topEdge, bottomEdge = boarders[0], boarders[1], boarders[2], boarders[3]
-
-    if (leftEdge == rightEdge) and (topEdge == bottomEdge):
-        return [leftEdge, topEdge]
-    else:
-        optionsMap = [[], [], [], [], [], [], [], [], [], [], [], []]
-        for row in range(12):
-            for column in range(12):
-                optionsMap[row] += [sightMap[row][column]]
-        
-        counter, optionDict = 1, {}
-        for column in range(leftEdge, rightEdge+1):
-            for row in range(topEdge, bottomEdge+1):
-                if any(intString in optionsMap[row][column] for intString in iMap.intStrings):
-                    elevation = optionsMap[row][column][-1]
-                    optionsMap[row][column] = " !!_" + elevation
-
-        for column in range(leftEdge, rightEdge+1):
-            for row in range(topEdge, bottomEdge+1):
-                if any(openSpace in optionsMap[row][column] for openSpace in [emptySpace, poolSpace]) and not ("?" == optionsMap[row][column][-1]):
-                    if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
-                    elif enemyCanSee(row, column, enemies) and allyNotInRange(row, column, allies):
-                        optionDict[str(counter)] = [row, column]
-
-                    atmosphere = sightMap[row][column][0]
-                    terrain = sightMap[row][column][1]
-                    elevation = sightMap[row][column][-1]
-
-                    filler = ""
-                    if counter < 10: filler = "_"
-                    
-                    optionsMap[row][column] = atmosphere + terrain + str(counter) + filler + elevation
-                    counter += 1
-
-        choice = ""
-        if fighter.props["rank"] == "player":
-            Print.printOptionsMap(optionsMap, "Options Map")
-            choice = Select.takeInput(1, counter)
-        elif len(optionsMap) > 0: choice = random.randint(1, counter)
-
-        return optionDict[str(choice)]
-
-def enemyCanSee(row, column, enemies) -> bool:
-    enemySees = False
-    for enemy in enemies:
-        enemySpace = enemy.sightMap[row][column]
-        if "?" != enemySpace[row][column][-1]: enemySees = True
-
-    return enemySees
-
-def allyNotInRange(row, column, allies):
-    notInRange = True
-    for ally in allies:
-        if Movement.getSpaceDistance(ally.position[0], row, ally.position[1], column) <= 3: 
-            notInRange = False
-
-    return notInRange
+def setAtmosphere(atmosphere, row, column, battleMap):
+    if not any(obstruction in battleMap[row][column] for obstruction in ["/", "("]):
+        battleMap[row][column] = atmosphere + battleMap[row][column][1:]
 
 def getAtmosphere(scale, dmgType) -> str:
     atmosphere, big, little, lingering = "_", "", "", "_"
@@ -89,7 +24,7 @@ def getAtmosphere(scale, dmgType) -> str:
     return atmosphere
 
 
-def spreadAtmosphere(atmosphere, dmgType, coverage, tossRow, tossColumn, battleMap) -> None:
+def spreadAtmosphere(atmosphere, coverage, tossRow, tossColumn, battleMap) -> None:
     upRow, downRow = tossRow - 1, tossRow + 1
     leftColumn, rightColumn = tossColumn - 1, tossColumn + 1
     spaces = []
@@ -124,7 +59,3 @@ def addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn):
         rightColumn += 1
 
     return newSpaces
-
-def setAtmosphere(atmosphere, row, column, battleMap):
-    if not any(obstruction in battleMap[row][column] for obstruction in ["/", "("]):
-        battleMap[row][column] = atmosphere + battleMap[row][column][1:]

@@ -17,7 +17,7 @@ def finishSpace(space, mapName) -> str:
     if "////" in space: space = iMap.wall
     elif ")()(" in space: space = iMap.pit
     elif "/" in space: space = atmosphere + character + " /" + "|"
-    else: space = atmosphere + character + " " + atmosphere + "|"
+    else: space = " " + character + " " + atmosphere + "|"
 
     return space
 
@@ -88,7 +88,7 @@ def printWorldMap(world) -> None:
         print()
     print()
             
-    Select.waitPrint("Visible Biomes:")
+    Select.quickPrint("Visible Biomes:")
     for letter in world.legend:
         if letter in displayList:
-            Select.waitPrint("  | " + letter + " -> " + world.legend[letter])
+            Select.quickPrint("  | " + letter + " -> " + world.legend[letter])

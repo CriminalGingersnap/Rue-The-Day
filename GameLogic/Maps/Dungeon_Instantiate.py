@@ -6,7 +6,7 @@ import random
 def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     mainMap, secondMap, thirdMap = [[], [], [], []], [[], [], [], []], [[], [], [], [], []]
 
-    Select.waitPrint("Creating rooms...")
+    Select.waitPrint("\nCreating rooms...")
     setColumns([mainMap, secondMap, thirdMap])
     
     Select.waitPrint("Placing PCs...")

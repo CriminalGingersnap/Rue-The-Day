@@ -50,36 +50,19 @@ def usableHindrances(fighter, enemies) -> list:
 
     for hindrance in fighter.abl["hindrances"]:
         if (hindrance in affordableHindrances) and Sort.canReachAny(fighter, enemies, hindrance):
-            usable = False
-
-            if hindrance in ["Compel", "Seal"]:
-                compelTargets = compellableTargets(enemies, hindrance)
-                if len(compelTargets > 0): usable = True
-            else: usable = True
-            
-            if usable: usableHindrances += [hindrance]
+            usableHindrances += [hindrance]
 
     return usableHindrances
 
 
-def npcSelectHindranceTarget(fighter, enemies, hindrance):
-    targets = compellableTargets(fighter, enemies, hindrance) 
-    return AttackActions.npcSelectAttackTarget(fighter, targets, False)
-
-def compellableTargets(fighter, enemies):
-    compelTargets = []
-    for enemy in enemies:
-        if canCompel(fighter, enemy): compelTargets += [enemy]
-
-    return compelTargets
-
 def canCompel(fighter, enemy) -> bool:
     canCompel = False
-    if fighter.atrb["cur_elm"] == "Holy": True
+    if enemy.cndt["sapient"]: canCompel = False
+    elif fighter.atrb["cur_elm"] == "Holy": canCompel = True
     elif enemy.atrb["cur_elm"] != "Holy":
-        if (fighter.atrb["cur_elm"] == "Flame") and (enemy.atrb["cur_elm"] != "Ice"): True
-        elif (fighter.atrb["cur_elm"] == "Dream") and (enemy.atrb["cur_elm"] != "Rot"): True
-        elif (fighter.atrb["cur_elm"] == "Ice") and (enemy.atrb["cur_elm"] != "Flame"): True
-        elif (fighter.atrb["cur_elm"] == "Rot"): True
+        if (fighter.atrb["cur_elm"] == "Flame") and (enemy.atrb["cur_elm"] != "Ice"): canCompel = True
+        elif (fighter.atrb["cur_elm"] == "Dream") and (enemy.atrb["cur_elm"] != "Rot"): canCompel = True
+        elif (fighter.atrb["cur_elm"] == "Ice") and (enemy.atrb["cur_elm"] != "Flame"): canCompel = True
+        elif (fighter.atrb["cur_elm"] == "Rot"): canCompel = True
 
     return canCompel

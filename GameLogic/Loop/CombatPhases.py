@@ -52,8 +52,6 @@ def outro(fighter, allyGroup, fightingAllies, battleMap):
         Conditions.decrementStamina(fighter, intensity)
         Reactions.applySocial(fighter, allyGroup)
     Reactions.applyReinforcements(fighter, allyGroup, battleMap)
-    
-    if fighter.props["rank"] != "player": input("Press Enter to conclude " + fighter.props["name"] + "'s turn.")    
 
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:

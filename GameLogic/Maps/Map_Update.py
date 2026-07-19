@@ -77,6 +77,7 @@ def identifyAtmosphere(atmosphere) -> str:
     elif atmosphere in ["p", "P"]: dmgType == "Pierce"
     elif atmosphere in ["t", "T"]: dmgType == "Toxic"
     elif atmosphere in ["m", "M", "*"]: dmgType == "Mana"
+    elif atmosphere in ["-", "="]: dmgType == "None"
 
     return dmgType
 
@@ -100,8 +101,8 @@ def activateHazards(fighter, battleMap):
         else:
             match scale:
                 case 3: points = random.randint(2, 12)
-                case 2: points = random.randint(1, 6)      
-                case 1: points = 1 
+                case 2: points = random.randint(1, 6)
+                case 1: points = 1
             Conditions.takeDamage(fighter, dmgType, points)
     else:
         match atmosphere:
@@ -117,20 +118,18 @@ def updateHazards(battleMap):
     for row in range(12):
         for column in range(12):
             atmosphere = battleMap[row][column][0]
-            if atmosphere not in ["/", ")", "-", "="]:
+
+            if atmosphere not in ["/", ")"]:
                 dmgType, newAtmosphere = identifyAtmosphere(atmosphere), "_"
                 scale = getScale(atmosphere)
 
                 match dmgType:
-                    case "Bleed":
-                        match scale:
-                            case 3: newAtmosphere = "b"
-                            case 2: newAtmosphere = "_"
+                    case "Bleed": newAtmosphere = "="
                     case "Dream":
                         match scale:
                             case 3: newAtmosphere = "d"
                             case 2: newAtmosphere = "@"
-                            case 1: newAtmosphere = random.choice("*" + lingeringHazards)
+                            case 1: newAtmosphere = random.choice(["*"] + lingeringHazards)
                     case "Flame":
                         match scale:
                             case 3: newAtmosphere = "f"
@@ -144,10 +143,8 @@ def updateHazards(battleMap):
                         match scale:
                             case 3: newAtmosphere = random.choice(["I", "i"])
                             case 2: newAtmosphere = random.choice(["i", "%"])
-                    case "Mana":
-                        match scale:
-                            case 3: newAtmosphere = "m"
-                            case 2: newAtmosphere = "*"
+                    case "Mana": newAtmosphere = random.choice(["m", "*", "*", "*", "*", "_"])
+                    case "None": newAtmosphere = random.choice(["=", "=", "-", "-", "-", "_"])
                     case "Rot": 
                         match scale:
                             case 3: newAtmosphere = "r"
@@ -155,7 +152,7 @@ def updateHazards(battleMap):
                     case "Toxic": 
                         match scale:
                             case 3: newAtmosphere = "t"
-                            case 2: newAtmosphere = "_"
+                            case 2: newAtmosphere = "-"
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
