@@ -1,5 +1,5 @@
 # Design rules
-#  #1: One mystery per action
+#  #1: One mystery per action. One test per reward.
 #  #2: Complex outcomes from simple systems
 #  #3: Minimize interruptions and downtime
 
@@ -38,16 +38,10 @@ marker.lastCleared.pop()
 group1 = {
     "campaign": "Metamorphosis",
     "days": 0,
-    "members": [Laura],
+    "members": [Laura, Martin],
     "world": tutorialWorld
 }
 
-group2 = {
-    "campaign": "Metamorphosis",
-    "days": 0,
-    "members": [Martin, Willem],
-    "world": tutorialWorld
-}
 
 inTutorial = True
 

@@ -43,7 +43,7 @@ class dancer:
         stats["speed"] = "max"
 
         dice = {"martial": 3, "magic": 0}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -62,7 +62,7 @@ class hulk: # it walks on three legs like a strand beast
         stats["hp"] = "max"
 
         dice = {"martial": 2, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
         
         if rank == "Greater":
             dice["martial"] += 1
@@ -78,7 +78,7 @@ class wraith:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "boons": ["Heal"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Heal"]})
         
         if rank == "Greater":
             dice["magic"] += 2
@@ -102,7 +102,7 @@ class hive:
         stats["speed"] = "min"
 
         dice = {"martial": 1, "magic": 2}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -120,7 +120,7 @@ class ooze:
         stats["speed"] = "low"
 
         dice = {"martial": 1, "magic": 2}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
 
         if rank == "Greater":
             dice["magic"] += 2
@@ -137,7 +137,7 @@ class puffer:
         stats["resist"]["Pierce"] = "vulnerable"
 
         dice = {"martial": 2, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "boons": ["Guard"], "reactions": ["Riposte"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Guard"], "reactions": ["Riposte"]})
 
         if rank == "Greater":
             dice["magic"] += 1
@@ -157,7 +157,7 @@ class satyr:
         stats["speed"] = "high"
 
         dice = {"martial": 3, "magic": 0}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Broadhead", "Sling"], "boons": ["Conceal"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Broadhead", "Sling"], "boons": ["Conceal"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -176,7 +176,7 @@ class ogre:
         stats["hp"] = "max"
 
         dice = {"martial": 2, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"areas": ["Slip"], "attacks": ["Bash"], "boons": ["Regenerate"]})
+        abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Bash"], "boons": ["Regenerate"]})
 
         if rank == "Greater": 
             dice["martial"] += 2
@@ -191,7 +191,7 @@ class nymph:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
 
         if rank == "Greater":
             dice["magic"] += 2
@@ -207,7 +207,7 @@ class bull:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
         dice = {"martial": 3, "magic": 0}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -227,7 +227,7 @@ class obelisk:
         stats["speed"] = "min"
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "boons": ["Shroud"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Shroud"]})
 
         if rank == "Greater":
             dice["magic"] += 2
@@ -248,7 +248,7 @@ class sphinx:
         stats["hp"] = "max"
 
         dice = {"martial": 2, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
 
         if rank == "Greater":
             dice["magic"] += 1
@@ -267,7 +267,7 @@ class wisp:
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "low", "max"
 
         dice = {"martial": 0, "magic": 1}
-        abl = Characters.setAbilities(type, dice, {"hindrances": ["Compel", "Misdirect", "Seal"]})
+        abl = Characters.setAbilities(type, {"hindrances": ["Compel", "Misdirect", "Seal"]})
 
         if rank == "Greater":
             dice["magic"] += 3
@@ -286,7 +286,7 @@ class grotesquery:
         stats["avoidance"], stats["hp"], stats["speed"]  = "low", "max", "low"
 
         dice = {"martial": 3, "magic": 0}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
 
         if rank == "Greater":
             dice["magic"] += 1
@@ -309,7 +309,7 @@ class shadow:
         stats["speed"] = "low"
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"], "hindrances": ["Disorient", "Misdirect"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "hindrances": ["Disorient", "Misdirect"]})
         
         if rank == "Greater":
             dice["magic"] += 2
@@ -330,7 +330,7 @@ class slime:
         stats["speed"] = "low"
 
         dice = {"martial": 1, "magic": 2}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Pinch"], "boons": ["Wreath"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Wreath"], "hindrances": ["Harry"]})
 
         if rank == "Greater":
             dice["magic"] += 2

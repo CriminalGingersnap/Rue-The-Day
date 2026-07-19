@@ -29,7 +29,7 @@ class camel:
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Spit", "Kick"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Spit", "Kick"]})
         if rank == "Elder": abl["boons"] += ["Shroud"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Camel", element, type, rank)
@@ -43,7 +43,7 @@ class deer:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": [random.choice(["Kick", "Gore"])], "boons": ["Conceal"]})
+        abl = Characters.setAbilities(type, {"attacks": [random.choice(["Kick", "Gore"])], "boons": ["Conceal"]})
         if rank == "Elder": abl["boons"] += ["Focus"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Deer", element, type, rank)
@@ -57,7 +57,7 @@ class mole:
 
         dice = {"martial": 1, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, rank)
 
@@ -71,7 +71,7 @@ class rabbit:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"boons": ["Conceal"]})
+        abl = Characters.setAbilities(type, {"boons": ["Conceal"]})
         if rank == "Elder": abl["areas"] += ["Slip"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, rank)
@@ -85,7 +85,7 @@ class seal:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Harry"]})
         if rank == "Elder": abl["boons"] += ["Disorient"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Seal", element, type, rank)

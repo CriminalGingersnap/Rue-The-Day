@@ -52,8 +52,8 @@ def npcSelectItem(fighter, groups, inventory) -> str:
 
     if fighter.props["job"] == "Paladin": allowlist = []
     elif fighter.atrb["base_mag"] > 0:
-        blockList -= fighter.equip["weapon"]["dmgTypes"]
-        allowlist -= blockList
+        blockList.remove(fighter.equip["weapon"]["dmgTypes"])
+        allowlist.remove(blockList)
 
     if fighter.atrb["cur_hp"] <= (fighter.atrb["half_hp"]): preferences["Extract"] += ["Bleed"]
     else: preferences["Detonate"] += ["Bleed"]

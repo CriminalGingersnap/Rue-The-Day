@@ -25,7 +25,7 @@ class hydra:
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
         dice = {"martial": 4, "magic": 2}
-        abl = Characters.setAbilities(type, dice, {"area": ["Breath"], "attacks": ["Bash", "Bite"], "boons": ["Regenerate"]})
+        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bash", "Bite"], "boons": ["Regenerate"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, dice, cndt, stats, "Kraken", element, type, rank)
@@ -40,7 +40,7 @@ class kraken:
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
         dice = {"martial": 6, "magic": 0}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind", "Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind", "Harry"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, dice, cndt, stats, "Kraken", element, type, rank)
@@ -54,7 +54,7 @@ class deathShell:
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
         dice = {"martial": 2, "magic": 4}
-        abl = Characters.setAbilities(type, dice, {"areas": ["Hex"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
+        abl = Characters.setAbilities(type, {"areas": ["Hex"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, dice, cndt, stats, "Death Shell", element, type, rank)
@@ -69,7 +69,7 @@ class dreamGiant:
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
         dice = {"martial": 0, "magic": 6}
-        abl = Characters.setAbilities(type, dice, {"area": ["Breath"], "attacks": ["Bring"], "hindrances": ["Compel", "Shroud"]})
+        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bring"], "hindrances": ["Compel", "Shroud"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Dream Giant", element, type, rank)
 
@@ -82,7 +82,7 @@ class glacierWorm:
         stats["avoidance"], stats["hp"], stats["speed"]  = "low", "boss", "low"
 
         dice = {"martial": 3, "magic": 3}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram", "Spit"], "boons": ["Wreath"], "reactions": ["Flare"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spit"], "boons": ["Wreath"], "reactions": ["Flare"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Glacier Worm", element, type, rank)
 
@@ -95,6 +95,6 @@ class volcanoStrider:
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "high"
 
         dice = {"martial": 6, "magic": 0}
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Kick", "Spray"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Kick", "Spray"], "boons": ["Guard"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Volcano Strider", element, type, rank)

@@ -29,21 +29,20 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
 
 
 def battle(offenseGroup, targetGroup, battleMap) -> bool:
-    validFighters = Sort.sortLiving(offenseGroup)[0]
-    if len(validFighters) > 0:
-        for fighter in validFighters:
-            validTargets = Sort.sortLiving(targetGroup)[0]
+    validFighters, validTargets = Sort.sortLiving(offenseGroup, battleMap)[0], Sort.sortLiving(targetGroup, battleMap)[0]
 
-            if len(validTargets) == 0:
-                Select.slowPrint("\nBattle Over.\n")
-                input("Press Enter to resolve.")
-                return True
-            else: Phases.resetFighter(fighter)
+    if len(validTargets) == 0:
+        Select.slowPrint("\nBattle Over.\n")
+        input("Press Enter to resolve.")
+        return True
+    
+    elif len(validFighters) > 0:
+        for fighter in validFighters: Phases.resetFighter(fighter)
 
-        friends, foes = offenseGroup, validTargets
+        friends, foes = validFighters, validTargets
         for fighter in validFighters:
             Hinder.applyCompel(fighter, "Compel")
-            if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, offenseGroup
+            if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, validFighters
             Hinder.applyCompel(fighter, "Seal")
             if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
             uMap.activateHazards(fighter, battleMap)
@@ -59,22 +58,19 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             Phases.abilityStage(fighter, foes, friends, battleMap)
         
         for fighter in validFighters:
-            if len(fighter.actionQueue) > 0:
+            if len(fighter.attackQueue) > 0:
                 Commitments.checkReach(fighter)
-                Select.waitPrint("\nExecuting " + fighter.props["name"] + "'s actions:")
+                Select.waitPrint("\nExecuting " + fighter.props["name"] + "'s attacks:")
 
-                for action in fighter.actionQueue:
-                    ability, target, dice = action[1], action[2], action[3]
-                    match action[0]:
-                        case "attack":
-                            if target.cndt["dead"] == False:
-                                Attacks.execute(fighter, target, ability, dice)
-                            else: Select.waitPrint("Attack canceled against slain target.")
-                                    
-                    fighter.actionQueue.remove(action)
-            Phases.outro(fighter, offenseGroup, validFighters, battleMap)
+                for attack in fighter.attackQueue:
+                    ability, target, dice = attack[0], attack[1], attack[2]
+                    if target.cndt["dead"]: Select.waitPrint("Attack canceled against slain target.")
+                    else: Attacks.execute(fighter, target, ability, dice)
+
+                    fighter.attackQueue.remove(attack)
+            Phases.outro(fighter, offenseGroup, battleMap)
     
-    input("Press Enter to advance.")
+    input("\nPress Enter to advance combat to the next round.\n")
     return False
 
 

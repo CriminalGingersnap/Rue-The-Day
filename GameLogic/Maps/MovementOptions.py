@@ -83,7 +83,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                     counter += 1
 
-            if "." in moveSpace: movementMap[row][column] = terrain + ".._" + elevation
+            if "." in moveSpace: movementMap[row][column] = "/../" + elevation
             elif ")" in moveSpace: movementMap[row][column] = ")()(" + elevation
             elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
             elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation

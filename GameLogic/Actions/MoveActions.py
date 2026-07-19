@@ -2,11 +2,13 @@ from Systems import PlayerSelect as Select
 from . import ItemActions, BoonActions as Boons, AttackActions as Attacks
 from Abilities import Move_Apply as Moves, Area_Set as Area
 from Maps import Movement
-import random
+import random, copy
 
 
 def moveAction(fighter, groups, battleMap) -> None:
-    posOptions = fighter.abl["areas"]
+    posOptions = copy.deepcopy(fighter.abl["areas"])
+
+    if (fighter.atrb["cur_mag"] > 0) and (fighter.atrb["cur_mar"] > 0): posOptions += ["Empower"]
     
     if ("Inventory" in fighter.abl["boons"]) and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
     if "spares" in fighter.inv:
@@ -19,7 +21,7 @@ def moveAction(fighter, groups, battleMap) -> None:
         if len(visibleTargets) > 1: posOptions += ["Examine"]
         else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
 
-        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
+        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move", "Stay"]
         movePlayer(fighter, groups, posOptions, battleMap)
     else: moveNPC(fighter, groups, posOptions, battleMap)
     
@@ -28,8 +30,9 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     answer = Select.pickOption(posOptions, fighter.props["name"] + "'s positional action")
     if "Examine" in answer: answer = "Examine"
 
-    if answer == "Move":
-        stationary = Movement.moveFighter(fighter, battleMap, None, False)
+    elif answer in ["Move", "Stay"]:
+        stationary = True
+        if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None, False)
         if stationary:
             if fighter.atrb["base_mar"] > 0: Moves.execute(fighter, groups, "Set", battleMap)
             else: Moves.execute(fighter, groups, "Evade", battleMap)

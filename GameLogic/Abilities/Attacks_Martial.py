@@ -55,7 +55,7 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
             Select.waitPrint("Contact!")
         else: Select.waitPrint("Glancing blow!")
 
-        if dmgType == fighter.atrb["cur_elm"]:
+        if fighter.atrb["cur_elm"] in [dmgType, "Basic"]:
             baseDmg += fighter.equip["weapon"]["modifier"]
             inflict(fighter, target, dmgType, baseDmg)        
         else:
@@ -68,5 +68,5 @@ def inflict(fighter, target, dmgType, baseDmg):
     physicalAbsorption = Boons.applyWreath(target, dmgType)
     appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!\n")
     Conditions.takeDamage(target, dmgType, appliedDmg)

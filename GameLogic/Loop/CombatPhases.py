@@ -40,9 +40,9 @@ def setSight(fighter, enemies, allies, battleMap):
     return sightMap
 
 
-def outro(fighter, allyGroup, fightingAllies, battleMap):
+def outro(fighter, allyGroup, battleMap):
     Items.regenerate(fighter)
-    alive = Sort.setAlive(fighter, fightingAllies, battleMap)
+    alive = Sort.setAlive(fighter)
 
     if alive:
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
@@ -56,7 +56,7 @@ def outro(fighter, allyGroup, fightingAllies, battleMap):
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:
     if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
-        groups = Sort.getGroups(fighter, allies, enemies)
+        groups = Sort.getGroups(fighter, enemies, allies)
         Move.moveAction(fighter, groups, battleMap)
 
         if "echo" in fighter.inv:
@@ -66,8 +66,8 @@ def movementStage(fighter, enemies, allies, battleMap) -> None:
                 fighter.inv["echo"] = "None"
 
 
-def abilityStage(fighter, enemies, allies, battleMap) -> None:
-    groups = Sort.getGroups(fighter, allies, enemies)
+def abilityStage(fighter, enemies, allies) -> None:
+    groups = Sort.getGroups(fighter, enemies, allies)
     reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
     if fighter.cndt["reposed"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0

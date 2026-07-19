@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select, Damage
-
+from . import Commitments
 
 def decrementStamina(fighter, potency):
     for point in range(potency):
@@ -44,28 +44,49 @@ def takeDamage(target, dmgType, damage) -> None:
 
 
 def setInjury(target):
-    phrase1, phrase2 = target.props["name"] + " is ", "Speed reduced "
+    injuryPhrase, speedPhrase, avPhrase = target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
     print = False
 
     if target.atrb["quart_hp"] < target.atrb["cur_hp"] <= target.atrb["half_hp"]:
         if target.atrb["injury"] < 1:
-            phrase1 += "injured!"
-            phrase2 += "by a quarter. AV reduced by 1. "
+            if target.cndt["lifeless"]: injuryPhrase += "damaged!"
+            else: injuryPhrase += "injured!"
+            speedPhrase += "by a quarter."
+            avPhrase += " by 1."
+
             target.atrb["injury"] = 1
             print = True
+
     elif 0 < target.atrb["cur_hp"] <= target.atrb["quart_hp"]:
         if target.atrb["injury"] < 2:
-            phrase1 += "critically injured!"
-            phrase2 += "by half. AV reduced by 2. "
+            if target.cndt["lifeless"]: injuryPhrase += "critically damaged!"
+            else: injuryPhrase += "critically injured!"
+            speedPhrase += "by half."
+            avPhrase += "by 2."
+
             target.atrb["injury"] = 2
             print = True
-    elif target.atrb["cur_hp"] <= 0:
+
+    elif -target.atrb["half_hp"] < target.atrb["cur_hp"] <= 0:
         if target.atrb["injury"] < 3:
-            phrase1 += "mortally wounded!"
-            phrase2 += "to 1. AV reduced by 3. "
+            if target.cndt["lifeless"]: injuryPhrase += "catastrophically impaired!"
+            else: injuryPhrase += "mortally wounded!"
+            speedPhrase += "to 1."
+            avPhrase += " by 3."
+
             target.atrb["injury"] = 3
             print = True
 
+    elif target.atrb["cur_hp"] <= -target.atrb["half_hp"]:
+        if target.cndt["lifeless"]: injuryPhrase += "destroyed!"
+        else: injuryPhrase += "slain!"
+        target.cndt["dead"] = True
+
+        Commitments.clearCommitments(target)
+        Select.waitPrint(injuryPhrase)
+
     if print:
-        Select.waitPrint(phrase1)
-        Select.waitPrint(phrase2 + "Penalty applied to martial rolls.\n")
+        Select.waitPrint(injuryPhrase)
+        if target.atrb["base_sp"] > 0: Select.quickPrint(speedPhrase)
+        Select.quickPrint(avPhrase)
+        Select.waitPrint(str(target.atrb["injury"]) + "-point penalty applied to rolls.\n")

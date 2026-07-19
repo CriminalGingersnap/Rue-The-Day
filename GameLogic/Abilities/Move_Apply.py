@@ -71,7 +71,7 @@ def applyExamine(visibleTargets) -> None:
 
         if examinee.equip["shield"]["name"] != "None":
             shieldName = examinee.equip["shield"]["name"]
-            if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"] + " protection"
+            if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"] + " Protection"
             else: shieldName += " shield"
             shieldStatement = "Carrying a " + shieldName + ". "
         if examinee.equip["weapon"]["name"] != "None":

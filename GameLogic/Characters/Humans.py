@@ -54,7 +54,7 @@ class archer:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Broadhead"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["attacks"] += ["Bodkin"]
@@ -78,7 +78,7 @@ class brute:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["hindrances"] += ["Harry"]
@@ -102,7 +102,7 @@ class dragonslayer:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bodkin"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
@@ -126,7 +126,7 @@ class knight:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Guard"]
@@ -150,7 +150,7 @@ class mage:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"], "boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             if element == "Dream": abl["boons"] += ["Focus"]
@@ -178,7 +178,7 @@ class paladin:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Sling"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Sling"]})
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["boons"] += ["Wreath"]
@@ -202,7 +202,7 @@ class warlock:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bash", "Stab"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             abl["attacks"] += ["Bring"]

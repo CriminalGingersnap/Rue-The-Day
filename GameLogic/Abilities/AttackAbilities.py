@@ -17,7 +17,7 @@ def commitDice(attack, fighter, attackTarget):
     if attack in martialAttack: dice = fighter.atrb["cur_mar"]
     elif attack in magicAttack: dice = fighter.atrb["cur_mag"]
 
-    fighter.actionQueue += [["attack", attack, attackTarget, dice]]
+    fighter.attackQueue += [[attack, attackTarget, dice]]
 
 
 def execute(fighter, target, attack, dice) -> dict:

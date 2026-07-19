@@ -27,7 +27,7 @@ class crocodile:
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Conceal"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
         if rank != "Juvenile": abl["hindrances"] += ["Disorient"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Crocodile", element, type, rank)
@@ -42,7 +42,7 @@ class drake:
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Gore"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Gore"]})
         if rank != "Juvenile": abl["area"] += ["Breath"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, rank)
@@ -56,7 +56,7 @@ class lizard:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"]})
         if rank != "Juvenile": abl["areas"] += ["Slip"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, rank)
@@ -70,7 +70,7 @@ class tortoise:
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Ram"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
         if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
@@ -85,7 +85,7 @@ class turtle:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Guard"]})
 
         if rank != "Juvenile": abl["boons"] += ["Shroud"]
 
@@ -100,7 +100,7 @@ class wyrm:
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bite", "Spray"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Spray"]})
         if rank != "Juvenile": abl["hindrances"] += ["Focus"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, rank)

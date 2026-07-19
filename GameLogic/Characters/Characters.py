@@ -16,22 +16,18 @@ class character:
         name = rank + " " + job + "(" + elm + ")"
         self.props = {"job": job, "rank": rank, "type": type, "name": name, "initials": ""}
 
-        self.actionQueue, self.position = [], []
+        self.attackQueue, self.position = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
 
         Select.quickPrint(self.props["name"] + " instantiated!")
 
      
-def setAbilities(type, dice, additions) -> dict:
-    abilities = {"areas": [], "attacks": [], "boons": ["Evade"], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
-    
-    if dice["martial"] > 0:
-        abilities["areas"] += ["Set"]
-        if dice["magic"] > 0:
-            abilities["areas"] += ["Empower"]
+def setAbilities(type, additions) -> dict:
+    abilities = {"areas": [], "attacks": [], "boons": [], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
     
     abilities.update(additions)
     if type == "human": abilities["boons"] += ["Inventory"]
+    if "Guard" not in abilities["boons"]: abilities["boons"] += ["Evade"]
 
     abilityList = abilities["attacks"] + abilities["boons"] + abilities["hindrances"] + abilities["reactions"]
     if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]

@@ -3,33 +3,36 @@ from Maps import Map_Update as uMap, Movement
 from Systems import PlayerSelect as Select
 
 
-def getGroups(fighter, allies, enemies) -> list:
-    fightingEnemies, fightingAllies = sortLiving(enemies)[0], sortLiving(allies)[0]
-    reachable = sortReachable(fighter, fightingEnemies, fightingAllies)
-    return {"reachable": reachable, "fightingAllies": fightingAllies, "fightingEnemies": fightingEnemies}
+def getGroups(fighter, enemies, allies) -> list:
+    reachable = sortReachable(fighter, enemies, allies)
+    return {"reachable": reachable, "fightingAllies": allies, "fightingEnemies": enemies}
+    
 
-
-def setAlive(fighter, fightingAllies, battleMap) -> bool:
+def setAlive(fighter) -> bool:
     inanimate = fighter.itemEffects["Animate"]["additional"] and (fighter.itemEffects["Animate"]["duration"] <= 1)
     
     if (fighter.atrb["cur_hp"] <= 0) or inanimate:
         fighter.cndt["dead"] = True
         if fighter.props["rank"] == "player": Select.slowPrint(fighter.props["name"] + " will perish soon.")
-        Reactions.applyPheromones(fighter, fightingAllies)
-        uMap.removeFighter(fighter, battleMap)
         
         return False
     else: return True
 
-def sortLiving(contingent) -> list:
+def sortLiving(contingent, battleMap) -> list:
     fighting, downed = [], []
 
     for candidate in contingent:
-        if candidate.cndt["dead"] == False: fighting += [candidate]
-        elif candidate.itemEffects["Animate"]["additional"]: contingent.remove(candidate)
-        else: downed += [candidate]        
+        if candidate.cndt["dead"]: 
+            Reactions.applyPheromones(candidate, contingent)
+            uMap.removeFighter(candidate, battleMap)
+
+            if candidate.itemEffects["Animate"]["additional"]: contingent.remove(candidate)
+            else: downed += [candidate]   
+
+        else: fighting += [candidate]
     
     return [fighting, downed]
+
 
 def sortVisible(contingent, sightMap) -> list:
     visible, invisible = [], []

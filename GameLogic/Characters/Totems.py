@@ -42,7 +42,7 @@ class hex:
         common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, dice, {"areas": ["Hex"]})
+        abl = Characters.setAbilities(type, {"areas": ["Hex"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Hex")
 
@@ -52,7 +52,7 @@ class sentry:
         common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, dice, {"attacks": ["Bring"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Sentry")
 
@@ -62,7 +62,7 @@ class ward:
         common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
 
-        abl = Characters.setAbilities(type, dice, {"boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
         
         self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Ward")
 

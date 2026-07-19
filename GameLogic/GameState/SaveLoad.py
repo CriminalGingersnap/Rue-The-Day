@@ -6,7 +6,7 @@ import json
 
 class nullCharacter:
     def __init__(self) -> None:        
-        self.actionQueue, self.position = [], []
+        self.attackQueue, self.position = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
 
         dicts = Characters.setDicts()
