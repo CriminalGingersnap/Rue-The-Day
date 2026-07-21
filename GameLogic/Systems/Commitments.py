@@ -1,7 +1,6 @@
-from Actions import Sort
 from Abilities import Boons_Set as Boons, Hindrances_Set as Hinder
 from Maps import Map_Update as uMap
-from . import Effects, PlayerSelect as Select
+from . import Effects, PlayerSelect as Select, Sort
 
 
 def checkReach(fighter) -> None:
@@ -30,7 +29,8 @@ def clearCommitments(fighter):
 
 
 def removeCommitment(fighter, target, commitment):
-    Select.waitPrint("Commitment " + commitment + " terminates on " + target.props["name"] + ".")
-    Effects.removeEffect(target, commitment)
+    if fighter != target:
+        Select.waitPrint("Commitment " + commitment + " terminates on " + target.props["name"] + ".")
     
+    Effects.removeEffect(target, commitment)
     fighter.commits[commitment] = {"targets": [], "additional": None}

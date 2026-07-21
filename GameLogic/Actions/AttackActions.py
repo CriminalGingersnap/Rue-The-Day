@@ -1,6 +1,6 @@
-from Systems import PlayerSelect as Select, Damage
+from Systems import PlayerSelect as Select, Sort, Damage
 from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
-from . import AssessTargets as Assess, Sort
+from . import AssessTargets as Assess
 import random
 
 
@@ -30,7 +30,13 @@ def usableAttacks(fighter, enemies) -> list:
 
 def pcSelectAttack(fighter, enemies) -> str:
     attackOptions = usableAttacks(fighter, enemies)
-    return Select.pickOption(attackOptions, "attack")
+
+    if len(enemies) == 1:
+        for option in range(len(attackOptions)):
+            attackOptions[option] = attackOptions[option] + " -> " + enemies[0].props["name"]
+
+    answer = Select.pickOption(attackOptions, "attack").split(" -> ")[0]
+    return answer
 
 
 def npcSelectAttack(fighter, target) -> str:

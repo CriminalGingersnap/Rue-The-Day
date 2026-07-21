@@ -23,14 +23,16 @@ def moveAction(fighter, groups, battleMap) -> None:
 
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move", "Stay"]
         movePlayer(fighter, groups, posOptions, battleMap)
-    else: moveNPC(fighter, groups, posOptions, battleMap)
+    else:
+        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
+        moveNPC(fighter, groups, posOptions, battleMap)
     
 
 def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     answer = Select.pickOption(posOptions, fighter.props["name"] + "'s positional action")
     if "Examine" in answer: answer = "Examine"
 
-    elif answer in ["Move", "Stay"]:
+    if answer in ["Move", "Stay"]:
         stationary = True
         if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None, False)
         if stationary:

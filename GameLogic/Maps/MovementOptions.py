@@ -9,7 +9,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
     topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
     hazards = uMap.majorHazards + uMap.minorHazards
-    aquatic, waterLine = fighter.cndt["aquatic"], 0
+    aquatic, skittish, winged,  = fighter.cndt["aquatic"], fighter.cndt["skittish"], fighter.cndt["winged"]
+    waterLine = 0
 
     npc, simulation, anyContact = fighter.props["rank"] not in ["player", "world"], None, False
     if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.props["rank"])
@@ -37,7 +38,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
 
                 if "~" in battleMap[row][column]: waterLine = max(waterLine, (heightDict[sightSpace[-1]] + 1))
 
-                stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine, aquatic)
+                stepCount = traverse(movementMap, sightMap, fighterRow, fighterColumn, row, column, waterLine, aquatic, winged)
                 
                 if stepCount <= fighter.atrb["cur_sp"]:
                     freeSpace = False
@@ -52,7 +53,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     elif "." in sightSpace: movementMap[row][column] = ".:" + str(stepCount)
                     elif "!" in sightSpace: movementMap[row][column] = "!:" + str(stepCount)
 
-                    if npc and freeSpace:
+                    if npc and freeSpace and not skittish:
                         contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightSpace)
                         if contact: anyContact = True
                         else: movementMap[row][column] = "!:" + str(stepCount)
@@ -77,7 +78,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             terrain = sightMap[row][column][1]
 
             if (":" in moveSpace) and not any(marker in moveSpace for marker in [".", "!", ")", "/"]):
-                if ("~" not in moveSpace) or aquatic:
+                if ("~" not in moveSpace) or (aquatic or winged):
                     stepCount = moveSpace.split(':')[1]
                     if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
                     else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
@@ -87,7 +88,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             elif ")" in moveSpace: movementMap[row][column] = ")()(" + elevation
             elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
             elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation
-            elif ("~" in moveSpace) and not aquatic: movementMap[row][column] = "~~~~" + elevation
+            elif ("~" in moveSpace) and not (aquatic or winged): movementMap[row][column] = "~~~~" + elevation
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]
@@ -95,8 +96,8 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     return movementMap
     
 
-def traverse(movementMap, sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine, aquatic) -> int:
-    singleStepCost = stepCost(sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine, aquatic)
+def traverse(movementMap, sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine, aquatic, winged) -> int:
+    singleStepCost = stepCost(sightMap, fighterRow, fighterColumn, squareRow, squareColumn, waterLine, aquatic, winged)
 
     if (fighterRow == squareRow) and (abs(fighterColumn - squareColumn) == 1): return singleStepCost
     elif (fighterColumn == squareColumn) and (abs(fighterRow - squareRow) == 1): return singleStepCost
@@ -111,13 +112,13 @@ def traverse(movementMap, sightMap, fighterRow, fighterColumn, squareRow, square
                     stepCount = contents.split(':')[1]
 
                     if (int(stepCount) < lowest):
-                        nextStepCost = stepCost(sightMap, adjacentRow, adjacentColumn, squareRow, squareColumn, waterLine, aquatic)
+                        nextStepCost = stepCost(sightMap, adjacentRow, adjacentColumn, squareRow, squareColumn, waterLine, aquatic, winged)
                         lowest = int(stepCount) + nextStepCost
 
         return lowest
     
 
-def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aquatic) -> int:
+def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aquatic, winged) -> int:
     cost = 1
 
     lastWet = "~" in sightMap[lastRow][lastColumn]
@@ -133,12 +134,11 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aqua
     if lastZ < nextZ: cost = (nextZ - lastZ) + 1
     elif lastZ > nextZ: cost = (lastZ - nextZ)
 
-    if nextWet:
-        if not (aquatic ^ nextFrozen): cost += 1
-        if any(hazard in sightMap[nextRow][nextColumn] for hazard in ["R", "r", "V", "v", "B", "b"]): cost += 3
-    elif aquatic: cost += 1
+    if nextWet and not nextFrozen:
+        if aquatic: cost -= 1
+        elif not winged: cost += 1
     
-    if ")" in sightMap[nextRow][nextColumn]: cost += 3
+    if (")" in sightMap[nextRow][nextColumn]) and (not winged): cost += 3
     elif "/" in sightMap[nextRow][nextColumn]: cost += 5
 
     return cost

@@ -90,7 +90,7 @@ class mapMarker:
         self.position = start
 
         self.atrb = {"base_sp": 3, "cur_sp": 3}
-        self.cndt = {"aquatic": False}
+        self.cndt = {"aquatic": False, "skittish": False, "winged": False}
         self.props = {"initials": "..", "name": "World", "rank": "world", "type": "marker"}
 
         self.lastCleared = deque([[],[],[],[],[],[],[]])

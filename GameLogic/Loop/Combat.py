@@ -1,7 +1,6 @@
 from . import CombatPhases as Phases, Loot
-from Actions import Sort
 from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
-from Systems import Commitments, PlayerSelect as Select
+from Systems import Commitments, PlayerSelect as Select, Sort
 from Maps import Map_Update as uMap
 
 # Add method to create phases in boss fights. Generate new maps for each phase.
@@ -15,12 +14,17 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
     group1, group2, group3 = playerGroup, enemyGroups[0], enemyGroups[1]
 
     while not (playerVictory or playerDefeat):
+        Select.waitPrint("\nNew round beginning.\n")
+        uMap.updateHazards(battleMap)
+
         playerVictory = battle(group1, group2 + group3, battleMap)
         if not (playerVictory or playerDefeat):
+            Select.waitPrint("\nRound order advances to the next group.\n")
             playerDefeat = battle(group2, group1 + group3, battleMap)
         if not (playerVictory or playerDefeat):
+            Select.waitPrint("\nRound order advances to the next group.\n")
             playerDefeat = battle(group3, group1 + group2, battleMap)
-
+        
     if playerVictory:
         Loot.searchAll(group1, group2 + group3)
         return True
@@ -46,8 +50,6 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             Hinder.applyCompel(fighter, "Seal")
             if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
             uMap.activateHazards(fighter, battleMap)
-        
-        uMap.updateHazards(battleMap)
 
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
@@ -55,7 +57,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
-            Phases.abilityStage(fighter, foes, friends, battleMap)
+            Phases.abilityStage(fighter, foes, friends)
         
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:

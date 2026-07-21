@@ -11,7 +11,7 @@ from GameState import SaveLoad as Save
 
 
 Martin = Humans.knight("Basic", "Master").ch
-Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "W."
+Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "M."
 Martin.equip["armor"].update({"name": "None", "modifier": 0})
 
 Willem = Humans.dragonslayer("Basic", "Master").ch

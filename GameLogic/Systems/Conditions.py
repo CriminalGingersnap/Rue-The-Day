@@ -52,7 +52,7 @@ def setInjury(target):
             if target.cndt["lifeless"]: injuryPhrase += "damaged!"
             else: injuryPhrase += "injured!"
             speedPhrase += "by a quarter."
-            avPhrase += " by 1."
+            avPhrase += "by 1."
 
             target.atrb["injury"] = 1
             print = True
@@ -72,7 +72,7 @@ def setInjury(target):
             if target.cndt["lifeless"]: injuryPhrase += "catastrophically impaired!"
             else: injuryPhrase += "mortally wounded!"
             speedPhrase += "to 1."
-            avPhrase += " by 3."
+            avPhrase += "by 3."
 
             target.atrb["injury"] = 3
             print = True

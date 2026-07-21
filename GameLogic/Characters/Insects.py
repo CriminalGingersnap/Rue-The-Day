@@ -42,18 +42,6 @@ class beetle:
         abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spray"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Beetle", element, type, rank)
-        
-class isopod:
-    def __init__(self, element, rank) -> None:                
-        common = setCommon(element, rank)
-        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        stats["hp"], cndt["massive"] = "max", True
-
-        dice = {"martial": 3, "magic": 0}
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
-
-        self.ch = Characters.character(abl, dice, cndt, stats, "Isopod", element, type, rank)
 
 class centipede:
     def __init__(self, element, rank) -> None:                
@@ -68,15 +56,27 @@ class centipede:
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Centipede", element, type, rank)
 
-class waspNest:
+class hornet:
     def __init__(self, element, rank) -> None:                
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"] = True
-        stats["avoidance"], stats["speed"] = "min", "min"
+        cndt["aggressive"], cndt["winged"] = True, True
+        stats["avoidance"], stats["hp"], stats["speed"] = "max", "min", "mid"
         
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Harry"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wasp Nest", element, type, rank)
+        self.ch = Characters.character(abl, dice, cndt, stats, "Hornet", element, type, rank)
+
+class isopod:
+    def __init__(self, element, rank) -> None:                
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        stats["hp"], cndt["massive"] = "max", True
+
+        dice = {"martial": 3, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
+
+        self.ch = Characters.character(abl, dice, cndt, stats, "Isopod", element, type, rank)

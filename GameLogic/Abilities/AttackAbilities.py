@@ -2,9 +2,9 @@ from . import Attacks_Magic as Magic, Attacks_Martial as Martial
 from Systems import PlayerSelect as Select
 
 
-closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Pinch", "Ram", "Stab"]
+closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Pinch", "Ram", "Stab", "Sting"]
 midMartialAttack = ["Bodkin", "Spit", "Spray"]
-farMartialAttack = ["Broadhead", "Sling", "Sting"]
+farMartialAttack = ["Broadhead", "Sling"]
 martialAttack = closeMartialAttack + midMartialAttack + farMartialAttack
 
 magicAttack= ["Bring"]

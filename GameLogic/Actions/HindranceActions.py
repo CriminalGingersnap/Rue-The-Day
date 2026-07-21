@@ -1,12 +1,18 @@
-from . import AttackActions, Sort
+from . import AttackActions
 from Abilities import AttackAbilities as Attacks, Hindrances_Set as Hindrances, Hindrances_Apply as Hinder
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Sort
 import random
 
 
 def pcSelectHindrance(fighter, enemies) -> str:
     hindranceOptions = usableHindrances(fighter, enemies)
-    return Select.pickOption(hindranceOptions, "hindrance")
+
+    if len(enemies) == 1:
+        for option in range(len(hindranceOptions)):
+            hindranceOptions[option] = hindranceOptions[option] + " -> " + enemies[0].props["name"]
+
+    answer = Select.pickOption(hindranceOptions, "hindrance").split(" -> ")[0]
+    return answer
 
 
 def npcSelectHindrance(fighter, enemies, allies):

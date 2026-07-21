@@ -71,12 +71,15 @@ def yesNo(prompt) -> bool:
 def takeInput(floor, ceiling):
     if floor == ceiling:
         quickPrint("Value defaults to " + str(floor) + ".")
+        print()
         return floor
     else:
         while True:
             try:
                 answer = int(input("-> "))
-                if floor <= answer <= ceiling: return answer
+                if floor <= answer <= ceiling:
+                    print()
+                    return answer
                 else: raise ValueError
             except ValueError:
                 if ceiling == (floor + 1): print("Enter either " + str(floor) + " or " + str(ceiling) + ".")

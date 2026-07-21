@@ -45,11 +45,11 @@ def applyFocus(principal):
 
 def applyGuard(principal):
     bonus = apply(principal, "Guard")
-    flatBonus =  principal.effects["Wreath"]["dice"]
+    wreathBonus =  principal.effects["Wreath"]["dice"]
     if bonus > 0: Select.waitPrint(principal.props["name"] + "'s AV increases by " + str(bonus) + ".\n")
-    if flatBonus > 0: Select.waitPrint(principal.props["name"] + "'s wreath increases AV by " + str(bonus) + ".\n")
+    if wreathBonus > 0: Select.waitPrint(principal.props["name"] + "'s wreath increases AV by " + str(bonus) + ".\n")
 
-    return bonus + flatBonus
+    return bonus + wreathBonus
 
 
 def applyHeal(principal, ability) -> str:
@@ -84,10 +84,10 @@ def applyWreath(principal, attackDmgType) -> int:
 
         Select.waitPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
 
-    flatBonus = principal.effects["Guard"]["dice"]
-    if flatBonus > 0: Select.waitPrint(principal.props["name"] + "'s guard blocks " + str(bonus) + " magic damage.\n")
+    guardBonus = principal.effects["Guard"]["dice"]
+    if guardBonus > 0: Select.waitPrint(principal.props["name"] + "'s guard blocks " + str(guardBonus) + " magic damage.\n")
 
-    return bonus + flatBonus
+    return bonus + guardBonus
 
 def checkCompatibility(attackDmgType, responseDmgType) -> bool:
     compatible = False

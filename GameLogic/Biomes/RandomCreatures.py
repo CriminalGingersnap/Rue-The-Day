@@ -15,6 +15,7 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
     while diceBudget > 0:
         rankChoice, beast = random.choice(rankOptions), None
         match type:
+            case "bat": beast = AvoidantBeasts.bat(element, rankChoice).ch
             case "bear": beast = AggressiveBeasts.bear(element, rankChoice).ch      
             case "deer": beast = AvoidantBeasts.deer(element, rankChoice).ch
             case "camel": beast = AvoidantBeasts.camel(element, rankChoice).ch
@@ -24,7 +25,6 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
             case "lion": beast = AggressiveBeasts.lion(element, rankChoice).ch
             case "moose": beast = AggressiveBeasts.moose(element, rankChoice).ch
             case "mole": beast = AvoidantBeasts.mole(element, rankChoice).ch
-            case "rabbit": beast = AvoidantBeasts.rabbit(element, rankChoice).ch
             case "seal": beast = AvoidantBeasts.seal(element, rankChoice).ch
 
             case "crocodile": beast = Reptiles.crocodile(element, rankChoice).ch
@@ -37,8 +37,8 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
             case "ant": beast = Insects.ant(element, rankChoice).ch
             case "beetle": beast = Insects.beetle(element, rankChoice).ch
             case "centipede": beast = Insects.centipede(element, rankChoice).ch
+            case "hornet": beast = Insects.hornet(element, rankChoice).ch
             case "isopod": beast = Insects.isopod(element, rankChoice).ch
-            case "wasp": beast = Insects.waspNest(element, rankChoice).ch
 
             case "crab": beast = Invertebrates.crab(element, rankChoice).ch
             case "leech": beast = Invertebrates.leech(element, rankChoice).ch

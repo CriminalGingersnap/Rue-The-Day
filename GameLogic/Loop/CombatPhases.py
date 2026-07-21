@@ -1,7 +1,7 @@
 from Actions import MoveActions as Move
-from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl, Sort
+from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
-from Systems import PlayerSelect as Select, Conditions, Effects, Commitments
+from Systems import PlayerSelect as Select, Sort, Conditions, Effects, Commitments
 from Abilities import Reactions, Items_Use as Items
 
 
@@ -15,10 +15,14 @@ def resetFighter(fighter) -> None:
                   ) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
+        if fighter.itemEffects["Invigorate"]["duration"] > 0:
+            fighter.atrb["cur_sp"] += fighter.itemEffects["Invigorate"]["potency"]
+
     match fighter.atrb["injury"]:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
         case 2: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 2
         case 3: fighter.atrb["cur_sp"] = min(fighter.atrb["base_sp"], 1)
+
     fighter.atrb["cur_sp"] = max(0, fighter.atrb["cur_sp"])
 
     Commitments.clearCommitments(fighter)

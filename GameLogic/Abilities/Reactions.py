@@ -48,7 +48,7 @@ def applyReinforcements(fighter, allies, battleMap):
         if delay == 1:
             Select.waitPrint("Enemy reinforcements incoming!")
         elif delay == 0:
-            Select.slowPrint(str(quantity) + " enemy reinforcements arrive!")
+            Select.waitPrint(str(quantity) + " enemy reinforcements arrive!")
 
             if fighter.props["job"] == "Ant":
                 for newMember in quantity:

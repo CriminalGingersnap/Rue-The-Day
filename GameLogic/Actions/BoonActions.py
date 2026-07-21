@@ -5,16 +5,15 @@ from . import AssessTargets as Assess, AttackActions
 import random
 
 
-def pcSelectBoon(fighter):
+def pcSelectBoon(fighter, allies):
     boonOptions = usableBoons(fighter)
-    return Select.pickOption(boonOptions, "boon") 
+    
+    if len(allies) == 1:
+        for option in range(len(boonOptions)):
+            boonOptions[option] = boonOptions[option] + " -> " + allies[0].props["name"]
 
-def pcSelectBoonTarget(allies):
-    choice = "None"
-    if allies == []: Select.waitPrint("No valid targets remaining.")
-    else: choice = Select.targetSelect(allies)
-
-    return choice
+    answer = Select.pickOption(boonOptions, "boon").split(" -> ")[0]
+    return answer
 
 
 def npcSelectBoon(fighter, enemies):

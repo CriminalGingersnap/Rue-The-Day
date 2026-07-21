@@ -95,7 +95,7 @@ class wyrm:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"] = True
+        cndt["aggressive"], cndt["winged"] = True, True
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)

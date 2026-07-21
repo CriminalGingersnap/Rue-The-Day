@@ -76,6 +76,7 @@ class wraith:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["winged"] = True
 
         dice = {"martial": 0, "magic": 3}
         abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Heal"]})
@@ -102,12 +103,12 @@ class hive:
         stats["speed"] = "min"
 
         dice = {"martial": 1, "magic": 2}
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Sting"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Broadhead"], "boons": ["Wreath"]})
 
         if rank == "Greater":
             dice["martial"] += 2
-            abl["mastery"] = [random.choice(["Bodkin", "Sting", "Wreath"])]
-        else: abl["specialty"] = [random.choice(["Bodkin", "Sting", "Wreath"])]
+            abl["mastery"] = [random.choice(["Bodkin", "Broadhead", "Wreath"])]
+        else: abl["specialty"] = [random.choice(["Bodkin", "Broadhead", "Wreath"])]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Sprite Hive", element, type, rank)
 
@@ -133,6 +134,7 @@ class puffer:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["winged"] = True
 
         stats["resist"]["Pierce"] = "vulnerable"
 
@@ -189,6 +191,7 @@ class nymph:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["aquatic"] = True
 
         dice = {"martial": 0, "magic": 3}
         abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
@@ -243,7 +246,7 @@ class sphinx:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["massive"] = True
+        cndt["massive"], cndt["winged"] = True, True
 
         stats["hp"] = "max"
 
@@ -263,7 +266,7 @@ class wisp:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["sapient"] = False
+        cndt["sapient"], cndt["winged"] = False, True
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "low", "max"
 
         dice = {"martial": 0, "magic": 1}

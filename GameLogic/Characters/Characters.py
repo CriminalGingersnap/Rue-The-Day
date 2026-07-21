@@ -27,7 +27,6 @@ def setAbilities(type, additions) -> dict:
     
     abilities.update(additions)
     if type == "human": abilities["boons"] += ["Inventory"]
-    if "Guard" not in abilities["boons"]: abilities["boons"] += ["Evade"]
 
     abilityList = abilities["attacks"] + abilities["boons"] + abilities["hindrances"] + abilities["reactions"]
     if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]
@@ -68,7 +67,8 @@ def setTraits():
                     "calling": {"delay": 0, "quantity": 0, "used": False},
                      "dead": False, "inviolable": False, "lifeless": False,
                       "massive": False, "reposed": False, "running": False,
-                       "skittish": False, "social": False, "sapient": False}
+                       "skittish": False, "social": False, "sapient": False, 
+                        "winged": False}
     
     resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal",
                     "Dream": "normal", "Ice": "normal", "Holy": "immune",

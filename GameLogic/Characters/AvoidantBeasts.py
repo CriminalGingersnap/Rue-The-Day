@@ -19,6 +19,21 @@ def setCommon(element, rank) -> list:
     return [stats, cndt, rank, type]
 
 
+class bat:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["skittish"], cndt["winged"] = True, True
+        stats["avoidance"], stats["hp"] = "max", "min"
+
+        dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
+        if rank == "Elder": abl["areas"] += ["Slip"]
+
+        self.ch = Characters.character(abl, dice, cndt, stats, "Bat", element, type, rank)
+
 class camel:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
@@ -60,21 +75,6 @@ class mole:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, rank)
-
-class rabbit:
-    def __init__(self, element, rank) -> None:
-        common = setCommon(element, rank)
-        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["skittish"] = True
-        stats["avoidance"], stats["hp"] = "max", "min"
-
-        dice = {"martial": 1, "magic": 0}
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-
-        abl = Characters.setAbilities(type, {"boons": ["Conceal"]})
-        if rank == "Elder": abl["areas"] += ["Slip"]
-
-        self.ch = Characters.character(abl, dice, cndt, stats, "Rabbit", element, type, rank)
 
 class seal:
     def __init__(self, element, rank) -> None:

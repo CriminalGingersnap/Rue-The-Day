@@ -1,5 +1,5 @@
 from Systems import Damage, PlayerSelect as Select, Conditions
-from . import Area_Set as Area
+from . import Area_Set as Area, Area_Apply as Apply
 
 
 def execute(fighter, category, element, application, groups, battleMap) -> None:
@@ -14,8 +14,8 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             Area.throwStone(fighter, category, element, groups, battleMap)
         case "Extract":
             Select.waitPrint(fighter.props["name"] + " consumes the essence of " + end)
-            if element == "Bleed": invigorate(fighter, category)
-            else: imbue(fighter, category, element)            
+            if element == "Bleed": invigorate(fighter, category, battleMap)
+            else: imbue(fighter, category, element, battleMap)            
             match category:
                 case "pearls": Conditions.decrementTolerance(fighter, 2)
                 case "cores": Conditions.decrementTolerance(fighter, 4)
@@ -28,7 +28,7 @@ def animate(fighter, groups) -> None:
     echo.itemEffects["Animate"]["additional"] = True
 
 
-def imbue(fighter, category, element) -> None:
+def imbue(fighter, category, element, battleMap) -> None:
     potency, dmgCat1, dmgCat2 = 0, "", ""
 
     match category:
@@ -56,8 +56,11 @@ def imbue(fighter, category, element) -> None:
     fighter.itemEffects["Imbue"]["duration"] = 3
     fighter.itemEffects["Imbue"]["additional"] = element
 
+    atmosphere = Apply.getAtmosphere(1, dmgType)
+    battleMap[fighter.position[0]][fighter.position[1]] = atmosphere + battleMap[fighter.position[0]][fighter.position[1]][0:]
 
-def invigorate(fighter, category) -> None:
+
+def invigorate(fighter, category, battleMap) -> None:
     potency = 0
 
     match category:
@@ -67,6 +70,8 @@ def invigorate(fighter, category) -> None:
     if not fighter.cndt["lifeless"]:
         fighter.itemEffects["Invigorate"]["duration"] = 3
         fighter.itemEffects["Invigorate"]["potency"] = min(fighter.itemEffects["Invigorate"]["potency"] + potency, 4)
+
+    battleMap[fighter.position[0]][fighter.position[1]] = "=" + battleMap[fighter.position[0]][fighter.position[1]][0:]
 
 
 def regenerate(fighter) -> None:

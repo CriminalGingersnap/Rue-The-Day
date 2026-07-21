@@ -126,10 +126,10 @@ class knight:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        abl = Characters.setAbilities(type, {"boons": ["Guard"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["boons"] += ["Guard"]
+            abl["attacks"] += ["Bash", "Stab"]
 
             if rank in ["Adept", "Elite", "Master"]:
                 abl["specialty"] = [random.choice(["Bash", "Guard", "Stab"])]

@@ -63,18 +63,24 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     potency = 2
     if category == "cores": potency = 3
 
+    atmosphere = Apply.getAtmosphere(potency, dmgType)
+    battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
+
     if dmgType == "Dream":
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
-        if potency == 3:
+        Select.waitPrint(fighter.props["name"] + " teleports!")
+        potency -= 1
+
+        if potency == 2:
+            Select.waitPrint("The core warps again!")
             tossSpace = Locate.findSpace(fighter, groups, 4)
             tossRow, tossColumn = tossSpace[0], tossSpace[1]
             if (tossRow != fighter.position[0]) and (tossColumn != fighter.position[1]):
+                battleMap[tossRow][tossColumn] = "@" + battleMap[tossRow][tossColumn][1:]
                 uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
                 potency -= 1
-        potency -= 1
 
-    atmosphere = Apply.getAtmosphere(potency, dmgType)
-    battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
-    
+    Apply.spreadAtmosphere("*", potency+1, tossRow, tossColumn, battleMap)
+
     lesserAtmosphere = Apply.getAtmosphere(potency-1, dmgType)
     Apply.spreadAtmosphere(lesserAtmosphere, potency, tossRow, tossColumn, battleMap)

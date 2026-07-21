@@ -30,26 +30,29 @@ def mods(fighter, ability, dType) -> int:
             mod += weapon
             phrase += "+" + str(weapon) + " (Weapon) | "
 
-        if fighter.atrb["corruption"] > 0:
-            if random.choice([True, False]):
-                mod += fighter.atrb["corruption"]
-                phrase += "+"
-            else:
-                mod -= fighter.atrb["corruption"]
-                phrase += "-"
-            phrase += str(fighter.atrb["corruption"]) + " (Instability) | "
-    
-    elif dType == "martial":
-        if fighter.atrb["fatigue"] > 0:
-            mod -= fighter.atrb["fatigue"]
-            phrase += "-" + str(fighter.atrb["fatigue"]) + " (Fatigue) | "
-        if fighter.itemEffects["Invigorate"]["duration"] > 0:
-            mod += fighter.itemEffects["Invigorate"]["potency"]
-            phrase += "+" + fighter.itemEffects["Invigorate"]["potency"] + " (Invigoration) | "
+        if fighter.itemEffects["Imbue"]["duration"] > 0:
+            mod += fighter.itemEffects["Imbue"]["potency"]
+            phrase += "+" + fighter.itemEffects["Imbue"]["potency"] + " (Imbue) | "
 
+    elif (dType == "martial") and (fighter.itemEffects["Invigorate"]["duration"] > 0):
+        mod += fighter.itemEffects["Invigorate"]["potency"]
+        phrase += "+" + fighter.itemEffects["Invigorate"]["potency"] + " (Invigoration) | "
+
+    if fighter.atrb["fatigue"] > 0:
+        mod -= fighter.atrb["fatigue"]
+        phrase += "-" + str(fighter.atrb["fatigue"]) + " (Fatigue) | "
     if fighter.atrb["injury"] > 0:
         mod -=  fighter.atrb["injury"]
         phrase += "-" + str(fighter.atrb["injury"]) + " (Injury) | "
+    
+    if fighter.atrb["corruption"] > 0:
+        if random.choice([True, False]):
+            mod += fighter.atrb["corruption"]
+            phrase += "+"
+        else:
+            mod -= fighter.atrb["corruption"]
+            phrase += "-"
+        phrase += str(fighter.atrb["corruption"]) + " (Corruption) | "
 
     Select.waitPrint("Modifiers: " + str(mod) + phrase)
     return mod

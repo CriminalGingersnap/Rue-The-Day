@@ -55,12 +55,15 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
             Select.waitPrint("Contact!")
         else: Select.waitPrint("Glancing blow!")
 
-        if fighter.atrb["cur_elm"] in [dmgType, "Basic"]:
+        if dmgType == fighter.atrb["cur_elm"]:
             baseDmg += fighter.equip["weapon"]["modifier"]
-            inflict(fighter, target, dmgType, baseDmg)        
+            inflict(fighter, target, dmgType, baseDmg)
         else:
             inflict(fighter, target, dmgType, baseDmg)
-            inflict(fighter, target, fighter.atrb["cur_elm"], fighter.equip["weapon"]["modifier"])
+            if target.atrb["cur_hp"] > -target.atrb["half_hp"]:
+                bonusDmgType = fighter.atrb["cur_elm"]
+                if fighter.atrb["cur_elm"] == "Basic": bonusDmgType = "Bleed"
+                inflict(fighter, target, bonusDmgType, fighter.equip["weapon"]["modifier"])
 
     else: Select.waitPrint("Attack misses!")
 
