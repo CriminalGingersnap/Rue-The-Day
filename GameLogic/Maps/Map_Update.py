@@ -61,7 +61,7 @@ def hideTraps(fighter, sightMap):
     for row in range(12):
         for column in range(12):
             distance = Movement.getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
-            if (distance > 1) and ("]" in sightMap[row][column]):
+            if (distance > 2) and ("]" in sightMap[row][column]):
                 sightMap[row][column] = sightMap[row][column][:-1] + "|"
 
 
@@ -119,7 +119,7 @@ def updateHazards(battleMap):
         for column in range(12):
             atmosphere = battleMap[row][column][0]
 
-            if atmosphere not in ["/", ")"]:
+            if atmosphere != "/":
                 dmgType, newAtmosphere = identifyAtmosphere(atmosphere), "_"
                 scale = getScale(atmosphere)
 

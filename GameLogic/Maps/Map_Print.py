@@ -15,7 +15,6 @@ def finishSpace(space, mapName) -> str:
     elif ("Sight Map" in mapName) and (space[2] in iMap.intStrings): character = "!"
 
     if "////" in space: space = iMap.wall
-    elif ")()(" in space: space = iMap.pit
     elif "/" in space: space = atmosphere + character + " /" + "|"
     else: space = " " + character + " " + atmosphere + "|"
 

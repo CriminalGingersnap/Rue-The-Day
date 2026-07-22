@@ -32,11 +32,11 @@ def mods(fighter, ability, dType) -> int:
 
         if fighter.itemEffects["Imbue"]["duration"] > 0:
             mod += fighter.itemEffects["Imbue"]["potency"]
-            phrase += "+" + fighter.itemEffects["Imbue"]["potency"] + " (Imbue) | "
+            phrase += "+" + str(fighter.itemEffects["Imbue"]["potency"]) + " (Imbue) | "
 
     elif (dType == "martial") and (fighter.itemEffects["Invigorate"]["duration"] > 0):
         mod += fighter.itemEffects["Invigorate"]["potency"]
-        phrase += "+" + fighter.itemEffects["Invigorate"]["potency"] + " (Invigoration) | "
+        phrase += "+" + str(fighter.itemEffects["Invigorate"]["potency"]) + " (Invigoration) | "
 
     if fighter.atrb["fatigue"] > 0:
         mod -= fighter.atrb["fatigue"]
@@ -53,6 +53,10 @@ def mods(fighter, ability, dType) -> int:
             mod -= fighter.atrb["corruption"]
             phrase += "-"
         phrase += str(fighter.atrb["corruption"]) + " (Corruption) | "
+
+    if fighter.cndt["submerged"] and not fighter.cndt["aquatic"]:
+        mod -= 3
+        phrase += "-3 (Submerged) | "
 
     Select.waitPrint("Modifiers: " + str(mod) + phrase)
     return mod

@@ -84,7 +84,11 @@ def setMapConditions(biome):
     budget = [drawn[3], drawn[4]]
 
     if slope == "ruin": obstructions["pit"] = obstructionValue
+    elif biome in ["Flaming Volcano", "Icy Glacier", "Rot Locus"]:
+        obstructions["pit"] = (obstructionValue // 3) * 2
+        obstructions["wall"] = obstructionValue - obstructions["pit"]
     else: obstructions["wall"] = obstructionValue
+    
     atmosphere = setAtmosphere(biome, atmosphereValue)
 
     return [atmosphere, obstructions, slope, budget, faceDown]
@@ -92,9 +96,8 @@ def setMapConditions(biome):
 
 def setAtmosphere(biome, extent) -> dict:
     atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0}
-    majorBiomes = ["Icy Volcano", "Dreamwood Depths", "Icy Glacier", "Holy Desert", "Rot Locus"]
 
-    if biome in majorBiomes:
+    if biome in ["Dreamwood Depths", "Flaming Volcano", "Holy Desert", "Icy Glacier", "Rot Locus"]:
         atmosphere["Mana"] = extent
         extent += 3
     

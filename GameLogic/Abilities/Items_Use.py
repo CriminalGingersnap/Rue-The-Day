@@ -13,7 +13,7 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             Select.waitPrint(fighter.props["name"] + " throws " + end)
             Area.throwStone(fighter, category, element, groups, battleMap)
         case "Extract":
-            Select.waitPrint(fighter.props["name"] + " consumes the essence of " + end)
+            Select.waitPrint(fighter.props["name"] + " absorbs the essence of " + end)
             if element == "Bleed": invigorate(fighter, category, battleMap)
             else: imbue(fighter, category, element, battleMap)            
             match category:
@@ -57,7 +57,7 @@ def imbue(fighter, category, element, battleMap) -> None:
     fighter.itemEffects["Imbue"]["additional"] = element
 
     atmosphere = Apply.getAtmosphere(1, dmgType)
-    battleMap[fighter.position[0]][fighter.position[1]] = atmosphere + battleMap[fighter.position[0]][fighter.position[1]][0:]
+    battleMap[fighter.position[0]][fighter.position[1]] = atmosphere + battleMap[fighter.position[0]][fighter.position[1]][1:]
 
 
 def invigorate(fighter, category, battleMap) -> None:
@@ -71,7 +71,7 @@ def invigorate(fighter, category, battleMap) -> None:
         fighter.itemEffects["Invigorate"]["duration"] = 3
         fighter.itemEffects["Invigorate"]["potency"] = min(fighter.itemEffects["Invigorate"]["potency"] + potency, 4)
 
-    battleMap[fighter.position[0]][fighter.position[1]] = "=" + battleMap[fighter.position[0]][fighter.position[1]][0:]
+    battleMap[fighter.position[0]][fighter.position[1]] = "=" + battleMap[fighter.position[0]][fighter.position[1]][1:]
 
 
 def regenerate(fighter) -> None:

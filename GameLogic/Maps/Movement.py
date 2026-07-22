@@ -13,17 +13,20 @@ def moveFighter(fighter, battleMap, target, closeRanks) -> None:
     if player: moveChoice = movePlayer(movementMap, lastSpace, fighter.props["name"])
     else: moveChoice = moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks)
 
+    row = spaceOptions[moveChoice][0]
+    column = spaceOptions[moveChoice][1]
+    
+    if (battleMap[row][column][1] == "~") and not fighter.cndt["winged"]: fighter.cndt["submerged"] = True
+    else: fighter.cndt["submerged"] = False
+
     if int(moveChoice) != 1:
         if not player: Select.waitPrint(fighter.props["name"] + " moves.")
-
-        row = spaceOptions[moveChoice][0]
-        column = spaceOptions[moveChoice][1]
-        stepCount = spaceOptions[moveChoice][2]
         uMap.updatePlacement(battleMap, fighter.sightMap, row, column, fighter)
-        
+
+        stepCount = spaceOptions[moveChoice][2]
         fighter.atrb["cur_sp"] -= stepCount
         if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
-    
+
     else: stationary = True
     return stationary
 

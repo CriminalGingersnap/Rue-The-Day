@@ -1,7 +1,7 @@
-import Systems.PlayerSelect as Select
-from . import BoonActions as Boons
+from Systems import PlayerSelect as Select
+from . import ItemActions_NPC as NPC
 from Abilities import Items_Use as Use
-import random
+from Maps import Movement
 
 
 def itemAction(fighter, groups, battleMap) -> None:
@@ -12,12 +12,14 @@ def itemAction(fighter, groups, battleMap) -> None:
         selection = "None"
 
         if fighter.props["rank"] == "player": selection = pcSelectItem(fighter.props["job"], inventory)
-        else: selection = npcSelectItem(fighter, groups, inventory)
+        else: selection = NPC.npcSelectItem(fighter, groups, inventory)
 
         if selection != "None":
             category, item, application = selection[0], selection[1], selection[2],
             fighter.inv[category][item] -= 1
-            Use.execute(fighter, category, item, application, groups, battleMap)
+
+            target = getTarget(fighter, groups, application)
+            Use.execute(target, category, item, application, groups, battleMap)
 
 
 def pcSelectItem(job, inventory) -> str:
@@ -46,54 +48,20 @@ def pcSelectItem(job, inventory) -> str:
         return [category.lower(), item, application]
 
 
-def npcSelectItem(fighter, groups, inventory) -> str:
-    preferences, enemyDmgTypes = {"Detonate": [], "Extract": []}, []
-    blockList = allowlist = ["Flame", "Dream", "Ice", "Holy", "Rot"]
+def getTarget(fighter, groups, application) -> list:
+    target = fighter
 
-    if fighter.props["job"] == "Paladin": allowlist = []
-    elif fighter.atrb["base_mag"] > 0:
-        blockList.remove(fighter.equip["weapon"]["dmgTypes"])
-        allowlist.remove(blockList)
+    if (application == "Extract") and (fighter.props["rank"] == "player"):
+        reachable = []
 
-    if fighter.atrb["cur_hp"] <= (fighter.atrb["half_hp"]): preferences["Extract"] += ["Bleed"]
-    else: preferences["Detonate"] += ["Bleed"]
+        for target in  groups["fightingAllies"]:
+            distance = Movement.getTargetDistance(fighter, target)
+            if distance <= 1: reachable += [target]
 
-    for enemy in groups["fightingEnemies"]:
-        enemyDmgTypes += enemy.equip["weapon"]["dmgTypes"]
-    
-    if ("Flame" in enemyDmgTypes) and ("Ice" not in enemyDmgTypes):
-        if "Flame" in allowlist: preferences["Extract"] += ["Flame"]
-        preferences["Detonate"] += ["Ice"]
-    elif ("Ice" in enemyDmgTypes) and ("Flame" not in enemyDmgTypes):
-        if "Ice" in allowlist: preferences["Extract"] += ["Ice"]
-        preferences["Detonate"] += ["Flame"]
+        if len(reachable) > 1:
+            target = Select.targetSelect(reachable)
 
-    if any(dType in enemyDmgTypes for dType in ["Crush", "Pierce"]) and not any(dType in enemyDmgTypes for dType in ["Dream", "Rot"]):
-        if "Dream" in allowlist: preferences["Extract"] += ["Dream"]
-
-    if "Rot" in enemyDmgTypes:
-        if "Holy" in allowlist: preferences["Extract"] += ["Holy"]
-        if "Holy" not in enemyDmgTypes: preferences["Detonate"] += ["Holy"]
-        if "Rot" in allowlist: preferences["Extract"] += ["Rot"]
-
-    if "Toxic" in enemyDmgTypes:
-        if ("Holy" not in enemyDmgTypes) and ("Rot" in allowlist): preferences["Extract"] += ["Rot"]
-
-    choices, selection = [], "None"
-
-    if "Echo" in inventory:
-        choices += [["echo", "spirit", "Animate"]]
-        del inventory["Echo"]
-
-    for category in inventory:
-        for item in preferences["Detonate"]:
-            if item in inventory[category]: choices += [[category.lower(), item, "Detonate"]]
-        for item in preferences["Extract"]:
-            if item in inventory[category]: choices += [[category.lower(), item, "Extract"]]
-    
-    if len(choices) > 0: selection = random.choice(choices)
-
-    return selection
+    return target
 
 
 def hasItems(fighter) -> bool:

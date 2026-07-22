@@ -68,7 +68,7 @@ def setTraits():
                      "dead": False, "inviolable": False, "lifeless": False,
                       "massive": False, "reposed": False, "running": False,
                        "skittish": False, "social": False, "sapient": False, 
-                        "winged": False}
+                        "submerged": False, "winged": False}
     
     resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal",
                     "Dream": "normal", "Ice": "normal", "Holy": "immune",

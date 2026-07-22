@@ -1,5 +1,5 @@
 def setAtmosphere(atmosphere, row, column, battleMap):
-    if not any(obstruction in battleMap[row][column] for obstruction in ["/", "("]):
+    if "////" not in battleMap[row][column]:
         battleMap[row][column] = atmosphere + battleMap[row][column][1:]
 
 def getAtmosphere(scale, dmgType) -> str:

@@ -47,18 +47,20 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                         freeSpace = True
                     elif "~~~" in sightSpace:
                         movementMap[row][column] = "~:" + str(stepCount)
-                        if aquatic: freeSpace = True
-                    elif ")" in sightSpace: movementMap[row][column] = "):" + str(stepCount)
+                        if aquatic or winged: freeSpace = True
+                    elif ")" in sightSpace:
+                        movementMap[row][column] = "):" + str(stepCount)
+                        if winged: freeSpace = True
                     elif "/" in sightSpace: movementMap[row][column] = "/:" + str(stepCount)
                     elif "." in sightSpace: movementMap[row][column] = ".:" + str(stepCount)
                     elif "!" in sightSpace: movementMap[row][column] = "!:" + str(stepCount)
 
-                    if npc and freeSpace and not skittish:
+                    if npc and freeSpace:
                         contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightSpace)
                         if contact: anyContact = True
                         else: movementMap[row][column] = "!:" + str(stepCount)
 
-    if npc and not anyContact:
+    if npc and ((not anyContact) or skittish):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 if "!:" in movementMap[row][column]:
@@ -77,18 +79,17 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             elevation = sightMap[row][column][-1]
             terrain = sightMap[row][column][1]
 
-            if (":" in moveSpace) and not any(marker in moveSpace for marker in [".", "!", ")", "/"]):
-                if ("~" not in moveSpace) or (aquatic or winged):
+            if (":" in moveSpace) and not any(marker in moveSpace for marker in [".", "!", "/"]):
+                if (")" not in moveSpace) or winged:
                     stepCount = moveSpace.split(':')[1]
                     if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
                     else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                     counter += 1
 
             if "." in moveSpace: movementMap[row][column] = "/../" + elevation
-            elif ")" in moveSpace: movementMap[row][column] = ")()(" + elevation
-            elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
             elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation
-            elif ("~" in moveSpace) and not (aquatic or winged): movementMap[row][column] = "~~~~" + elevation
+            elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
+            elif ")" in moveSpace and not winged: movementMap[row][column] = "))))" + elevation
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]

@@ -12,11 +12,19 @@ def getProbableAv(fighter, dmgType, target) -> int:
     probAv += fighter.effects["Misdirect"]["dice"] * 3
     probAv -= fighter.effects["Focus"]["dice"] * 3
 
+    if fighter.cndt["aquatic"]:
+        if fighter.cndt["submerged"]: probAv += 2
+        else: probAv -= 2
+
     return probAv
 
 def getBaseAv(attack, dmgType, target) -> int:
     av = (target.atrb["cur_av"] - target.atrb["injury"]) + target.equip["shield"]["modifier"]
     if (dmgType == "Pierce") and (attack != "Bodkin"): av += target.equip["armor"]["modifier"]
+
+    if target.cndt["aquatic"]:
+        if target.cndt["submerged"]: av += 2
+        else: av -= 2
 
     return max(av, 0)
 
@@ -46,14 +54,14 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
     if attempt >= (av // 2):
         if attempt >= (av * 2):
             baseDmg *= 6
-            Select.waitPrint("Devastating blow!")
+            Select.waitPrint("Devastating blow!\n")
         elif attempt >= (av + (av // 2)):
             baseDmg *= 5
-            Select.waitPrint("Clean hit!")
+            Select.waitPrint("Clean hit!\n")
         elif attempt >= av:
             baseDmg *= 4
-            Select.waitPrint("Contact!")
-        else: Select.waitPrint("Glancing blow!")
+            Select.waitPrint("Contact!\n")
+        else: Select.waitPrint("Glancing blow!\n")
 
         if dmgType == fighter.atrb["cur_elm"]:
             baseDmg += fighter.equip["weapon"]["modifier"]
@@ -65,7 +73,7 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
                 if fighter.atrb["cur_elm"] == "Basic": bonusDmgType = "Bleed"
                 inflict(fighter, target, bonusDmgType, fighter.equip["weapon"]["modifier"])
 
-    else: Select.waitPrint("Attack misses!")
+    else: Select.waitPrint("Attack misses!\n")
 
 def inflict(fighter, target, dmgType, baseDmg):
     physicalAbsorption = Boons.applyWreath(target, dmgType)

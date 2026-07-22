@@ -2,7 +2,7 @@ from . import Map_Populate as pMap, Elevation, Map_Print as Print
 from Systems import PlayerSelect as Select
 import random
 
-wall, pool, pit =  "////|", "_~~~|", ")()(|"
+wall, pool, pit =  "////|", "_~~~|", "_)))|"
 impermissible = [wall, pit]
 
 emptySpace, manaWell = "____|", "*___|"
