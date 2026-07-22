@@ -44,7 +44,7 @@ def takeDamage(target, dmgType, damage) -> None:
 
 
 def setInjury(target):
-    injuryPhrase, speedPhrase, avPhrase = target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
+    injuryPhrase, speedPhrase, avPhrase = "\n" + target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
     print = False
 
     if target.atrb["quart_hp"] < target.atrb["cur_hp"] <= target.atrb["half_hp"]:
@@ -69,7 +69,7 @@ def setInjury(target):
 
     elif -target.atrb["half_hp"] < target.atrb["cur_hp"] <= 0:
         if target.atrb["injury"] < 3:
-            if target.cndt["lifeless"]: injuryPhrase += "catastrophically impaired!"
+            if target.cndt["lifeless"]: injuryPhrase += "catastrophically damaged!"
             else: injuryPhrase += "mortally wounded!"
             speedPhrase += "to 1."
             avPhrase += "by 3."

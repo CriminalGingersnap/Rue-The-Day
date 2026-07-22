@@ -66,11 +66,15 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
         elif len(reachableEnemies) == 0:
             target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies, True)
 
-        if target != "None":
-            stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
+        if target != "None": stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
     if stationary:
-        if (target == "None") and ("Empower" in posOptions): posOptions.remove(["Empower"])
-        choice = random.choice(posOptions)
+        if "Empower" in posOptions: posOptions.remove(["Empower"])
+        
+        if len(posOptions) == 0:            
+            if fighter.atrb["base_mar"] > 0: choice = "Set"
+            else: choice = "Evade"
+        else: choice = random.choice(posOptions)
+
     if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
     elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap)

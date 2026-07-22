@@ -23,7 +23,7 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
 
 def animate(fighter, groups) -> None:
     echo = fighter.inv["echo"]
-    echo.position = Area.findSpace(fighter, groups, 4)
+    echo.position = Area.findSpace(fighter, groups, 4, "echo")
     echo.itemEffects["Animate"]["duration"] = 3
     echo.itemEffects["Animate"]["additional"] = True
 

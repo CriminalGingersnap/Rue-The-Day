@@ -1,13 +1,13 @@
 import time
 
-waitTime = .3
+longWait, quickWait = .3, .07
 
 # make a fast print option for large blocks of text. let the player choose before it starts.
 def slowPrint(text):
     for i in text:
         quickPrint(i, '')
-        time.sleep(.07)
-    time.sleep(waitTime)
+        time.sleep(quickWait)
+    time.sleep(longWait)
     quickPrint('', '')
 
 
@@ -21,19 +21,20 @@ def readScene(phraseList) -> None:
 def conversationPrint(text):
     for i in text:
         quickPrint(i, '')
-        time.sleep(.06)
+        time.sleep(quickWait)
         if i in [".", ",", "?", "!", ">"]: time.sleep(.2)
         elif i == ":": time.sleep(.5)
     waitPrint("\n")
 
 
 def quickPrint(text, ending: str | None = "\n"):
+    time.sleep(quickWait)
     print(text, end=ending)
 
 def waitPrint(text):
-    time.sleep(waitTime)
+    time.sleep(longWait)
     quickPrint(text, "\n")
-    time.sleep(waitTime)
+    time.sleep(longWait)
 
 
 def targetSelect(targets) -> int:

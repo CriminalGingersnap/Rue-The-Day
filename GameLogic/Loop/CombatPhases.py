@@ -28,17 +28,14 @@ def resetFighter(fighter) -> None:
     Effects.updateItemEffects(fighter)
 
 
-def setSight(fighter, enemies, allies, battleMap):
+def setSight(fighter, enemies, allies, battleMap, print):
     sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.props["rank"])
     uMap.hideShrouded(fighter, enemies + allies, sightMap)
 
     if fighter.props["rank"] == "player":
         uMap.revealOthers(fighter, allies, enemies, sightMap)
         uMap.hideTraps(fighter, sightMap)
-    else:
-        Select.waitPrint("\n" + fighter.props["name"] + "'s turn")
-
-    Print.printSightMap(battleMap, sightMap, fighter.props["name"] + "'s Sight Map")
+        if print: Print.printSightMap(battleMap, sightMap, fighter.props["name"] + "'s Sight Map")
 
     return sightMap
 

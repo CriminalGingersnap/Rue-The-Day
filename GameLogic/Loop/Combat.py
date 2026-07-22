@@ -13,16 +13,18 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
     playerVictory, playerDefeat = False, False
     group1, group2, group3 = playerGroup, enemyGroups[0], enemyGroups[1]
 
+    for fighter in group1: fighter.sightMap = Phases.setSight(fighter, group2 + group3, group1, battleMap, False)
+    for fighter in group2: fighter.sightMap = Phases.setSight(fighter, group1 + group3, group2, battleMap, False)
+    for fighter in group3: fighter.sightMap = Phases.setSight(fighter, group1 + group2, group3, battleMap, False)
+
     while not (playerVictory or playerDefeat):
         Select.waitPrint("\nNew round beginning.\n")
         uMap.updateHazards(battleMap)
 
         playerVictory = battle(group1, group2 + group3, battleMap)
         if not (playerVictory or playerDefeat):
-            Select.waitPrint("\nRound order advances to the next group.\n")
             playerDefeat = battle(group2, group1 + group3, battleMap)
         if not (playerVictory or playerDefeat):
-            Select.waitPrint("\nRound order advances to the next group.\n")
             playerDefeat = battle(group3, group1 + group2, battleMap)
         
     if playerVictory:
@@ -52,11 +54,11 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             uMap.activateHazards(fighter, battleMap)
 
         for fighter in validFighters:
-            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
+            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.movementStage(fighter, foes, friends, battleMap)
             
         for fighter in validFighters:
-            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap)
+            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.abilityStage(fighter, foes, friends)
         
         for fighter in validFighters:

@@ -4,17 +4,17 @@ import random
 
 
 
-def findSpace(fighter, groups, range) -> list:
+def findSpace(fighter, groups, range, source) -> list:
     column, row = fighter.position[1], fighter.position[0]
     leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
     topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
     borders = [leftEdge, rightEdge, topEdge, bottomEdge]
 
-    markedSpace = selectSpace(fighter, groups, borders)
+    markedSpace = selectSpace(fighter, groups, borders, source)
     return markedSpace
 
 
-def selectSpace(fighter, groups, boarders) -> int:
+def selectSpace(fighter, groups, boarders, source) -> int:
     enemies, allies = groups["fightingEnemies"], groups["fightingAllies"]
     sightMap = fighter.sightMap
     leftEdge, rightEdge, topEdge, bottomEdge = boarders[0], boarders[1], boarders[2], boarders[3]
@@ -29,13 +29,13 @@ def selectSpace(fighter, groups, boarders) -> int:
                 if optionsMap[row][column][2] in iMap.intStrings: 
                     optionsMap[row][column] = optionsMap[row][column][:2] + "!!" + optionsMap[row][column][-1]
 
-        counter, optionDict = 1, {}
+        counter, optionDict = 1, {"0": "None"}
 
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
                 if not any(blocker in optionsMap[row][column] for blocker in ["?", "/"]):
                     if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
-                    elif enemyCanSee(row, column, enemies) and allyNotInRange(row, column, allies):
+                    elif enemyInRange(row, column, enemies) and ((source in ["echo", "slip"]) or allyNotInRange(row, column, allies)):
                         optionDict[str(counter)] = [row, column]
 
                     atmosphere = sightMap[row][column][0]
@@ -54,19 +54,20 @@ def selectSpace(fighter, groups, boarders) -> int:
         choice = ""
         if fighter.props["rank"] == "player":
             Print.printOptionsMap(optionsMap, "Options Map")
-            choice = Select.takeInput(1, counter)
+            choice = Select.takeInput(0, counter)
         elif len(optionsMap) > 0: choice = random.randint(1, counter)
+        else: choice = 0
 
         return optionDict[str(choice)]
 
 
-def enemyCanSee(row, column, enemies) -> bool:
-    enemySees = False
+def enemyInRange(row, column, enemies) -> bool:
+    inRange = False
     for enemy in enemies:
-        enemySpace = enemy.sightMap[row][column]
-        if "?" != enemySpace[-1]: enemySees = True
+        if Movement.getSpaceDistance(enemy.position[0], row, enemy.position[1], column) <= 3: 
+            inRange = True
 
-    return enemySees
+    return inRange
 
 def allyNotInRange(row, column, allies):
     notInRange = True

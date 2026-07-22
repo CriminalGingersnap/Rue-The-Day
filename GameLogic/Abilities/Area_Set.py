@@ -10,32 +10,36 @@ def execute(fighter, groups, ability, battleMap) -> None:
 
 
 def markSpace(fighter, groups, ability, battleMap) -> str:
-    phrase, range, dmgType = "", 10, ""
+    phrase, range, dmgType = fighter.props["name"], 10, ""
     scale = max(fighter.atrb["cur_mag"], 3)
 
     match ability:
         case "Breath":
-            phrase = " exhales " + fighter.atrb["cur_elm"] + " breath"
+            phrase += " exhales " + fighter.atrb["cur_elm"] + " breath"
             range = 1
-        case "Bless": phrase = " blesses the ground!"
+        case "Bless": phrase += " blesses the ground!"
         case "Hex":
             article = "a"
             if fighter.atrb["cur_elm"][0] in ["A", "E", "I", "O", "U"]: article = "an"
-            phrase = " places " + article + fighter.atrb["cur_elm"] + " hex!"
+            phrase += " places " + article + fighter.atrb["cur_elm"] + " hex!"
         case "Slip": 
-            phrase = " slips between spaces! Rolling range."
+            phrase += " slips between spaces! Rolling range."
             range = Roll.roll(fighter, fighter.atrb["cur_mag"], "Slip", "magic")
             scale = max(0, scale - 1)
     
-    markedSpace = Locate.findSpace(fighter, groups, range)
-    affectSpace(fighter, markedSpace, dmgType, scale, battleMap)
-    fighter.atrb["cur_mag"] = 0
+    markedSpace = Locate.findSpace(fighter, groups, range, ability)
 
-    if ability == "Slip":
-        tossRow, tossColumn = markedSpace[0], markedSpace[1]
-        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
+    if markedSpace == "None":
+        phrase = fighter.props["name"] + " cancels an area ability before execution."
+    else:
+        affectSpace(fighter, markedSpace, dmgType, scale, battleMap)
+        fighter.atrb["cur_mag"] = 0
 
-    return fighter.props["name"] + phrase
+        if ability == "Slip":
+            tossRow, tossColumn = markedSpace[0], markedSpace[1]
+            uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
+
+    return phrase
 
 
 def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
@@ -57,30 +61,38 @@ def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
 
 
 def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
-    tossSpace = Locate.findSpace(fighter, groups, 4)
-    tossRow, tossColumn = tossSpace[0], tossSpace[1]
+    range = 4
+    if "Sling" == fighter.equip["weapon"]["name"]: range = fighter.equip["weapon"]["reach"]
+    tossSpace = Locate.findSpace(fighter, groups, range, "stone")
 
-    potency = 2
-    if category == "cores": potency = 3
+    if tossSpace == "None":
+        Select.waitPrint(fighter.name + " cancels a throw before detonation.")
+        Select.quickPrint("The stone is expended.")
+    else:
+        tossRow, tossColumn = tossSpace[0], tossSpace[1]
 
-    atmosphere = Apply.getAtmosphere(potency, dmgType)
-    battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
+        potency = 2
+        if category == "cores": potency = 3
 
-    if dmgType == "Dream":
-        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
-        Select.waitPrint(fighter.props["name"] + " teleports!")
-        potency -= 1
+        atmosphere = Apply.getAtmosphere(potency, dmgType)
+        battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
 
-        if potency == 2:
-            Select.waitPrint("The core warps again!")
-            tossSpace = Locate.findSpace(fighter, groups, 4)
-            tossRow, tossColumn = tossSpace[0], tossSpace[1]
-            if (tossRow != fighter.position[0]) and (tossColumn != fighter.position[1]):
-                battleMap[tossRow][tossColumn] = "@" + battleMap[tossRow][tossColumn][1:]
-                uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
-                potency -= 1
+        if dmgType == "Dream":
+            uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
+            Select.waitPrint(fighter.props["name"] + " teleports!")
+            potency -= 1
 
-    Apply.spreadAtmosphere("*", potency+1, tossRow, tossColumn, battleMap)
+            if potency == 2:
+                Select.waitPrint("The core warps again!")
+                tossSpace = Locate.findSpace(fighter, groups, 4, "stone")
+                if tossSpace != "None":
+                    tossRow, tossColumn = tossSpace[0], tossSpace[1]
+                    if (tossRow != fighter.position[0]) and (tossColumn != fighter.position[1]):
+                        battleMap[tossRow][tossColumn] = "@" + battleMap[tossRow][tossColumn][1:]
+                        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
+                        potency -= 1
 
-    lesserAtmosphere = Apply.getAtmosphere(potency-1, dmgType)
-    Apply.spreadAtmosphere(lesserAtmosphere, potency, tossRow, tossColumn, battleMap)
+        Apply.spreadAtmosphere("*", potency+1, tossRow, tossColumn, battleMap)
+
+        lesserAtmosphere = Apply.getAtmosphere(potency-1, dmgType)
+        Apply.spreadAtmosphere(lesserAtmosphere, potency, tossRow, tossColumn, battleMap)

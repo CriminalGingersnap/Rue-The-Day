@@ -13,7 +13,7 @@ def setCommon(element, rank) -> list:
     Animals.setAnimalResistance(element, rank, stats)
     stats["resist"]["Dream"] = "resistant"
 
-    cndt["armored"] = True
+    cndt["aggressive"], cndt["armored"] = True, True
 
     return [stats, cndt, rank, type]
 
@@ -22,7 +22,7 @@ class ant:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["social"] = True, True
+        cndt["social"] = True
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -34,7 +34,7 @@ class beetle:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"] = True
+        cndt["winged"] = True
         stats["hp"], stats["speed"] = "mid", "mid"
 
         dice = {"martial": 2, "magic": 0}
@@ -44,10 +44,9 @@ class beetle:
         self.ch = Characters.character(abl, dice, cndt, stats, "Beetle", element, type, rank)
 
 class centipede:
-    def __init__(self, element, rank) -> None:                
+    def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"] = True
         stats["speed"] = "high"
 
         dice = {"martial": 2, "magic": 0}
@@ -57,10 +56,10 @@ class centipede:
         self.ch = Characters.character(abl, dice, cndt, stats, "Centipede", element, type, rank)
 
 class hornet:
-    def __init__(self, element, rank) -> None:                
+    def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["winged"] = True, True
+        cndt["winged"] = True
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "min", "mid"
         
         dice = {"martial": 1, "magic": 0}
@@ -70,9 +69,10 @@ class hornet:
         self.ch = Characters.character(abl, dice, cndt, stats, "Hornet", element, type, rank)
 
 class isopod:
-    def __init__(self, element, rank) -> None:                
+    def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["aggressive"] = False
         stats["hp"], cndt["massive"] = "max", True
 
         dice = {"martial": 3, "magic": 0}

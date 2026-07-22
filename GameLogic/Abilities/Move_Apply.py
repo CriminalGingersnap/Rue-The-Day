@@ -87,22 +87,27 @@ def applyExamine(visibleTargets) -> None:
         Select.quickPrint("Element: " + examinee.atrb["cur_elm"])
         Select.quickPrint("Rank: " + examinee.props["rank"])
 
+        Select.quickPrint("\nEffects: ")
+        for effect in examinee.effects:
+            if examinee.effects[effect]["dice"] > 0:
+                Select.quickPrint(effect + " <- " + examinee.effects[effect]["source"].props["name"], ending = " | ")
+
+        Select.quickPrint("\nItem Effects:")
+        for effect in examinee.itemEffects:
+            if examinee.itemEffects[effect]["duration"] > 0:
+                Select.quickPrint(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", ending = " | ")
+
         Select.waitPrint("\nCommitments: ")
         for commitment in examinee.commits:
             if len(examinee.commits[commitment]["targets"]) > 0:
                 Select.quickPrint(commitment + " -> ")
                 for target in examinee[commitment]["targets"]:
-                    Select.quickPrint(target.props["name"], end = " | ")
+                    Select.quickPrint(target.props["name"], ending = " | ")
 
-        Select.quickPrint("Effects: ")
-        for effect in examinee.effects:
-            if examinee.effects[effect]["dice"] > 0:
-                Select.quickPrint(effect + " <- " + examinee.effects[effect]["source"].props["name"], end = " | ")
+        Select.waitPrint("\nConditions: ")
+        for condition in examinee.cndt:
+            if examinee.cndt[condition] == True:
+                Select.quickPrint(condition, ending = " | ")
 
-        Select.quickPrint("Item Effects:")
-        for effect in examinee.itemEffects:
-            if examinee.itemEffects[effect]["duration"] > 0:
-                Select.quickPrint(effect + " (" + str(examinee.itemEffects[effect]["duration"]) + ")", end = " | ")
-
-        input("\nPress Enter to continue")
+        input("\n\nPress Enter to continue")
         Select.waitPrint("")

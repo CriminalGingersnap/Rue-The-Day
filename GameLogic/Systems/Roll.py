@@ -8,7 +8,7 @@ def roll(fighter, dice, ability, dType) -> int:
     if fighter != None: total += mods(fighter, ability, dType)
     
     Select.quickPrint("Total: ", '')
-    time.sleep(Select.waitTime * 2)
+    time.sleep(Select.longWait * 2)
     Select.quickPrint(str(total) + "\n")
 
     return total
@@ -68,7 +68,7 @@ def castDice(dice) -> int:
     for die in range(dice):
         roll = random.randint(1, 6)
         Select.quickPrint("Roll " + str(die + 1) + ": ", '')
-        time.sleep(Select.waitTime * 2)
+        time.sleep(Select.longWait * 2)
         Select.quickPrint(faces[roll - 1] + "    | " + str(roll))
 
         total += roll
