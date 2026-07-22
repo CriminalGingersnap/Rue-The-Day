@@ -1,7 +1,7 @@
 from Systems import PlayerSelect as Select, Damage
+from . import Boons_Apply as Apply
 
-
-martialBoons = ["Conceal", "Evade", "Guard"]
+martialBoons = ["Conceal", "Guard"]
 magicBoons = ["Focus", "Shroud", "Wreath"]
 
 
@@ -23,6 +23,12 @@ def commitDice(fighter, principal, boon) -> None:
 
     principal.effects[trueBoon]["dice"] += newDice
 
+    if boon in ["Conceal", "Shroud"]:
+        roll = Apply.apply(principal, trueBoon)
+        distance = max(10 - roll, 2)
+        fighter.effects["Shroud"]["additional"] = distance
+        Select.waitPrint("Fighter is concealed beyond " + str(distance) + " spaces.")
+
 
 def boonComment(fighter, principal, boon) -> None:
     phrase, end = fighter.props["name"], principal.props["name"] + "!"
@@ -31,9 +37,6 @@ def boonComment(fighter, principal, boon) -> None:
 
     match boon:
         case "Guard": phrase += " guards " + end
-        case "Evade":
-            phrase += " evades!"
-            trueBoon = "Guard"
         case "Focus": phrase += " focuses " + end
         case "Shroud": phrase += " shrouds " + end
         case "Conceal":

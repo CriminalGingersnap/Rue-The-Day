@@ -43,7 +43,7 @@ class drake:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Gore"]})
-        if rank != "Juvenile": abl["area"] += ["Breath"]
+        if rank != "Juvenile": abl["areas"] += ["Breath"]
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, rank)
         

@@ -38,14 +38,18 @@ def canWreath(fighter, dmgTypes) -> bool:
 
 def usefulBoons(fighter, enemies):
     dmgTypes, boonPreferences = [], ["Flee", "Heal", "Regenerate"]
+    someFar, anyClose = False, False
 
     for enemy in enemies:
         dmgTypes += enemy.equip["weapon"]["dmgTypes"]
-        if Movement.getTargetDistance(fighter, enemy) > 2: boonPreferences += ["Conceal", "Shroud"]
         if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
-    
-    if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]):
-        boonPreferences += ["Evade", "Guard"]
+
+        distance = Movement.getTargetDistance(fighter, enemy)
+        if distance > 6: someFar = True
+        if distance < 3: anyClose = True
+
+    if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]): boonPreferences += ["Guard"]
+    if someFar and not anyClose: boonPreferences += ["Conceal", "Shroud"]
 
     return boonPreferences
 
@@ -67,7 +71,7 @@ def usableBoons(fighter):
 def npcSelectBoonTarget(fighter, allies, boon):
     target = "None"
 
-    if fighter.props["type"] not in ["human", "elemental"]:
+    if not fighter.cndt["social"]:
         if fighter in allies: target = fighter
     elif len(allies) > 0:
         lowestAVAlly = Assess.findLowestAV(fighter, allies)
@@ -79,7 +83,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
         lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
         lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         
-        if boon in ["Conceal", "Evade", "Regenerate", "Slip"]: target = fighter
+        if boon in ["Conceal", "Regenerate", "Slip"]: target = fighter
         else:
             match boon:
                 case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])

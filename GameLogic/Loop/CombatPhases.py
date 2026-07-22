@@ -1,5 +1,4 @@
-from Actions import MoveActions as Move
-from Actions import NPCAbilityActions as NPCAbl, PlayerAbilityActions as PlayerAbl
+from Actions import MoveActions as Move, AbilityActions_Player as PlayerAbl, AbilityActions_NPC as NPCAbl
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
 from Systems import PlayerSelect as Select, Sort, Conditions, Effects, Commitments
 from Abilities import Reactions, Items_Use as Items
@@ -37,7 +36,7 @@ def setSight(fighter, enemies, allies, battleMap):
         uMap.revealOthers(fighter, allies, enemies, sightMap)
         uMap.hideTraps(fighter, sightMap)
     else:
-        Select.waitPrint(fighter.props["name"] + "'s turn")
+        Select.waitPrint("\n" + fighter.props["name"] + "'s turn")
 
     Print.printSightMap(battleMap, sightMap, fighter.props["name"] + "'s Sight Map")
 

@@ -69,7 +69,7 @@ class dreamGiant:
         stats["avoidance"], stats["hp"], stats["speed"]  = "mid", "boss", "mid"
 
         dice = {"martial": 0, "magic": 6}
-        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bring"], "hindrances": ["Compel", "Shroud"]})
+        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bring"], "boons": ["Shroud"], "hindrances": ["Compel"]})
 
         self.ch = Characters.character(abl, dice, cndt, stats, "Dream Giant", element, type, rank)
 

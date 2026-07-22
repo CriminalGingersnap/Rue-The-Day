@@ -14,7 +14,7 @@ def expend(source, dice, ability, dType) -> int:
         else: expenditure = random.randint(1, dice)
 
         roll = Roll.roll(source, expenditure, ability, dType)
-        return [roll, 0]
+        return [roll, expenditure]
     else: return [0, 0]
 
 
@@ -55,18 +55,6 @@ def applyGuard(principal):
 def applyHeal(principal, ability) -> str:
     bonus = apply(principal, ability)
     Conditions.recoverHP(principal, bonus)
-
-
-def applyShroud(fighter) -> bool:
-    roll = apply(fighter, "Shroud")
-    visible = True
-
-    if roll > 0:
-        distance = max((12 - roll[0]), 1)
-        fighter.effects["Shroud"]["additional"] = distance
-        Select.waitPrint(fighter.props["name"] + " is invisible beyond a distance of " + str(distance) + ".")
-
-    return visible
 
 
 def applyWreath(principal, attackDmgType) -> int:

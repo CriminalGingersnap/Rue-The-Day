@@ -1,9 +1,9 @@
 
 from Systems import PlayerSelect as Select, Conditions
-from . import Attacks_Martial as Martial, Boons_Set as Boons
+from . import Attacks_Martial as Martial
 from Actions import ItemActions
 
-stationaryAbilities = ["Inventory", "Empower", "Evade", "Examine", "Set", "Swap Shield", "Swap Weapon"]
+stationaryAbilities = ["Empower", "Evade", "Examine", "Inventory", "Set", "Swap Shield", "Swap Weapon"]
 
 
 def execute(fighter, groups, ability, battleMap) -> None: 
@@ -35,8 +35,7 @@ def applyEvade(fighter) -> None:
     fighter.effects["Guard"]["ability"] = "Evade"
     fighter.effects["Guard"]["dice"] += 1
 
-    Boons.boonComment(fighter, fighter, "Evade")   
-
+    Select.waitPrint(fighter.props["name"] + " prepares to evade!") 
 
 def applySet(fighter) -> None:
     fighter.atrb["cur_mar"] += 1
@@ -80,9 +79,8 @@ def applyExamine(visibleTargets) -> None:
             weaponStatement = "Wielding " + article + examinee.equip["weapon"]["name"] + ". "
 
         Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + " " + shieldStatement)
-        Select.quickPrint("Health:    " + strHP + " | ")
+        Select.quickPrint("Health:    " + strHP + " | Speed:     " + strSpeed)
         Select.quickPrint("Reach:     " + strReach + " | "  + weaponStatement)
-        Select.quickPrint("Speed:     " + strSpeed + " | " + "Remaining movement: " + str(examinee.atrb["cur_sp"]))
         Select.quickPrint("Stamina:   " + strStamina + " | Fatigue: " + str(examinee.atrb["fatigue"]))
         Select.quickPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))
         Select.quickPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]))
