@@ -26,7 +26,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
             
             if movementMap[row][column][-1] == "]": movementMap[row][column] = movementMap[row][column][:-1] + "|"
             
-            if (movementMap[row][column][0] in hazards) and (movementMap[fighterRow][fighterColumn][0] not in hazards):
+            if (movementMap[row][column][0] in hazards) and (battleMap[fighterRow][fighterColumn][0] not in hazards):
                 if fighter.props["rank"] != "player": movementMap[row][column] = iMap.pit
 
     movementMap[fighterRow][fighterColumn] = "_1:0"

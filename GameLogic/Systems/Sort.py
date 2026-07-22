@@ -8,12 +8,15 @@ def getGroups(fighter, enemies, allies) -> list:
     return {"reachable": reachable, "fightingAllies": allies, "fightingEnemies": enemies}
     
 
-def setAlive(fighter) -> bool:
+def setAlive(fighter, allies, battleMap) -> bool:
     inanimate = fighter.itemEffects["Animate"]["additional"] and (fighter.itemEffects["Animate"]["duration"] <= 1)
     
     if (fighter.atrb["cur_hp"] <= 0) or inanimate:
         fighter.cndt["dead"] = True
-        Select.waitPrint(fighter.props["name"] + " will perish soon.")
+        Select.slowPrint(fighter.props["name"] + " has fallen.")
+        Reactions.applyPheromones(fighter, allies)
+        uMap.removeFighter(fighter, battleMap)
+        if fighter.itemEffects["Animate"]["additional"]: allies.remove(fighter)
 
         return False
     else: return True
@@ -23,13 +26,8 @@ def sortLiving(contingent, battleMap) -> list:
 
     for candidate in contingent:
         if candidate.cndt["dead"]:
-            Select.waitPrint(candidate.props["name"] + " has fallen.\n\n")
-
-            Reactions.applyPheromones(candidate, contingent)
-            uMap.removeFighter(candidate, battleMap)
-
             contingent.remove(candidate)
-            if not candidate.itemEffects["Animate"]["additional"]: downed += [candidate]   
+            downed += [candidate]   
 
         else: fighting += [candidate]
     

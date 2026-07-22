@@ -69,11 +69,9 @@ def usableBoons(fighter):
 
 
 def npcSelectBoonTarget(fighter, allies, boon):
-    target = "None"
+    target = fighter
 
-    if not fighter.cndt["social"]:
-        if fighter in allies: target = fighter
-    elif len(allies) > 0:
+    if (fighter.cndt["social"] or fighter.cndt["sapient"]) and (len(allies) > 0):
         lowestAVAlly = Assess.findLowestAV(fighter, allies)
         lowestHPAlly = Assess.findLowestHP(allies)
         lowestResCrushAlly = Assess.findLowestRes(allies, "Crush")
