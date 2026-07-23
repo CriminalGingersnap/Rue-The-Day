@@ -10,7 +10,7 @@ from Maps import Map_Update as uMap
 def engage(playerGroup, enemyGroups, battleMap) -> list:
     input("\nPress Enter to begin combat.")
 
-    playerVictory, playerDefeat = False, False
+    playerVictory, playerDefeat, result = False, False, []
     group1, group2, group3 = playerGroup, enemyGroups[0], enemyGroups[1]
 
     for fighter in group1: fighter.sightMap = Phases.setSight(fighter, group2 + group3, group1, battleMap, False)
@@ -21,26 +21,34 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
         Select.waitPrint("\nNew round beginning.\n")
         uMap.updateHazards(battleMap)
 
-        playerVictory = battle(group1, group2 + group3, battleMap)
-        if not (playerVictory or playerDefeat):
-            playerDefeat = battle(group2, group1 + group3, battleMap)
-        if not (playerVictory or playerDefeat):
-            playerDefeat = battle(group3, group1 + group2, battleMap)
+        result = battle(group1, group2 + group3, battleMap)
+        playerVictory = result[0]
+        if not playerVictory:
+            if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap)[0]
+            if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap)[0]
         
     if playerVictory:
-        Loot.searchAll(group1, group2 + group3)
+        Loot.searchAll(group1, result[1])
         return True
     else:
         return False
 
 
 def battle(offenseGroup, targetGroup, battleMap) -> bool:
-    validFighters, validTargets = Sort.sortLiving(offenseGroup, battleMap)[0], Sort.sortLiving(targetGroup, battleMap)[0]
+    sortedOffense, sortedTarget = Sort.sortLiving(offenseGroup, battleMap), Sort.sortLiving(targetGroup, battleMap)
+    validFighters, validTargets = sortedOffense[0], sortedTarget[0]
+    downedFighters, downedTargets = sortedOffense[1], sortedTarget[1]
 
-    if len(validTargets) == 0:
-        Select.slowPrint("\nBattle Over.\n")
+    if any(fighter.props["rank"] == "player" for fighter in downedFighters):
+        return [False, None]
+    elif any(target.props["rank"] == "player" for target in downedTargets):
+        Select.slowPrint("\nPlayer defeat.\n")
         input("Press Enter to resolve.")
-        return True
+        return [True, None]
+    elif len(validTargets) == 0:
+        Select.slowPrint("\nBattle won!\n")
+        input("Press Enter to resolve.")
+        return [True, downedTargets]
     
     elif len(validFighters) > 0:
         for fighter in validFighters: Phases.resetFighter(fighter)
@@ -75,7 +83,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             Phases.outro(fighter, offenseGroup, battleMap)
     
     input("\nPress Enter to advance combat to the next round.\n")
-    return False
+    return [False, None]
 
 
 def restart():

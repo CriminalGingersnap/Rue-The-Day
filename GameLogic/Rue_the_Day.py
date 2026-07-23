@@ -11,14 +11,17 @@ from GameState import SaveLoad as Save
 
 
 Martin = Humans.knight("Basic", "Master").ch
+Martin.atrb["corruption"], Martin.atrb["fatigue"], Martin.atrb["injury"] = 0, 0, 0
 Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "M."
 Martin.equip["armor"].update({"name": "None", "modifier": 0})
 
 Willem = Humans.dragonslayer("Basic", "Master").ch
+Willem.atrb["corruption"], Willem.atrb["fatigue"], Willem.atrb["injury"] = 0, 0, 0
 Willem.props["rank"], Willem.props["name"], Willem.props["initials"] = "player", "Willem", "W."
 Willem.equip["armor"].update({"name": "None", "modifier": 0})
 
 Laura = Humans.mage("Flame", "Master").ch
+Laura.atrb["corruption"], Laura.atrb["fatigue"], Laura.atrb["injury"] = 0, 0, 0
 Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "player", "Laura", "L."
 Laura.equip["armor"].update({"name": "None", "modifier": 0})
 

@@ -4,7 +4,7 @@ import random, copy
 
 class character:
     def __init__(self, abl, dice, cndt, stats, job, elm, type, rank)-> None:
-        self.atrb = setAttributes(stats, cndt, elm, dice)
+        self.atrb = setAttributes(stats, cndt, elm, dice, type)
         self.abl, self.cndt = abl, cndt
 
         dicts = setDicts()
@@ -35,7 +35,7 @@ def setAbilities(type, additions) -> dict:
     return abilities
 
 
-def setAttributes(stats, cndt, elm, dice):
+def setAttributes(stats, cndt, elm, dice, type):
     av_range = {"min": random.randint(0,2), "low": random.randint(3,5), "mid": random.randint(6,8), "high": random.randint(9,11), "max": random.randint(12,14)}
     hp_range = {"min": 6, "low": random.randint(7,12), "mid": random.randint(13,18), "high": random.randint(19,24), "max": random.randint(25,30), "boss": 36}
     sp_range = {"min": 0, "low": random.randint(2,3), "mid": random.randint(4,5), "high": random.randint(6,7), "max": random.randint(8,9)}
@@ -43,12 +43,16 @@ def setAttributes(stats, cndt, elm, dice):
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4
     tolerance = endurance = halfHealth
+    corruption, fatigue, injury = 0, 0, random.choice([0, 0, 0, 0, 0, 1])
 
     if cndt["lifeless"]:
         cndt["aggressive"], cndt["sapient"], cndt["social"] = True, False, False
         stats["resist"].update({"Bleed": "immune", "Dream": "immune", "Holy": "normal", "Toxic": "immune"})
         endurance *= 3
-    elif elm == "Toxic": tolerance *= 2
+    else:
+        if elm == "Toxic": tolerance *= 2
+        if type == "human": corruption = random.choice([0, 0, 0, 0, 0, 1])
+        fatigue = random.randint(0, 2)
 
     attributes = {"base_av": av, "cur_av": av,
                    "base_hp": hp, "cur_hp": hp, "half_hp": halfHealth, "quart_hp": quarterHealth,
@@ -57,7 +61,7 @@ def setAttributes(stats, cndt, elm, dice):
                       "base_mar": dice["martial"], "base_mag": dice["magic"], "cur_mar": dice["martial"], "cur_mag": dice["magic"],
                        "nat_res": copy.deepcopy(stats["resist"]), "cur_res": copy.deepcopy(stats["resist"]),
                         "endurance": endurance, "stamina": endurance, "tolerance": tolerance,
-                         "corruption": 0, "fatigue": 0, "injury": 0,}
+                         "corruption": corruption, "fatigue": fatigue, "injury": injury}
     
     return attributes
 
