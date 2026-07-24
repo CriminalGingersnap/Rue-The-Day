@@ -18,12 +18,12 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
     for fighter in group3: fighter.sightMap = Phases.setSight(fighter, group1 + group2, group3, battleMap, False)
 
     while not (playerVictory or playerDefeat):
-        Select.waitPrint("\nNew round beginning.\n")
         uMap.updateHazards(battleMap)
 
         result = battle(group1, group2 + group3, battleMap)
         playerVictory = result[0]
         if not playerVictory:
+            Select.waitPrint("\nCombat advances to the next round.\n")
             if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap)[0]
             if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap)[0]
         
@@ -72,7 +72,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:
                 Commitments.checkReach(fighter)
-                Select.waitPrint("\nExecuting " + fighter.props["name"] + "'s attacks:")
+                Select.waitPrint("\n\nExecuting " + fighter.props["name"] + "'s attacks:")
 
                 for attack in fighter.attackQueue:
                     ability, target, dice = attack[0], attack[1], attack[2]
@@ -81,8 +81,10 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
 
                     fighter.attackQueue.remove(attack)
             Phases.outro(fighter, offenseGroup, battleMap)
-    
-    input("\nPress Enter to advance combat to the next round.\n")
+
+        if offenseGroup[0].props["rank"] != "player":
+            input("\nPress Enter to advance combat to the next round.\n")
+
     return [False, None]
 
 

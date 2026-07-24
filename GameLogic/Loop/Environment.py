@@ -95,11 +95,9 @@ def setMapConditions(biome):
 
 
 def setAtmosphere(biome, extent) -> dict:
-    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Mana": 0, "Rime": 0, "Smoke": 0}
+    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Rime": 0, "Smoke": 0}
 
-    if biome in ["Dreamwood Depths", "Flaming Volcano", "Holy Desert", "Icy Glacier", "Rot Locus"]:
-        atmosphere["Mana"] = extent
-        extent += 3
+    if biome in ["Dreamwood Depths", "Flaming Volcano", "Holy Desert", "Icy Glacier", "Rot Locus"]: extent += 3
     
     match biome:
         case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent

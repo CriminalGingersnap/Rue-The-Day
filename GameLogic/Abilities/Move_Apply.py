@@ -101,7 +101,7 @@ def applyExamine(visibleTargets) -> None:
         for commitment in examinee.commits:
             if len(examinee.commits[commitment]["targets"]) > 0:
                 Select.quickPrint(commitment + " -> ")
-                for target in examinee[commitment]["targets"]:
+                for target in examinee.commits[commitment]["targets"]:
                     Select.quickPrint(target.props["name"], ending = " | ")
 
         Select.waitPrint("\nConditions: ")

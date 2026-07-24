@@ -35,7 +35,7 @@ def selectSpace(fighter, groups, boarders, source) -> int:
             for row in range(topEdge, bottomEdge+1):
                 if not any(blocker in optionsMap[row][column] for blocker in ["?", "/"]):
                     if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
-                    elif enemyInRange(row, column, enemies) and ((source in ["echo", "slip"]) or allyNotInRange(row, column, allies)):
+                    elif enemyInRange(row, column, enemies) and ((source in ["echo", "Slip"]) or allyNotInRange(row, column, allies)):
                         optionDict[str(counter)] = [row, column]
 
                     atmosphere = sightMap[row][column][0]
@@ -55,7 +55,7 @@ def selectSpace(fighter, groups, boarders, source) -> int:
         if fighter.props["rank"] == "player":
             Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(0, counter)
-        elif len(optionsMap) > 0: choice = random.randint(1, counter)
+        elif len(optionDict) > 0: choice = random.randint(1, counter)
         else: choice = 0
 
         return optionDict[str(choice)]

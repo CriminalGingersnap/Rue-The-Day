@@ -30,5 +30,4 @@ def npcAction(fighter, groups) -> None:
             case "Boon": Boons.commitDice(fighter, boonTarget, boonChoice) # Add area options
             case "Hinder": Hinder.commitDice(fighter, hindranceTarget, hindranceChoice)
     else:
-        if any(dice > 0 for dice in [fighter.atrb["cur_mar"], fighter.atrb["cur_mag"]]):
-            Select.waitPrint(fighter.props["name"] + " foregoes action.")
+        Select.waitPrint(fighter.props["name"] + " foregoes action.")

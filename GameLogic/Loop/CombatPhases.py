@@ -20,7 +20,8 @@ def resetFighter(fighter) -> None:
     match fighter.atrb["injury"]:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
         case 2: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 2
-        case 3: fighter.atrb["cur_sp"] = min(fighter.atrb["base_sp"], 1)
+        case 3: fighter.atrb["cur_sp"] = fighter.atrb["cur_sp"] // 4
+        case 4: fighter.atrb["cur_sp"] = min(fighter.atrb["base_sp"], 1)
 
     fighter.atrb["cur_sp"] = max(0, fighter.atrb["cur_sp"])
 

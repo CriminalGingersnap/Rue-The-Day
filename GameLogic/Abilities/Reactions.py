@@ -14,7 +14,7 @@ def applyRiposte(principal, enemy, commitment) -> None:
     attackChoice, proceed = None, True
     distance = Movement.getTargetDistance(source, enemy)
 
-    if (dice > 0) and (distance <= 2 <= source.equip["weapons"]["reach"]):
+    if (dice > 0) and (distance <= 2 <= source.equip["weapon"]["reach"]):
         if any(reaction in source.abl["reactions"] for reaction in ["Riposte", "Flare"]):
             expense = 0
 

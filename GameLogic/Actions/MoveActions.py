@@ -8,9 +8,9 @@ import random, copy
 def moveAction(fighter, groups, battleMap) -> None:
     posOptions = copy.deepcopy(fighter.abl["areas"])
 
-    if (fighter.atrb["cur_mag"] > 0) and (fighter.atrb["cur_mar"] > 0): posOptions += ["Empower"]
+    if (fighter.atrb["cur_mag"] > 0) and (fighter.atrb["cur_mar"] > 0) and (fighter.atrb["corruption"] == 0): posOptions += ["Empower"]
     
-    if ("Inventory" in fighter.abl["boons"]) and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
+    if ("Inventory" in posOptions) and not ItemActions.hasItems(fighter): posOptions.remove("Inventory")
     if "spares" in fighter.inv:
         if (fighter.inv["spares"]["weapon"]["name"] != "None"): posOptions += ["Swap Weapon"]
         if (fighter.inv["spares"]["shield"]["name"] != "None"): posOptions += ["Swap Shield"]
@@ -24,7 +24,6 @@ def moveAction(fighter, groups, battleMap) -> None:
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move", "Stay"]
         movePlayer(fighter, groups, posOptions, battleMap)
     else:
-        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
         moveNPC(fighter, groups, posOptions, battleMap)
     
 
@@ -69,12 +68,10 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
         if target != "None": stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
     if stationary:
-        if "Empower" in posOptions: posOptions.remove(["Empower"])
-        
         if len(posOptions) == 0:            
             if fighter.atrb["base_mar"] > 0: choice = "Set"
             else: choice = "Evade"
         else: choice = random.choice(posOptions)
 
-    if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
-    elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap)
+        if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
+        elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap)

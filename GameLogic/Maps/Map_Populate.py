@@ -81,7 +81,6 @@ def placeFog(instanceMap, type) -> bool:
         if type == "Death": instanceMap[row][column] = iMap.deathSpace
         elif type == "Dazzle": instanceMap[row][column] = iMap.dazzleSpace
         elif type == "Fog": instanceMap[row][column] = iMap.fogSpace
-        elif type == "Mana": instanceMap[row][column] = iMap.manaWell
         elif type == "Mist": instanceMap[row][column] = iMap.mistSpace
         elif type == "Rime": instanceMap[row][column] = iMap.rimeSpace
         elif type == "Sacred": instanceMap[row][column] = iMap.sacredSpace

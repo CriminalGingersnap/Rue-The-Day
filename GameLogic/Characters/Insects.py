@@ -72,10 +72,10 @@ class isopod:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"] = False
+        cndt["aggressive"], cndt["reposed"] = False, True
         stats["hp"], cndt["massive"] = "max", True
 
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 

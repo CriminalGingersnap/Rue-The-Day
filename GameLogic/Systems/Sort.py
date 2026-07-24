@@ -13,7 +13,7 @@ def setAlive(fighter, allies) -> bool:
     
     if (fighter.atrb["cur_hp"] <= 0) or inanimate:
         fighter.cndt["dead"] = True
-        Select.slowPrint(fighter.props["name"] + " has fallen.")
+        Select.waitPrint("\n" + fighter.props["name"] + " has fallen.")
         Reactions.applyPheromones(fighter, allies)
         if fighter.itemEffects["Animate"]["additional"]: allies.remove(fighter)
 
@@ -24,7 +24,7 @@ def sortLiving(contingent, battleMap) -> list:
     fighting, downed = [], []
 
     for candidate in contingent:
-        if candidate.cndt["dead"]:
+        if candidate.cndt["dead"] == True:
             downed += [candidate]
             if candidate.props["initials"] in battleMap[candidate.position[0]][candidate.position[1]]:
                 uMap.removeFighter(candidate, battleMap)

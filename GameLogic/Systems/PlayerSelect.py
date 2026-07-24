@@ -95,7 +95,7 @@ def listSelection(options, cap, prompt):
     elif ceiling == 0: waitPrint("Action skipped. No options in category.")
     else:
         quickPrint("Enter a comma separated list without spaces (Ex: 1,4,9).")
-        quickPrint("The list may include dashed sections (Ex: 1-4,9).")
+        if cap > 2: quickPrint("The list may include dashed sections (Ex: 1-4,9).")
         
         for option in options:
             quickPrint(str(options.index(option)+1) + ": " + str(option))

@@ -68,7 +68,7 @@ def castDice(dice) -> int:
     for die in range(dice):
         roll = random.randint(1, 6)
         Select.quickPrint("Roll " + str(die + 1) + ": ", '')
-        time.sleep(Select.longWait * 2)
+        time.sleep(Select.longWait)
         Select.quickPrint(faces[roll - 1] + "    | " + str(roll))
 
         total += roll

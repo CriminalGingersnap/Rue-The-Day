@@ -44,37 +44,53 @@ def takeDamage(target, dmgType, damage) -> None:
 
 
 def setInjury(target):
-    injuryPhrase, speedPhrase, avPhrase = "\n" + target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
+    injuryPhrase, speedPhrase, avPhrase = target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
     print = False
 
-    if target.atrb["quart_hp"] < target.atrb["cur_hp"] <= target.atrb["half_hp"]:
+    if target.atrb["cur_hp"] > (target.atrb["half_hp"] + target.atrb["quart_hp"]):
+        if target.atrb["injury"] == 0:
+            if target.cndt["lifeless"]: injuryPhrase += "unimpaired!"
+            else: injuryPhrase += "unwounded!"
+            Select.waitPrint(injuryPhrase)
+
+    if target.atrb["half_hp"] < target.atrb["cur_hp"] <= (target.atrb["half_hp"] + target.atrb["quart_hp"]):
         if target.atrb["injury"] < 1:
-            if target.cndt["lifeless"]: injuryPhrase += "damaged!"
-            else: injuryPhrase += "injured!"
+            if target.cndt["lifeless"]: injuryPhrase += "lightly damaged!"
+            else: injuryPhrase += "lightly injured!"
             speedPhrase += "by a quarter."
             avPhrase += "by 1."
 
             target.atrb["injury"] = 1
             print = True
 
-    elif 0 < target.atrb["cur_hp"] <= target.atrb["quart_hp"]:
+    elif target.atrb["quart_hp"] < target.atrb["cur_hp"] <= target.atrb["half_hp"]:
         if target.atrb["injury"] < 2:
-            if target.cndt["lifeless"]: injuryPhrase += "critically damaged!"
-            else: injuryPhrase += "critically injured!"
+            if target.cndt["lifeless"]: injuryPhrase += "severely damaged!"
+            else: injuryPhrase += "severely injured!"
             speedPhrase += "by half."
             avPhrase += "by 2."
 
             target.atrb["injury"] = 2
             print = True
 
-    elif -target.atrb["half_hp"] < target.atrb["cur_hp"] <= 0:
+    elif 0 < target.atrb["cur_hp"] <= target.atrb["quart_hp"]:
         if target.atrb["injury"] < 3:
-            if target.cndt["lifeless"]: injuryPhrase += "catastrophically damaged!"
-            else: injuryPhrase += "mortally wounded!"
-            speedPhrase += "to 1."
+            if target.cndt["lifeless"]: injuryPhrase += "critically damaged!"
+            else: injuryPhrase += "critically injured!"
+            speedPhrase += "by three quarters."
             avPhrase += "by 3."
 
             target.atrb["injury"] = 3
+            print = True
+
+    elif -target.atrb["half_hp"] < target.atrb["cur_hp"] <= 0:
+        if target.atrb["injury"] < 4:
+            if target.cndt["lifeless"]: injuryPhrase += "catastrophically impaired!"
+            else: injuryPhrase += "mortally wounded!"
+            speedPhrase += "to 1."
+            avPhrase += "by 4."
+
+            target.atrb["injury"] = 4
             print = True
 
     elif target.atrb["cur_hp"] <= -target.atrb["half_hp"]:

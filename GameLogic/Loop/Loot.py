@@ -27,14 +27,14 @@ def updateStones(player, stock, cap):
         pearlUpdates = Select.listSelection(stock["pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
         for pearl in pearlUpdates:
             player.inv["pearls"][pearl] += 1
-            stock.remove([pearl])
+            stock.remove(pearl)
             cap -= 1
 
     if cap > 0:
         coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"] + ".")
         for core in coreUpdates:
             player.inv["cores"][core] += 1
-            stock.remove([core])
+            stock.remove(core)
 
 
 def lootFoes(players, enemies):
@@ -143,11 +143,9 @@ def getStock(party) -> dict:
 
     for fighter in party:
         for pearl in fighter.inv["pearls"]:
-            for quantity in fighter.inv["pearls"][pearl]:
-                stock["pearls"] += [pearl]
+            for quantity in len(fighter.inv["pearls"][pearl]): stock["pearls"] += [pearl]
         for core in fighter.inv["cores"]:
-            for quantity in fighter.inv["cores"][core]:
-                stock["cores"] += [core]
+            for quantity in len(fighter.inv["cores"][core]): stock["cores"] += [core]
 
     stock.sort()
     return stock

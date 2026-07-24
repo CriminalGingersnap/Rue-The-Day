@@ -5,7 +5,7 @@ import random
 wall, pool, pit =  "////|", "_~~~|", "_)))|"
 impermissible = [wall, pit]
 
-emptySpace, manaWell = "____|", "*___|"
+emptySpace = "____|"
 fogSpace, mistSpace = "=___|", "-___|"
 smokeSpace, rimeSpace = "#___|", "%___|"
 dazzleSpace, deathSpace, sacredSpace = "+___|", "}___|", "@___|"

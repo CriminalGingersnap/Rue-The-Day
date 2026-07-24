@@ -81,7 +81,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
         lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
         lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         
-        if boon in ["Conceal", "Regenerate", "Slip"]: target = fighter
+        if boon in ["Conceal", "Regenerate"]: target = fighter
         else:
             match boon:
                 case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])
