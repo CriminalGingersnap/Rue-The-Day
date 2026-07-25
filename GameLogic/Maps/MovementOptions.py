@@ -5,7 +5,7 @@ heightDict = {Elevation.doubleUp: 5, Elevation.up: 4, Elevation.middle: 3,
 
 
 def setMoveOptions(fighter, target, battleMap) -> list:
-    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
+    fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
     leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
     topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
     hazards = uMap.majorHazards + uMap.minorHazards
@@ -16,7 +16,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     npc, simulation = fighter.props["rank"] not in ["player", "world"], None
     if npc:
         if skittish: simulation = target.sightMap
-        else: simulation = Visibility.createSightMap(battleMap, target.position, fighter.props["rank"])
+        else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"])
     sightMap = fighter.sightMap
 
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]

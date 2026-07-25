@@ -103,6 +103,7 @@ def beastInventory(hp, element, rank, type) -> dict:
             case "high": vitaVolume = 3
             case "max": vitaVolume = 4
     else:
+        drop["pearls"]["Dream"] = random.choice([1, 0, 0, 0, 0, 0])
         match hp:
             case "min": vitaVolume = 1
             case "low": vitaVolume = 2
@@ -114,8 +115,8 @@ def beastInventory(hp, element, rank, type) -> dict:
 
     if element != "Basic":
         match rank:
-            case "Adult" | "Wizened": drop["pearls"][element] = 1
-            case "Elder" | "Ancient": drop["pearls"][element] = 2
+            case "Adult" | "Wizened": drop["pearls"][element] += 1
+            case "Elder" | "Ancient": drop["pearls"][element] += 2
             case "Ascendant": drop["shards"][element] = 1
 
     return drop

@@ -87,7 +87,7 @@ class kingKillerMap:
 
 class mapMarker:
     def __init__(self, worldMap, start):
-        self.position = start
+        self.pos = start
 
         self.atrb = {"base_sp": 3, "cur_sp": 3}
         self.cndt = {"aquatic": False, "skittish": False, "winged": False}

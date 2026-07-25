@@ -37,9 +37,9 @@ marker = tutorialWorld.marker
 worldMap[0][6] = "w___↑"
 worldMap[2][6] = "w_..↑"
 worldMap[2][7] = "w/!!↑"
-marker.position = [2, 6]
+marker.pos = [2, 6]
 
-marker.lastCleared.appendleft(marker.position)
+marker.lastCleared.appendleft(marker.pos)
 marker.lastCleared.pop()
 
 group1 = {
@@ -53,23 +53,23 @@ group1 = {
 inTutorial = True
 
 while True:
-    marker.sightMap = World.createSightMap(worldMap, marker.position, "world")
+    marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
     Print.printWorldMap(tutorialWorld)
     Movement.moveFighter(marker, worldMap, None, None)
     marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
-    if marker.position not in marker.lastCleared:
+    if marker.pos not in marker.lastCleared:
         Select.waitPrint("Encounter triggered!!!")
 
-        row, column = marker.position[0], marker.position[1]
+        row, column = marker.pos[0], marker.pos[1]
         letter = worldMap[row][column][0]
         biome = tutorialWorld.legend[letter]
         Encounters.encounterLoop(group1, biome)
 
-        marker.lastCleared.appendleft(marker.position)
+        marker.lastCleared.appendleft(marker.pos)
         marker.lastCleared.pop()
 
-    elif marker.position == marker.lastCleared[0]:
+    elif marker.pos == marker.lastCleared[0]:
         takeRest = Select.yesNo("Rest and Save Game?")
         if takeRest: Encounters.takeRest(group1)
 

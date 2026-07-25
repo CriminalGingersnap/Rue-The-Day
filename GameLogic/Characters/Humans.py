@@ -205,16 +205,19 @@ class warlock:
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["attacks"] += ["Bring"]
+            if element == "Dream": abl["boons"] += ["Focus"]
+            else: abl["attacks"] += ["Bring"]
 
             if rank in ["Adept", "Elite", "Master"]:
-                abl["specialty"] = [random.choice(["Bash", "Bring", "Stab"])]
+                if element == "Dream": abl["specialty"] = [random.choice(["Bash", "Focus", "Stab"])]
+                else: abl["specialty"] = [random.choice(["Bash", "Bring", "Stab"])]
                 
                 if rank in ["Elite", "Master"]:
                     abl["areas"] += ["Hex"]
                     
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
+                        if element == "Dream": secondSpecialty = [random.choice(["Bash", "Focus", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
 
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)

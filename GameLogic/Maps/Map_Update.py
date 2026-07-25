@@ -20,7 +20,7 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     removeFighter(fighter, sightMap)
     marker = setMarker(fighter, battleMap[row][column])
     battleMap[row][column] = marker
-    fighter.position = [row, column]
+    fighter.pos = [row, column]
     
     if fighter.props["rank"] == "Ascendant":
         Area.affectSpace(fighter, [row, column], fighter.atrb["cur_elm"], 2, battleMap)
@@ -34,22 +34,22 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     sightMap[row][column] = battleMap[row][column]
 
 def removeFighter(fighter, instanceMap):
-    atmosphere = instanceMap[fighter.position[0]][fighter.position[1]][0]
-    terrain = instanceMap[fighter.position[0]][fighter.position[1]][1]
-    elevation = instanceMap[fighter.position[0]][fighter.position[1]][-1]
+    atmosphere = instanceMap[fighter.pos[0]][fighter.pos[1]][0]
+    terrain = instanceMap[fighter.pos[0]][fighter.pos[1]][1]
+    elevation = instanceMap[fighter.pos[0]][fighter.pos[1]][-1]
 
-    instanceMap[fighter.position[0]][fighter.position[1]] = atmosphere + terrain + terrain + terrain + elevation
+    instanceMap[fighter.pos[0]][fighter.pos[1]] = atmosphere + terrain + terrain + terrain + elevation
 
 
 def revealOthers(fighter, allies, enemies, sightMap):
     if fighter.props["rank"] == "player":
         for ally in allies:
-            row, column = ally.position[0], ally.position[1]
+            row, column = ally.pos[0], ally.pos[1]
             if (ally.props["name"] != fighter.props["name"]) and (Visibility.unseen in sightMap[row][column]):
                 elevation = sightMap[row][column][-1]
                 sightMap[row][column] = " ..?" + elevation
         for enemy in enemies:
-            row, column = enemy.position[0], enemy.position[1]
+            row, column = enemy.pos[0], enemy.pos[1]
             if Visibility.unseen in sightMap[row][column]:
                 elevation = sightMap[row][column][-1]
                 sightMap[row][column] = " !!?" + elevation
@@ -65,7 +65,7 @@ def hideVeiled(fighter, contingent, instanceMap):
 def hideTraps(fighter, sightMap):
     for row in range(12):
         for column in range(12):
-            distance = Movement.getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
+            distance = Movement.getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column)
             if (distance > 2) and ("]" in sightMap[row][column]):
                 sightMap[row][column] = sightMap[row][column][:-1] + "|"
 
@@ -94,7 +94,7 @@ def getScale(atmosphere) -> int:
 
 
 def activateHazards(fighter, battleMap):
-    row, column = fighter.position[0], fighter.position[1]
+    row, column = fighter.pos[0], fighter.pos[1]
     atmosphere = battleMap[row][column][0]
 
     if atmosphere in hazards:

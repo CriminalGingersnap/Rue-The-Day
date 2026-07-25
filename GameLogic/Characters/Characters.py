@@ -16,7 +16,7 @@ class character:
         name = rank + " " + job + "(" + elm + ")"
         self.props = {"initials": "", "job": job, "name": name, "rank": rank, "type": type}
 
-        self.attackQueue, self.position = [], []
+        self.attackQueue, self.pos = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
 
         Select.quickPrint(self.props["name"] + " instantiated!")

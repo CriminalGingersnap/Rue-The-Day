@@ -23,7 +23,7 @@ def sortLiving(contingent, battleMap) -> list:
     for candidate in contingent:
         if candidate.cndt["dead"]:
             downed += [candidate]
-            if candidate.props["initials"] in battleMap[candidate.position[0]][candidate.position[1]]:
+            if candidate.props["initials"] in battleMap[candidate.pos[0]][candidate.pos[1]]:
                 uMap.removeFighter(candidate, battleMap)
         else:
             fighting += [candidate]

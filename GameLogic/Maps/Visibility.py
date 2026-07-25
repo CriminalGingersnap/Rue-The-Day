@@ -33,12 +33,13 @@ def look(position, row, column, battleMap, sightMap, peak):
 
     visible = True
 
-    obstructed = any(occlusion in vistaSpace for occlusion in ["/"] + uMap.majorHazards)
+    obstructed = "/" in vistaSpace
+    clouded = any(cloud in vistaSpace for cloud in uMap.majorHazards) and ((abs(position[0] - row) > 1) or (abs(position[1] - column) > 1))
     fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
     misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((abs(position[0] - row) > 6) or (abs(position[1] - column) > 6))
 
     if vistaHeight < peak: visible = False
-    elif obstructed or misted or fogged: peak = max(peak, vistaHeight + 1)
+    elif obstructed or clouded or misted or fogged: peak = max(peak, vistaHeight + 1)
     elif standingHeight < vistaHeight > peak: peak = vistaHeight
     
     if visible: sightMap[row][column] = battleMap[row][column]

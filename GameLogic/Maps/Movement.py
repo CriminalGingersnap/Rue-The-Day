@@ -32,8 +32,8 @@ def moveFighter(fighter, battleMap, target, closeRanks) -> None:
 
 
 def getTargetDistance(fighter, target):
-    fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
-    targetRow, targetColumn = target.position[0], target.position[1]
+    fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
+    targetRow, targetColumn = target.pos[0], target.pos[1]
     rowDiff, columnDiff = abs(fighterRow - targetRow), abs(fighterColumn - targetColumn)
     return max(rowDiff, columnDiff)
 
@@ -53,7 +53,7 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
 
     for spaceNumber in range(firstSpace, lastSpace):
         row, column = spaceOptions[str(spaceNumber)][0], spaceOptions[str(spaceNumber)][1]
-        spaceToTarget = getSpaceDistance(target.position[0], row, target.position[1], column)
+        spaceToTarget = getSpaceDistance(target.pos[0], row, target.pos[1], column)
 
         if spaceToTarget in rankedOptions: rankedOptions[spaceToTarget] += [[row, column, spaceNumber]]
         else: rankedOptions[spaceToTarget] = [[row, column, spaceNumber]]
@@ -66,7 +66,7 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
 
     for square in rankedOptions[desiredDistance]:
         row, column = square[0], square[1]
-        spaceToFighter = getSpaceDistance(fighter.position[0], row, fighter.position[1], column)
+        spaceToFighter = getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column)
 
         if spaceToFighter < leastFromFighter:
             leastFromFighter = spaceToFighter

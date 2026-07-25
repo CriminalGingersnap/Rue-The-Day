@@ -28,8 +28,8 @@ def combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups) -> list:
     for row in range(4, 8): battleMap[row] += map2[row - 4]
     for row in range(8, 12): battleMap[row] += map3[row - 8]
 
-    for fighter in mapGroups[1]["group"]: fighter.position[0] += 4
-    for fighter in mapGroups[2]["group"]: fighter.position[0] += 8
+    for fighter in mapGroups[1]["group"]: fighter.pos[0] += 4
+    for fighter in mapGroups[2]["group"]: fighter.pos[0] += 8
             
     return battleMap
 

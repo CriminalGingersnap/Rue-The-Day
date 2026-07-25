@@ -5,7 +5,7 @@ import random
 
 
 def findSpace(fighter, groups, range, source) -> list:
-    column, row = fighter.position[1], fighter.position[0]
+    column, row = fighter.pos[1], fighter.pos[0]
     leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
     topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
     borders = [leftEdge, rightEdge, topEdge, bottomEdge]
@@ -67,7 +67,7 @@ def selectSpace(fighter, groups, boarders, source) -> int:
 def enemyInRange(row, column, enemies) -> bool:
     inRange = False
     for enemy in enemies:
-        if Movement.getSpaceDistance(enemy.position[0], row, enemy.position[1], column) <= 3: 
+        if Movement.getSpaceDistance(enemy.pos[0], row, enemy.pos[1], column) <= 3: 
             inRange = True
 
     return inRange
@@ -75,7 +75,7 @@ def enemyInRange(row, column, enemies) -> bool:
 def allyNotInRange(row, column, allies):
     notInRange = True
     for ally in allies:
-        if Movement.getSpaceDistance(ally.position[0], row, ally.position[1], column) <= 3: 
+        if Movement.getSpaceDistance(ally.pos[0], row, ally.pos[1], column) <= 3: 
             notInRange = False
 
     return notInRange

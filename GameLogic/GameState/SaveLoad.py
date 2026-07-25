@@ -6,7 +6,7 @@ import json
 
 class nullCharacter:
     def __init__(self) -> None:        
-        self.attackQueue, self.position = [], []
+        self.attackQueue, self.pos = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
 
         dicts = Characters.setDicts()
@@ -79,7 +79,7 @@ def saveWorld(world, campaign)-> None:
     save = {
         "map": world.worldMap,
         "legend": world.legend,
-        "start": world.marker.position
+        "start": world.marker.pos
     }
     
     with open(setFilePath(campaign, "World"), 'w') as jsonFile:
