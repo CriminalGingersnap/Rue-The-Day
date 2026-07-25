@@ -1,5 +1,6 @@
-from Systems import PlayerSelect as Select, Inventory, Equipment
+from Systems import PlayerSelect as Select, Inventory
 from Actions import ItemActions as Items
+from . import LootEquipment
 import copy
 
 
@@ -38,24 +39,26 @@ def updateStones(player, stock, cap):
 
 
 def lootFoes(players, enemies):
-    humans, nonHumans = [], []
+    humans, standards, creatures = [], [], []
 
     for enemy in enemies:
         if enemy.props["type"] == "human": humans += [enemy]
+        elif enemy.props["job"] == "standard": standards += [enemy]
         elif enemy.props["rank"] == "Ascendant": continue
-        else: nonHumans += enemy
+        else: creatures += enemy
     
     if len(humans) > 0:
         Select.waitPrint("Searching enemies for useful items.")
-        if Select.yesNo("Swap equipment?"): lootEquipment(players, humans)
-        lootSimple(players, humans)
-    if len(nonHumans) > 0:
-        lootEchos(players, nonHumans)
-        lootSimple(nonHumans)
+        if Select.yesNo("Swap equipment?"): LootEquipment.lootEquipment(players, humans)
+    if len(standards) > 0: lootStandards(players, standards)
+    if len(creatures) > 0: lootEchos(players, creatures)
+
+    lootSimple(players, humans + standards + creatures)
 
 
 def lootSimple(players, enemies) -> None:
-    stock = getStock(enemies)    
+    Select.waitPrint("Carve and pry open foes which are not human. Rob those which are.")
+    stock = getStock(enemies)
     for player in players:
         inventory = Items.getInventory(player)
         allowance = player.inv["Capacity"] - inventory["Total"]
@@ -63,70 +66,30 @@ def lootSimple(players, enemies) -> None:
         updateStones(player, stock, allowance)
 
 
-def lootEquipment(players, humans) -> None:
-    nullKit = copy.deepcopy(Equipment.nullKit)
-    nullWeapon = copy.deepcopy(Equipment.nullWeapon)
-
+def lootStandards(players, standards):
+    Select.waitPrint("Broken standards can be repaired.")
     for player in players:
-        compatibleJobs, carryWeight = [], player.atrb["base_sp"] - 1
-        armorList, shieldList, weaponList = [], [], []
+        speedLoss = (player.equip["armor"]["modifier"] + player.equip["shield"]["modifier"] + player.equip["weapon"]["modifier"] 
+                        + player.inv["spares"]["shield"]["modifier"] + player.inv["spares"]["weapon"]["modifier"])
+        carryWeight = player.atrb["base_sp"] - speedLoss
 
-        if player.equip["armor"]["name"] != "None": armorList += [player.equip["armor"]]
-        if player.equip["shield"]["name"] != "None": shieldList += [player.equip["shield"]]
-        if player.equip["weapon"]["name"] != "None": weaponList += [enemy.equip["weapon"]]
-        if player.inv["spares"]["shield"]["name"] != "None": shieldList += [player.inv["spares"]["shield"]]
-        if player.inv["spares"]["weapon"]["name"] != "None": weaponList += [player.inv["spares"]["weapon"]]
-
-        if player.props["job"] in ["Archer", "Dragonslayer"]: compatibleJobs += ["Archer", "Dragonslayer"]
-        elif player.props["job"] in ["Brute", "Knight"]: compatibleJobs += ["Brute", "Knight", "Warlock"]
-        elif player.props["job"] in ["Mage", "Warlock"]: compatibleJobs += ["Mage", "Warlock"]
-        else: compatibleJobs += [player.props["job"]]
-
-        for enemy in humans:
-            if enemy.equip["armor"]["name"] != "None":
-                if not (enemy.equip["armor"]["modifier"] > carryWeight): armorList += [enemy.equip["armor"]]
-            if enemy.equip["shield"]["name"] != "None":
-                if not (enemy.equip["shield"]["modifier"] > carryWeight): shieldList += [enemy.equip["shield"]]
-            if enemy.equip["weapon"]["name"] != "None":
-                if enemy.props["job"] in compatibleJobs: weaponList += [enemy.equip["weapon"]]
-        
-        if len(weaponList) == 1:
-            player.equip["weapon"] = weaponList[0]
-            Select.waitPrint(player.equip["weapon"]["name"] + " selected due to being the only compatible option.")
-        elif len(weaponList) > 1:
-            player.equip["weapon"] = Select.pickOption(weaponList, "primary weapon")
-            weaponList.remove(player.equip["weapon"])
-            player.inv["spares"]["weapon"] = Select.pickOption([nullWeapon] + weaponList, "spare weapon")
-
-        carryWeight -= (player.equip["weapon"]["modifier"] + player.inv["spares"]["weapon"]["modifier"])
-
-        for armor in armorList:
-            if armor["modifier"] > carryWeight: armorList.remove[armor]
-        if len(armorList) > 0: player.equip["armor"] = Select.pickOption([nullKit] + armorList, "armor")
-        carryWeight -= player.equip["armor"]["modifier"]
-        
-        if player.equip["weapon"]["twoHanded"]: shieldList = []
-        else:
-            for shield in shieldList:
-                if shield["modifier"] > carryWeight: shieldList.remove[shield]
-
-            if len(shieldList) == 0:
-                player.equip["shield"] = nullKit
-                Select.waitPrint("No usable shields.")
-            else:
-                player.equip["shield"] = Select.pickOption([nullKit] + shieldList, "primary shield")
-                shieldList.remove(player.equip["shield"])
-                if len(shieldList) > 0:
-                    player.inv["spares"]["shield"] = Select.pickOption([nullKit] + shieldList, "spare shield")
+        if carryWeight > 2:
+            if Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):
+                standard = Select.targetSelect(standards)
+                standard.props["rank"] = "player"
+                player.inv["standard"] = standard
+                standard.cndt["planted"] = False
+                
+                del standard[standard]
 
 
-def lootEchos(players, nonHumans) -> None:
+def lootEchos(players, creatures) -> None:
     recentDead = []
-    for enemy in nonHumans:
+    for enemy in creatures:
         if not (enemy.cndt["lifeless"] or (enemy.type in ["insect", "invertebrate"])): recentDead += [enemy]
 
     if len(recentDead) > 0:
-        Select.waitPrint("Echos of the slain linger within their fallen bodies.")            
+        Select.waitPrint("Echos of the slain linger within their fallen bodies.")
         for player in players:
             if Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
                 echo = Select.targetSelect(recentDead)
@@ -134,7 +97,7 @@ def lootEchos(players, nonHumans) -> None:
                 echo.props["rank"] = "player"
                 player.inv["echo"] = echo
                 
-                del nonHumans[enemy]
+                del creatures[enemy]
                 del recentDead[enemy]
 
 

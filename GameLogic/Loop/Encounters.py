@@ -53,17 +53,22 @@ def handleAftermath(victorGroup) -> bool:
     return takeRest
 
 
-def takeRest(group):
-    for fighter in group["members"]:
-        fighter.atrb["stamina"] = fighter.atrb["endurance"]
-        fighter.atrb["fatigue"] = 0
+def takeRest(group) -> None:
+    for fighter in group["members"]: refresh(fighter)
 
-        fighter.atrb["tolerance"] = Conditions.getTolerance(fighter)
-        fighter.atrb["corruption"] = 0
+    group["days"] += 1
+    Save.saveGroup(group)
 
-        fighter.dead = False
-        fighter.atrb["cur_hp"] = fighter.atrb["base_hp"]
-        fighter.atrb["injury"] = 0
+def refresh(fighter) -> None:
+    fighter.atrb["stamina"] = fighter.atrb["endurance"]
+    fighter.atrb["fatigue"] = 0
 
-        group["days"] += 1
-        Save.saveGroup(group)
+    fighter.atrb["tolerance"] = Conditions.getTolerance(fighter)
+    fighter.atrb["corruption"] = 0
+
+    fighter.dead = False
+    fighter.atrb["cur_hp"] = fighter.atrb["base_hp"]
+    fighter.atrb["injury"] = 0
+
+    if fighter.inv["echo"] != "None": refresh(fighter.inv["echo"])
+    if fighter.inv["standard"] != "None": refresh(fighter.inv["standard"])

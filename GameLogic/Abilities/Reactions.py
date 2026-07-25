@@ -67,9 +67,9 @@ def applyReinforcements(fighter, allies, battleMap):
         fighter.cndt["calling"]["delay"] -= 1
 
 def applySocial(fighter, allies):
-    if fighter.props["job"] == "Hound":
+    if fighter.cndt["social"] and not fighter.cndt["calling"]["used"]:
         if not any(ally.props["type"] == "human" for ally in allies):
-            if fighter.cndt["social"] and not fighter.cndt["calling"]["used"]:
+            if fighter.props["job"] == "Hound":
                 Select.waitPrint(fighter.props["name"] + " howls to the rest of its pack!")
                 socialRoll(fighter, allies)
                

@@ -14,7 +14,7 @@ class crab:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["aquatic"], cndt["armored"] = True, True
-        stats["hp"], stats["speed"] = "high", "min"
+        stats["hp"] = "high"
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -38,7 +38,7 @@ class mussel:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"] = True
+        cndt["armored"], cndt["planted"] = True, True
         stats["speed"] = "min"
 
         dice = {"martial": 1, "magic": 0}

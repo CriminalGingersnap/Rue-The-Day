@@ -10,8 +10,8 @@ class character:
         dicts = setDicts()
         self.commits, self.effects, self.itemEffects = dicts[0], dicts[1], dicts[2]
 
-        self.equip = Equipment.setEquipment(type, job, rank, elm, cndt, abl["specialty"] + abl["mastery"], abl["attacks"])
-        self.inv = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
+        self.equip = Equipment.setEquipment(abl["attacks"], cndt, elm, job, rank, abl["specialty"] + abl["mastery"], type)
+        self.inv = Inventory.setInventory(elm, self.atrb["base_hp"], job, rank, type)
         
         name = rank + " " + job + "(" + elm + ")"
         self.props = {"initials": "", "job": job, "name": name, "rank": rank, "type": type}
@@ -70,9 +70,11 @@ def setTraits():
     conditions = {"armored": False, "aquatic": False,
                     "calling": {"delay": 0, "quantity": 0, "used": False},
                      "dead": False, "inviolable": False, "lifeless": False,
-                      "massive": False, "reposed": False, "running": False,
-                       "skittish": False, "social": False, "sapient": False, 
-                        "submerged": False, "winged": False}
+                      "massive": False, "planted": False,
+                       "reposed": False, "running": False,
+                        "skittish": False, "social": False,
+                         "sapient": False, "submerged": False,
+                          "winged": False}
     
     resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal",
                     "Dream": "normal", "Ice": "normal", "Holy": "immune",

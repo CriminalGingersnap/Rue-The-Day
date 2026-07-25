@@ -33,6 +33,12 @@ def saveCharacter(fighter, campaign, name) -> None:
     else:
         saveCharacter(fighter.inv["echo"], campaign, name + "sEcho")
         fighter.inv["echo"] = "None"
+
+    if fighter.inv["standard"] == "None":
+        setFilePath(campaign, name + "sStandard").unlink(missing_ok = True)
+    else:
+        saveCharacter(fighter.inv["standard"], campaign, name + "sStandard")
+        fighter.inv["standard"] = "None"
     
     save = {
         "abl": fighter.abl,
@@ -60,6 +66,12 @@ def loadCharacter(fighter, campaign, name) -> None:
         echo = nullCharacter()
         loadCharacter(echo, campaign, name + "sEcho")
         fighter.inv["echo"] = echo
+    except FileNotFoundError: pass
+
+    try:
+        standard = nullCharacter()
+        loadCharacter(standard, campaign, name + "sStandard")
+        fighter.inv["standard"] = echo
     except FileNotFoundError: pass
 
 

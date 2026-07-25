@@ -4,7 +4,7 @@ import random, copy
 nullKit = {"name": "None", "modifier": 0,  "element": "Basic"}
 nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1}
 
-def setEquipment(type, job, rank, element, cndt, skills, attacks) -> list:
+def setEquipment(attacks, cndt, element, job, rank, skills, type) -> list:
     global nullKit, nullWeapon
 
     equipment = {"armor": copy.deepcopy(nullKit),

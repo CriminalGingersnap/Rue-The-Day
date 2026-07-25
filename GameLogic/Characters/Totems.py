@@ -10,22 +10,22 @@ def setCommon(job) -> list:
     traits[1].update({"Pierce": "resistant", "Flame": "vulnerable"})
     stats = {"avoidance": "min", "hp": "low", "resist": traits[1], "speed": "min"}
     cndt = traits[0]
-    cndt["lifeless"], cndt["reposed"] = True, True
+    cndt["lifeless"], cndt["planted"], cndt["reposed"] = True, True, True
     
     dice = {"martial": 0, "magic": 1}
 
-    if job in ["Door", "Gate", "Totem", "Monument"]:
+    if job in ["Door", "Gate", "Monument"]:
         if job in ["Gate", "Monument"]:
             cndt["massive"] = True
             stats["hp"] = "max"
             stats["resist"]["Flame"] = "normal"
 
         match job:
-            case "Door": stats["hp"] = "mid"
-            case "Gate": dice["magic"] = 2
-            case "Totem":
+            case "Door":
+                dice["magic"] = 2
+                stats["hp"] = "mid"
+            case "Gate":
                 dice["magic"] = 3
-                stats["hp"] = "high"
             case "Monument":
                 dice["magic"] = 5
                 stats["resist"]["Pierce"] = "immune"

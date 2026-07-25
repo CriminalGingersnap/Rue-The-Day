@@ -27,19 +27,25 @@ def applyResistance(damage, dmgType, target) -> int:
 
     if tRes != "normal": Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
 
-    protections, reduction = [], 0
+    protections, armorReduction, shieldReduction, waterReduction = [], 0, 0, 0
     armorType = target.equip["armor"]["element"]
     shieldType = target.equip["shield"]["element"]
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
         Select.waitPrint("Target is wearing " + target.equip["armor"]["element"] + " armor!")
-        reduction = target.equip["armor"]["modifier"] * .1
+        armorReduction = target.equip["armor"]["modifier"] * .1
         protections += [armorType]
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, shieldType):
         Select.waitPrint("Target carries a talisman of " + target.equip["shield"]["element"] + "!")
-        reduction = .2
+        shieldReduction = .2
         protections += [shieldType]
+
+    if target.cndt["submerged"]:
+        Select.waitPrint("Target gains slight protection against damage by being submerged.")
+        waterReduction = .1
+
+    reduction = armorReduction + shieldReduction + waterReduction
 
     for protection in protections:
         if dmgType == protection:

@@ -3,9 +3,6 @@ from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
 from Systems import Commitments, PlayerSelect as Select, Sort
 from Maps import Map_Update as uMap
 
-# Add method to create phases in boss fights. Generate new maps for each phase.
-# Add mist for the giant. Change tunnels for worm.
-
 
 def engage(playerGroup, enemyGroups, battleMap) -> list:
     input("\nPress Enter to begin combat.")
@@ -39,9 +36,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
     validFighters, validTargets = sortedOffense[0], sortedTarget[0]
     downedFighters, downedTargets = sortedOffense[1], sortedTarget[1]
 
-    if any(fighter.props["rank"] == "player" for fighter in downedFighters):
+    if any((fighter.props["rank"] == "player" and fighter.props["type"] == "human") for fighter in downedFighters):
         return [False, None]
-    elif any(target.props["rank"] == "player" for target in downedTargets):
+    elif any((target.props["rank"] == "player" and target.props["type"] == "human") for target in downedTargets):
         Select.slowPrint("\nPlayer defeat.\n")
         input("Press Enter to resolve.")
         return [True, None]
@@ -80,16 +77,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                     else: Attacks.execute(fighter, target, ability, dice)
 
                     fighter.attackQueue.remove(attack)
-            Phases.outro(fighter, offenseGroup, battleMap)
+            Phases.outro(fighter, validFighters, battleMap)
 
         if offenseGroup[0].props["rank"] != "player":
             input("\nPress Enter to advance combat to the next round.\n")
 
     return [False, None]
-
-
-def restart():
-    return # Let players quickly restart an encounter.
-            # Also provide a quit and reload option to pick up from the last safe rest.
-            # Only save game at rest sites. Require players to complete at least one encounter before resting.
-            # Present the player with a rests-remaining counter after the old rival event? Choose a later event to start the countdown?

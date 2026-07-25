@@ -19,6 +19,9 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             match category:
                 case "pearls": Conditions.decrementTolerance(fighter, 2)
                 case "cores": Conditions.decrementTolerance(fighter, 4)
+        case "Plant":
+            Select.waitPrint(fighter.props["name" + " plants a standard!"])
+            plant(fighter, groups)
 
 
 def animate(fighter, groups) -> None:
@@ -26,6 +29,13 @@ def animate(fighter, groups) -> None:
     echo.position = Area.findSpace(fighter, groups, 4, "echo")
     echo.itemEffects["Animate"]["duration"] = 3
     echo.itemEffects["Animate"]["additional"] = True
+
+def plant(fighter, groups) -> None:
+    standard = fighter.inv["standard"]
+    plantSpace = Area.findSpace(fighter, groups, 1, "standard")
+    if plantSpace != "None":
+        standard.position = plantSpace
+        standard.cndt["Planted"] = True
 
 
 def imbue(fighter, category, element, battleMap) -> None:

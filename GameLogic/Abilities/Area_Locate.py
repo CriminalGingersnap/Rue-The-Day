@@ -30,10 +30,13 @@ def selectSpace(fighter, groups, boarders, source) -> int:
                     optionsMap[row][column] = optionsMap[row][column][:2] + "!!" + optionsMap[row][column][-1]
 
         counter, optionDict = 1, {"0": "None"}
+        
+        blockers = ["?", "/"]
+        if source in ["echo", "standard"]: blockers += [".", "!"]
 
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
-                if not any(blocker in optionsMap[row][column] for blocker in ["?", "/"]):
+                if not any(blocker in optionsMap[row][column] for blocker in blockers):
                     if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
                     elif enemyInRange(row, column, enemies) and ((source in ["echo", "Slip"]) or allyNotInRange(row, column, allies)):
                         optionDict[str(counter)] = [row, column]

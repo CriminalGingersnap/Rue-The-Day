@@ -20,11 +20,12 @@ pearls = {
 }
 
 
-def setInventory(type, rank, element, hp) -> dict:
+def setInventory(element, hp, job, rank, type) -> dict:
     match type:
         case "human": return humanInventory(element, rank)
         case "beast" | "invertebrate" | "insect" | "reptile": return beastInventory(hp, element, rank, type)
-        case "elemental" | "totem": return elementalInventory(element, rank)
+        case "elemental": return elementalInventory(element, rank)
+        case "totem": return totemInventory(element, job)
 
 
 def humanInventory(element, rank) -> dict:
@@ -43,7 +44,8 @@ def humanInventory(element, rank) -> dict:
             "shield": copy.deepcopy(Equipment.nullKit),
             "weapon": copy.deepcopy(Equipment.nullWeapon)
         },
-        "echo": "None"
+        "echo": "None",
+        "standard": "None"
     }
 
     if element != "Rot":
@@ -123,9 +125,19 @@ def elementalInventory(element, rank) -> dict:
     drop = {"cores": {element: 0}, "pearls": {element: 0}}
 
     match rank:
-        case "Standard": drop["pearls"][element] = 1
-        case "Totem": drop["pearls"][element] = 2
-        case "Lesser" | "Monument": drop["cores"][element] = 1        
+        case "Lesser": drop["cores"][element] = 1        
         case "Greater": drop["cores"][element] = 2       
+
+    return drop
+
+
+def totemInventory(element, job) -> dict:
+    drop = {"cores": {element: 0}, "pearls": {element: 0}}
+
+    match job:
+        case "Standard": drop["pearls"][element] = 1
+        case "Door": drop["pearls"][element] = 2
+        case "Gate": drop["cores"][element] = 1
+        case "Monument": drop["cores"][element] = 2
 
     return drop

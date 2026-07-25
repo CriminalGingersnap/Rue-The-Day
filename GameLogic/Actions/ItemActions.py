@@ -16,7 +16,9 @@ def itemAction(fighter, groups, battleMap) -> None:
 
         if selection != "None":
             category, item, application = selection[0], selection[1], selection[2],
-            fighter.inv[category][item] -= 1
+
+            if category == "Echo": fighter.inv["echo"] = "None"
+            elif category != "Standard": fighter.inv[category][item] -= 1
 
             target = getTarget(fighter, groups, application)
             Use.execute(target, category, item, application, groups, battleMap)
@@ -34,6 +36,7 @@ def pcSelectItem(job, inventory) -> str:
 
     if answer == "None": return answer
     elif answer == "Echo": return ["echo", "spirit", "Animate"]
+    elif answer == "Standard": return ["standard", "", "Plant"]
     elif "->" in answer:
         category = answer.split(" -> ")[0]
         item = answer.split(" -> ")[1]
@@ -77,12 +80,14 @@ def getInventory(fighter) -> dict:
         "Cores": [],
         "Pearls": [],
         "Echo": None,
+        "Standard": None,
         "Total": 0  
     } 
 
     cores = fighter.inv["cores"]
     pearls = fighter.inv["pearls"]
     echo = fighter.inv["echo"]
+    standard = fighter.inv["standard"]
 
     for core in cores:
         if cores[core] > 0: 
@@ -100,6 +105,11 @@ def getInventory(fighter) -> dict:
         items["Echo"] = [echo.props["rank"] + " " + echo.props["job"]]
         items["Total"] += 1
     else: del items["Echo"]
+
+    if (standard != "None") and not standard.cndt["Planted"]:
+        items["Standard"] = [standard.props["rank"] + " " + echo.props["job"]]
+        items["Total"] += 1
+    else: del items["Standard"]
 
     return items
 

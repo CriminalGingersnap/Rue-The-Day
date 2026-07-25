@@ -34,7 +34,7 @@ class beetle:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["winged"] = True
-        stats["hp"], stats["speed"] = "mid", "mid"
+        stats["hp"] = "mid"
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -46,7 +46,6 @@ class centipede:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        stats["speed"] = "high"
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -71,8 +70,8 @@ class isopod:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["reposed"] = True
-        stats["hp"], cndt["massive"] = "max", True
+        cndt["massive"], cndt["reposed"] = True, True
+        stats["hp"]= "max"
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)

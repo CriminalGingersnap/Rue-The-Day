@@ -9,13 +9,10 @@ def getGroups(fighter, enemies, allies) -> list:
     
 
 def setAlive(fighter, allies) -> bool:
-    inanimate = fighter.itemEffects["Animate"]["additional"] and (fighter.itemEffects["Animate"]["duration"] <= 1)
-    
-    if (fighter.atrb["cur_hp"] <= 0) or inanimate:
+    if fighter.atrb["cur_hp"] <= 0:
         fighter.cndt["dead"] = True
         Select.waitPrint("\n" + fighter.props["name"] + " has fallen.")
         Reactions.applyPheromones(fighter, allies)
-        if fighter.itemEffects["Animate"]["additional"]: allies.remove(fighter)
 
         return False
     else: return True
@@ -24,11 +21,22 @@ def sortLiving(contingent, battleMap) -> list:
     fighting, downed = [], []
 
     for candidate in contingent:
-        if candidate.cndt["dead"] == True:
+        if candidate.cndt["dead"]:
             downed += [candidate]
             if candidate.props["initials"] in battleMap[candidate.position[0]][candidate.position[1]]:
                 uMap.removeFighter(candidate, battleMap)
-        else: fighting += [candidate]
+        else:
+            fighting += [candidate]
+
+            if "echo" in candidate.inv:
+                echo = candidate.inv["echo"]
+                if (echo != "None") and (echo.itemEffects["Animate"]["duration"] > 0):
+                    fighting += [echo]
+
+            if "standard" in candidate.inv:
+                standard = candidate.inv["standard"]
+                if (standard != "None") and standard.cndt["Planted"]:
+                    fighting += [standard]
     
     return [fighting, downed]
 

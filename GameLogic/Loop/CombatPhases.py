@@ -12,6 +12,9 @@ def resetFighter(fighter) -> None:
         speedLoss = (fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
                    + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"]
                   ) - 2
+        
+        if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
+
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
         if fighter.itemEffects["Invigorate"]["duration"] > 0: fighter.atrb["cur_sp"] += 1
@@ -40,9 +43,9 @@ def setSight(fighter, enemies, allies, battleMap, print):
     return sightMap
 
 
-def outro(fighter, allyGroup, battleMap):
+def outro(fighter, allies, battleMap):
     Items.regenerate(fighter)
-    alive = Sort.setAlive(fighter, allyGroup)
+    alive = Sort.setAlive(fighter, allies)
 
     if alive:
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
@@ -50,20 +53,15 @@ def outro(fighter, allyGroup, battleMap):
             fighter.cndt["running"] = False
             intensity += 1
         Conditions.decrementStamina(fighter, intensity)
-        Reactions.applySocial(fighter, allyGroup)
-    Reactions.applyReinforcements(fighter, allyGroup, battleMap)
+        Reactions.applySocial(fighter, allies)
+    Reactions.applyReinforcements(fighter, allies, battleMap)
 
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:
-    if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
-        groups = Sort.getGroups(fighter, enemies, allies)
-        Move.moveAction(fighter, groups, battleMap)
-
-        if "echo" in fighter.inv:
-            echo = fighter.inv["echo"]
-            if (echo != "None") and (echo.itemEffects["Animate"]["duration"] == 3):
-                allies += [echo]
-                fighter.inv["echo"] = "None"
+    if not fighter.cndt["planted"]:
+        if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
+            groups = Sort.getGroups(fighter, enemies, allies)
+            Move.moveAction(fighter, groups, battleMap)
 
 
 def abilityStage(fighter, enemies, allies) -> None:
@@ -71,7 +69,6 @@ def abilityStage(fighter, enemies, allies) -> None:
     reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
     if fighter.cndt["reposed"]:
-        fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
         Select.waitPrint(fighter.props["name"] + " waits in repose.")
     elif len(fightingEnemies) > 0:
         if fighter.props["rank"] == "player":

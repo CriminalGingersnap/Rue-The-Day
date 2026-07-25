@@ -10,8 +10,9 @@ def execute(fighter, groups, ability, battleMap) -> None:
 
 
 def markSpace(fighter, groups, ability, battleMap) -> str:
-    phrase, range, dmgType = fighter.props["name"], 10, ""
+    phrase, range = fighter.props["name"], 10
     scale = fighter.atrb["cur_mag"]
+    fighter.atrb["cur_mag"] = 0
 
     match ability:
         case "Breath":
@@ -25,19 +26,16 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
         case "Slip": 
             phrase += " slips between spaces! Rolling range."
             range = Roll.roll(fighter, fighter.atrb["cur_mag"], "Slip", "magic")
-            scale = max(0, scale - 1)
     
     markedSpace = Locate.findSpace(fighter, groups, range, ability)
 
     if markedSpace == "None":
-        phrase = fighter.props["name"] + " cancels an area ability before execution."
+        phrase = fighter.props["name"] + " dispels an area ability before execution."
+    elif ability == "Slip":
+        tossRow, tossColumn = markedSpace[0], markedSpace[1]
+        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
     else:
         affectSpace(fighter, markedSpace, fighter.atrb["cur_elm"], scale, battleMap)
-        fighter.atrb["cur_mag"] = 0
-
-        if ability == "Slip":
-            tossRow, tossColumn = markedSpace[0], markedSpace[1]
-            uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
     return phrase
 
