@@ -3,7 +3,7 @@ import random
 
 
 def npcSelectItem(fighter, groups, inventory) -> str:
-    preferences, enemyDmgTypes, closeDmgTypes = {"Detonate": [], "Extract": []}, []
+    preferences, enemyDmgTypes, closeDmgTypes = {"Detonate": [], "Extract": []}, [], []
     blockList = allowList = ["Flame", "Dream", "Ice", "Holy", "Rot"]
 
     if fighter.props["job"] == "Paladin": allowList = []

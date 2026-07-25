@@ -1,5 +1,5 @@
 from . import AttackActions
-from Abilities import AttackAbilities as Attacks, Hindrances_Set as Hindrances, Hindrances_Apply as Hinder
+from Abilities import AttackAbilities as Attacks, Hindrances_Set as Hindrances
 from Systems import PlayerSelect as Select, Sort
 import random
 

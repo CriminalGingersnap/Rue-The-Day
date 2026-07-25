@@ -128,7 +128,7 @@ def lootEchos(players, nonHumans) -> None:
     if len(recentDead) > 0:
         Select.waitPrint("Echos of the slain linger within their fallen bodies.")            
         for player in players:
-            if (len(recentDead) > 0) and Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
+            if Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
                 echo = Select.targetSelect(recentDead)
                 Inventory.setLifeless(echo)
                 echo.props["rank"] = "player"
@@ -143,9 +143,9 @@ def getStock(party) -> dict:
 
     for fighter in party:
         for pearl in fighter.inv["pearls"]:
-            for quantity in len(fighter.inv["pearls"][pearl]): stock["pearls"] += [pearl]
+            for quantity in range(fighter.inv["pearls"][pearl]): stock["pearls"] += [pearl]
         for core in fighter.inv["cores"]:
-            for quantity in len(fighter.inv["cores"][core]): stock["cores"] += [core]
+            for quantity in range(fighter.inv["cores"][core]): stock["cores"] += [core]
 
     stock.sort()
     return stock

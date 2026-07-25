@@ -8,12 +8,11 @@ def setCommon(element, rank) -> list:
 
     traits = Characters.setTraits()
     cndt = traits[0]
+    cndt["armored"] = True
     stats = {"avoidance": "low", "hp": "low", "resist": traits[1], "speed": "low"}
 
     Animals.setAnimalResistance(element, rank, stats)
     stats["resist"]["Dream"] = "resistant"
-
-    cndt["aggressive"], cndt["armored"] = True, True
 
     return [stats, cndt, rank, type]
 
@@ -59,7 +58,7 @@ class hornet:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["winged"] = True
+        cndt["social"], cndt["winged"] = True, True
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "min", "mid"
         
         dice = {"martial": 1, "magic": 0}
@@ -72,7 +71,7 @@ class isopod:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["reposed"] = False, True
+        cndt["reposed"] = True
         stats["hp"], cndt["massive"] = "max", True
 
         dice = {"martial": 2, "magic": 0}

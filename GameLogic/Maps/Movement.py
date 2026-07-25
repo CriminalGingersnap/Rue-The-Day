@@ -23,7 +23,7 @@ def moveFighter(fighter, battleMap, target, closeRanks) -> None:
         if not player: Select.waitPrint(fighter.props["name"] + " moves.")
         uMap.updatePlacement(battleMap, fighter.sightMap, row, column, fighter)
 
-        stepCount = spaceOptions[moveChoice][2]
+        stepCount = spaceOptions[moveChoice][3]
         fighter.atrb["cur_sp"] -= stepCount
         if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
 

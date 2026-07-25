@@ -37,7 +37,7 @@ def applyRiposte(principal, enemy, commitment) -> None:
 
 
 def applyPheromones(fighter, allies):
-    if (fighter.props["job"] == "Ant") and not fighter.cndt["calling"]["used"]:
+    if (fighter.props["job"] in ["Ant", "Hornet"]) and not fighter.cndt["calling"]["used"]:
         Select.waitPrint("The dead " + fighter.props["name"] + " releases pheromones!")
         socialRoll(fighter, allies)
         

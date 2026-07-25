@@ -27,7 +27,7 @@ def npcAction(fighter, groups) -> None:
     if len(actionOptions) > 0:
         match random.choice(actionOptions):
             case "Attack": Attacks.commitDice(attackChoice, fighter, attackTarget)
-            case "Boon": Boons.commitDice(fighter, boonTarget, boonChoice) # Add area options
+            case "Boon": Boons.commitDice(fighter, boonTarget, boonChoice)
             case "Hinder": Hinder.commitDice(fighter, hindranceTarget, hindranceChoice)
     else:
         Select.waitPrint(fighter.props["name"] + " foregoes action.")

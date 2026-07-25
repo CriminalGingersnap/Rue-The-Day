@@ -58,7 +58,9 @@ def mods(fighter, ability, dType) -> int:
         mod -= 3
         phrase += "-3 (Submerged) | "
 
-    Select.waitPrint("Modifiers: " + str(mod) + phrase)
+    spacer = " "
+    if mod < 0: spacer = ""
+    Select.waitPrint("Modifiers: " + str(mod) + spacer + phrase)
     return mod
 
 
@@ -69,7 +71,7 @@ def castDice(dice) -> int:
         roll = random.randint(1, 6)
         Select.quickPrint("Roll " + str(die + 1) + ": ", '')
         time.sleep(Select.longWait)
-        Select.quickPrint(faces[roll - 1] + "    | " + str(roll))
+        Select.quickPrint(faces[roll - 1] + "     | " + str(roll))
 
         total += roll
     return total    

@@ -8,6 +8,7 @@ def setCommon(element, rank) -> list:
 
     traits = Characters.setTraits()
     cndt = traits[0]
+    cndt["armored"] = True
     stats = {"hp": "mid", "resist": traits[1]}
 
     Animals.setAnimalResistance(element, rank, stats)
@@ -21,7 +22,7 @@ class crocodile:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"], cndt["aggressive"], cndt["aquatic"] = True, True, True
+        cndt["aquatic"] = True
         stats["hp"], stats["speed"] = "max", "high"
 
         dice = {"martial": 2, "magic": 0}
@@ -36,7 +37,7 @@ class drake:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"], cndt["aggressive"], cndt["massive"] = True, True, True
+        cndt["massive"] = True
         stats["hp"] = "max"
 
         dice = {"martial": 3, "magic": 0}
@@ -51,6 +52,7 @@ class lizard:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["armored"], cndt["skittish"] = False, True
         stats["speed"] = "high"
 
         dice = {"martial": 1, "magic": 0}
@@ -65,10 +67,10 @@ class tortoise:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"], cndt["massive"] = True, True
+        cndt["massive"], cndt["reposed"], cndt["skittish"] = True, True, True
         stats["hp"], stats["speed"] = "max", "low"
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
@@ -80,7 +82,7 @@ class turtle:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["armored"], cndt["aggressive"], cndt["aquatic"] = True, True, True
+        cndt["aquatic"] = True
         stats["hp"], stats["speed"] = "high", "low"
 
         dice = {"martial": 2, "magic": 0}
@@ -95,7 +97,7 @@ class wyrm:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["winged"] = True, True
+        cndt["armored"], cndt["winged"] = False, True
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)

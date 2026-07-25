@@ -14,8 +14,7 @@ def resetFighter(fighter) -> None:
                   ) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
-        if fighter.itemEffects["Invigorate"]["duration"] > 0:
-            fighter.atrb["cur_sp"] += fighter.itemEffects["Invigorate"]["potency"]
+        if fighter.itemEffects["Invigorate"]["duration"] > 0: fighter.atrb["cur_sp"] += 1
 
     match fighter.atrb["injury"]:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
@@ -71,7 +70,9 @@ def abilityStage(fighter, enemies, allies) -> None:
     groups = Sort.getGroups(fighter, enemies, allies)
     reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
-    if fighter.cndt["reposed"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
+    if fighter.cndt["reposed"]:
+        fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
+        Select.waitPrint(fighter.props["name"] + " waits in repose.")
     elif len(fightingEnemies) > 0:
         if fighter.props["rank"] == "player":
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)

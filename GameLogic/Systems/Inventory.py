@@ -82,7 +82,7 @@ def setLifeless(echo):
     echo.atrb["nat_res"].update({"Bleed": "immune", "Dream": "immune", "Holy": "normal", "Toxic": "immune"})
     echo.atrb["cur_res"] = copy.deepcopy(echo.atrb["nat_res"])
 
-    echo.cndt.update({"aggressive": True, "lifeless": True, "social": False})
+    echo.cndt.update({"lifeless": True, "social": False, "skittish": False})
 
 
 def beastInventory(hp, element, rank, type) -> dict:

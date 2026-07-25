@@ -12,8 +12,11 @@ def setMoveOptions(fighter, target, battleMap) -> list:
     aquatic, skittish, winged,  = fighter.cndt["aquatic"], fighter.cndt["skittish"], fighter.cndt["winged"]
     waterLine = 0
 
-    npc, simulation, anyContact = fighter.props["rank"] not in ["player", "world"], None, False
-    if npc: simulation = Visibility.createSightMap(battleMap, target.position, fighter.props["rank"])
+    anyContact, anyUnseen = False, False
+    npc, simulation = fighter.props["rank"] not in ["player", "world"], None
+    if npc:
+        if skittish: simulation = target.sightMap
+        else: simulation = Visibility.createSightMap(battleMap, target.position, fighter.props["rank"])
     sightMap = fighter.sightMap
 
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -47,7 +50,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                         freeSpace = True
                     elif "~~~" in sightSpace:
                         movementMap[row][column] = "~:" + str(stepCount)
-                        if aquatic or winged: freeSpace = True
+                        freeSpace = True
                     elif ")" in sightSpace:
                         movementMap[row][column] = "):" + str(stepCount)
                         if winged: freeSpace = True
@@ -57,10 +60,14 @@ def setMoveOptions(fighter, target, battleMap) -> list:
 
                     if npc and freeSpace:
                         contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightSpace)
-                        if contact: anyContact = True
-                        else: movementMap[row][column] = "!:" + str(stepCount)
+                        if contact:
+                            anyContact = True
+                            if skittish: movementMap[row][column] = "!:" + str(stepCount)
+                        else:
+                            anyUnseen = True
+                            if not skittish: movementMap[row][column] = "!:" + str(stepCount)
 
-    if npc and ((not anyContact) or skittish):
+    if npc and (((not skittish) and not anyContact) or (skittish and not anyUnseen)):
         for column in range(leftEdge, rightEdge):
             for row in range(topEdge, bottomEdge):
                 if "!:" in movementMap[row][column]:

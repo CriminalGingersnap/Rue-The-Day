@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select, Sort, Damage
-from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
+from Abilities import AttackAbilities as Attacks
 from . import AssessTargets as Assess
 import random
 
@@ -21,10 +21,9 @@ def usableAttacks(fighter, enemies) -> list:
 
     for attack in fighter.abl["attacks"]:
         if (attack in affordableAttacks):
-            if Sort.canReachAny(fighter, enemies, attack):
-                if weaponAllows(fighter, attack):
-                    usableAttacks += [attack]
-    
+            if Sort.canReachAny(fighter, enemies, attack) and weaponAllows(fighter, attack):
+                usableAttacks += [attack]
+
     return usableAttacks
 
 

@@ -13,7 +13,7 @@ class crab:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aquatic"], cndt["armored"], cndt["skittish"] = True, True, False
+        cndt["aquatic"], cndt["armored"] = True, True
         stats["hp"], stats["speed"] = "high", "min"
 
         dice = {"martial": 2, "magic": 0}
@@ -26,7 +26,7 @@ class leech:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["aquatic"], cndt["skittish"] = True, True, False
+        cndt["aquatic"], cndt["reposed"], cndt["skittish"] = True, False, False
 
         dice = {"martial": 1, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -51,7 +51,7 @@ class octopus:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aggressive"], cndt["aquatic"] = True, True
+        cndt["aquatic"], cndt["reposed"] = True, False
         stats["hp"], stats["speed"] = "mid", "mid"
 
         dice = {"martial": 2, "magic": 0}

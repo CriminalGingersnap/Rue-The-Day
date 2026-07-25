@@ -8,7 +8,7 @@ def setCommon(element) -> list:
 
     traits = Characters.setTraits()
     cndt = traits[0]
-    cndt["aggressive"], cndt["massive"] = True, True
+    cndt["massive"] = True
     stats = {"hp": "mid", "resist": traits[1]}
     Animals.setAnimalResistance(element, rank, stats)   
 

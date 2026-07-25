@@ -8,7 +8,7 @@ def setCommon(element, rank) -> list:
 
     traits = Characters.setTraits()
     cndt = traits[0]
-    cndt["reposed"] = True
+    cndt["skittish"] = True
     
     stats = {"hp": "mid", "resist": traits[1], "speed": "max"}
     Animals.setAnimalResistance(element, rank, stats)
@@ -23,7 +23,7 @@ class bat:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["skittish"], cndt["winged"] = True, True
+        cndt["winged"] = True
         stats["avoidance"], stats["hp"] = "max", "min"
 
         dice = {"martial": 1, "magic": 0}
@@ -53,7 +53,6 @@ class deer:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["skittish"] = True
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -80,7 +79,7 @@ class seal:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aquatic"], cndt["skittish"] = True, True
+        cndt["aquatic"] = True
 
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
