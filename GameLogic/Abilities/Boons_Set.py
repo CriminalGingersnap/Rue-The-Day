@@ -7,10 +7,11 @@ magicBoons = ["Focus", "Veil", "Wreath"]
 
 
 def commitDice(fighter, principal, boon) -> None: 
-    newDice, diceCap = 0, 0
+    newDice, diceCap, dType = 0, 0, ""
 
-    if boon in martialBoons: diceCap = fighter.atrb["cur_mar"]
-    elif boon in magicBoons: diceCap = fighter.atrb["cur_mag"]
+    if boon in martialBoons: dType = "cur_mar"
+    elif boon in magicBoons: dType = "cur_mag"
+    diceCap = fighter.atrb[dType]
     
     if fighter.cndt["blitzing"]:
         if (fighter.props["rank"] == "player"):
@@ -30,6 +31,7 @@ def commitDice(fighter, principal, boon) -> None:
             principal.effects["Wreath"]["additional"] = dmgType
 
     principal.effects[trueBoon]["dice"] += newDice
+    fighter.atrb[dType] -= newDice
 
     if boon in ["Conceal", "Veil"]:
         roll = Apply.apply(principal, trueBoon)

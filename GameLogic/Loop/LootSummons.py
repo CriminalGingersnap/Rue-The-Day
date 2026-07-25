@@ -10,9 +10,12 @@ def lootStandards(players, standards):
         if carryWeight > 2:
             if Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):
                 standard = Select.targetSelect(standards)
-                standard.props["rank"] = "player"
-                player.inv["standard"] = standard
                 standard.cndt["planted"], standard.cndt["reposed"] = False, False
+                standard.props["initials"] = player.props["name"][0] + "s"
+                standard.props["name"] = player.props["name"] + "'s Standard"
+                standard.props["rank"] = "player"
+
+                player.inv["standard"] = standard
                 
                 del standards[standard]
 
@@ -29,7 +32,10 @@ def lootEchos(players, creatures) -> None:
                 echo = Select.targetSelect(recentDead)
                 Inventory.setLifeless(echo)
                 echo.cndt["reposed"] = False
+                echo.props["initials"] = player.props["name"][0] + "e"
+                echo.props["name"] = player.props["name"] + "'s Echo"
                 echo.props["rank"] = "player"
+
                 player.inv["echo"] = echo
                 
                 del creatures[enemy]

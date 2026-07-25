@@ -4,12 +4,8 @@ from Maps import Map_Update as uMap
 
 areaAbilities = ["Bless", "Breath", "Hex", "Shroud", "Slip"]
 
-def execute(fighter, groups, ability, battleMap) -> None:
-    phrase = markSpace(fighter, groups, ability, battleMap)
-    Select.waitPrint(phrase)
 
-
-def markSpace(fighter, groups, ability, battleMap) -> str:
+def execute(fighter, groups, ability, battleMap) -> str:
     phrase, range = fighter.props["name"], 10
     scale = fighter.atrb["cur_mag"]
     fighter.atrb["cur_mag"] = 0
@@ -25,23 +21,23 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
         case "Bless": phrase += " blesses the ground!"
         case "Hex": phrase += " places " + article + fighter.atrb["cur_elm"] + " hex!"
         case "Shroud": phrase += " emanates " + article + fighter.atrb["cur_elm"] + " shroud!"
-        case "Slip": 
-            phrase += " slips between spaces! Rolling range."
-            range = Roll.roll(fighter, fighter.atrb["cur_mag"], "Slip", "magic")
+        case "Slip": phrase += " slips between spaces! Rolling range."
+
+    Select.waitPrint(phrase)
 
     markedSpace = [0, 0]
     if ability == "Shroud": markedSpace = [fighter.pos[0], fighter.pos[1]]
-    else: markedSpace = Locate.findSpace(fighter, groups, range, ability)
+    else:
+        if ability == "Slip": range = Roll.roll(fighter, fighter.atrb["cur_mag"], "Slip", "magic")
+        markedSpace = Locate.findSpace(fighter, groups, range, ability)
 
     if markedSpace == "None":
-        phrase = fighter.props["name"] + " dispels an area ability before execution."
+        Select.waitPrint(fighter.props["name"] + " dispels an area ability before execution.")
     elif ability == "Slip":
         tossRow, tossColumn = markedSpace[0], markedSpace[1]
         uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
     else:
         affectSpace(fighter, markedSpace, fighter.atrb["cur_elm"], scale, battleMap)
-
-    return phrase
 
 
 def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:

@@ -14,20 +14,24 @@ Martin = Humans.knight("Basic", "Elite").ch
 Martin.atrb["corruption"], Martin.atrb["fatigue"], Martin.atrb["injury"] = 0, 0, 0
 Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "M."
 Martin.equip["armor"].update({"name": "None", "modifier": 0})
+Martin.inv["echo"] = "None"
 
 totem = Totems.guidance("Dream", "Standard").ch
 totem.cndt["planted"] = False
+totem.props["initials"], totem.props["name"] = "Ms", "Martin's Standard"
 Martin.inv["standard"] = totem
 
 Willem = Humans.dragonslayer("Basic", "Master").ch
 Willem.atrb["corruption"], Willem.atrb["fatigue"], Willem.atrb["injury"] = 0, 0, 0
 Willem.props["rank"], Willem.props["name"], Willem.props["initials"] = "player", "Willem", "W."
 Willem.equip["armor"].update({"name": "None", "modifier": 0})
+Willem.inv["echo"] = "None"
 
 Laura = Humans.mage("Flame", "Elite").ch
 Laura.atrb["corruption"], Laura.atrb["fatigue"], Laura.atrb["injury"] = 0, 0, 0
 Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "player", "Laura", "L."
 Laura.equip["armor"].update({"name": "None", "modifier": 0})
+Laura.inv["echo"] = "None"
 
 
 tutorialWorld = World.kingKillerMap()

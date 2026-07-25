@@ -7,10 +7,11 @@ magicHindrances = ["Compel", "Confuse", "Confound", "Seal"]
 
 
 def commitDice(fighter, target, hindrance) -> None:
-    newDice, diceCap = 0, 0
+    newDice, diceCap, dType = 0, 0, ""
 
-    if hindrance in martialHindrances: diceCap = fighter.atrb["cur_mar"]
-    elif hindrance in magicHindrances: diceCap = fighter.atrb["cur_mag"]
+    if hindrance in martialHindrances: dType = "cur_mar"
+    elif hindrance in magicHindrances: dType = "cur_mag"
+    diceCap = fighter.atrb[dType]
 
     if fighter.cndt["blitzing"]:
         if (fighter.props["rank"] == "player"):
@@ -27,6 +28,7 @@ def commitDice(fighter, target, hindrance) -> None:
         target.effects[trueHindrance]["ability"] = hindrance
 
     target.effects[trueHindrance]["dice"] += newDice
+    fighter.atrb[dType] -= newDice
 
 
 def hindranceComment(fighter, target, hindrance) -> str:

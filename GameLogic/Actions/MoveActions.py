@@ -67,7 +67,9 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
         if target != "None": stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
                 
     if stationary:
-        if len(posOptions) == 0: fighter.cndt["blitzing"] = True
+        if len(posOptions) == 0:
+            Select.waitPrint(fighter.props["name"] + " remains in place.")
+            fighter.cndt["blitzing"] = True
         else: choice = random.choice(posOptions)
 
         if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)

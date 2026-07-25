@@ -1,5 +1,6 @@
 from Systems import PlayerSelect as Select
 from Maps import Movement, Map_Instantiate as iMap, Map_Print as Print
+from Actions import AttackActions as Attacks
 import random
 
 
@@ -32,20 +33,24 @@ def selectSpace(fighter, groups, boarders, source) -> int:
         counter, optionDict = 1, {"0": "None"}
         
         blockers = ["?", "/"]
-        if source in ["echo", "standard"]: blockers += [".", "!"]
+        if source in ["echo", "standard", "Slip"]: blockers += [".", "!", "e", "s"]
+        if source == "standard": blockers += ["~"]
 
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
                 if not any(blocker in optionsMap[row][column] for blocker in blockers):
-                    if fighter.props["rank"] == "player": optionDict[str(counter)] = [row, column]
-                    elif enemyInRange(row, column, enemies) and ((source in ["echo", "Slip"]) or allyNotInRange(row, column, allies)):
+                    if fighter.props["rank"] == "player":
+                        optionDict[str(counter)] = [row, column]
+                    elif source == "Slip":
+                        optionDict[str(counter)] = [row, column, 0]
+                    elif enemyInRange(row, column, enemies) and ((source == "echo") or allyNotInRange(row, column, allies)):
                         optionDict[str(counter)] = [row, column]
 
                     atmosphere = sightMap[row][column][0]
                     marker = sightMap[row][column][1]
                     elevation = sightMap[row][column][-1]
 
-                    if "." in optionsMap[row][column]: marker = "."
+                    if any(playerMark in optionsMap[row][column] for playerMark in [".", "e", "s"]): marker = "."
                     elif "!" in optionsMap[row][column]: marker = "!"
 
                     filler = ""
@@ -58,7 +63,11 @@ def selectSpace(fighter, groups, boarders, source) -> int:
         if fighter.props["rank"] == "player":
             Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(0, counter)
-        elif len(optionDict) > 0: choice = random.randint(1, counter)
+        elif len(optionDict) > 1:
+            if source == "Slip":                
+                target = Attacks.npcSelectAttackTarget(fighter, groups["fightingEnemies"], True)
+                choice = Movement.moveNPC(fighter, target, optionDict, 1, counter, False)
+            else: choice = random.randint(1, counter)
         else: choice = 0
 
         return optionDict[str(choice)]

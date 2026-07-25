@@ -1,5 +1,7 @@
 from Systems import Damage, PlayerSelect as Select, Conditions
-from . import Area_Set as Area, Area_Apply as Apply
+from . import Area_Set as Set, Area_Locate as Locate, Area_Apply as Apply
+from Maps import Map_Update as uMap
+from Loop import CombatPhases as Phases
 
 
 def execute(fighter, category, element, application, groups, battleMap) -> None:
@@ -8,10 +10,10 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
     match application:
         case "Animate":
             Select.waitPrint(fighter.props["name"] + " animates " + end)
-            animate(fighter, groups)
+            animate(fighter, groups, battleMap)
         case "Detonate":
             Select.waitPrint(fighter.props["name"] + " throws " + end)
-            Area.throwStone(fighter, category, element, groups, battleMap)
+            Set.throwStone(fighter, category, element, groups, battleMap)
         case "Extract":
             Select.waitPrint(fighter.props["name"] + " absorbs the essence of " + end)
             if element == "Bleed": invigorate(fighter, category, battleMap)
@@ -20,22 +22,34 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
                 case "pearls": Conditions.decrementTolerance(fighter, 2)
                 case "cores": Conditions.decrementTolerance(fighter, 4)
         case "Plant":
-            Select.waitPrint(fighter.props["name" + " plants a standard!"])
-            plant(fighter, groups)
+            Select.waitPrint(fighter.props["name"] + " plants a standard!")
+            plant(fighter, groups, battleMap)
 
 
-def animate(fighter, groups) -> None:
+def animate(fighter, groups, battleMap) -> None:
     echo = fighter.inv["echo"]
-    echo.pos = Area.findSpace(fighter, groups, 4, "echo")
-    echo.itemEffects["Animate"]["duration"] = 3
-    echo.itemEffects["Animate"]["additional"] = True
+    tossSpace = Locate.findSpace(fighter, groups, 4, "echo")
+    
+    if tossSpace == "None": Select.waitPrint(fighter.name + " cancels a throw before animation.")
+    else:
+        echo.itemEffects["Animate"]["duration"] = 3
+        echo.itemEffects["Animate"]["additional"] = True
 
-def plant(fighter, groups) -> None:
+        echo.sightMap + Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
+        uMap.updatePlacement(battleMap, echo.sightMap, tossSpace[0], tossSpace[1], echo)
+
+
+def plant(fighter, groups, battleMap) -> None:
     standard = fighter.inv["standard"]
-    plantSpace = Area.findSpace(fighter, groups, 1, "standard")
-    if plantSpace != "None":
+    plantSpace = Locate.findSpace(fighter, groups, 1, "standard")
+
+    if plantSpace == "None":  Select.waitPrint(fighter.name + " defers planting a standard.")
+    else:
         standard.pos = plantSpace
         standard.cndt["planted"] = True
+
+        standard.sightMap = Phases.setSight(standard, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
+        uMap.updatePlacement(battleMap, standard.sightMap, plantSpace[0], plantSpace[1], standard)
 
 
 def imbue(fighter, category, element, battleMap) -> None:

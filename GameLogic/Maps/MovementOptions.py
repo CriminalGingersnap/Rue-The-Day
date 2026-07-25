@@ -4,22 +4,10 @@ heightDict = {Elevation.doubleUp: 5, Elevation.up: 4, Elevation.middle: 3,
                Elevation.down: 2, Elevation.doubleDown: 1, "]": 3}
 
 
-def setMoveOptions(fighter, target, battleMap) -> list:
-    fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
-    leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
-    topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
+def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap) -> list:
     hazards = uMap.majorHazards + uMap.minorHazards
-    aquatic, skittish, winged,  = fighter.cndt["aquatic"], fighter.cndt["skittish"], fighter.cndt["winged"]
-    waterLine = 0
-
-    anyContact, anyUnseen = False, False
-    npc, simulation = fighter.props["rank"] not in ["player", "world"], None
-    if npc:
-        if skittish: simulation = target.sightMap
-        else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"])
-    sightMap = fighter.sightMap
-
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]
+
     for row in range(12):
         for column in range(12):
             movementMap[row] += [sightMap[row][column]]
@@ -33,6 +21,24 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                 if fighter.props["rank"] != "player": movementMap[row][column] = iMap.pit
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
+    return movementMap
+
+
+def setMoveOptions(fighter, target, battleMap) -> list:
+    fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
+    aquatic, skittish, winged  = fighter.cndt["aquatic"], fighter.cndt["skittish"], fighter.cndt["winged"]
+
+    npc, simulation = fighter.props["rank"] not in ["player", "world"], None
+    if npc:
+        if skittish: simulation = target.sightMap
+        else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"])
+    sightMap = fighter.sightMap
+    movementMap = instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap)
+    
+    leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
+    topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
+    anyContact, anyUnseen = False, False
+    waterLine = 0
 
     for runs in range(fighter.atrb["base_sp"] * 2):
         for column in range(leftEdge, rightEdge):
@@ -54,9 +60,9 @@ def setMoveOptions(fighter, target, battleMap) -> list:
                     elif ")" in sightSpace:
                         movementMap[row][column] = "):" + str(stepCount)
                         if winged: freeSpace = True
-                    elif "/" in sightSpace: movementMap[row][column] = "/:" + str(stepCount)
-                    elif "." in sightSpace: movementMap[row][column] = ".:" + str(stepCount)
                     elif "!" in sightSpace: movementMap[row][column] = "!:" + str(stepCount)
+                    elif "/" in sightSpace: movementMap[row][column] = "/:" + str(stepCount)
+                    elif any(playerMark in sightSpace for playerMark in [".", "e", "s"]): movementMap[row][column] = ".:" + str(stepCount)
 
                     if npc and freeSpace:
                         contact = (Visibility.unseen not in simulation[row][column]) and (Visibility.unseen not in sightSpace)
@@ -146,7 +152,9 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aqua
         if aquatic: cost -= 1
         elif not winged: cost += 1
     
-    if (")" in sightMap[nextRow][nextColumn]) and (not winged): cost += 3
-    elif "/" in sightMap[nextRow][nextColumn]: cost += 5
+    if (")" in sightMap[nextRow][nextColumn]) and (not winged): cost += 2
+    elif "/" in sightMap[nextRow][nextColumn]:
+        if not winged: cost += 3
+        else: cost += 1
 
     return cost

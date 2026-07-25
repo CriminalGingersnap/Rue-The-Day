@@ -49,7 +49,7 @@ def targetSelect(targets) -> int:
 
 def pickOption(options, category):    
     if len(options) > 1:
-        waitPrint("Select " + category + ":")
+        waitPrint("\nSelect " + category + ":")
         return makeSelection(options)
     else: return options[0]
 

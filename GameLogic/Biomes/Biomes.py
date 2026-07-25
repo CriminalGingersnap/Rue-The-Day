@@ -55,7 +55,15 @@ def setFoes(biome, budgets, curseCard) -> list:
             member.props["name"] += "[" + str(rollNum) + str(memberIndex) + "]"
             member.props["initials"] = str(rollNum) + str(memberIndex)
             memberIndex += 1
-        
+
+        for member in members:
+            if "echo" in member.inv:
+                echo = member.inv["echo"]
+                if (echo != "None"):
+                    echo.props["name"] += "[" + str(rollNum) + str(memberIndex) + "]"
+                    echo.props["initials"] = str(rollNum) + str(memberIndex)
+                    memberIndex += 1
+
         groups[rollNum] = members
         rollNum += 1
 
