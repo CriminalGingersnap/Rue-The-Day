@@ -44,7 +44,7 @@ class hex:
 
         abl = Characters.setAbilities(type, {"areas": ["Hex"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Hex")
+        self.ch = Characters.character(abl, cndt, dice, element, job, "Hex", stats, type)
 
 
 class sentry:
@@ -54,7 +54,7 @@ class sentry:
 
         abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Sentry")
+        self.ch = Characters.character(abl, cndt, dice, element, job, "Sentry", stats, type)
 
 
 class ward:
@@ -64,6 +64,6 @@ class ward:
 
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
         
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, "Ward")
+        self.ch = Characters.character(abl, cndt, dice, element, job, "Ward", stats, type)
 
 # Agents of the king have a chance to bring this with them.

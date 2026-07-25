@@ -42,7 +42,7 @@ def lootFoes(players, enemies):
 
     for enemy in enemies:
         if enemy.props["type"] == "human": humans += [enemy]
-        elif enemy.props["rank"] == "Boss": continue
+        elif enemy.props["rank"] == "Ascendant": continue
         else: nonHumans += enemy
     
     if len(humans) > 0:

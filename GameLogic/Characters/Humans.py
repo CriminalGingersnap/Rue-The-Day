@@ -69,7 +69,7 @@ class archer:
                         secondSpecialty = [random.choice(["Bodkin", "Broadhead", "Conceal"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class brute:
     def __init__(self, element, rank) -> None:
@@ -93,7 +93,7 @@ class brute:
                         secondSpecialty = [random.choice(["Bash", "Bind", "Harry", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class dragonslayer:
     def __init__(self, element, rank) -> None:
@@ -117,7 +117,7 @@ class dragonslayer:
                         secondSpecialty = [random.choice(["Bodkin", "Conceal", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class knight:
     def __init__(self, element, rank) -> None:
@@ -141,7 +141,7 @@ class knight:
                         secondSpecialty = [random.choice(["Bash", "Guard", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class mage:
     def __init__(self, element, rank) -> None:
@@ -169,7 +169,7 @@ class mage:
                         if element == "Dream": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class paladin:
     def __init__(self, rank) -> None:
@@ -193,7 +193,7 @@ class paladin:
                         secondSpecialty = [random.choice(["Sling", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class warlock:
     def __init__(self, element, rank) -> None:
@@ -217,4 +217,4 @@ class warlock:
                         secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, job, element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)

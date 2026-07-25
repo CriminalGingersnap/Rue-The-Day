@@ -114,7 +114,7 @@ def beastInventory(hp, element, rank, type) -> dict:
         match rank:
             case "Adult" | "Wizened": drop["pearls"][element] = 1
             case "Elder" | "Ancient": drop["pearls"][element] = 2
-            case "Boss": drop["shards"][element] = 1
+            case "Ascendant": drop["shards"][element] = 1
 
     return drop
 

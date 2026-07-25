@@ -1,16 +1,18 @@
 from . import Visibility, Movement, Elevation
-from Systems import PlayerSelect as Select, Conditions, Damage
+from Abilities import Area_Set as Area
+from Systems import PlayerSelect as Select, Conditions
 import random
 
 majorHazards =     ["B", "C", "D", "F", "H", "I", "P", "R", "T"]
 minorHazards =     ["b", "c", "d", "f", "h", "i", "p", "r", "t"]
-lingeringHazards = [          "@", "#", "+", "%",      "}"     ]
+lingeringHazards = [          "@", "#", "+", "%",      "}", "&"]
 hazards = majorHazards + minorHazards
 
 
 def setMarker(fighter, space):
     initial = fighter.props["initials"]
-    atmosphere, terrain, elevation = space[0], space[1], space[-1]    
+    atmosphere, terrain, elevation = space[0], space[1], space[-1]
+
     return atmosphere + terrain + initial + elevation
 
 def updatePlacement(battleMap, sightMap, row, column, fighter):
@@ -19,6 +21,9 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     marker = setMarker(fighter, battleMap[row][column])
     battleMap[row][column] = marker
     fighter.position = [row, column]
+    
+    if fighter.props["rank"] == "Ascendant":
+        Area.affectSpace(fighter, [row, column], fighter.atrb["cur_elm"], 2, battleMap)
 
     if battleMap[row][column][-1] == "]":
         dmgType = random.choice(["Crush", "Flame", "Ice", "Pierce", "Rot", "Toxic"])
@@ -75,7 +80,7 @@ def identifyAtmosphere(atmosphere) -> str:
     elif atmosphere in ["i", "I", "%"]: dmgType = "Ice"
     elif atmosphere in ["r", "R", "}"]: dmgType = "Rot"
     elif atmosphere in ["p", "P"]: dmgType == "Pierce"
-    elif atmosphere in ["t", "T"]: dmgType == "Toxic"
+    elif atmosphere in ["t", "T", "&"]: dmgType == "Toxic"
     elif atmosphere in ["-", "="]: dmgType == "None"
 
     return dmgType
@@ -148,8 +153,9 @@ def updateHazards(battleMap):
                             case 1: newAtmosphere = "_"
                     case "Toxic": 
                         match scale:
-                            case 3: newAtmosphere = "t"
-                            case 2: newAtmosphere = "-"
+                            case 3: newAtmosphere = random.choice(["t", "&"])
+                            case 2: newAtmosphere = random.choice(["&", "-"])
+                            case 1: newAtmosphere = "_"
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]

@@ -27,7 +27,7 @@ class ant:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ant", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Ant", rank, stats, type)
 
 class beetle:
     def __init__(self, element, rank) -> None:
@@ -40,7 +40,7 @@ class beetle:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spray"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Beetle", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Beetle", rank, stats, type)
 
 class centipede:
     def __init__(self, element, rank) -> None:
@@ -52,7 +52,7 @@ class centipede:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Centipede", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Centipede", rank, stats, type)
 
 class hornet:
     def __init__(self, element, rank) -> None:
@@ -65,7 +65,7 @@ class hornet:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Harry"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Hornet", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Hornet", rank, stats, type)
 
 class isopod:
     def __init__(self, element, rank) -> None:
@@ -78,4 +78,4 @@ class isopod:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Isopod", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Isopod", rank, stats, type)

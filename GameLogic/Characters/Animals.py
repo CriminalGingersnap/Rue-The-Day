@@ -1,6 +1,6 @@
 def setAnimalResistance(element, rank, stats):    
     mainRes, holyRes = "resistant", "resistant"
-    if rank in ["Elder", "Master"]: mainRes, holyRes = "immune", "normal"
+    if rank in ["Elder", "Master", "Ascendant"]: mainRes, holyRes = "immune", "normal"
     if element not in ["Basic", "Toxic"]: stats["resist"]["Holy"] = holyRes
     
     match element:

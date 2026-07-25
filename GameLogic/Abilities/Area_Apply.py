@@ -14,7 +14,7 @@ def getAtmosphere(scale, dmgType) -> str:
         case "Holy": big, little, lingering = "H", "h", "+"
         case "Pierce": big, little = "P", "p"
         case "Rot": big, little, lingering = "R", "r", "}"
-        case "Toxic": big, little = "T", "t"
+        case "Toxic": big, little, lingering = "T", "t", "&"
 
     match scale:
         case 1: atmosphere = lingering

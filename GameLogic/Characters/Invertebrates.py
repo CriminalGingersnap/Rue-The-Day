@@ -20,7 +20,7 @@ class crab:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Guard"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Crab", rank, stats, type)
 
 class leech:
     def __init__(self, element, rank) -> None:
@@ -32,7 +32,7 @@ class leech:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"],"boons": ["Wreath"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Leech", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Leech", rank, stats, type)
 
 class mussel:
     def __init__(self, element, rank) -> None:
@@ -45,7 +45,7 @@ class mussel:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"boons": ["Guard"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Mussel", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Mussel", rank, stats, type)
 
 class octopus:
     def __init__(self, element, rank) -> None:
@@ -58,7 +58,7 @@ class octopus:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Octopus", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Octopus", rank, stats, type)
     
 class urchin:
     def __init__(self, element, rank) -> None:
@@ -70,7 +70,7 @@ class urchin:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Urchin", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Urchin", rank, stats, type)
 
 class worm:
     def __init__(self, element, rank) -> None:
@@ -81,4 +81,4 @@ class worm:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Worm", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Worm", rank, stats, type)

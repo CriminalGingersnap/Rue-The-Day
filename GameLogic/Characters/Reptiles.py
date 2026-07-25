@@ -31,7 +31,7 @@ class crocodile:
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
         if rank != "Juvenile": abl["hindrances"] += ["Disorient"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Crocodile", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Crocodile", rank, stats, type)
 
 class drake:
     def __init__(self, element, rank) -> None:
@@ -46,7 +46,7 @@ class drake:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Gore"]})
         if rank != "Juvenile": abl["areas"] += ["Breath"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Drake", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Drake", rank, stats, type)
         
 class lizard:
     def __init__(self, element, rank) -> None:        
@@ -61,7 +61,7 @@ class lizard:
         abl = Characters.setAbilities(type, {"attacks": ["Bite"]})
         if rank != "Juvenile": abl["areas"] += ["Slip"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Lizard", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Lizard", rank, stats, type)
 
 class tortoise:
     def __init__(self, element, rank) -> None:        
@@ -76,7 +76,7 @@ class tortoise:
 
         if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "tortoise", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Tortoise", rank, stats, type)
 
 class turtle:
     def __init__(self, element, rank) -> None:
@@ -91,7 +91,7 @@ class turtle:
 
         if rank != "Juvenile": abl["boons"] += ["Shroud"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Snapping Turtle", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Snapping Turtle", rank, stats, type)
 
 class wyrm:
     def __init__(self, element, rank) -> None:
@@ -105,4 +105,4 @@ class wyrm:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Spray"]})
         if rank != "Juvenile": abl["hindrances"] += ["Focus"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wyrm", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Wyrm", rank, stats, type)

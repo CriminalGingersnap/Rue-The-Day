@@ -50,7 +50,7 @@ class dancer:
             abl["mastery"] = [random.choice(["Bind", "Stab"])]
         else: abl["specialty"] = [random.choice(["Bind", "Stab"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Dancer", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Dancer", rank, stats, type)
         
 class hulk: # it walks on three legs like a strand beast
     def __init__(self, element, rank) -> None:
@@ -70,7 +70,7 @@ class hulk: # it walks on three legs like a strand beast
             abl["mastery"] = [random.choice(["Guard", "Ram", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Guard", "Ram", "Wreath"])]
         
-        self.ch = Characters.character(abl, dice, cndt, stats, "Hulk", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Hulk", rank, stats, type)
 
 class wraith:
     def __init__(self, element, rank) -> None:        
@@ -89,7 +89,7 @@ class wraith:
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wraith", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Wraith", rank, stats, type)
         
 
 class hive:
@@ -110,7 +110,7 @@ class hive:
             abl["mastery"] = [random.choice(["Bodkin", "Broadhead", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Bodkin", "Broadhead", "Wreath"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sprite Hive", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Sprite Hive", rank, stats, type)
 
 class ooze:
     def __init__(self, element, rank) -> None:
@@ -128,7 +128,7 @@ class ooze:
             abl["mastery"] = [random.choice(["Harry", "Pinch", "Regenerate"])]
         else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Regenerate"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ooze", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Ooze", rank, stats, type)
 
 class puffer:
     def __init__(self, element, rank) -> None:        
@@ -147,7 +147,7 @@ class puffer:
             abl["mastery"] = [random.choice(["Bring", "Guard"])]
         else: abl["specialty"] = [random.choice(["Bring", "Guard"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Puffer Fish", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Puffer Fish", rank, stats, type)
 
 
 class satyr:
@@ -166,7 +166,7 @@ class satyr:
             abl["mastery"] = [random.choice(["Broadhead", "Conceal", "Sling"])]
         else: abl["specialty"] = [random.choice(["Broadhead", "Conceal", "Sling"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Satyr", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Satyr", rank, stats, type)
 
 class ogre:
     def __init__(self, element, rank) -> None:        
@@ -185,7 +185,7 @@ class ogre:
             abl["mastery"] = [random.choice(["Bash", "Disorient", "Slip"])]
         else: abl["specialty"] = [random.choice(["Bash", "Disorient", "Slip"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ogre", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Ogre", rank, stats, type)
 
 class nymph:
     def __init__(self, element, rank) -> None:        
@@ -201,7 +201,7 @@ class nymph:
             abl["mastery"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Nymph", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Nymph", rank, stats, type)
 
 
 class bull:
@@ -217,7 +217,7 @@ class bull:
             abl["mastery"] = [random.choice(["Bind", "Gore", "Kick"])]
         else: abl["specialty"] = [random.choice(["Bind", "Gore", "Kick"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bull", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Bull", rank, stats, type)
 
 class obelisk:
     def __init__(self, element, rank) -> None:
@@ -240,7 +240,7 @@ class obelisk:
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Obelisk", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Obelisk", rank, stats, type)
 
 class sphinx:
     def __init__(self, element, rank) -> None:        
@@ -259,7 +259,7 @@ class sphinx:
             abl["mastery"] = [random.choice(["Bash", "Claw", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Bash", "Claw", "Wreath"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sphinx", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Sphinx", rank, stats, type)
 
 
 class wisp:
@@ -277,7 +277,7 @@ class wisp:
             abl["mastery"] = [random.choice(["Compel", "Misdirect", "Seal"])]
         else: abl["specialty"] = [random.choice(["Compel", "Misdirect", "Seal"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Wisp", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Wisp", rank, stats, type)
 
 
 
@@ -301,7 +301,7 @@ class grotesquery:
             secondSpecialty = [random.choice(["Bash", "Stab", "Guard"])]
             Humans.correctSpecialties(abl, secondSpecialty)
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Grotesquery", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Grotesquery", rank, stats, type)
 
 class shadow:
     def __init__(self, element, rank) -> None:        
@@ -322,7 +322,7 @@ class shadow:
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Shadow", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Shadow", rank, stats, type)
         
 class slime:
     def __init__(self, element, rank) -> None:
@@ -340,4 +340,4 @@ class slime:
             abl["mastery"] = [random.choice(["Harry", "Pinch", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Wreath"])]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Slime", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Slime", rank, stats, type)

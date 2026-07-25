@@ -3,7 +3,7 @@ import random, copy
 
 
 class character:
-    def __init__(self, abl, dice, cndt, stats, job, elm, type, rank)-> None:
+    def __init__(self, abl, cndt, dice, elm, job, rank, stats, type)-> None:
         self.atrb = setAttributes(stats, cndt, elm, dice, type)
         self.abl, self.cndt = abl, cndt
 
@@ -14,7 +14,7 @@ class character:
         self.inv = Inventory.setInventory(type, rank, elm, self.atrb["base_hp"])
         
         name = rank + " " + job + "(" + elm + ")"
-        self.props = {"job": job, "rank": rank, "type": type, "name": name, "initials": ""}
+        self.props = {"initials": "", "job": job, "name": name, "rank": rank, "type": type}
 
         self.attackQueue, self.position = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]

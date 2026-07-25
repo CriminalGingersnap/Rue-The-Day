@@ -10,11 +10,8 @@ def setCommon(element, rank) -> list:
     cndt = traits[0]
     cndt["skittish"] = True
     
-    stats = {"hp": "mid", "resist": traits[1], "speed": "max"}
+    stats = {"avoidance": "high", "hp": "mid", "resist": traits[1], "speed": "high"}
     Animals.setAnimalResistance(element, rank, stats)
-
-    stats["avoidance"] = "high"
-    stats["speed"] = "high"
 
     return [stats, cndt, rank, type]
 
@@ -32,7 +29,7 @@ class bat:
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
         if rank == "Elder": abl["areas"] += ["Slip"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bat", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Bat", rank, stats, type)
 
 class camel:
     def __init__(self, element, rank) -> None:
@@ -47,7 +44,7 @@ class camel:
         abl = Characters.setAbilities(type, {"attacks": ["Spit", "Kick"]})
         if rank == "Elder": abl["boons"] += ["Shroud"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Camel", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Camel", rank, stats, type)
 
 class deer:
     def __init__(self, element, rank) -> None:
@@ -60,7 +57,7 @@ class deer:
         abl = Characters.setAbilities(type, {"attacks": [random.choice(["Kick", "Gore"])], "boons": ["Conceal"]})
         if rank == "Elder": abl["boons"] += ["Focus"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Deer", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Deer", rank, stats, type)
 
 class mole:
     def __init__(self, element, rank) -> None:        
@@ -73,7 +70,7 @@ class mole:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Mole", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Mole", rank, stats, type)
 
 class seal:
     def __init__(self, element, rank) -> None:
@@ -87,4 +84,4 @@ class seal:
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Harry"]})
         if rank == "Elder": abl["boons"] += ["Disorient"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Seal", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Seal", rank, stats, type)

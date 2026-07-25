@@ -11,7 +11,7 @@ def execute(fighter, groups, ability, battleMap) -> None:
 
 def markSpace(fighter, groups, ability, battleMap) -> str:
     phrase, range, dmgType = fighter.props["name"], 10, ""
-    scale = max(fighter.atrb["cur_mag"], 3)
+    scale = fighter.atrb["cur_mag"]
 
     match ability:
         case "Breath":
@@ -32,7 +32,7 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
     if markedSpace == "None":
         phrase = fighter.props["name"] + " cancels an area ability before execution."
     else:
-        affectSpace(fighter, markedSpace, dmgType, scale, battleMap)
+        affectSpace(fighter, markedSpace, fighter.atrb["cur_elm"], scale, battleMap)
         fighter.atrb["cur_mag"] = 0
 
         if ability == "Slip":
@@ -44,19 +44,17 @@ def markSpace(fighter, groups, ability, battleMap) -> str:
 
 def affectSpace(fighter, markSpace, dmgType, scale, battleMap) -> None:
     effectRow, effectColumn = markSpace[0], markSpace[1]
-    coverage, intenseCoverage = scale - 2, scale - 4
 
-    atmosphere = Apply.getAtmosphere(3, dmgType)
-    petitAtmosphere = Apply.getAtmosphere(2, dmgType)
+    atmosphere = Apply.getAtmosphere(scale, dmgType)
+    lesserAtmosphere = Apply.getAtmosphere(scale-1, dmgType)
+    leastAtmosphere = Apply.getAtmosphere(1, dmgType)
+
     battleMap[effectRow][effectColumn] = atmosphere + battleMap[effectRow][effectColumn][1:]
-
-    if coverage > 0:
-        Apply.spreadAtmosphere(petitAtmosphere, dmgType, coverage, effectRow, effectColumn, battleMap)
-        if coverage > 2:
-            Apply.spreadAtmosphere(atmosphere, dmgType, intenseCoverage, effectRow, effectColumn, battleMap)
+    Apply.spreadAtmosphere(leastAtmosphere, scale+1, effectRow, effectColumn, battleMap)
+    Apply.spreadAtmosphere(lesserAtmosphere, scale, effectRow, effectColumn, battleMap)
 
     fighterRow, fighterColumn = fighter.position[0], fighter.position[1]
-    if any(hazard in battleMap[fighterRow][fighterColumn] for hazard in [petitAtmosphere, atmosphere]):
+    if any(hazard in battleMap[fighterRow][fighterColumn] for hazard in [lesserAtmosphere, atmosphere]):
         battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 
@@ -69,16 +67,6 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
         Select.waitPrint(fighter.name + " cancels a throw before detonation.")
         Select.quickPrint("The stone is expended.")
     else:
-        tossRow, tossColumn = tossSpace[0], tossSpace[1]
-
         potency = 2
         if category == "cores": potency = 3
-
-        atmosphere = Apply.getAtmosphere(potency, dmgType)
-        battleMap[tossRow][tossColumn] = atmosphere + battleMap[tossRow][tossColumn][1:]
-
-        leastAtmosphere = Apply.getAtmosphere(1, dmgType)
-        Apply.spreadAtmosphere(leastAtmosphere, potency+1, tossRow, tossColumn, battleMap)
-
-        lesserAtmosphere = Apply.getAtmosphere(potency-1, dmgType)
-        Apply.spreadAtmosphere(lesserAtmosphere, potency, tossRow, tossColumn, battleMap)
+        affectSpace(fighter, tossSpace, dmgType, potency, battleMap)

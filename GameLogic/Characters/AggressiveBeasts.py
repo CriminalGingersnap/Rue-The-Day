@@ -29,7 +29,7 @@ class bear:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         if rank == "Elder": abl["areas"] += ["Shroud"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Bear", rank, stats, type)
 
 class hound:
     def __init__(self, element, rank) -> None:
@@ -43,7 +43,7 @@ class hound:
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
         if rank == "Elder": abl["boons"] += ["Focus"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Hound", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Hound", rank, stats, type)
 
 class ferret:
     def __init__(self, element, rank) -> None:        
@@ -57,7 +57,7 @@ class ferret:
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
         if rank == "Elder": abl["hindrances"] += ["Disorient"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Ferret", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Ferret", rank, stats, type)
 
 class lion:
     def __init__(self, element, rank) -> None:
@@ -72,7 +72,7 @@ class lion:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Bear", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Bear", rank, stats, type)
 
 class moose:
     def __init__(self, element, rank) -> None:        
@@ -86,7 +86,7 @@ class moose:
         abl = Characters.setAbilities(type, {"attacks": ["Kick", "Gore"]})
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Moose", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Moose", rank, stats, type)
 
 class sheep:
     def __init__(self, element, rank) -> None:
@@ -99,4 +99,4 @@ class sheep:
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
         if rank == "Elder": abl["hindrances"] += ["Misdirect"]
 
-        self.ch = Characters.character(abl, dice, cndt, stats, "Sheep", element, type, rank)
+        self.ch = Characters.character(abl, cndt, dice, element, "Sheep", rank, stats, type)
