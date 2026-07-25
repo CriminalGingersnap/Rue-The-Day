@@ -6,10 +6,10 @@ def getProbableAv(fighter, dmgType, target) -> int:
     probAv = getBaseAv("Bash", dmgType, target)
 
     probAv += target.effects["Guard"]["dice"] * 3
-    probAv -= target.effects["Disorient"]["dice"] * 3
+    probAv -= target.effects["Confuse"]["dice"] * 3
     probAv += target.effects["Wreath"]["dice"]
 
-    probAv += fighter.effects["Misdirect"]["dice"] * 3
+    probAv += fighter.effects["Confound"]["dice"] * 3
     probAv -= fighter.effects["Focus"]["dice"] * 3
 
     if fighter.cndt["aquatic"]:
@@ -35,9 +35,9 @@ def attack(fighter, target, attack, dice) -> None:
     av = getBaseAv(attack, dmgType, target)
 
     attemptIncrease = Boons.applyFocus(fighter)
-    attemptReduction = Hinder.applyMisdirect(fighter)
+    attemptReduction = Hinder.applyConfound(fighter)
     avIncrease = Boons.applyGuard(target)
-    avReduction = Hinder.applyDisorient(target)
+    avReduction = Hinder.applyConfuse(target)
 
     Select.quickPrint("Attack roll:")
     attempt = Roll.roll(fighter, dice, attack, "martial")
@@ -47,7 +47,7 @@ def attack(fighter, target, attack, dice) -> None:
     contact(fighter, target, dmgType, dice, attempt, av)
     
     if avIncrease > 0: Reactions.applyRiposte(target, fighter, "Guard")
-    if attemptReduction > 0: Reactions.applyRiposte(target, fighter, "Misdirect")
+    if attemptReduction > 0: Reactions.applyRiposte(target, fighter, "Confound")
 
 
 def contact(fighter, target, dmgType, baseDmg, attempt, av):

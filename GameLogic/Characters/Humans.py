@@ -161,12 +161,12 @@ class mage:
                 else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if element == "Dream": abl["hindrances"] += ["Disorient"]
+                    if element == "Dream": abl["hindrances"] += ["Confuse"]
                     else: abl["reactions"] += ["Flare"]
 
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bring", "Wreath"])]
-                        if element == "Dream": secondSpecialty = [random.choice(["Disorient", "Focus", "Wreath"])]
+                        if element == "Dream": secondSpecialty = [random.choice(["Confuse", "Focus", "Wreath"])]
                         correctSpecialties(abl, secondSpecialty)
 
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)

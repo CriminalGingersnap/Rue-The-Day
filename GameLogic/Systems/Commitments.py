@@ -8,7 +8,7 @@ def checkReach(fighter) -> None:
         if len(fighter.commits[commitment]["targets"]) > 0:
             targets = fighter.commits[commitment]["targets"]
             
-            uMap.hideShrouded(fighter, targets, fighter.sightMap)
+            uMap.hideVeiled(fighter, targets, fighter.sightMap)
             reachable = Sort.sortReachable(fighter, targets, targets)
             
             if commitment in Boons.magicBoons + Boons.martialBoons:

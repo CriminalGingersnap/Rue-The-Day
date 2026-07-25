@@ -16,11 +16,13 @@ def getSpeedLoss(fighter):
 def resetFighter(fighter) -> None:
     fighter.atrb["cur_sp"] = fighter.atrb["base_sp"] - fighter.atrb["fatigue"]
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
+    fighter.cndt["blitzing"] = False
 
     if fighter.props["type"] == "human":
         speedLoss = getSpeedLoss(fighter) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
-        if fighter.itemEffects["Invigorate"]["duration"] > 0: fighter.atrb["cur_sp"] += 1
+        if fighter.itemEffects["Invigorate"]["duration"] > 0 and not fighter.cndt["planted"]:
+            fighter.atrb["cur_sp"] += 1
 
     match fighter.atrb["injury"]:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
@@ -36,7 +38,7 @@ def resetFighter(fighter) -> None:
 
 def setSight(fighter, enemies, allies, battleMap, print):
     sightMap = Visibility.createSightMap(battleMap, fighter.position, fighter.props["rank"])
-    uMap.hideShrouded(fighter, enemies + allies, sightMap)
+    uMap.hideVeiled(fighter, enemies + allies, sightMap)
 
     if fighter.props["rank"] == "player":
         uMap.revealOthers(fighter, allies, enemies, sightMap)
@@ -61,10 +63,9 @@ def outro(fighter, allies, battleMap):
 
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:
-    if not fighter.cndt["planted"]:
-        if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
-            groups = Sort.getGroups(fighter, enemies, allies)
-            Move.moveAction(fighter, groups, battleMap)
+    if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
+        groups = Sort.getGroups(fighter, enemies, allies)
+        Move.moveAction(fighter, groups, battleMap)
 
 
 def abilityStage(fighter, enemies, allies) -> None:
@@ -78,3 +79,7 @@ def abilityStage(fighter, enemies, allies) -> None:
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)
             PlayerAbl.takeAction(fighter, actionChoice, reachable)
         else: NPCAbl.npcAction(fighter, groups)
+
+        if fighter.cndt["blitzing"]:
+            fighter.cndt["blitzing"] = False
+            abilityStage(fighter, enemies, allies)

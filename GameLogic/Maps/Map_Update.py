@@ -54,9 +54,9 @@ def revealOthers(fighter, allies, enemies, sightMap):
                 elevation = sightMap[row][column][-1]
                 sightMap[row][column] = " !!?" + elevation
 
-def hideShrouded(fighter, contingent, instanceMap):
+def hideVeiled(fighter, contingent, instanceMap):
     for other in contingent:
-        visibleDistance = fighter.effects["Shroud"]["additional"]
+        visibleDistance = fighter.effects["Veil"]["additional"]
 
         if (visibleDistance != None) and (visibleDistance > 0):
             if Movement.getTargetDistance(fighter, other) > visibleDistance:

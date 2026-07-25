@@ -49,7 +49,7 @@ def usefulBoons(fighter, enemies):
         if distance < 3: anyClose = True
 
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]): boonPreferences += ["Guard"]
-    if someFar and not anyClose: boonPreferences += ["Conceal", "Shroud"]
+    if someFar and not anyClose: boonPreferences += ["Conceal", "Veil"]
 
     return boonPreferences
 
@@ -86,7 +86,7 @@ def npcSelectBoonTarget(fighter, allies, boon):
             match boon:
                 case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])
                 case "Heal": target = lowestHPAlly
-                case "Shroud": target = random.choice([fighter, lowestHPAlly])
+                case "Veil": target = random.choice([fighter, lowestHPAlly])
                 case "Wreath":
                     dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
                     match dmgType:

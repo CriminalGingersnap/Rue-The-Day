@@ -3,7 +3,7 @@ from Systems import PlayerSelect as Select, Conditions
 from . import Attacks_Martial as Martial
 from Actions import ItemActions
 
-stationaryAbilities = ["Empower", "Evade", "Examine", "Inventory", "Set", "Swap Shield", "Swap Weapon"]
+stationaryAbilities = ["Empower", "Examine", "Inventory", "Swap Shield", "Swap Weapon"]
 
 
 def execute(fighter, groups, ability, battleMap) -> None: 
@@ -13,9 +13,7 @@ def execute(fighter, groups, ability, battleMap) -> None:
     match ability:
         case "Empower": applyEmpower(fighter)
         case "Examine": applyExamine(visibleTargets)
-        case "Evade": applyEvade(fighter)
         case "Inventory": ItemActions.itemAction(fighter, groups, battleMap)
-        case "Set": applySet(fighter)
         case "Swap Shield": ItemActions.swapShield(fighter)
         case "Swap Weapon": ItemActions.swapWeapon(fighter)
 
@@ -27,19 +25,6 @@ def applyEmpower(fighter) -> None:
     fighter.atrb["cur_mar"] += fighter.atrb["cur_mag"]
     fighter.atrb["cur_mag"] = 0
     Select.waitPrint(fighter.props["name"] + " empowers their body with magic!")  
-
-
-def applyEvade(fighter) -> None:
-    fighter.commits["Guard"]["targets"] += [fighter]
-    fighter.effects["Guard"]["source"] = fighter
-    fighter.effects["Guard"]["ability"] = "Evade"
-    fighter.effects["Guard"]["dice"] += 1
-
-    Select.waitPrint(fighter.props["name"] + " prepares to evade!") 
-
-def applySet(fighter) -> None:
-    fighter.atrb["cur_mar"] += 1
-    Select.waitPrint(fighter.props["name"] + " sets in place!") 
 
 
 def applyExamine(visibleTargets) -> None:

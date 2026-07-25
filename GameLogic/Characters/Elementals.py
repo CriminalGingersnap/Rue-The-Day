@@ -96,7 +96,7 @@ class hive:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["massive"] = True
+        cndt["massive"], cndt["planted"] = True, True
 
         stats["avoidance"] = "min"
         stats["hp"] = "max"
@@ -182,8 +182,8 @@ class ogre:
 
         if rank == "Greater": 
             dice["martial"] += 2
-            abl["mastery"] = [random.choice(["Bash", "Disorient", "Slip"])]
-        else: abl["specialty"] = [random.choice(["Bash", "Disorient", "Slip"])]
+            abl["mastery"] = [random.choice(["Bash", "Confuse", "Slip"])]
+        else: abl["specialty"] = [random.choice(["Bash", "Confuse", "Slip"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ogre", rank, stats, type)
 
@@ -194,12 +194,12 @@ class nymph:
         cndt["aquatic"] = True
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Misdirect"]})
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Confound"]})
 
         if rank == "Greater":
             dice["magic"] += 2
-            abl["mastery"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
-        else: abl["specialty"] = [random.choice(["Compel", "Misdirect", "Wreath"])]
+            abl["mastery"] = [random.choice(["Compel", "Confound", "Wreath"])]
+        else: abl["specialty"] = [random.choice(["Compel", "Confound", "Wreath"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Nymph", rank, stats, type)
 
@@ -223,19 +223,19 @@ class obelisk:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["massive"] = True
+        cndt["massive"], cndt["planted"] = True, True
 
         stats["avoidance"] = "min"
         stats["hp"] = "max"
         stats["speed"] = "min"
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Shroud"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Veil"]})
 
         if rank == "Greater":
             dice["magic"] += 2
-            abl["mastery"] = [random.choice(["Bring", "Shroud"])]
-        else: abl["specialty"] = [random.choice(["Bring", "Shroud"])]
+            abl["mastery"] = [random.choice(["Bring", "Veil"])]
+        else: abl["specialty"] = [random.choice(["Bring", "Veil"])]
 
         if element == "Holy": abl["areas"] += ["Bless"]
         else: abl["areas"] += ["Hex"]
@@ -270,12 +270,12 @@ class wisp:
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "low", "max"
 
         dice = {"martial": 0, "magic": 1}
-        abl = Characters.setAbilities(type, {"hindrances": ["Compel", "Misdirect", "Seal"]})
+        abl = Characters.setAbilities(type, {"hindrances": ["Compel", "Confound", "Seal"]})
 
         if rank == "Greater":
             dice["magic"] += 3
-            abl["mastery"] = [random.choice(["Compel", "Misdirect", "Seal"])]
-        else: abl["specialty"] = [random.choice(["Compel", "Misdirect", "Seal"])]
+            abl["mastery"] = [random.choice(["Compel", "Confound", "Seal"])]
+        else: abl["specialty"] = [random.choice(["Compel", "Confound", "Seal"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Wisp", rank, stats, type)
 
@@ -312,7 +312,7 @@ class shadow:
         stats["speed"] = "low"
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "hindrances": ["Disorient", "Misdirect"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "hindrances": ["Confuse", "Confound"]})
         
         if rank == "Greater":
             dice["magic"] += 2

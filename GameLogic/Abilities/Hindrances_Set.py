@@ -3,14 +3,21 @@ import random
 
 
 martialHindrances = ["Bind", "Harry"]
-magicHindrances = ["Compel", "Disorient", "Misdirect", "Seal"]
+magicHindrances = ["Compel", "Confuse", "Confound", "Seal"]
 
 
 def commitDice(fighter, target, hindrance) -> None:
-    newDice = 0
+    newDice, diceCap = 0, 0
 
-    if hindrance in martialHindrances: newDice = fighter.atrb["cur_mar"]
-    elif hindrance in magicHindrances: newDice = fighter.atrb["cur_mag"]
+    if hindrance in martialHindrances: diceCap = fighter.atrb["cur_mar"]
+    elif hindrance in magicHindrances: diceCap = fighter.atrb["cur_mag"]
+
+    if fighter.cndt["blitzing"]:
+        if (fighter.props["rank"] == "player"):
+            Select.waitPrint("Commit dice(" + str(diceCap) + "):")
+            newDice = Select.takeInput(1, diceCap)
+        else: newDice = random.randint(1, diceCap)
+    else: newDice = diceCap
 
     trueHindrance = hindranceComment(fighter, target, hindrance)
 
@@ -29,13 +36,13 @@ def hindranceComment(fighter, target, hindrance) -> str:
     match hindrance:
         case "Bind":
             phrase += " binds with " + end
-            trueHindrance = "Misdirect"
+            trueHindrance = "Confound"
         case "Compel": phrase += " attempts to compel " + end
-        case "Disorient": phrase += " disorients " + end
+        case "Confound": phrase += " confounds " + end
+        case "Confuse": phrase += " confuses " + end
         case "Harry":
             phrase += " harries " + end
-            trueHindrance = "Disorient"
-        case "Misdirect": phrase += " misdirects " + end
+            trueHindrance = "Confuse"
         case "Seal": 
             phrase += " attempts to seal " + end
             trueHindrance = "Compel"

@@ -1,5 +1,6 @@
 from . import Attacks_Magic as Magic, Attacks_Martial as Martial
 from Systems import PlayerSelect as Select
+import random
 
 
 closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Pinch", "Ram", "Stab", "Sting"]
@@ -11,11 +12,18 @@ magicAttack= ["Bring"]
 
 
 def commitDice(attack, fighter, attackTarget):
-    dice = 0
+    dice, diceCap = 0, 0
     attackComment(fighter, attackTarget, attack)
 
-    if attack in martialAttack: dice = fighter.atrb["cur_mar"]
-    elif attack in magicAttack: dice = fighter.atrb["cur_mag"]
+    if attack in martialAttack: diceCap = fighter.atrb["cur_mar"]
+    elif attack in magicAttack: diceCap = fighter.atrb["cur_mag"]
+
+    if fighter.cndt["blitzing"]:
+        if (fighter.props["rank"] == "player"):
+            Select.waitPrint("Commit dice(" + str(diceCap) + "):")
+            dice = Select.takeInput(1, diceCap)
+        else: dice = random.randint(1, diceCap)
+    else: dice = diceCap
 
     fighter.attackQueue += [[attack, attackTarget, dice]]
 

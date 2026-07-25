@@ -1,15 +1,23 @@
 from Systems import PlayerSelect as Select, Damage
 from . import Boons_Apply as Apply
+import random
 
 martialBoons = ["Conceal", "Guard"]
-magicBoons = ["Focus", "Shroud", "Wreath"]
+magicBoons = ["Focus", "Veil", "Wreath"]
 
 
 def commitDice(fighter, principal, boon) -> None: 
-    newDice = 0
+    newDice, diceCap = 0, 0
 
-    if boon in martialBoons: newDice = fighter.atrb["cur_mar"]
-    elif boon in magicBoons: newDice = fighter.atrb["cur_mag"]
+    if boon in martialBoons: diceCap = fighter.atrb["cur_mar"]
+    elif boon in magicBoons: diceCap = fighter.atrb["cur_mag"]
+    
+    if fighter.cndt["blitzing"]:
+        if (fighter.props["rank"] == "player"):
+            Select.waitPrint("Commit dice(" + str(diceCap) + "):")
+            newDice = Select.takeInput(1, diceCap)
+        else: newDice = random.randint(1, diceCap)
+    else: newDice = diceCap
 
     trueBoon = boonComment(fighter, principal, boon)
 
@@ -23,10 +31,10 @@ def commitDice(fighter, principal, boon) -> None:
 
     principal.effects[trueBoon]["dice"] += newDice
 
-    if boon in ["Conceal", "Shroud"]:
+    if boon in ["Conceal", "Veil"]:
         roll = Apply.apply(principal, trueBoon)
         distance = max(10 - roll, 2)
-        fighter.effects["Shroud"]["additional"] = distance
+        fighter.effects["Veil"]["additional"] = distance
         Select.waitPrint("Fighter is concealed beyond " + str(distance) + " spaces.")
 
 
@@ -38,10 +46,10 @@ def boonComment(fighter, principal, boon) -> None:
     match boon:
         case "Conceal":
             phrase += " conceals " + end
-            trueBoon = "Shroud"
+            trueBoon = "Veil"
         case "Focus": phrase += " focuses " + end
         case "Guard": phrase += " guards " + end
-        case "Shroud": phrase += " shrouds " + end
+        case "Veil": phrase += " veils " + end
         case "Wreath": phrase += " wreaths " + end
 
     Select.waitPrint(phrase)

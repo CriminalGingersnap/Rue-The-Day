@@ -55,7 +55,7 @@ class ferret:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
-        if rank == "Elder": abl["hindrances"] += ["Disorient"]
+        if rank == "Elder": abl["hindrances"] += ["Confuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ferret", rank, stats, type)
 
@@ -97,6 +97,6 @@ class sheep:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
-        if rank == "Elder": abl["hindrances"] += ["Misdirect"]
+        if rank == "Elder": abl["hindrances"] += ["Confound"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Sheep", rank, stats, type)

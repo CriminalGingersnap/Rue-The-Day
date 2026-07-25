@@ -29,7 +29,7 @@ class crocodile:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
-        if rank != "Juvenile": abl["hindrances"] += ["Disorient"]
+        if rank != "Juvenile": abl["hindrances"] += ["Confuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Crocodile", rank, stats, type)
 
@@ -74,7 +74,7 @@ class tortoise:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
-        if rank != "Juvenile": abl["boons"] += ["Wreath"]
+        if rank != "Juvenile": abl["areas"] += ["Shroud"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Tortoise", rank, stats, type)
 
@@ -89,7 +89,7 @@ class turtle:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Guard"]})
 
-        if rank != "Juvenile": abl["boons"] += ["Shroud"]
+        if rank != "Juvenile": abl["boons"] += ["Wreath"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Snapping Turtle", rank, stats, type)
 
