@@ -15,15 +15,15 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         warriorList += [beast]
 
     if (diceBudget > 4) and (warriorType == "Soldier"):
-        totemType = random.choice(["hex", "sentry", "ward"])
         totemElement = random.choice(["Flame", "Dream", "Ice"])
         totem = None
-        match totemType:
-            case "hex": totem = Totems.hex(totemElement, "Standard").ch
+        match random.choice(["guidance", "impedance", "sentry", "ward"]):
+            case "guidance": totem = Totems.guidance("Dream", "Standard").ch
+            case "impedance": totem = Totems.impedance("Dream", "Standard").ch
             case "sentry": totem = Totems.sentry(totemElement, "Standard").ch
             case "ward": totem = Totems.ward(totemElement, "Standard").ch
 
-        diceBudget -= (totem.atrb["base_mag"] + totem.atrb["base_mar"])
+        diceBudget -= totem.atrb["base_mag"]
         warriorList += [totem]
 
     while diceBudget > 0:

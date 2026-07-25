@@ -3,7 +3,7 @@
 #  #2: Complex outcomes from simple systems
 #  #3: Minimize interruptions and downtime
 
-from Characters import Humans
+from Characters import Humans, Totems
 from Loop import Encounters
 from Maps import World, Movement, Map_Print as Print
 from Systems import PlayerSelect as Select
@@ -14,6 +14,10 @@ Martin = Humans.knight("Basic", "Elite").ch
 Martin.atrb["corruption"], Martin.atrb["fatigue"], Martin.atrb["injury"] = 0, 0, 0
 Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "M."
 Martin.equip["armor"].update({"name": "None", "modifier": 0})
+
+totem = Totems.guidance("Dream", "Standard").ch
+totem.cndt["planted"] = False
+Martin.inv["standard"] = totem
 
 Willem = Humans.dragonslayer("Basic", "Master").ch
 Willem.atrb["corruption"], Willem.atrb["fatigue"], Willem.atrb["injury"] = 0, 0, 0

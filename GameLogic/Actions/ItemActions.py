@@ -17,8 +17,8 @@ def itemAction(fighter, groups, battleMap) -> None:
         if selection != "None":
             category, item, application = selection[0], selection[1], selection[2],
 
-            if category == "Echo": fighter.inv["echo"] = "None"
-            elif category != "Standard": fighter.inv[category][item] -= 1
+            if category == "echo": fighter.inv["echo"] = "None"
+            elif category != "standard": fighter.inv[category][item] -= 1
 
             target = getTarget(fighter, groups, application)
             Use.execute(target, category, item, application, groups, battleMap)
@@ -29,6 +29,7 @@ def pcSelectItem(job, inventory) -> str:
 
     for category in list(inventory.keys()):
         if category == "Echo": options += ["Echo"]
+        elif category == "Standard": options += ["Standard"]
         elif len(inventory[category]) > 1: options += [category]
         elif len(inventory[category]) == 1: options += [category + " -> " + inventory[category][0]]
 
@@ -106,8 +107,8 @@ def getInventory(fighter) -> dict:
         items["Total"] += 1
     else: del items["Echo"]
 
-    if (standard != "None") and not standard.cndt["Planted"]:
-        items["Standard"] = [standard.props["rank"] + " " + echo.props["job"]]
+    if (standard != "None") and not standard.cndt["planted"]:
+        items["Standard"] = [standard.props["rank"] + " " + standard.props["job"]]
         items["Total"] += 1
     else: del items["Standard"]
 

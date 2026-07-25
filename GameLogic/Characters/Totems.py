@@ -1,8 +1,6 @@
 from . import Characters
 
 
-# Totems cannot differentiate friend from foe and will randomly target fighters within range.
-
 def setCommon(job) -> list:
     type = "totem"
 
@@ -33,37 +31,31 @@ def setCommon(job) -> list:
     return [stats, cndt, type, dice]
 
 
-# add holy monument to the throne room
-# add rot totem to ziggurat
-
-
-class hex:
+class guidance:
     def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
+        abl = Characters.setAbilities(type, {"boons": ["Focus"]})
+        self.ch = Characters.character(abl, cndt, dice, element, job, "Guidance", stats, type)
 
-        abl = Characters.setAbilities(type, {"areas": ["Hex"]})
-
-        self.ch = Characters.character(abl, cndt, dice, element, job, "Hex", stats, type)
+class impedance:
+    def __init__(self, element, job) -> None:
+        common = setCommon(job)
+        stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
+        abl = Characters.setAbilities(type, {"boons": ["Disorient"]})
+        self.ch = Characters.character(abl, cndt, dice, element, job, "Impedance", stats, type)
 
 
 class sentry:
     def __init__(self, element, job) -> None:        
         common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
-
         abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
-
         self.ch = Characters.character(abl, cndt, dice, element, job, "Sentry", stats, type)
-
 
 class ward:
     def __init__(self, element, job) -> None:        
         common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
-
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
-        
         self.ch = Characters.character(abl, cndt, dice, element, job, "Ward", stats, type)
-
-# Agents of the king have a chance to bring this with them.

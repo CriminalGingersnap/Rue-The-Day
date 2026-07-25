@@ -1,6 +1,6 @@
 from Systems import PlayerSelect as Select, Inventory
 from Actions import ItemActions as Items
-from . import LootEquipment
+from . import LootEquipment, CombatPhases as Phases
 import copy
 
 
@@ -8,16 +8,38 @@ def searchAll(players, enemies) -> None:
     if Select.yesNo("Reorganize party inventory?"): sortItems(players)
     if Select.yesNo("Loot enemies?"): lootFoes(enemies)
 
+def getCarryWeight(player):
+    speedLoss = Phases.getSpeedLoss(player)
+    return player.atrb["base_sp"] - speedLoss
 
 def sortItems(players):
     playerStock = getStock(players)
+    standards = []
     for player in players:
+        Select.waitPrint("Assign stones to " + player.props["name"] + ".")
+        Select.quickPrint("Items not selected by any party member will be lost.")
         player.inv["cores"] = copy.deepcopy(Inventory.cores)
         player.inv["pearls"] = copy.deepcopy(Inventory.pearls)
         cap = player.inv["Capacity"]
-
-        Select.waitPrint("Items not selected by any party member will be lost.")
         updateStones(player, playerStock, cap)
+
+        standard = player.inv["standard"] 
+        if standard != "None": standards += [standard]
+
+    for player in players:
+        player.inv["standard"] = "None"
+        carryWeight = getCarryWeight(player)
+
+        if (len(standards) > 0) and (carryWeight > 2):
+            Select.waitPrint("Assign a standard to " + player.props["name"])
+            Select.quickPrint("Items not selected by any party member will be lost.")
+
+            standard = Select.targetSelect(standards)
+            player.inv["standard"] = standard
+            standard.cndt["planted"] = False
+            
+            del standard[standard]
+
 
 def updateStones(player, stock, cap):
     phrase = player.props["name"] + " can carry " + cap + " more "
@@ -57,7 +79,7 @@ def lootFoes(players, enemies):
 
 
 def lootSimple(players, enemies) -> None:
-    Select.waitPrint("Carve and pry open foes which are not human. Rob those which are.")
+    Select.waitPrint("Carve and pry open those foes which are not human. Rob those which are.")
     stock = getStock(enemies)
     for player in players:
         inventory = Items.getInventory(player)
@@ -69,9 +91,7 @@ def lootSimple(players, enemies) -> None:
 def lootStandards(players, standards):
     Select.waitPrint("Broken standards can be repaired.")
     for player in players:
-        speedLoss = (player.equip["armor"]["modifier"] + player.equip["shield"]["modifier"] + player.equip["weapon"]["modifier"] 
-                        + player.inv["spares"]["shield"]["modifier"] + player.inv["spares"]["weapon"]["modifier"])
-        carryWeight = player.atrb["base_sp"] - speedLoss
+        carryWeight = getCarryWeight(player)
 
         if carryWeight > 2:
             if Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):
@@ -80,7 +100,7 @@ def lootStandards(players, standards):
                 player.inv["standard"] = standard
                 standard.cndt["planted"] = False
                 
-                del standard[standard]
+                del standards[standard]
 
 
 def lootEchos(players, creatures) -> None:

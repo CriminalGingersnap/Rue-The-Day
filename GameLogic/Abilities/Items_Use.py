@@ -35,7 +35,7 @@ def plant(fighter, groups) -> None:
     plantSpace = Area.findSpace(fighter, groups, 1, "standard")
     if plantSpace != "None":
         standard.position = plantSpace
-        standard.cndt["Planted"] = True
+        standard.cndt["planted"] = True
 
 
 def imbue(fighter, category, element, battleMap) -> None:

@@ -4,19 +4,22 @@ from Systems import PlayerSelect as Select, Sort, Conditions, Effects, Commitmen
 from Abilities import Reactions, Items_Use as Items
 
 
+def getSpeedLoss(fighter):
+        speedLoss = (fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
+                        + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"])
+
+        if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
+
+        return speedLoss
+        
+
 def resetFighter(fighter) -> None:
     fighter.atrb["cur_sp"] = fighter.atrb["base_sp"] - fighter.atrb["fatigue"]
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
 
     if fighter.props["type"] == "human":
-        speedLoss = (fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
-                   + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"]
-                  ) - 2
-        
-        if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
-
+        speedLoss = getSpeedLoss(fighter) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
-
         if fighter.itemEffects["Invigorate"]["duration"] > 0: fighter.atrb["cur_sp"] += 1
 
     match fighter.atrb["injury"]:
