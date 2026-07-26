@@ -23,6 +23,7 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
             case "sentry": totem = Totems.sentry(totemElement, "Standard").ch
             case "ward": totem = Totems.ward(totemElement, "Standard").ch
 
+        totem.cndt["reposed"] = False
         diceBudget -= totem.atrb["base_mag"]
         warriorList += [totem]
 

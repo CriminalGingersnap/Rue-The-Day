@@ -4,6 +4,7 @@ def setAtmosphere(atmosphere, row, column, battleMap):
 
 def getAtmosphere(scale, dmgType) -> str:
     atmosphere, big, little, lingering = "_", "", "", "_"
+    scale = min(scale, 3)
 
     match dmgType:
         case "Bleed": big, little, lingering = "B", "b", "="

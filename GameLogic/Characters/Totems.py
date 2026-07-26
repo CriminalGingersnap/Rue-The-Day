@@ -35,14 +35,14 @@ class guidance:
     def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"boons": ["Focus"]})
+        abl = Characters.setAbilities(type, {"boons": ["Focus", "Veil"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Guidance", stats, type)
 
 class impedance:
     def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"boons": ["Confuse"]})
+        abl = Characters.setAbilities(type, {"hindrance": ["Confuse", "Confound"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Impedance", stats, type)
 
 
@@ -50,12 +50,12 @@ class sentry:
     def __init__(self, element, job) -> None:        
         common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"]})
+        abl = Characters.setAbilities(type, {"areas": ["Hex"], "attacks": ["Bring"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Sentry", stats, type)
 
 class ward:
     def __init__(self, element, job) -> None:        
         common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"areas": ["Shroud"], "boons": ["Wreath"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Ward", stats, type)

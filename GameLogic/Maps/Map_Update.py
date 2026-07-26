@@ -23,7 +23,7 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     fighter.pos = [row, column]
     
     if fighter.props["rank"] == "Ascendant":
-        Area.affectSpace(fighter, [row, column], fighter.atrb["cur_elm"], 2, battleMap)
+        Area.affectSpace([row, column], fighter.atrb["cur_elm"], 2, battleMap)
 
     if battleMap[row][column][-1] == "]":
         dmgType = random.choice(["Crush", "Flame", "Ice", "Pierce", "Rot", "Toxic"])

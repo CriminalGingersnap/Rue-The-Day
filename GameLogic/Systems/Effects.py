@@ -2,7 +2,7 @@ from . import PlayerSelect as Select
 
 
 def removeEffect(fighter, effect):
-    Select.waitPrint(fighter.effects[effect]["ability"] + " ends on " + fighter.props["name"] + ".")
+    Select.waitPrint("Effect " + fighter.effects[effect]["ability"] + " ends on " + fighter.props["name"] + ".")
     fighter.effects[effect] = {"dice": 0, "source": None, "ability": None, "additional": None}
 
 

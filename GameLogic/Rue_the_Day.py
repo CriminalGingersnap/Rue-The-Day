@@ -17,7 +17,7 @@ Martin.equip["armor"].update({"name": "None", "modifier": 0})
 Martin.inv["echo"] = "None"
 
 totem = Totems.guidance("Dream", "Standard").ch
-totem.cndt["planted"] = False
+totem.cndt["planted"], totem.cndt["reposed"] = False, False
 totem.props["initials"], totem.props["name"] = "Ms", "Martin's Standard"
 Martin.inv["standard"] = totem
 
@@ -77,8 +77,9 @@ while True:
         takeRest = Select.yesNo("Rest and Save Game?")
         if takeRest: Encounters.takeRest(group1)
 
-    if inTutorial and ([0, 6] in marker.lastCleared):
-        inTutorial = False
-        gameWorld = World.metamorphosisMap()
-        worldMap = gameWorld.worldMap
-        marker = gameWorld.marker
+    if inTutorial:
+        if [0, 6] in marker.lastCleared:
+            inTutorial = False
+            gameWorld = World.metamorphosisMap()
+            worldMap = gameWorld.worldMap
+            marker = gameWorld.marker
