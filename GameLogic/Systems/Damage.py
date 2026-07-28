@@ -50,8 +50,8 @@ def applyResistance(damage, dmgType, target) -> int:
         Select.waitPrint("Armored target gains slight protection against Crush damage.")
         shellReduction = armorMod * .1
 
-    if target.cndt["submerged"]:
-        Select.waitPrint("Submerged target gains slight protection against all damage.")
+    if target.cndt["submerged"] and (dmgType != "Bleed"):
+        Select.waitPrint("Submerged target gains slight protection against external damage.")
         waterReduction = .2
 
     reduction = armorEnchantReduction + shieldEnchantReduction + shellReduction + waterReduction

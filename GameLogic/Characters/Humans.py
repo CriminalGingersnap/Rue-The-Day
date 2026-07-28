@@ -161,8 +161,7 @@ class mage:
                 else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
                 if rank in ["Elite", "Master"]:
-                    if element == "Dream": abl["hindrances"] += ["Confuse"]
-                    else: abl["reactions"] += ["Flare"]
+                    abl["areas"] += ["Hex"]
 
                     if rank == "Master":
                         secondSpecialty = [random.choice(["Bring", "Wreath"])]
@@ -205,19 +204,16 @@ class warlock:
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            if element == "Dream": abl["boons"] += ["Focus"]
-            else: abl["attacks"] += ["Bring"]
+            abl["boons"] += ["Focus"]
 
             if rank in ["Adept", "Elite", "Master"]:
-                if element == "Dream": abl["specialty"] = [random.choice(["Bash", "Focus", "Stab"])]
-                else: abl["specialty"] = [random.choice(["Bash", "Bring", "Stab"])]
+                abl["specialty"] = [random.choice(["Bash", "Focus", "Stab"])]
                 
                 if rank in ["Elite", "Master"]:
-                    abl["areas"] += ["Hex"]
+                    abl["hindrances"] += ["Confuse"]
                     
                     if rank == "Master":
-                        secondSpecialty = [random.choice(["Bash", "Bring", "Stab"])]
-                        if element == "Dream": secondSpecialty = [random.choice(["Bash", "Focus", "Stab"])]
+                        secondSpecialty = [random.choice(["Bash", "Confuse", "Focus", "Stab"])]
                         correctSpecialties(abl, secondSpecialty)
 
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)

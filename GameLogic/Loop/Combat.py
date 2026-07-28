@@ -62,12 +62,14 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.movementStage(fighter, foes, friends, battleMap)
+
+        print()
             
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.abilityStage(fighter, foes, friends)
 
-        if npcGroup: input("Press Enter to execute attacks.")
+        if npcGroup: input("\nPress Enter to execute attacks.")
 
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:
@@ -79,7 +81,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                     if target.cndt["dead"]: Select.waitPrint("Attack canceled against slain target.")
                     else: Attacks.execute(fighter, target, ability, dice)
 
-            Phases.outro(fighter, validFighters, battleMap)
+            Phases.outro(fighter)
 
         if npcGroup: input("\nPress Enter to advance combat to the next round.\n")
 

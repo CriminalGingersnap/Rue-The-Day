@@ -26,7 +26,7 @@ def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, 
     return movementMap
 
 
-def setMoveOptions(fighter, target, battleMap, mapHeight) -> list:
+def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
     fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
     aquatic, skittish, winged  = fighter.cndt["aquatic"], fighter.cndt["skittish"], fighter.cndt["winged"]
 
@@ -95,16 +95,18 @@ def setMoveOptions(fighter, target, battleMap, mapHeight) -> list:
             terrain = sightMap[row][column][1]
 
             if (":" in moveSpace) and not any(marker in moveSpace for marker in [".", "!", "/"]):
-                if (")" not in moveSpace) or winged:
-                    stepCount = moveSpace.split(':')[1]
-                    if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
-                    else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
-                    counter += 1
+                if ("~" not in moveSpace) or (mapName != "world"):
+                    if (")" not in moveSpace) or winged:
+                        stepCount = moveSpace.split(':')[1]
+                        if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
+                        else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
+                        counter += 1
 
             if "." in moveSpace: movementMap[row][column] = "/../" + elevation
             elif "!" in moveSpace: movementMap[row][column] = "/!!/" + elevation
             elif "/" in moveSpace: movementMap[row][column] = "////" + elevation
-            elif ")" in moveSpace and not winged: movementMap[row][column] = "))))" + elevation
+            elif (")" in moveSpace) and not winged: movementMap[row][column] = "))))" + elevation
+            elif ("~" in moveSpace) and (mapName == "world"): movementMap[row][column] = "~~~~" + elevation
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
     elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]

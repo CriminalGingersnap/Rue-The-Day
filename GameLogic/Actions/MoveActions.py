@@ -23,6 +23,7 @@ def moveAction(fighter, groups, battleMap) -> None:
         else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
 
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move", "Stay"]
+        posOptions.sort()
         movePlayer(fighter, groups, posOptions, battleMap)
     else:
         moveNPC(fighter, groups, posOptions, battleMap)

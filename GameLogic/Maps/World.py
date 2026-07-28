@@ -36,7 +36,8 @@ class benedictionMap:
         self.legend = {"d": "Dream Sea-Cave", "f": "Flame Lowland", "h": "Holy Scrubland", "H": "Holy Desert",
                         "i": "Ice Highland", "I": "Ice Peak", "r": "Rot Encroachment", "R": "Rot Locus",
                          "s": "Shoreline Dunes", "S": "Shoreline Nests", "v": "Vampire Range", "V": "Vampire Lair"}
-        
+
+        self.ace = "Club"
         self.start = [5, 9]
         self.marker = mapMarker(self.worldMap, self.start)
 
@@ -76,6 +77,7 @@ class metamorphosisMap:
                          "m": "Marshland", "o": "Outlaw Camp", "o": "Outlaw Stronghold", "s": "Shoreline Dunes",
                           "w": "Wildlands Pass", "W": "Wildlands Bay"}
 
+        self.ace = "Club"
         self.bosses = {"Giant": [0, 5], "Strider": [6, 0], "Worm": [1, 11]}
         self.start = [14, 6]
         self.marker = mapMarker(self.worldMap, self.start)
@@ -101,7 +103,7 @@ def createSightMap(worldMap, position, rank):
     for column in range(12):
         for row in range(24):
             spaceDistance = Movement.getSpaceDistance(position[0], row, position[1], column)
-            if spaceDistance > 3:
+            if spaceDistance > 2:
                 sightMap[row][column] = Visibility.unseen + worldMap[row][column][-1]
 
     return sightMap

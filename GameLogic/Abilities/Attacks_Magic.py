@@ -1,4 +1,4 @@
-from . import Boons_Apply as Boons, Reactions
+from . import Boons_Apply as Boons
 from Systems import PlayerSelect as Select, Roll, Conditions, Damage
 
 
@@ -9,7 +9,5 @@ def attack(fighter, target, attack, dice) -> None:
     baseDmg = Roll.roll(fighter, dice, attack, "magic")
     appliedDmg = max(0, baseDmg - absorption)
 
-    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!\n")
+    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + target.props["name"] + "!")
     Conditions.takeDamage(target, dmgType, appliedDmg)
-
-    if absorption > baseDmg: Reactions.applyRiposte(target, fighter, "Wreath")

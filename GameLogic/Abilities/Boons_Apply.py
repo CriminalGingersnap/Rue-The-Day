@@ -31,7 +31,7 @@ def apply(principal, ability, print=True) -> int:
         if principal in source.commits[ability]["targets"]:
             element = ""
             if ability == "Wreath": element = source.commits[ability]["additional"] + " "
-            if print: Select.waitPrint(element + specific + " triggered!")
+            if print: Select.waitPrint(element + specific + " triggered on " + principal.props["name"] + "!")
 
             roll = expend(source, dice, specific, dType)
             increase = roll[0]

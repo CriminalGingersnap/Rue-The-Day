@@ -10,8 +10,8 @@ def execute(fighter, groups, ability, battleMap) -> str:
     scale = fighter.atrb["cur_mag"]
     fighter.atrb["cur_mag"] = 0
 
-    article = "a"
-    if fighter.atrb["cur_elm"][0] in ["A", "E", "I", "O", "U"]: article = "an"
+    article = "a "
+    if fighter.atrb["cur_elm"][0] in ["A", "E", "I", "O", "U"]: article = "an "
 
     match ability:
         case "Breath":

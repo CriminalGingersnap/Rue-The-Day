@@ -55,7 +55,7 @@ Print.printWorldMap(tutorialWorld)
 
 while True:
     marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
-    Movement.moveFighter(marker, worldMap, None, None, 24)
+    Movement.moveFighter(marker, worldMap, None, None, 24, "world")
     marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
     if marker.pos not in marker.lastCleared:

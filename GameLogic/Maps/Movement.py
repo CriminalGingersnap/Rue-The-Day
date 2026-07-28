@@ -3,8 +3,8 @@ from . import Map_Update as uMap, MovementOptions, Map_Print as Print
 import random
 
 
-def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12) -> None:
-    movementMap = MovementOptions.setMoveOptions(fighter, target, battleMap, mapHeight)
+def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName="") -> None:
+    movementMap = MovementOptions.setMoveOptions(fighter, target, battleMap, mapHeight, mapName)
     moveOptions = prepareOptions(movementMap, mapHeight)
     spaceOptions, firstSpace, lastSpace = moveOptions[0], moveOptions[1], moveOptions[2]
     stationary, moveChoice = False, None

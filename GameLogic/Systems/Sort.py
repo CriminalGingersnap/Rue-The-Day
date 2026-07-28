@@ -1,4 +1,4 @@
-from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder, Reactions
+from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
 from Maps import Map_Update as uMap, Movement
 from Systems import PlayerSelect as Select
 
@@ -8,11 +8,10 @@ def getGroups(fighter, enemies, allies) -> list:
     return {"reachable": reachable, "fightingAllies": allies, "fightingEnemies": enemies}
     
 
-def setAlive(fighter, allies) -> bool:
+def setAlive(fighter) -> bool:
     if fighter.atrb["cur_hp"] <= 0:
         fighter.cndt["dead"] = True
         Select.waitPrint("\n" + fighter.props["name"] + " has fallen.")
-        Reactions.applyPheromones(fighter, allies)
 
         return False
     else: return True
