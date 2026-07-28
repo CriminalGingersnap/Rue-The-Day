@@ -22,7 +22,7 @@ def encounterLoop(playerGroup, biome):
         if playerVictory:
             takeRest = handleAftermath(players)
             if takeRest:
-                takeRest(playerGroup)
+                rest(playerGroup)
                 ace = Environment.updateAce(ace, biome)
         else:
             Select.waitPrint("Reload Save?")
@@ -36,8 +36,6 @@ def handleAftermath(victorGroup) -> bool:
 
     for fighter in victorGroup:
         Commitments.clearCommitments(fighter)
-
-        if fighter.props["type"] == "totem": fighter.cndt["reposed"] = True
         
         if fighter.atrb["cur_hp"] <= 0:
             Select.waitPrint(fighter.props["name"] + " requires immediate resuscitation!")
@@ -53,7 +51,7 @@ def handleAftermath(victorGroup) -> bool:
     return takeRest
 
 
-def takeRest(group) -> None:
+def rest(group) -> None:
     for fighter in group["members"]: refresh(fighter)
 
     group["days"] += 1

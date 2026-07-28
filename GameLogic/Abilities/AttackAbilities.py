@@ -1,5 +1,5 @@
 from . import Attacks_Magic as Magic, Attacks_Martial as Martial
-from Systems import PlayerSelect as Select, Damage
+from Systems import PlayerSelect as Select, Conditions
 import random
 
 
@@ -34,7 +34,7 @@ def execute(fighter, target, attack, dice) -> dict:
     print()
     if attack in martialAttack: Martial.attack(fighter, target, attack, dice)
     elif attack in magicAttack: Magic.attack(fighter, target, attack, dice)
-    Damage.setInjury(target)
+    Conditions.setInjury(target)
 
 
 def attackComment(fighter, target, attack):

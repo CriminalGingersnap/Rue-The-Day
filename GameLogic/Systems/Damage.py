@@ -18,6 +18,7 @@ def identifyDamageType(element, ability) -> str:
 
 def applyResistance(damage, dmgType, target) -> int:
     tRes = target.atrb["cur_res"][dmgType]
+    armorMod = target.equip["armor"]["modifier"]
 
     multiplier = 1
     match tRes:
@@ -27,31 +28,34 @@ def applyResistance(damage, dmgType, target) -> int:
 
     if tRes != "normal": Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
 
-    protections, armorReduction, shieldReduction, waterReduction = [], 0, 0, 0
+    armorEnchantReduction, shieldEnchantReduction, shellReduction, waterReduction = 0, 0, 0, 0
     armorType = target.equip["armor"]["element"]
     shieldType = target.equip["shield"]["element"]
 
-    if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
-        Select.waitPrint("Target is wearing " + target.equip["armor"]["element"] + " armor!")
-        armorReduction = target.equip["armor"]["modifier"] * .1
-        protections += [armorType]
-
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, shieldType):
         Select.waitPrint("Target carries a talisman of " + target.equip["shield"]["element"] + "!")
-        shieldReduction = .2
-        protections += [shieldType]
+        shieldEnchantReduction = .4
+        if dmgType == shieldType:
+            Select.waitPrint("Enchantments provide half protection against their own element!")
+            shieldEnchantReduction /= 2
+
+    if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
+        Select.waitPrint("Target is wearing " + armorType + " armor!")
+        armorEnchantReduction = armorMod* .1
+        if dmgType == armorType:
+            Select.waitPrint("Enchantments provide half protection against their own element!")
+            armorEnchantReduction /= 2
+
+    if (armorMod> 0) and (dmgType == "Crush"):
+        Select.waitPrint("Armored target gains slight protection against Crush damage.")
+        shellReduction = armorMod * .1
 
     if target.cndt["submerged"]:
-        Select.waitPrint("Target gains slight protection against damage by being submerged.")
-        waterReduction = .1
+        Select.waitPrint("Submerged target gains slight protection against all damage.")
+        waterReduction = .2
 
-    reduction = armorReduction + shieldReduction + waterReduction
-
-    for protection in protections:
-        if dmgType == protection:
-            Select.waitPrint("Enchantments provide half protection against their own element!")
-            multiplier = max(0, multiplier - reduction)
-        else: multiplier = max(0, multiplier - (reduction * 2))
+    reduction = armorEnchantReduction + shieldEnchantReduction + shellReduction + waterReduction
+    multiplier = max(0, multiplier - reduction)    
 
     return int(damage * multiplier)
 

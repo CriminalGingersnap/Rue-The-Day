@@ -1,3 +1,6 @@
+import random
+
+
 def setAnimalResistance(element, rank, stats):    
     mainRes, holyRes = "resistant", "resistant"
     if rank in ["Elder", "Master", "Ascendant"]: mainRes, holyRes = "immune", "normal"
@@ -46,7 +49,10 @@ def downgradeStats(cndt, rank, stats):
         case "Juvenile" | "Small":
             attributes = ["hp"]
             cndt["massive"] = False
-        case "Ancient" | "Elder" | "Wizened": attributes = ["avoidance", "speed"]
+        case "Ancient" | "Elder" | "Wizened":
+            attributes = ["avoidance", "speed"]
+            if rank == "Ancient": cndt["reposed"] = random.choice([True, True, False])
+            elif rank == "Wizened": cndt["reposed"] = random.choice([True, False])
         case "Fresh": attributes = ["hp", "avoidance", "speed"]
         
     for attribute in attributes:

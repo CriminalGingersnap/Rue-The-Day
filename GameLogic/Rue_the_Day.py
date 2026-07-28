@@ -50,11 +50,11 @@ group1 = {
 }
 
 
-inTutorial = True
+marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
+Print.printWorldMap(tutorialWorld)
 
 while True:
     marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
-    Print.printWorldMap(tutorialWorld)
     Movement.moveFighter(marker, worldMap, None, None, 24)
     marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
@@ -71,11 +71,6 @@ while True:
 
     elif marker.pos == marker.lastCleared[0]:
         takeRest = Select.yesNo("Rest and Save Game?")
-        if takeRest: Encounters.takeRest(group1)
-
-    if inTutorial:
-        if [0, 6] in marker.lastCleared:
-            inTutorial = False
-            gameWorld = World.metamorphosisMap()
-            worldMap = gameWorld.worldMap
-            marker = gameWorld.marker
+        if takeRest:
+            Encounters.takeRest(group1)
+            Print.printWorldMap(tutorialWorld)

@@ -20,6 +20,8 @@ def resetFighter(fighter) -> None:
     fighter.atrb["cur_sp"] = fighter.atrb["base_sp"] - fighter.atrb["fatigue"]
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
 
+    if fighter.atrb["cur_hp"] < fighter.atrb["base_hp"]: fighter.cndt["reposed"] = False
+
     if fighter.props["type"] == "human":
         speedLoss = getSpeedLoss(fighter) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
@@ -74,8 +76,7 @@ def abilityStage(fighter, enemies, allies) -> None:
     groups = Sort.getGroups(fighter, enemies, allies)
     reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
-    if fighter.cndt["reposed"]:
-        Select.waitPrint(fighter.props["name"] + " waits in repose.")
+    if fighter.cndt["reposed"]: Select.waitPrint(fighter.props["name"] + " waits in repose.")
     elif len(fightingEnemies) > 0:
         if fighter.props["rank"] == "player":
             actionChoice = PlayerAbl.chooseAction(fighter, reachable)

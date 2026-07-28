@@ -25,7 +25,8 @@ def clearCommitments(fighter):
     for commitment in fighter.commits:
         if len(fighter.commits[commitment]["targets"]) > 0:
             for target in fighter.commits[commitment]["targets"]:
-                removeCommitment(fighter, target, commitment)
+                if target.effects[commitment]["source"] == fighter:
+                    removeCommitment(fighter, target, commitment)
 
 
 def removeCommitment(fighter, target, commitment):

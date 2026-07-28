@@ -35,6 +35,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
     sortedOffense, sortedTarget = Sort.sortLiving(offenseGroup, battleMap), Sort.sortLiving(targetGroup, battleMap)
     validFighters, validTargets = sortedOffense[0], sortedTarget[0]
     downedFighters, downedTargets = sortedOffense[1], sortedTarget[1]
+    npcGroup = offenseGroup[0].props["rank"] != "player"
 
     if any((fighter.props["rank"] == "player" and fighter.props["type"] == "human") for fighter in downedFighters):
         return [False, None]
@@ -65,7 +66,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.abilityStage(fighter, foes, friends)
-        
+
+        if npcGroup: input("Press Enter to execute attacks.")
+
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:
                 Commitments.checkReach(fighter)
@@ -76,10 +79,8 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                     if target.cndt["dead"]: Select.waitPrint("Attack canceled against slain target.")
                     else: Attacks.execute(fighter, target, ability, dice)
 
-                    fighter.attackQueue.remove(attack)
             Phases.outro(fighter, validFighters, battleMap)
 
-        if offenseGroup[0].props["rank"] != "player":
-            input("\nPress Enter to advance combat to the next round.\n")
+        if npcGroup: input("\nPress Enter to advance combat to the next round.\n")
 
     return [False, None]
