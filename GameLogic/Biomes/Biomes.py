@@ -1,4 +1,5 @@
-from . import MetamorphosisBiomes as Metamorphosis, KingKillerBiomes as Kingdom, BenedictionBiomes as Benediction
+from . import MetamorphosisBiomes as Metamorphosis, KingKillerBiomes as Kingdom
+from . import BenedictionBiomes as Benediction, InfestationBiomes as Infestation
 from Systems import Roll, PlayerSelect as Select
 from Loop import Cards
 
@@ -26,17 +27,16 @@ def setFoes(biome, budgets, curseCard) -> list:
         match biome:
             case "Wildlands Pass": members = Metamorphosis.passEncounters(roll, budget)
             case "Wildlands Bay": members = Metamorphosis.bayEncounters(roll, budget)
-            case "Icy Fjord": members = Metamorphosis.fjordEncounter(roll, budget)
-            case "Icy Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
+            case "Ice Fjord": members = Metamorphosis.fjordEncounter(roll, budget)
+            case "Ice Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
             case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, budget)
             case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, budget)
-            case "Flaming Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
-            case "Flaming Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
+            case "Flame Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
+            case "Flame Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
 
             case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
             case "Northern Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
             case "Marshland": members = Kingdom.marshEncounters(roll, budget)
-            # case "Marsh Depths": members = Kingdom.marshEncounters(roll, budget)
             case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, rollNum, "Camp", budget)
             case "Unsettled": members = Kingdom.unsettledEncounters(roll, budget)
 
@@ -45,10 +45,12 @@ def setFoes(biome, budgets, curseCard) -> list:
             case "Holy Desert": members = Benediction.desertEncounters(roll, budget)
             case "Rot Encroachment": members = Benediction.encroachmentEncounter(roll, budget)
             case "Rot Locus": members = Benediction.locusEncounter(roll, budget)
-            case "Shoreline": members = Benediction.shoreEncounters(roll, budget)
+            case "Shoreline Dunes": members = Benediction.duneEncounters(roll, budget)
 
-            # case "Southern Stronghold": members = Infestation.strongholdEncounters(roll, index)
-            # case "Southern Road": members = Infestation.outlierEncounters(roll, index)
+            case "Flame Lowland": members = Infestation.lowlandEncounters(roll, budget)
+            case "Ice Highland": members = Infestation.highlandEncounters(roll, budget)
+            # case "Ice Peak": members = Infestation.peakEncounters(roll, budget)
+            case "Shoreline Nest": members = Infestation.nestEncounters(roll, budget)
             
         memberIndex = 1
         for member in members:

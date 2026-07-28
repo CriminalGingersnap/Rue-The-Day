@@ -4,11 +4,13 @@ heightDict = {Elevation.doubleUp: 5, Elevation.up: 4, Elevation.middle: 3,
                Elevation.down: 2, Elevation.doubleDown: 1, "]": 3}
 
 
-def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap) -> list:
+def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, mapHeight) -> list:
     hazards = uMap.majorHazards + uMap.minorHazards
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]
+    if mapHeight == 24: movementMap = [[], [], [], [], [], [], [], [], [], [], [], [],
+                                       [], [], [], [], [], [], [], [], [], [], [], []]
 
-    for row in range(12):
+    for row in range(mapHeight):
         for column in range(12):
             movementMap[row] += [sightMap[row][column]]
             
@@ -24,7 +26,7 @@ def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap) 
     return movementMap
 
 
-def setMoveOptions(fighter, target, battleMap) -> list:
+def setMoveOptions(fighter, target, battleMap, mapHeight) -> list:
     fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
     aquatic, skittish, winged  = fighter.cndt["aquatic"], fighter.cndt["skittish"], fighter.cndt["winged"]
 
@@ -33,10 +35,10 @@ def setMoveOptions(fighter, target, battleMap) -> list:
         if skittish: simulation = target.sightMap
         else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"])
     sightMap = fighter.sightMap
-    movementMap = instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap)
+    movementMap = instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, mapHeight)
     
     leftEdge, rightEdge = max(0, (fighterColumn-fighter.atrb["cur_sp"])), min(12, (fighterColumn+fighter.atrb["cur_sp"] + 1))
-    topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(12, (fighterRow+fighter.atrb["cur_sp"] + 1))
+    topEdge, bottomEdge = max(0, (fighterRow-fighter.atrb["cur_sp"])), min(mapHeight, (fighterRow+fighter.atrb["cur_sp"] + 1))
     anyContact, anyUnseen = False, False
     waterLine = 0
 
@@ -85,7 +87,7 @@ def setMoveOptions(fighter, target, battleMap) -> list:
 
     counter = 2
     for column in range(12):
-        for row in range(12):
+        for row in range(mapHeight):
             if (row == fighterRow) and (column == fighterColumn): continue
 
             moveSpace = movementMap[row][column]

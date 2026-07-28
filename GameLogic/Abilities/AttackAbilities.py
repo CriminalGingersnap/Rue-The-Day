@@ -1,9 +1,9 @@
 from . import Attacks_Magic as Magic, Attacks_Martial as Martial
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Damage
 import random
 
 
-closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Pinch", "Ram", "Stab", "Sting"]
+closeMartialAttack = ["Bash", "Bite", "Claw", "Gore", "Kick", "Peck", "Pinch", "Ram", "Stab", "Sting"]
 midMartialAttack = ["Bodkin", "Spit", "Spray"]
 farMartialAttack = ["Broadhead", "Sling"]
 martialAttack = closeMartialAttack + midMartialAttack + farMartialAttack
@@ -34,6 +34,7 @@ def execute(fighter, target, attack, dice) -> dict:
     print()
     if attack in martialAttack: Martial.attack(fighter, target, attack, dice)
     elif attack in magicAttack: Magic.attack(fighter, target, attack, dice)
+    Damage.setInjury(target)
 
 
 def attackComment(fighter, target, attack):
@@ -56,6 +57,7 @@ def attackComment(fighter, target, attack):
             case "Claw": phrase += " claws at " + end
             case "Gore": phrase += " tries to gore " + end
             case "Kick": phrase += " kicks at " + end
+            case "Peck": phrase += " pecks at " + end
             case "Pinch": phrase += " pinches at " + end
             case "Ram": phrase += " tries to ram " + end
             case "Sling": phrase += " slings a stone at " + end

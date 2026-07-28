@@ -3,14 +3,14 @@ from . import Map_Update as uMap, MovementOptions, Map_Print as Print
 import random
 
 
-def moveFighter(fighter, battleMap, target, closeRanks) -> None:
-    movementMap = MovementOptions.setMoveOptions(fighter, target, battleMap)
-    moveOptions = prepareOptions(movementMap)
+def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12) -> None:
+    movementMap = MovementOptions.setMoveOptions(fighter, target, battleMap, mapHeight)
+    moveOptions = prepareOptions(movementMap, mapHeight)
     spaceOptions, firstSpace, lastSpace = moveOptions[0], moveOptions[1], moveOptions[2]
     stationary, moveChoice = False, None
 
     player = fighter.props["rank"] in ["player", "world"]
-    if player: moveChoice = movePlayer(movementMap, lastSpace, fighter.props["name"])
+    if player: moveChoice = movePlayer(movementMap, lastSpace, fighter.props["name"], mapHeight)
     else: moveChoice = moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks)
 
     row = spaceOptions[moveChoice][0]
@@ -79,18 +79,18 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
     return str(closestIndex)
 
 
-def movePlayer(movementMap, lastSpace, name) -> str:
-    Print.printOptionsMap(movementMap, name+ "'s Options Map")
+def movePlayer(movementMap, lastSpace, name, mapHeight) -> str:
+    Print.printOptionsMap(movementMap, name+ "'s Options Map", mapHeight)
 
     Select.waitPrint("Space:")
     return str(Select.takeInput(1, lastSpace))
 
 
-def prepareOptions(movementMap) -> list:
+def prepareOptions(movementMap, mapHeight) -> list:
     spaceOptions = {}
     firstSpace = lastSpace = 1
 
-    for row in range(12):
+    for row in range(mapHeight):
         for column in range(12):
             contents = movementMap[row][column]
             if ":" in contents:

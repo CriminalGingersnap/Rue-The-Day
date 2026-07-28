@@ -20,7 +20,7 @@ def updateAce(ace, biome):
                 case "Spades" | "Clubs": threshold = 5
                 case "Hearts": threshold = 7
                 case "Diamonds": threshold = 9
-        case "Dream Sea-Cave" | "Frozen Fjord" | "Marshland" | "Shoreline": 
+        case "Dream Sea-Cave" | "Frozen Fjord" | "Marshland" | "Shoreline Dunes": 
             match ace:
                 case "Spades" | "Clubs": threshold = 9
                 case "Hearts": threshold = 5
@@ -84,7 +84,7 @@ def setMapConditions(biome):
     budget = [drawn[3], drawn[4]]
 
     if slope == "ruin": obstructions["pit"] = obstructionValue
-    elif biome in ["Flaming Volcano", "Icy Glacier", "Rot Locus"]:
+    elif biome in ["Flame Volcano", "Ice Glacier", "Rot Locus"]:
         obstructions["pit"] = (obstructionValue // 3) * 2
         obstructions["wall"] = obstructionValue - obstructions["pit"]
     else: obstructions["wall"] = obstructionValue
@@ -95,15 +95,16 @@ def setMapConditions(biome):
 
 
 def setAtmosphere(biome, extent) -> dict:
-    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Rime": 0, "Smoke": 0}
+    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Rime": 0, "Smoke": 0, "Noxious": 0}
 
-    if biome in ["Dreamwood Depths", "Flaming Volcano", "Holy Desert", "Icy Glacier", "Rot Locus"]: extent += 3
+    if biome in ["Dreamwood Depths", "Flame Volcano", "Holy Desert", "Ice Glacier", "Ice Peak", "Rot Locus"]: extent += 3
     
     match biome:
-        case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
-        case "Holy Desert" | "Holy Scrubland": atmosphere["Sacred"] = extent
         case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["Dazzle"] = extent
-        case "Icy Glacier" | "Icy Fjord": atmosphere["Rime"] = extent
-        case "Flaming Volcano" | "Flaming Peninsula": atmosphere["Smoke"] = extent
+        case "Flame Volcano" | "Flame Peninsula" | "Flame Lowland": atmosphere["Smoke"] = extent
+        case "Holy Desert" | "Holy Scrubland": atmosphere["Sacred"] = extent
+        case "Ice Glacier" | "Ice Fjord" | "Ice Highland": atmosphere["Rime"] = extent
+        case "Marsh": atmosphere["Noxious"] = extent
+        case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
     
     return atmosphere

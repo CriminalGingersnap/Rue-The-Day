@@ -14,9 +14,11 @@ def getSpeedLoss(fighter):
         
 
 def resetFighter(fighter) -> None:
+    fighter.attackQueue = []
+    fighter.cndt["blitzing"] = False
+
     fighter.atrb["cur_sp"] = fighter.atrb["base_sp"] - fighter.atrb["fatigue"]
     fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = fighter.atrb["base_mag"], fighter.atrb["base_mar"]
-    fighter.cndt["blitzing"] = False
 
     if fighter.props["type"] == "human":
         speedLoss = getSpeedLoss(fighter) - 2

@@ -1,4 +1,4 @@
-from Characters import AggressiveBeasts, AvoidantBeasts, Invertebrates, Insects, Reptiles
+from Characters import AggressiveBeasts, AvoidantBeasts, Birds, Invertebrates, Insects, Reptiles
 import random
 
 
@@ -26,6 +26,11 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
             case "moose": beast = AggressiveBeasts.moose(element, rankChoice).ch
             case "mole": beast = AvoidantBeasts.mole(element, rankChoice).ch
             case "seal": beast = AvoidantBeasts.seal(element, rankChoice).ch
+
+            case "crow": beast = Birds.crow(element, rankChoice).ch
+            case "eagle": beast = Birds.eagle(element, rankChoice).ch
+            case "hawk": beast = Birds.hawk(element, rankChoice).ch
+            case "ostrich": beast = Birds.ostrich(element, rankChoice).ch
 
             case "crocodile": beast = Reptiles.crocodile(element, rankChoice).ch
             case "drake": beast = Reptiles.drake(element, rankChoice).ch

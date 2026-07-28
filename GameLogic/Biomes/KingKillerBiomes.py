@@ -1,6 +1,4 @@
-from . import RandomCreatures, RandomElementals, RandomHumans
-from Systems import PlayerSelect as Select, Roll
-import random
+from . import RandomCreatures, RandomHumans
 
 
 # Soldiers, outlaws, and wildlife vie for space and resources.
@@ -55,10 +53,10 @@ def unsettledEncounters(roll, budget) -> list:
     match roll:
         case 1: members = RandomHumans.warriors("Soldier", element, majorBiome, budget)
         case 2: members = RandomHumans.warriors("Outlaw", element, majorBiome, budget)
-        case 3: members = RandomCreatures.creatures("lion", element, majorBiome, budget)
+        case 3: members = RandomCreatures.creatures("bear", element, majorBiome, budget)
         case 4: members = RandomCreatures.creatures("wyrm", "Toxic", majorBiome, budget)
-        case 5: members = RandomCreatures.creatures("ant", "Toxic", majorBiome, budget)
-        case 6: members = RandomCreatures.creatures("lizard", element, majorBiome, budget)
+        case 5: members = RandomCreatures.creatures("lizard", element, majorBiome, budget)
+        case 6: members = RandomCreatures.creatures("crow", element, majorBiome, budget)
         case 7: members = RandomCreatures.creatures("isopod", element, majorBiome, budget)
         case 8: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
         case 9: members = RandomCreatures.creatures("sheep", element, majorBiome, budget)
@@ -66,7 +64,7 @@ def unsettledEncounters(roll, budget) -> list:
         case 11: members = RandomCreatures.creatures("bat", element, majorBiome, budget)        
         case 12: members = RandomCreatures.creatures("lizard", "Rot", majorBiome, budget)
         case 13: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
-        case 14: members = RandomCreatures.creatures("lion", "Rot", majorBiome, budget)
+        case 14: members = RandomCreatures.creatures("bear", "Rot", majorBiome, budget)
         case 15: members = members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
 
     return members

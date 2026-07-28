@@ -32,7 +32,7 @@ def selectSpace(fighter, groups, boarders, source) -> int:
 
         counter, optionDict = 1, {"0": "None"}
         
-        blockers = ["?", "/"]
+        blockers = ["?", "/", ")"]
         if source in ["echo", "standard", "Slip"]: blockers += [".", "!", "e", "s"]
         if source == "standard": blockers += ["~"]
 

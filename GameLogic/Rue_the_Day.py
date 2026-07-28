@@ -34,14 +34,10 @@ Laura.equip["armor"].update({"name": "None", "modifier": 0})
 Laura.inv["echo"] = "None"
 
 
-tutorialWorld = World.kingKillerMap()
+tutorialWorld = World.metamorphosisMap()
 worldMap = tutorialWorld.worldMap
 marker = tutorialWorld.marker
-
-worldMap[0][6] = "w___↑"
-worldMap[2][6] = "w_..↑"
-worldMap[2][7] = "w/!!↑"
-marker.pos = [2, 6]
+worldMap[14][7] = "w/!!↑"
 
 marker.lastCleared.appendleft(marker.pos)
 marker.lastCleared.pop()
@@ -59,7 +55,7 @@ inTutorial = True
 while True:
     marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
     Print.printWorldMap(tutorialWorld)
-    Movement.moveFighter(marker, worldMap, None, None)
+    Movement.moveFighter(marker, worldMap, None, None, 24)
     marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
     if marker.pos not in marker.lastCleared:

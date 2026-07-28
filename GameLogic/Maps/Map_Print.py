@@ -21,10 +21,10 @@ def finishSpace(space, mapName) -> str:
     return space
 
 
-def printOptionsMap(instanceMap, mapName) -> None:
+def printOptionsMap(instanceMap, mapName, mapHeight=12) -> None:
     Select.waitPrint("\n" + mapName + ":\n")
 
-    for row in range(12):
+    for row in range(mapHeight):
         if "World" not in mapName:
             for column in range(12):
                 space = instanceMap[row][column]
@@ -72,7 +72,7 @@ def printWorldMap(world) -> None:
     displayList = []
 
     Select.waitPrint("\nWorld Map:\n")
-    for row in range(12):
+    for row in range(24):
         for column in range(12):
             biome = world.marker.sightMap[row][column][0]
             if biome not in displayList: displayList += biome

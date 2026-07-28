@@ -3,26 +3,28 @@ from . import Map_Update as uMap, MovementOptions as mOpts, Visibility_Fill as F
 unseen = "   ?"
 
 
-def createSightMap(battleMap, position, rank):
+def createSightMap(battleMap, position, rank, mapHeight=12):
     sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
+    if mapHeight == 24: sightMap = [[], [], [], [], [], [], [], [], [], [], [], [],
+                                    [], [], [], [], [], [], [], [], [], [], [], []]
 
     for column in range(12):
-        for row in range(12):
+        for row in range(mapHeight):
             sightMap[row] += [unseen + battleMap[row][column][-1]]
 
     row, column = position[0], position[1]
     sightMap[row][column] = battleMap[row][column]
 
     lookUp(rank, position, row, column, battleMap, sightMap)
-    lookDown(rank, position, row, column, battleMap, sightMap)
+    lookDown(rank, position, row, column, battleMap, sightMap, mapHeight)
     lookLeft(rank, position, row, column, battleMap, sightMap)
     lookRight(rank, position, row, column, battleMap, sightMap)
     lookUpLeft(rank, position, row, column, battleMap, sightMap) 
     lookUpRight(rank, position, row, column, battleMap, sightMap)
-    lookDownLeft(rank, position, row, column, battleMap, sightMap)
-    lookDownRight(rank, position, row, column, battleMap, sightMap)
+    lookDownLeft(rank, position, row, column, battleMap, sightMap, mapHeight)
+    lookDownRight(rank, position, row, column, battleMap, sightMap, mapHeight)
 
-    Fill.fillVisibilityMap(rank, position, row, column, battleMap, sightMap)
+    Fill.fillVisibilityMap(rank, position, row, column, battleMap, sightMap, mapHeight)
 
     return sightMap
 
@@ -54,10 +56,10 @@ def lookUp(rank, position, row, column, battleMap, sightMap):
             peak = look(position, newRow, column, battleMap, sightMap, peak)
             newRow -= 1
 
-def lookDown(rank, position, row, column, battleMap, sightMap):
+def lookDown(rank, position, row, column, battleMap, sightMap, mapHeight):
     if rank != "player":
         newRow, peak = row, 0
-        while newRow <= 11:
+        while newRow < mapHeight:
             peak = look(position, newRow, column, battleMap, sightMap, peak)
             newRow += 1
 
@@ -85,19 +87,19 @@ def lookUpRight(rank, position, row, column, battleMap, sightMap):
             newColumn += 1
             newRow -= 1
 
-def lookDownRight(rank, position, row, column, battleMap, sightMap):
+def lookDownRight(rank, position, row, column, battleMap, sightMap, mapHeight):
     if rank in ["player", "world"]:
         newRow, newColumn, peak = row, column, 0
-        while (newColumn <= 11) and (newRow <= 11):
+        while (newColumn <= 11) and (newRow < mapHeight):
             peak = look(position, newRow, newColumn, battleMap, sightMap, peak)        
             newColumn += 1
             newRow += 1
 
 
-def lookDownLeft(rank, position, row, column, battleMap, sightMap):
+def lookDownLeft(rank, position, row, column, battleMap, sightMap, mapHeight):
     if rank in ["player", "world"]:
         newRow, newColumn, peak = row, column, 0
-        while (newColumn >= 0) and (newRow <= 11):
+        while (newColumn >= 0) and (newRow < mapHeight):
             peak = look(position, newRow, newColumn, battleMap, sightMap, peak)            
             newColumn -= 1
             newRow += 1

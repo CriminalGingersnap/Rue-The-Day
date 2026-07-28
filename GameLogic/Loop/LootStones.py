@@ -10,7 +10,8 @@ def getStock(party) -> dict:
         for core in fighter.inv["cores"]:
             for quantity in range(fighter.inv["cores"][core]): stock["cores"] += [core]
 
-    stock.sort()
+    stock["pearls"].sort()
+    stock["cores"].sort()
     return stock
 
 

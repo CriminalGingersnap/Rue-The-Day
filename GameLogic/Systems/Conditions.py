@@ -37,9 +37,7 @@ def recoverHP(principal, points):
 def takeDamage(target, dmgType, damage) -> None:
     damage = Damage.applyResistance(damage, dmgType, target)
 
-    if dmgType != "Dream":
-        target.atrb["cur_hp"] = target.atrb["cur_hp"] - damage
-        setInjury(target)
+    if dmgType != "Dream": target.atrb["cur_hp"] = target.atrb["cur_hp"] - damage
     else: decrementStamina(target, damage)
 
 

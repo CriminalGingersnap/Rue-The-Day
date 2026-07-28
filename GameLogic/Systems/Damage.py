@@ -2,7 +2,7 @@ from . import PlayerSelect as Select
 from Abilities import Boons_Apply as Boons
 
 
-pierceAttacks = ["Bodkin", "Bite", "Broadhead", "Claw", "Stab"]
+pierceAttacks = ["Bodkin", "Bite", "Broadhead", "Claw", "Peck", "Stab"]
 crushAttacks = ["Bash", "Gore", "Pinch", "Ram", "Sling", "Kick"]
 venomAttacks = ["Spray", "Sting"]
 rotAttacks = ["Spit"]

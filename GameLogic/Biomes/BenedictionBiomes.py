@@ -1,8 +1,7 @@
 from . import RandomCreatures, RandomElementals, RandomHumans
-from Systems import PlayerSelect as Select, Roll
 
 
-def shoreEncounters(roll, budget) -> list:
+def duneEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Basic", False
 
     match roll:
@@ -13,7 +12,7 @@ def shoreEncounters(roll, budget) -> list:
         case 5: members = RandomCreatures.creatures("leech", "Toxic", majorBiome, budget)
         case 6: members = RandomCreatures.creatures("crab", element, majorBiome, budget)
         case 7: members = RandomCreatures.creatures("seal", element, majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("beetle", "Toxic", majorBiome, budget)
+        case 8: members = RandomCreatures.creatures("hawk", element, majorBiome, budget)
         case 9: members = RandomCreatures.creatures("isopod", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("urchin", "Toxic", majorBiome, budget)
         case 11: members = RandomCreatures.creatures("worm", element, majorBiome, budget)        
@@ -36,7 +35,7 @@ def seaCaveEncounters(roll, budget) -> list:
         case 6: members = RandomCreatures.creatures("octopus", element, majorBiome, budget)
         case 7: members = RandomCreatures.creatures("leech", "Toxic", majorBiome, budget)
         case 8: members = RandomCreatures.creatures("crab", "Basic", majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("beetle", "Holy", majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("centipede", "Toxic", majorBiome, budget)
         case 10: members = RandomCreatures.creatures("isopod", "Basic", majorBiome, budget)
         case 11: members = RandomCreatures.creatures("urchin", "Toxic", majorBiome, budget)        
         case 12: members = RandomCreatures.creatures("octopus", "Rot", majorBiome, budget)
@@ -55,16 +54,16 @@ def scrublandEncounters(roll, budget) -> list:
         case 2: members = RandomElementals.elementals("bull", element, majorBiome, budget)
         case 3: members = RandomElementals.elementals("wisp", element, majorBiome, budget)
         case 4: members = RandomCreatures.creatures("lion", element, majorBiome, budget)
-        case 5: members = RandomCreatures.creatures("hound", element, majorBiome, budget)
-        case 6: members = RandomCreatures.creatures("ant", "Toxic", majorBiome, budget)
-        case 7: members = RandomCreatures.creatures("sheep", element, majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("beetle", element, majorBiome, budget)
-        case 10: members = RandomCreatures.creatures("camel", element, majorBiome, budget)
+        case 5: members = RandomCreatures.creatures("ostrich", element, majorBiome, budget)
+        case 6: members = RandomCreatures.creatures("camel", element, majorBiome, budget)
+        case 7: members = RandomCreatures.creatures("hawk", element, majorBiome, budget)
+        case 8: members = RandomCreatures.creatures("ant", "Toxic", majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
+        case 10: members = RandomCreatures.creatures("beetle", element, majorBiome, budget)
         case 11: members = RandomCreatures.creatures("bat", element, majorBiome, budget)
-        case 12: members = RandomCreatures.creatures("camel", "Rot", majorBiome, budget)        
-        case 13: members = RandomCreatures.creatures("sheep", "Rot", majorBiome, budget)
-        case 14: members = RandomCreatures.creatures("hound", "Rot", majorBiome, budget)
+        case 12: members = RandomCreatures.creatures("hawk", "Rot", majorBiome, budget)        
+        case 13: members = RandomCreatures.creatures("camel", "Rot", majorBiome, budget)
+        case 14: members = RandomCreatures.creatures("ostrich", "Rot", majorBiome, budget)
         case 15: members = RandomCreatures.creatures("lion", "Rot", majorBiome, budget)
 
     return members
@@ -78,15 +77,14 @@ def desertEncounters(roll, budget) -> list:
         case 3: members = RandomElementals.elementals("bull", element, majorBiome, budget)
         case 4: members = RandomElementals.elementals("wisp", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("drake", element, majorBiome, budget)
-        case 6: members = RandomCreatures.creatures("wyrm", "Toxic", majorBiome, budget)
-        case 7: members = RandomCreatures.creatures("ant", "Toxic", majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("lizard", "Toxic", majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
+        case 6: members = RandomCreatures.creatures("ostrich", element, majorBiome, budget)
+        case 7: members = RandomCreatures.creatures("camel", element, majorBiome, budget)
+        case 8: members = RandomCreatures.creatures("ant", "Toxic", majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("lizard", "Toxic", majorBiome, budget)
         case 10: members = RandomCreatures.creatures("beetle", element, majorBiome, budget)
-        case 11: members = RandomCreatures.creatures("camel", element, majorBiome, budget)
-        case 12: members = RandomCreatures.creatures("camel", "Rot", majorBiome, budget)        
-        case 13: members = RandomCreatures.creatures("lizard", "Rot", majorBiome, budget)
-        case 14: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
+        case 12: members = RandomCreatures.creatures("lizard", "Rot", majorBiome, budget)        
+        case 13: members = RandomCreatures.creatures("camel", "Rot", majorBiome, budget)
+        case 14: members = RandomCreatures.creatures("ostrich", "Rot", majorBiome, budget)
         case 15: members = RandomCreatures.creatures("drake", "Rot", majorBiome, budget)
 
     return members
@@ -101,11 +99,11 @@ def encroachmentEncounter(roll, budget) -> list:
         case 3: members = RandomHumans.warriors("Outlaw", element, majorBiome, budget)
         case 4: members = RandomElementals.elementals("wisp", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("lion", element, majorBiome, budget)
-        case 6: members = RandomCreatures.creatures("hound", element, majorBiome, budget)
+        case 6: members = RandomCreatures.creatures("camel", element, majorBiome, budget)
         case 7: members = RandomCreatures.creatures("ant", "Toxic", majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("lizard", "Toxic", majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
-        case 10: members = RandomCreatures.creatures("camel", element, majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("lizard", "Toxic", majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("crow", "Basic", majorBiome, budget)
+        case 10: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
         case 11: members = RandomCreatures.creatures("isopod", "Toxic", majorBiome, budget)
         case 12: members = RandomCreatures.creatures("beetle", "Holy", majorBiome, budget)
         case 13: members = RandomElementals.elementals("wisp", "Holy", majorBiome, budget)
@@ -125,8 +123,8 @@ def locusEncounter(roll, budget) -> list:
         case 5: members = RandomHumans.warriors("Soldier", element, majorBiome, budget)
         case 6: members = RandomHumans.warriors("Outlaw", element, majorBiome, budget)
         case 7: members = RandomCreatures.creatures("drake", "Toxic", majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("wyrm", "Toxic", majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("lizard", "Toxic", majorBiome, budget)
+        case 8: members = RandomCreatures.creatures("lizard", "Toxic", majorBiome, budget)
+        case 9: members = RandomCreatures.creatures("crow", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("beetle", "Holy", majorBiome, budget)
         case 11: members = RandomCreatures.creatures("camel", element, majorBiome, budget) 
         case 12: members = RandomCreatures.creatures("drake", "Holy", majorBiome, budget)

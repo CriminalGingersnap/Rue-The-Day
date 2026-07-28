@@ -34,10 +34,10 @@ def commitDice(fighter, principal, boon) -> None:
     fighter.atrb[dType] -= newDice
 
     if boon in ["Conceal", "Veil"]:
-        roll = Apply.apply(principal, trueBoon)
+        roll = Apply.apply(principal, trueBoon, False)
         distance = max(10 - roll, 2)
         fighter.effects["Veil"]["additional"] = distance
-        Select.waitPrint("Fighter is concealed beyond " + str(distance) + " spaces.")
+        Select.waitPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.\n")
 
 
 def boonComment(fighter, principal, boon) -> None:

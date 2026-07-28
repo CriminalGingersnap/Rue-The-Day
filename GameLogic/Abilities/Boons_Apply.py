@@ -18,7 +18,7 @@ def expend(source, dice, ability, dType) -> int:
     else: return [0, 0]
 
 
-def apply(principal, ability) -> int:
+def apply(principal, ability, print=True) -> int:
     dice = principal.effects[ability]["dice"]
     source = principal.effects[ability]["source"]
     specific = principal.effects[ability]["ability"]
@@ -29,7 +29,9 @@ def apply(principal, ability) -> int:
 
     if (source != None) and (dice > 0):
         if principal in source.commits[ability]["targets"]:
-            Select.waitPrint(specific + " triggered!")
+            element = ""
+            if ability == "Wreath": element = source.commits[ability]["additional"] + " "
+            if print: Select.waitPrint(element + specific + " triggered!")
 
             roll = expend(source, dice, specific, dType)
             increase = roll[0]
@@ -47,7 +49,7 @@ def applyGuard(principal):
     bonus = apply(principal, "Guard")
     wreathBonus =  principal.effects["Wreath"]["dice"]
     if bonus > 0: Select.waitPrint(principal.props["name"] + "'s AV increases by " + str(bonus) + ".\n")
-    if wreathBonus > 0: Select.waitPrint(principal.props["name"] + "'s wreath increases AV by " + str(bonus) + ".\n")
+    if wreathBonus > 0: Select.waitPrint(principal.props["name"] + "'s wreath increases AV by " + str(wreathBonus) + ".\n")
 
     return bonus + wreathBonus
 
