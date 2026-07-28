@@ -18,7 +18,7 @@ def expend(source, dice, ability, dType) -> int:
     else: return [0, 0]
 
 
-def apply(principal, ability, print=True) -> int:
+def apply(principal, ability) -> int:
     dice = principal.effects[ability]["dice"]
     source = principal.effects[ability]["source"]
     specific = principal.effects[ability]["ability"]
@@ -56,7 +56,15 @@ def applyGuard(principal):
 
 def applyHeal(principal, ability) -> str:
     bonus = apply(principal, ability)
+    Select.waitPrint(principal.props["name"] + " heals " + str(bonus) + " points!")
     Conditions.recoverHP(principal, bonus)
+
+
+def applyVeil(principal):
+    roll = apply(principal, "Veil")
+    distance = max(10 - roll, 2)
+    principal.effects["Veil"]["additional"] = distance
+    Select.waitPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.\n")
 
 
 def applyWreath(principal, attackDmgType) -> int:

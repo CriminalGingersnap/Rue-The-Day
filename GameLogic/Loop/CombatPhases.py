@@ -1,7 +1,7 @@
 from Actions import MoveActions as Move, AbilityActions_Player as PlayerAbl, AbilityActions_NPC as NPCAbl
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
 from Systems import PlayerSelect as Select, Sort, Conditions, Effects, Commitments
-from Abilities import Items_Use as Items
+from Abilities import Items_Use as Items, Boons_Apply as Boons, Hindrances_Apply as Hindrances
 
 
 def getSpeedLoss(fighter):
@@ -53,10 +53,14 @@ def setSight(fighter, enemies, allies, battleMap, print):
 
 
 def outro(fighter):
+    Boons.applyHeal(fighter)
+    Hindrances.applyDrain(fighter)
     Items.regenerate(fighter)
     alive = Sort.setAlive(fighter)
 
     if alive:
+        Boons.applyVeil(fighter)
+
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
         if fighter.cndt["running"]:
             fighter.cndt["running"] = False

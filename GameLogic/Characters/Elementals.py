@@ -87,7 +87,7 @@ class wraith:
         else: abl["specialty"] = [random.choice(["Bring", "Heal"])]
 
         if element == "Holy": abl["areas"] += ["Bless"]
-        else: abl["areas"] += ["Hex"]
+        else: abl["areas"] += ["Screen"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Wraith", rank, stats, type)
         
@@ -238,7 +238,7 @@ class obelisk:
         else: abl["specialty"] = [random.choice(["Bring", "Veil"])]
 
         if element == "Holy": abl["areas"] += ["Bless"]
-        else: abl["areas"] += ["Hex"]
+        else: abl["areas"] += ["Screen"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Obelisk", rank, stats, type)
 
@@ -292,14 +292,9 @@ class grotesquery:
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
 
         if rank == "Greater":
-            dice["magic"] += 1
-            dice["martial"] += 1
-
-        abl["specialty"] = [random.choice(["Bash", "Stab", "Guard"])]
-        if rank == "Greater":
-            dice["magic"] += 3
-            secondSpecialty = [random.choice(["Bash", "Stab", "Guard"])]
-            Humans.correctSpecialties(abl, secondSpecialty)
+            dice["martial"] += 2
+            abl["mastery"] = [random.choice(["Bash", "Stab", "Guard"])]
+        else: abl["specialty"] = [random.choice(["Bash", "Stab", "Guard"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Grotesquery", rank, stats, type)
 
@@ -320,7 +315,7 @@ class shadow:
         else: abl["specialty"] = [random.choice(["Bring", "Heal"])]
 
         if element == "Holy": abl["areas"] += ["Bless"]
-        else: abl["areas"] += ["Hex"]
+        else: abl["areas"] += ["Screen"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Shadow", rank, stats, type)
         
@@ -336,7 +331,8 @@ class slime:
         abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Wreath"], "hindrances": ["Harry"]})
 
         if rank == "Greater":
-            dice["magic"] += 2
+            dice["martial"] += 1
+            dice["magic"] += 1
             abl["mastery"] = [random.choice(["Harry", "Pinch", "Wreath"])]
         else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Wreath"])]
 

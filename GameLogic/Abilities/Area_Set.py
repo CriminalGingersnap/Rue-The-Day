@@ -2,12 +2,12 @@ from Systems import PlayerSelect as Select, Roll
 from . import Area_Locate as Locate, Area_Apply as Apply
 from Maps import Map_Update as uMap
 
-areaAbilities = ["Bless", "Breath", "Hex", "Shroud", "Slip"]
+areaAbilities = ["Bless", "Breath", "Screen", "Shroud", "Slip"]
 
 
 def execute(fighter, groups, ability, battleMap) -> str:
     phrase, range = fighter.props["name"], 10
-    scale = fighter.atrb["cur_mag"]
+    scale = fighter.atrb["cur_mag"] // 2
     fighter.atrb["cur_mag"] = 0
 
     article = "a "
@@ -19,7 +19,7 @@ def execute(fighter, groups, ability, battleMap) -> str:
             range = 1
             if fighter.cndt["massive"]: range = 2
         case "Bless": phrase += " blesses the ground!"
-        case "Hex": phrase += " places " + article + fighter.atrb["cur_elm"] + " hex!"
+        case "Screen": phrase += " raises " + article + fighter.atrb["cur_elm"] + " screen!"
         case "Shroud": phrase += " emanates " + article + fighter.atrb["cur_elm"] + " shroud!"
         case "Slip": phrase += " slips between spaces! Rolling range."
 

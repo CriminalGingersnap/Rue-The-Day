@@ -32,7 +32,7 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         match warriorType:
             case "Outlaw":
                 rankChoice = random.choice(outlawRankOptions)
-                type = random.choice(["archer", "brute", "warlock"])
+                type = random.choice(["archer", "brute", "vampire"])
             case "Soldier":
                 rankChoice = random.choice(soldierRankOptions)
                 type = random.choice(["archer", "knight", "mage"])
@@ -55,4 +55,4 @@ def randomHuman(rank, type, element):
         
     match type:
         case "mage": return Humans.mage(element, rank).ch
-        case "warlock": return Humans.warlock(element, rank).ch
+        case "vampire": return Humans.vampire(element, rank).ch

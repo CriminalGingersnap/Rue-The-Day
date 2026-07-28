@@ -2,7 +2,7 @@ from Systems import PlayerSelect as Select
 import random
 
 
-martialHindrances = ["Bind", "Harry"]
+martialHindrances = ["Bind", "Drain", "Harry"]
 magicHindrances = ["Compel", "Confuse", "Confound", "Seal"]
 
 
@@ -42,6 +42,7 @@ def hindranceComment(fighter, target, hindrance) -> str:
         case "Compel": phrase += " attempts to compel " + end
         case "Confound": phrase += " confounds " + end
         case "Confuse": phrase += " confuses " + end
+        case "Drain": phrase += " drains spent vitality from " + end
         case "Harry":
             phrase += " harries " + end
             trueHindrance = "Confuse"
@@ -50,5 +51,4 @@ def hindranceComment(fighter, target, hindrance) -> str:
             trueHindrance = "Compel"
 
     Select.waitPrint(phrase)
-    return trueHindrance 
-
+    return trueHindrance

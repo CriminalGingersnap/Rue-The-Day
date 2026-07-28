@@ -36,6 +36,8 @@ def usefulHindrances(fighter, enemies, allies):
         if canCompel(fighter, enemy):
             hindrancePreferences += ["Compel"]
             hindrancePreferences += ["Seal"]
+        if enemy.atrb["cur_hp"] < enemy.atrb["base_hp"]:
+            hindrancePreferences += ["Drain"]
 
     selfMar = any(attack in Attacks.martialAttack for attack in fighter.abl["attacks"])
     for ally in allies:

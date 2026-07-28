@@ -51,7 +51,7 @@ class deathShell:
         cndt["aquatic"], cndt["armored"], cndt["lifeless"], cndt["sapient"] = True, True, True, True
 
         dice = {"martial": 2, "magic": 4}
-        abl = Characters.setAbilities(type, {"areas": ["Hex"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
+        abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Shell", rank, stats, type)

@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Conditions
 from . import Boons_Apply as Boons
 from Actions import HindranceActions as Hinder
 
@@ -51,5 +51,27 @@ def applyConfuse(target) -> int:
 
 def applyConfound(target) -> int:
     reduction = Boons.apply(target, "Confound")
-    if reduction > 0: Select.waitPrint(target.props["name"] + "'s attempt decreases by " + str(reduction))
+    if reduction > 0: Select.waitPrint(target.props["name"] + "'s attempt decreases by " + str(reduction) + ".")
     return reduction
+
+
+def applyDrain(principal) -> int:
+    target = principal.commits["Drain"]["target"]
+    cap = target.atrb["base_hp"] - target.atrb["cur_hp"]
+
+    if (cap > 0) and not target.cndt["lifeless"]:
+        Conditions.takeDamage(target, "Bleed", principal.commits["Drain"]["dice"])
+
+        cap = target.atrb["base_hp"] - target.atrb["cur_hp"]
+        Select.waitPrint(target.props["name"] + " has lost " + str(cap) + " points of health.")
+
+        gain = Boons.apply(target, "Drain")
+        if principal.props["type"] != target.props["type"]:
+            Select.waitPrint("Drain is half effective between creatures of different types.")
+            gain //= 2
+
+        if gain > 0:
+            Select.waitPrint(principal.props["name"] + " heals " + str(gain) + " points!")
+            Conditions.recoverHP(principal, gain)
+    else:
+        Select.waitPrint(target.props["name"] + " has no spilled blood to sup.")

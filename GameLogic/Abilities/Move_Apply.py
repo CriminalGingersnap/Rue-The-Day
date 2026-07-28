@@ -3,7 +3,7 @@ from Systems import PlayerSelect as Select, Conditions
 from . import Attacks_Martial as Martial
 from Actions import ItemActions
 
-stationaryAbilities = ["Empower", "Examine", "Inventory", "Swap Shield", "Swap Weapon"]
+stationaryAbilities = ["Examine", "Inventory", "Swap Shield", "Swap Weapon"]
 
 
 def execute(fighter, groups, ability, battleMap) -> None: 
@@ -11,20 +11,12 @@ def execute(fighter, groups, ability, battleMap) -> None:
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
-        case "Empower": applyEmpower(fighter)
         case "Examine": applyExamine(visibleTargets)
         case "Inventory": ItemActions.itemAction(fighter, groups, battleMap)
         case "Swap Shield": ItemActions.swapShield(fighter)
         case "Swap Weapon": ItemActions.swapWeapon(fighter)
 
     fighter.atrb["cur_sp"] = 0
-
-
-def applyEmpower(fighter) -> None:
-    Conditions.decrementTolerance(fighter, fighter.atrb["cur_mag"])
-    fighter.atrb["cur_mar"] += fighter.atrb["cur_mag"]
-    fighter.atrb["cur_mag"] = 0
-    Select.waitPrint(fighter.props["name"] + " empowers their body with magic!")  
 
 
 def applyExamine(visibleTargets) -> None:

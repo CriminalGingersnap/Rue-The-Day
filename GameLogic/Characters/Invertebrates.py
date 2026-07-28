@@ -28,9 +28,9 @@ class leech:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["aquatic"], cndt["reposed"], cndt["skittish"] = True, False, False
 
-        dice = {"martial": 1, "magic": 1}
+        dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"],"boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Drain"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Leech", rank, stats, type)
 

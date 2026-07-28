@@ -7,9 +7,6 @@ import random, copy
 
 def moveAction(fighter, groups, battleMap) -> None:
     posOptions = copy.deepcopy(fighter.abl["areas"])
-
-    if (fighter.atrb["cur_mag"] > 0) and (fighter.atrb["cur_mar"] > 0):
-        if (fighter.props["rank"] == "player") or (fighter.atrb["corruption"] == 0): posOptions += ["Empower"]
     
     if ("Inventory" in posOptions) and not ItemActions.hasItems(fighter): posOptions.remove("Inventory")
     if "spares" in fighter.inv:
