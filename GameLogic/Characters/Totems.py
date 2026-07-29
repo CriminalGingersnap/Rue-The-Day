@@ -42,7 +42,7 @@ class impedance:
     def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice, = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"hindrance": ["Confuse", "Confound"]})
+        abl = Characters.setAbilities(type, {"hindrances": ["Confuse", "Confound"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Impedance", stats, type)
 
 

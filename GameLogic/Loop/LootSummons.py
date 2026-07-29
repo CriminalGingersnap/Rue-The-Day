@@ -35,6 +35,7 @@ def lootEchos(players, creatures) -> None:
                 echo.props["initials"] = player.props["name"][0] + "e"
                 echo.props["name"] = player.props["name"] + "'s Echo"
                 echo.props["rank"] = "player"
+                echo.props["type"] = "echo"
 
                 player.inv["echo"] = echo
                 

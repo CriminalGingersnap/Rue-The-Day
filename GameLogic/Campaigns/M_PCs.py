@@ -17,13 +17,13 @@ def getMetamorphosisGroup() -> list:
 
 def getLaura():
     Laura = Humans.mage("Flame", "Elite").ch
-    Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "Laura", "L."
+    Laura.props["name"], Laura.props["initials"] = "Laura", "L."
     B_PCs.resetPlayer(Laura)
     return Laura
 
 def getMartin():
     Martin = Humans.knight("Basic", "Elite").ch
-    Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "Martin", "M."
+    Martin.props["name"], Martin.props["initials"] = "Martin", "M."
     B_PCs.resetPlayer(Martin)
 
     totem = Totems.guidance("Dream", "Standard").ch

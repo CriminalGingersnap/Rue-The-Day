@@ -7,7 +7,6 @@ from Loop import Encounters
 from Maps import World, Movement, Map_Print as Print
 from Systems import PlayerSelect as Select
 from GameState import SaveLoad as Save
-from Campaigns import M_PCs, B_PCs
 
 
 def adventure(group):
@@ -39,10 +38,10 @@ def adventure(group):
         elif marker.pos == marker.lastCleared[0]:
             takeRest = Select.yesNo("Rest and Save Game?")
             if takeRest:
-                Encounters.takeRest(group)
+                Encounters.rest(group)
                 Print.printWorldMap(world)
 
 
-# B_group = B_PCs.getBenedictionGroup()
-M_group = M_PCs.getMetamorphosisGroup()
+# B_group = Save.loadGroup("Benediction")
+M_group = Save.loadGroup("Metamorphosis")
 adventure(M_group)

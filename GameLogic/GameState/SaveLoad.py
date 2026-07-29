@@ -1,5 +1,7 @@
+from Campaigns import B_PCs, M_PCs
 from Characters import Characters
 from Maps import World
+from Systems import PlayerSelect as Select
 from pathlib import Path
 import json
 
@@ -27,18 +29,20 @@ class nullWorld:
         self.marker = None
 
 
-def saveCharacter(fighter, campaign, name) -> None:
-    if fighter.inv["echo"] == "None":
-        setFilePath(campaign, name + "sEcho").unlink(missing_ok = True)
-    else:
-        saveCharacter(fighter.inv["echo"], campaign, name + "sEcho")
-        fighter.inv["echo"] = "None"
+def saveCharacter(fighter, campaign, slot, name) -> None:
+    if "echo" in fighter.inv:
+        if fighter.inv["echo"] == "None":
+            setFilePath(campaign, slot, name + "sEcho").unlink(missing_ok = True)
+        else:
+            saveCharacter(fighter.inv["echo"], campaign, slot, name + "sEcho")
+            fighter.inv["echo"] = "None"
 
-    if fighter.inv["standard"] == "None":
-        setFilePath(campaign, name + "sStandard").unlink(missing_ok = True)
-    else:
-        saveCharacter(fighter.inv["standard"], campaign, name + "sStandard")
-        fighter.inv["standard"] = "None"
+    if "standard" in fighter.inv:
+        if fighter.inv["standard"] == "None":
+            setFilePath(campaign, slot, name + "sStandard").unlink(missing_ok = True)
+        else:
+            saveCharacter(fighter.inv["standard"], campaign, slot, name + "sStandard")
+            fighter.inv["standard"] = "None"
     
     save = {
         "abl": fighter.abl,
@@ -49,11 +53,12 @@ def saveCharacter(fighter, campaign, name) -> None:
         "props": fighter.props
     }
     
-    with open(setFilePath(campaign, name), 'w') as jsonFile:
+    with open(setFilePath(campaign, slot, name), 'w') as jsonFile:
         json.dump(save, jsonFile, indent=4)
 
-def loadCharacter(fighter, campaign, name) -> None:
-    with open(setFilePath(campaign, name), 'r') as jsonFile:
+
+def loadCharacter(fighter, campaign, slot, name) -> None:
+    with open(setFilePath(campaign, slot, name), 'r') as jsonFile:
         load = json.load(jsonFile)
         fighter.abl = load["abl"]
         fighter.atrb = load["atrb"]
@@ -64,43 +69,50 @@ def loadCharacter(fighter, campaign, name) -> None:
 
     try:
         echo = nullCharacter()
-        loadCharacter(echo, campaign, name + "sEcho")
+        loadCharacter(echo, campaign, slot, name + "sEcho")
         fighter.inv["echo"] = echo
     except FileNotFoundError: pass
 
     try:
         standard = nullCharacter()
-        loadCharacter(standard, campaign, name + "sStandard")
+        loadCharacter(standard, campaign, slot, name + "sStandard")
         fighter.inv["standard"] = echo
     except FileNotFoundError: pass
 
+    Select.waitPrint(fighter.props["name"] + " loaded.")
 
-def saveWorld(world, campaign)-> None:
+
+def saveWorld(world, campaign, slot)-> None:
     save = {
         "map": world.worldMap,
         "legend": world.legend,
         "start": world.marker.pos
     }
     
-    with open(setFilePath(campaign, "World"), 'w') as jsonFile:
+    with open(setFilePath(campaign, slot, "World"), 'w') as jsonFile:
         json.dump(save, jsonFile, indent=4)
 
-def loadWorld(world, campaign) -> None:
-    with open(setFilePath(campaign, "World"), 'r') as jsonFile:
+def loadWorld(world, campaign, slot) -> None:
+    with open(setFilePath(campaign, slot, "World"), 'r') as jsonFile:
         load = json.load(jsonFile)
         world.worldMap = load["map"]
         world.legend = load["legend"]
         world.start = load["start"]
         world.marker = World.mapMarker(load["map"], load["start"])
 
+    Select.waitPrint(campaign + " world loaded.")
+
 
 def saveGroup(group) -> None:
+    Select.waitPrint("Enter Save Slot (3 Per Campaign):")
+    slot = str(Select.takeInput(1, 3))
+
     memberNames = []
     for member in group["members"]:
-        saveCharacter(member, group["campaign"], member.props["name"])
+        saveCharacter(member, group["campaign"], slot, member.props["name"])
         memberNames += [member.props["name"]]
     
-    saveWorld(group["world"], group["campaign"])
+    saveWorld(group["world"], group["campaign"], slot)
 
     save = {
         "campaign": group["campaign"],
@@ -108,35 +120,46 @@ def saveGroup(group) -> None:
         "members": memberNames,
     }
 
-    with open(setFilePath(group["campaign"], "Group"), 'w') as jsonFile:
+    with open(setFilePath(group["campaign"], slot, "Group"), 'w') as jsonFile:
         json.dump(save, jsonFile, indent=4)
 
+
 def loadGroup(campaign) -> dict:
-    nullWorld = nullWorld()
+    world = nullWorld()
 
     group = {
         "campaign": "",
         "days": 0,
         "members": [],
-        "world": nullWorld
+        "world": world
     }
 
-    with open(setFilePath(campaign, "Group"), 'r') as jsonFile:
-        load = json.load(jsonFile)
-        group["campaign"] = load["campaign"]
-        group["days"] = load["days"]
+    Select.waitPrint("Enter Save Slot (1-3):")
+    slot = str(Select.takeInput(1, 3))
 
-        for name in load["members"]:
-            nullPC = nullCharacter()
-            loadCharacter(nullPC, "Metamorphosis", name)
-            group["members"] += [nullPC]
+    try:
+        with open(setFilePath(campaign, slot, "Group"), 'r') as jsonFile:
+            load = json.load(jsonFile)
+            group["campaign"] = load["campaign"]
+            group["days"] = load["days"]
 
-    loadWorld(nullWorld, campaign, "Map")
+            for name in load["members"]:
+                fighter = nullCharacter()
+                loadCharacter(fighter, campaign, slot, name)
+                group["members"] += [fighter]
+
+        loadWorld(nullWorld, campaign, slot)
+
+    except FileNotFoundError:
+        Select.waitPrint("New Game")
+        match campaign:
+            case "Benediction": group = B_PCs.getBenedictionGroup()
+            case "Metamorphosis": group = M_PCs.getMetamorphosisGroup()
 
     return group
 
 
-def setFilePath(campaign, template) -> Path:
-    fileName = campaign + '/' + template + '.json'
+def setFilePath(campaign, slot, template) -> Path:
+    fileName = campaign + '/' + slot + "/" + template + '.json'
     save_dir = Path(__file__).resolve().parent
     return save_dir / fileName

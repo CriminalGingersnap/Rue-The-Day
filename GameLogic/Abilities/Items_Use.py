@@ -33,8 +33,6 @@ def animate(fighter, groups, battleMap) -> None:
     if tossSpace == "None": Select.waitPrint(fighter.name + " cancels a throw before animation.")
     else:
         echo.itemEffects["Animate"]["duration"] = 3
-        echo.itemEffects["Animate"]["additional"] = True
-
         echo.sightMap + Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
         uMap.updatePlacement(battleMap, echo.sightMap, tossSpace[0], tossSpace[1], echo)
 

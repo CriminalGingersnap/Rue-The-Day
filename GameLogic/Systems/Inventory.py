@@ -68,7 +68,6 @@ def humanInventory(element, rank) -> dict:
             budget -= coreCount * 2
         if budget > 1:
             echo = RandomCreatures.creatures("random", "Basic", "False", budget)[0]
-            echo.atrb["cur_hp"] = echo.atrb["base_hp"] = echo.atrb["half_hp"]
             setLifeless(echo)
 
         inventory["pearls"]["Bleed"] = vita
@@ -85,6 +84,7 @@ def setLifeless(echo):
     echo.atrb["cur_res"] = copy.deepcopy(echo.atrb["nat_res"])
 
     echo.cndt.update({"lifeless": True, "social": False, "skittish": False})
+    echo.props["type"] = "echo"
 
 
 def beastInventory(hp, element, rank, type) -> dict:

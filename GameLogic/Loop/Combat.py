@@ -37,9 +37,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
     downedFighters, downedTargets = sortedOffense[1], sortedTarget[1]
     npcGroup = offenseGroup[0].props["rank"] != "player"
 
-    if any((fighter.props["rank"] == "player" and fighter.props["type"] == "human") for fighter in downedFighters):
+    if any(((fighter.props["rank"] == "player") and (fighter.props["type"] not in ["echo", "totem"])) for fighter in downedFighters):
         return [False, None]
-    elif any((target.props["rank"] == "player" and target.props["type"] == "human") for target in downedTargets):
+    elif any(((target.props["rank"] == "player") and (target.props["type"] not in ["echo", "totem"])) for target in downedTargets):
         Select.slowPrint("\nPlayer defeat.\n")
         input("Press Enter to resolve.")
         return [True, None]

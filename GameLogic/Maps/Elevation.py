@@ -181,25 +181,30 @@ def adjustEnvironment(battleMap, environment):
             for row in range(12):
                 for column in range(12):
                     flood(battleMap, row, column, 2)
+                    if battleMap[row][column][0] == "_":
+                        battleMap[row][column] = "-" + battleMap[row][column][1:]
 
         case "Hearts":
             for row in range(12):
                 for column in range(12):
                     if "/" not in battleMap[row][column]:
                         flood(battleMap, row, column, 1)
-                        if down in battleMap[row][column]:
-                            battleMap[row][column] = "=" + battleMap[row][column][1:]
-                        if middle in battleMap[row][column]:
-                            battleMap[row][column] = "-" + battleMap[row][column][1:]
+                        if battleMap[row][column][0] == "_":
+                            if down in battleMap[row][column]:
+                                battleMap[row][column] = "=" + battleMap[row][column][1:]
+                            if middle in battleMap[row][column]:
+                                battleMap[row][column] = "-" + battleMap[row][column][1:]
                     
         case "Diamonds":
             for row in range(12):
                 for column in range(12):
-                    if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
-                            battleMap[row][column] = "=" + battleMap[row][column][1:]
-                    if any(upper in battleMap[row][column] for upper in [middle, up]):
-                        battleMap[row][column] = "-" + battleMap[row][column][1:]
-                    
+                    if battleMap[row][column][0] == "_":
+                        if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
+                            battleMap[row][column] = "-" + battleMap[row][column][1:]
+                    elif battleMap[row][column][0] in ["-", "="]:
+                        if any(upper in battleMap[row][column] for upper in [middle, up]):
+                            battleMap[row][column] = "_" + battleMap[row][column][1:]
+
 
 def flood(battleMap, row, column, severity):
     elevation = doubleDown
@@ -212,5 +217,4 @@ def flood(battleMap, row, column, severity):
             battleMap[row][column] = iMap.pool[:-1] + elevation
 
         elif ("/" not in battleMap[row][column]) and (severity == 2) and (down in battleMap[row][column]):
-            if random.choice([True, False, False]): battleMap[row][column] = iMap.pool[:-1] + elevation
-            else: battleMap[row][column] = battleMap[row][column][:-1] + middle
+            battleMap[row][column] = iMap.pool[:-1] + elevation

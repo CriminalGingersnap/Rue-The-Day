@@ -101,7 +101,7 @@ def activateHazards(fighter, battleMap):
         points, dmgType = 0, identifyAtmosphere(atmosphere)
         scale = getScale(atmosphere)
         
-        if (fighter.props["type"] == "elemental") and (fighter.atrb["cur_elm"] == dmgType):
+        if (fighter.props["type"] in ["elemental", "echo"]) and (fighter.atrb["cur_elm"] == dmgType):
             Select.waitPrint("\nMap causes " + str(points) + " healing for " + fighter.props["name"] + "!")
             Conditions.recoverHP(fighter, scale)
         else:

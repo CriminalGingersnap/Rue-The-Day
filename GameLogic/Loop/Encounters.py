@@ -68,5 +68,5 @@ def refresh(fighter) -> None:
     fighter.atrb["cur_hp"] = fighter.atrb["base_hp"]
     fighter.atrb["injury"] = 0
 
-    if fighter.inv["echo"] != "None": refresh(fighter.inv["echo"])
-    if fighter.inv["standard"] != "None": refresh(fighter.inv["standard"])
+    if ("echo" in fighter.inv) and (fighter.inv["echo"] != "None"): refresh(fighter.inv["echo"])
+    if ("standard" in fighter.inv) and (fighter.inv["standard"] != "None"): refresh(fighter.inv["standard"])
