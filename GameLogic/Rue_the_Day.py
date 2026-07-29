@@ -3,74 +3,46 @@
 #  #2: Complex outcomes from simple systems
 #  #3: Minimize interruptions and downtime
 
-from Characters import Humans, Totems
 from Loop import Encounters
 from Maps import World, Movement, Map_Print as Print
 from Systems import PlayerSelect as Select
 from GameState import SaveLoad as Save
+from Campaigns import M_PCs, B_PCs
 
 
-Martin = Humans.knight("Basic", "Elite").ch
-Martin.atrb["corruption"], Martin.atrb["fatigue"], Martin.atrb["injury"] = 0, 0, 0
-Martin.props["rank"], Martin.props["name"], Martin.props["initials"] = "player", "Martin", "M."
-Martin.equip["armor"].update({"name": "None", "modifier": 0})
-Martin.inv["echo"] = "None"
+def adventure(group):
+    world = group["world"]
 
-totem = Totems.guidance("Dream", "Standard").ch
-totem.cndt["planted"], totem.cndt["reposed"] = False, False
-totem.props["initials"], totem.props["name"] = "Ms", "Martin's Standard"
-Martin.inv["standard"] = totem
+    marker, worldMap = world.marker, world.worldMap
+    marker.lastCleared.appendleft(marker.pos)
+    marker.lastCleared.pop()
 
-Willem = Humans.dragonslayer("Basic", "Master").ch
-Willem.atrb["corruption"], Willem.atrb["fatigue"], Willem.atrb["injury"] = 0, 0, 0
-Willem.props["rank"], Willem.props["name"], Willem.props["initials"] = "player", "Willem", "W."
-Willem.equip["armor"].update({"name": "None", "modifier": 0})
-Willem.inv["echo"] = "None"
-
-Laura = Humans.mage("Flame", "Elite").ch
-Laura.atrb["corruption"], Laura.atrb["fatigue"], Laura.atrb["injury"] = 0, 0, 0
-Laura.props["rank"], Laura.props["name"], Laura.props["initials"] = "player", "Laura", "L."
-Laura.equip["armor"].update({"name": "None", "modifier": 0})
-Laura.inv["echo"] = "None"
-
-
-tutorialWorld = World.metamorphosisMap()
-worldMap = tutorialWorld.worldMap
-marker = tutorialWorld.marker
-worldMap[14][7] = "w/!!↑"
-
-marker.lastCleared.appendleft(marker.pos)
-marker.lastCleared.pop()
-
-group1 = {
-    "campaign": "Metamorphosis",
-    "days": 0,
-    "members": [Laura, Martin],
-    "world": tutorialWorld
-}
-
-
-marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
-Print.printWorldMap(tutorialWorld)
-
-while True:
     marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
-    Movement.moveFighter(marker, worldMap, None, None, 24, "world")
-    marker.atrb["cur_sp"] = marker.atrb["base_sp"]
+    Print.printWorldMap(world)
 
-    if marker.pos not in marker.lastCleared:
-        Select.waitPrint("Encounter triggered!!!")
+    while True:
+        marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
+        Movement.moveFighter(marker, worldMap, None, None, 24, "world")
+        marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
-        row, column = marker.pos[0], marker.pos[1]
-        letter = worldMap[row][column][0]
-        biome = tutorialWorld.legend[letter]
-        Encounters.encounterLoop(group1, biome)
+        if marker.pos not in marker.lastCleared:
+            Select.waitPrint("Encounter triggered!!!")
 
-        marker.lastCleared.appendleft(marker.pos)
-        marker.lastCleared.pop()
+            row, column = marker.pos[0], marker.pos[1]
+            letter = worldMap[row][column][0]
+            biome = world.legend[letter]
+            Encounters.encounterLoop(group, biome)
 
-    elif marker.pos == marker.lastCleared[0]:
-        takeRest = Select.yesNo("Rest and Save Game?")
-        if takeRest:
-            Encounters.takeRest(group1)
-            Print.printWorldMap(tutorialWorld)
+            marker.lastCleared.appendleft(marker.pos)
+            marker.lastCleared.pop()
+
+        elif marker.pos == marker.lastCleared[0]:
+            takeRest = Select.yesNo("Rest and Save Game?")
+            if takeRest:
+                Encounters.takeRest(group)
+                Print.printWorldMap(world)
+
+
+# B_group = B_PCs.getBenedictionGroup()
+M_group = M_PCs.getMetamorphosisGroup()
+adventure(M_group)

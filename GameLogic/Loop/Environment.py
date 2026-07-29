@@ -10,17 +10,17 @@ def updateAce(ace, biome):
     threshold = 0
 
     match biome:
-        case "Holy Desert" | "Rot Locus":
+        case "Holy Desert" | "Rot Locus" | "Ice Peak":
             match ace:
                 case "Spades" | "Clubs": threshold = 3
                 case "Hearts": threshold = 5
                 case "Diamonds": threshold = 12
-        case "Holy Scrubland" | "Frozen Glacier" | "Rot Encroachment":
+        case "Holy Scrubland" | "Ice Glacier" | "Rot Encroachment":
             match ace:
                 case "Spades" | "Clubs": threshold = 5
                 case "Hearts": threshold = 7
                 case "Diamonds": threshold = 9
-        case "Dream Sea-Cave" | "Frozen Fjord" | "Marshland" | "Shoreline Dunes": 
+        case "Dream Sea-Cave" | "Ice Fjord" | "Marshland" | "Marsh Depths" | "Shoreline Dunes" | "Shoreline Nests": 
             match ace:
                 case "Spades" | "Clubs": threshold = 9
                 case "Hearts": threshold = 5
@@ -37,11 +37,11 @@ def updateAce(ace, biome):
             case "Spades":
                 ace = "Clubs"
                 backs[0] = aces[0]
-                Select.conversationPrint("Tides rise, or rain falls thick from heavy clouds. Whatever its source, water collects in deep pools.")
+                Select.conversationPrint("Tides rise, rivers flood, ice melts, or rain falls thick from heavy clouds. Water collects in deep pools.")
             case "Clubs":
                 ace = "Hearts"
                 backs[1] = aces[1]
-                Select.conversationPrint("Rain abates, or tides recede. Water levels drop while heavy fog accumulates.")    
+                Select.conversationPrint("Rain abates, melting ends, or tides and rivers recede. Water levels drop while heavy fog accumulates.")    
             case "Hearts":
                 ace = "Diamonds"
                 backs[2] = aces[2]

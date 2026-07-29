@@ -37,7 +37,7 @@ class benedictionMap:
                         "i": "Ice Highland", "I": "Ice Peak", "m": "Marshland", "M": "Marsh Depths",
                          "r": "Rot Encroachment", "R": "Rot Locus", "s": "Shoreline Dunes", "S": "Shoreline Nests"}
 
-        self.ace = "Club"
+        self.bosses = {"Leviathan": [3, 11], "Lich": [1, 0], "Vampire": [23, 11]}
         self.start = [5, 9]
         self.marker = mapMarker(self.worldMap, self.start)
 
@@ -77,7 +77,6 @@ class metamorphosisMap:
                          "m": "Marshland", "o": "Outlaw Camp", "o": "Outlaw Stronghold", "s": "Shoreline Dunes",
                           "w": "Wildlands Pass", "W": "Wildlands Bay"}
 
-        self.ace = "Club"
         self.bosses = {"Giant": [0, 5], "Strider": [6, 0], "Worm": [1, 11]}
         self.start = [14, 6]
         self.marker = mapMarker(self.worldMap, self.start)
