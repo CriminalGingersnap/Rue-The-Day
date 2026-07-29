@@ -5,6 +5,8 @@ import random
 def warriors(warriorType, element, majorBiome, diceBudget) -> list:
     warriorList = []
     outlawRankOptions, soldierRankOptions = ["Novice", "Proficient", "Adept"], ["Proficient", "Adept", "Elite"]
+    outlawJobOptions, soldierJobOptions = ["archer", "brute"], ["archer", "knight", "mage"]
+
     if majorBiome:
         outlawRankOptions += ["Elite"]
         soldierRankOptions += ["Master"]
@@ -28,16 +30,15 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         warriorList += [totem]
 
     while diceBudget > 0:
-        warrior, type, rankChoice = None, "", ""
-        match warriorType:
-            case "Outlaw":
-                rankChoice = random.choice(outlawRankOptions)
-                type = random.choice(["archer", "brute", "vampire"])
-            case "Soldier":
-                rankChoice = random.choice(soldierRankOptions)
-                type = random.choice(["archer", "knight", "mage"])
+        warrior, type, rank = None, "", ""
+        if warriorType == "Outlaw":
+            rank = random.choice(outlawRankOptions)
+            type = random.choice(outlawJobOptions)
+        else:
+            rank = random.choice(soldierRankOptions)
+            type = random.choice(soldierJobOptions)
 
-        warrior = randomHuman(rankChoice, type, element)
+        warrior = randomHuman(rank, type, element)
         diceBudget -= (warrior.atrb["base_mag"] + warrior.atrb["base_mar"])
         warriorList += [warrior]
         
@@ -49,10 +50,6 @@ def randomHuman(rank, type, element):
         case "archer": return Humans.archer(element, rank).ch
         case "brute": return Humans.brute(element, rank).ch
         case "knight": return Humans.knight(element, rank).ch
-
-    if element == "Basic": 
-        element = random.choice(["Flame", "Dream", "Ice"])
-        
-    match type:
-        case "mage": return Humans.mage(element, rank).ch
-        case "vampire": return Humans.vampire(element, rank).ch
+        case "mage":
+            if element == "Basic": element = random.choice(["Flame", "Dream", "Ice"])
+            return Humans.mage(element, rank).ch

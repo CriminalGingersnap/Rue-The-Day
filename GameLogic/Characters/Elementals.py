@@ -238,7 +238,7 @@ class obelisk:
         else: abl["specialty"] = [random.choice(["Bring", "Veil"])]
 
         if element == "Holy": abl["areas"] += ["Bless"]
-        else: abl["areas"] += ["Screen"]
+        else: abl["areas"] += ["Shroud"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Obelisk", rank, stats, type)
 
@@ -328,12 +328,12 @@ class slime:
         stats["speed"] = "low"
 
         dice = {"martial": 1, "magic": 2}
-        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Wreath"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Spit"], "boons": ["Wreath"], "hindrances": ["Drain"]})
 
         if rank == "Greater":
             dice["martial"] += 1
             dice["magic"] += 1
-            abl["mastery"] = [random.choice(["Harry", "Pinch", "Wreath"])]
-        else: abl["specialty"] = [random.choice(["Harry", "Pinch", "Wreath"])]
+            abl["mastery"] = [random.choice(["Drain", "Spit", "Wreath"])]
+        else: abl["specialty"] = [random.choice(["Drain", "Spit", "Wreath"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Slime", rank, stats, type)

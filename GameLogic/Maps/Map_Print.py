@@ -83,6 +83,7 @@ def printWorldMap(world) -> None:
                 if Elevation.doubleDown in worldSpace: console.print("[blue]" + worldSpace + "[/blue]", end = "")
                 else: console.print("[cyan]" + worldSpace + "[/cyan]", end = "")
             elif "/" in worldSpace: console.print("[gray]" + worldSpace + "[/gray]", end = "")
+            elif ")" in worldSpace: console.print("[purple]" + worldSpace + "[/purple]", end = "")
             else: print(worldSpace, end = "")
         print()
     print()

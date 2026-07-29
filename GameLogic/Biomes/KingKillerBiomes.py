@@ -34,7 +34,7 @@ def marshEncounters(roll, budget) -> list:
         case 4: members = RandomCreatures.creatures("turtle", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("crab", element, majorBiome, budget)
         case 6: members = RandomCreatures.creatures("leech", "Toxic", majorBiome, budget)
-        case 7: members = RandomCreatures.creatures("lizard", element, majorBiome, budget)
+        case 7: members = RandomCreatures.creatures("hawk", element, majorBiome, budget)
         case 8: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
         case 9: members = RandomCreatures.creatures("tortoise", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("deer", element, majorBiome, budget)
@@ -42,7 +42,7 @@ def marshEncounters(roll, budget) -> list:
         case 12: members = RandomCreatures.creatures("turtle", "Rot", majorBiome, budget)
         case 13: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
         case 14: members = RandomCreatures.creatures("crocodile", "Rot", majorBiome, budget)
-        case 15: members = members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
+        case 15: members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
 
     return members
 
@@ -65,6 +65,6 @@ def unsettledEncounters(roll, budget) -> list:
         case 12: members = RandomCreatures.creatures("lizard", "Rot", majorBiome, budget)
         case 13: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
         case 14: members = RandomCreatures.creatures("bear", "Rot", majorBiome, budget)
-        case 15: members = members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
+        case 15: members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
 
     return members

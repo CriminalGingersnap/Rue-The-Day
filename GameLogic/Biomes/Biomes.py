@@ -34,8 +34,8 @@ def setFoes(biome, budgets, curseCard) -> list:
             case "Flame Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
             case "Flame Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
 
-            case "Northern Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
-            case "Northern Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
+            case "Kingdom Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
+            case "Kingdom Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
             case "Marshland": members = Kingdom.marshEncounters(roll, budget)
             case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, rollNum, "Camp", budget)
             case "Unsettled": members = Kingdom.unsettledEncounters(roll, budget)
@@ -50,6 +50,7 @@ def setFoes(biome, budgets, curseCard) -> list:
             case "Flame Lowland": members = Infestation.lowlandEncounters(roll, budget)
             case "Ice Highland": members = Infestation.highlandEncounters(roll, budget)
             # case "Ice Peak": members = Infestation.peakEncounters(roll, budget)
+            case "Marsh Depths": members = Infestation.depthsEncounters(roll, budget)
             case "Shoreline Nest": members = Infestation.nestEncounters(roll, budget)
             
         memberIndex = 1

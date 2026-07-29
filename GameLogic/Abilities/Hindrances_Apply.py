@@ -8,7 +8,7 @@ def applyCompel(target, ability) -> None:
     attempt = Boons.apply(target, ability)
 
     if attempt > 0:
-        success = resistCompulsion(attempt, target)
+        success = resistCompulsion(attempt, target, ability)
 
         if success:
             Select.waitPrint(ability + " succeeds!")
@@ -19,25 +19,15 @@ def applyCompel(target, ability) -> None:
 
 def resistCompulsion(attempt, target, ability) -> list:
     penalty = target.atrb["corruption"] + target.atrb["fatigue"]
-    threshold = max(1, ((4 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - penalty))
+    threshold = max(1, ((3 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - penalty))
 
     phrase = "Resistance Threshold: " + str(threshold) + " "
 
     source = target.effects[ability]["source"]
-    if not Hinder.canCompel(source, target):
-        threshold += 5
-        phrase += "+5 (Incompatible) | "
-
-    if target.cndt["inviolable"]:
-        threshold += 10
-        phrase += "+10 (Inviolable) | "
-
-    if target.cndt["sapient"]:
-        threshold += 6
-        phrase += "+6 (Sapient) | "
-    elif target.cndt["social"] and (ability == "Compel"):
-        threshold += 3
-        phrase += "+3 (Social) | "
+    if Hinder.canCompel(source, target, ability):
+        if target.cndt["social"] and (ability == "Compel"):
+            threshold += 3
+            phrase += "+3 (Social) | "
 
     Select.waitPrint(phrase)
     Select.waitPrint("Total: " + threshold)

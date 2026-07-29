@@ -31,13 +31,10 @@ def usefulHindrances(fighter, enemies, allies):
     selfMar, allyMar = False, False
 
     for enemy in enemies:
-        if any(attack in Attacks.martialAttack for attack in enemy.abl["attacks"]):
-            hindrancePreferences += ["Harry", "Confound"]
-        if canCompel(fighter, enemy):
-            hindrancePreferences += ["Compel"]
-            hindrancePreferences += ["Seal"]
-        if enemy.atrb["cur_hp"] < enemy.atrb["base_hp"]:
-            hindrancePreferences += ["Drain"]
+        if any(attack in Attacks.martialAttack for attack in enemy.abl["attacks"]): hindrancePreferences += ["Harry", "Confound"]
+        if canCompel(fighter, enemy, "Compel"): hindrancePreferences += ["Compel"]
+        if canCompel(fighter, enemy, "Seal"): hindrancePreferences += ["Seal"]
+        if enemy.atrb["cur_hp"] < enemy.atrb["base_hp"]: hindrancePreferences += ["Drain"]
 
     selfMar = any(attack in Attacks.martialAttack for attack in fighter.abl["attacks"])
     for ally in allies:
@@ -63,10 +60,9 @@ def usableHindrances(fighter, enemies) -> list:
     return usableHindrances
 
 
-def canCompel(fighter, enemy) -> bool:
+def canCompel(fighter, enemy, ability) -> bool:
     canCompel = False
-    if enemy.cndt["sapient"]: canCompel = False
-    elif fighter.atrb["cur_elm"] == "Holy": canCompel = True
+    if (enemy.cndt["sapient"] or enemy.cndt["inviolable"]) and (ability == "Compel"): canCompel = False
     elif enemy.atrb["cur_elm"] != "Holy":
         if (fighter.atrb["cur_elm"] == "Flame") and (enemy.atrb["cur_elm"] != "Ice"): canCompel = True
         elif (fighter.atrb["cur_elm"] == "Dream") and (enemy.atrb["cur_elm"] != "Rot"): canCompel = True

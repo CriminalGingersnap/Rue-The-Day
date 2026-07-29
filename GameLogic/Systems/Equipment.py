@@ -120,18 +120,6 @@ def setWeapon(job, element, skills) -> list:
             weapon["name"] = "Sling"
             weapon["dmgTypes"] += ["Crush", "Holy"]
 
-        case "Warlock":
-            longOptions = list(set(meleeOptions).intersection(longMelee))
-            weaponName = random.choice(longOptions)
-
-            if weaponName in bluntMelee: weapon["dmgTypes"] += ["Crush"]
-            if weaponName in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
-            weapon["name"] = "Pennant" + weaponName
-
-            weapon["reach"] = 8
-            weapon["twoHanded"] = True
-            weapon["dmgTypes"] += [element]
-
     if weapon["twoHanded"]: weapon["modifier"] += 1
     if any(dmgType in weapon["dmgTypes"] for dmgType in ["Crush", "Pierce"]): weapon["dmgTypes"] += ["Bleed"]
 

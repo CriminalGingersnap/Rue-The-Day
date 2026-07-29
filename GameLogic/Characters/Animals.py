@@ -38,7 +38,7 @@ def updateRank(cndt, element, rank):
     if element == "Rot":
         cndt["lifeless"] = True
         match rank:
-            case "Juvenile" | "Small" | "Novice": rank = "Fresh"
+            case "Juvenile" | "Small" | "Novice" | "Proficient": rank = "Fresh"
             case "Adult" | "Large" | "Adept": rank = "Wizened"
             case "Elder" | "Elite" | "Master": rank = "Ancient"
 

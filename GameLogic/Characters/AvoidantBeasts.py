@@ -26,7 +26,7 @@ class bat:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Drain"]})
         if rank == "Elder": abl["areas"] += ["Slip"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Bat", rank, stats, type)

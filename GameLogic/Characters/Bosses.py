@@ -1,5 +1,3 @@
-# Mark dragon "shadow" with "_^^_" and leviathan with "_vv_" 
-
 from . import Characters, Animals
 
 
@@ -15,49 +13,50 @@ def setCommon(element) -> list:
     return [stats, cndt, type, rank]
 
 
-class hydra:
+class leviathan:
     def __init__(self) -> None:
         element = "Toxic"
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-
-        dice = {"martial": 4, "magic": 2}
-        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Claw", "Bite"], "boons": ["Regenerate"]})
-
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-        self.ch = Characters.character(abl, cndt, dice, element, "Hydra", rank, stats, type)
-
-class leviathan:
-    def __init__(self) -> None:
-        element = "Holy"
-        common = setCommon(element)
-
-        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["aquatic"], cndt["social"] = True, True
+        cndt["armored"], cndt["aquatic"] = True, True
 
         dice = {"martial": 6, "magic": 0}
-        abl = Characters.setAbilities(type, {"attacks": ["Ram", "Bite"], "hindrances": ["Bind", "Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Ram", "Bite", "Spray"], "hindrances": ["Bind"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Leviathan", rank, stats, type)
 
-class deathShell:
+class lich:
     def __init__(self) -> None:
         element = "Rot"
         common = setCommon(element)
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
-        cndt["aquatic"], cndt["armored"], cndt["lifeless"], cndt["sapient"] = True, True, True, True
+        cndt["massive"], cndt["sapient"] = False, True
 
-        dice = {"martial": 2, "magic": 4}
-        abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
+        dice = {"martial": 0, "magic": 6}
+        abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Bring"], "boons": ["Wreath"], "hindrances": ["Seal"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        self.ch = Characters.character(abl, cndt, dice, element, "Shell", rank, stats, type)
+        self.ch = Characters.character(abl, cndt, dice, element, "Lich", rank, stats, type)
+
+class vampire:
+    def __init__(self) -> None:
+        element = "Rot"
+        common = setCommon(element)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["massive"], cndt["sapient"] = False, True
+        stats["speed"] = "max"
+
+        dice = {"martial": 4, "magic": 2}
+        abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Confuse", "Drain"]})
+
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        self.ch = Characters.character(abl, cndt, dice, element, "Vampire", rank, stats, type)
 
 
-class dreamGiant:
+class giant:
     def __init__(self) -> None:
         element = "Dream"
         common = setCommon(element)
@@ -65,12 +64,12 @@ class dreamGiant:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["sapient"], cndt["skittish"] = True, True
 
-        dice = {"martial": 0, "magic": 6}
-        abl = Characters.setAbilities(type, {"area": ["Breath"], "attacks": ["Bring"], "boons": ["Veil"], "hindrances": ["Compel"]})
+        dice = {"martial": 2, "magic": 4}
+        abl = Characters.setAbilities(type, {"areas": ["Breath"], "attacks": ["Bash"], "boons": ["Veil"], "hindrances": ["Confound"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Giant", rank, stats, type)
 
-class glacierWorm:
+class worm:
     def __init__(self) -> None:
         element = "Ice"
         common = setCommon(element)
@@ -80,11 +79,11 @@ class glacierWorm:
         stats["avoidance"], stats["speed"]  = "low", "low"
 
         dice = {"martial": 3, "magic": 3}
-        abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spit"], "boons": ["Wreath"], "reactions": ["Flare"]})
+        abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Ram", "Spit"], "boons": ["Wreath"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Worm", rank, stats, type)
 
-class volcanoStrider:
+class strider:
     def __init__(self) -> None:
         element = "Flame"
         common = setCommon(element)
@@ -94,6 +93,6 @@ class volcanoStrider:
         stats["speed"]  = "high"
 
         dice = {"martial": 6, "magic": 0}
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Kick", "Spray"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Kick", "Sting"], "boons": ["Guard"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Strider", rank, stats, type)

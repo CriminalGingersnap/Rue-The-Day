@@ -23,8 +23,7 @@ def setOptions(player, humans, armorList, shieldList, weaponList, carryWeight, c
     if player.inv["spares"]["weapon"]["name"] != "None": weaponList += [player.inv["spares"]["weapon"]]
 
     if player.props["job"] in ["Archer", "Dragonslayer"]: compatibleJobs += ["Archer", "Dragonslayer"]
-    elif player.props["job"] in ["Brute", "Knight"]: compatibleJobs += ["Brute", "Knight", "Warlock"]
-    elif player.props["job"] in ["Mage", "Warlock"]: compatibleJobs += ["Mage", "Warlock"]
+    elif player.props["job"] in ["Brute", "Knight"]: compatibleJobs += ["Brute", "Knight"]
     else: compatibleJobs += [player.props["job"]]
     
     for enemy in humans:

@@ -29,7 +29,7 @@ def setCommon(job, element, rank) -> list:
                 case "Proficient" | "Adept": dice["magic"] = 2
                 case "Elite": dice["magic"] = 3
                 case "Master": dice["magic"] = 4
-        case "Dragonslayer" | "Paladin" | "Vampire":
+        case "Dragonslayer" | "Paladin":
             match rank:
                 case "Novice": dice["martial"] = 1
                 case "Proficient" | "Adept": dice["martial"], dice["magic"] = 1, 1
@@ -134,7 +134,7 @@ class mage:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
                 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
             if element == "Dream": abl["boons"] += ["Focus"]
@@ -145,11 +145,12 @@ class mage:
                 else: abl["specialty"] = [random.choice(["Bring", "Wreath"])]
                 
             if rank in ["Elite", "Master"]:
-                abl["areas"] += ["Shroud"]
+                if element == "Dream": abl["hindrances"] += ["Compel"]
+                else: abl["areas"] += ["Shroud"]
 
                 if rank == "Master":
                     abl["mastery"] = [random.choice(["Bring", "Wreath"])]
-                    if element == "Dream": abl["mastery"] = [random.choice(["Focus", "Wreath"])]
+                    if element == "Dream": abl["mastery"] = [random.choice(["Compel", "Focus", "Wreath"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
@@ -170,27 +171,5 @@ class paladin:
             if rank in ["Elite", "Master"]:
                 abl["areas"] += ["Bless"]                
                 if rank == "Master": abl["mastery"] = [random.choice(["Sling", "Wreath"])]
-
-        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
-
-class vampire:
-    def __init__(self, element, rank) -> None:
-        job = "Vampire"
-        common = setCommon(job, element, rank)
-        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-        stats["resist"]["Holy"] = "vulnerable"
-
-        abl = Characters.setAbilities(type, {"hindrances": ["Drain"]})
-        
-        if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["hindrances"] += ["Confuse"]
-
-            if rank == "Adept": abl["specialty"] = [random.choice(["Confuse", "Drain"])]
-                
-            elif rank in ["Elite", "Master"]:
-                abl["hindrances"] += ["Compel"]
-                if rank == "Elite": abl["specialty"] = [random.choice(["Compel", "Confuse", "Drain"])]
-                else: abl["mastery"] = [random.choice(["Compel", "Confuse", "Drain"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
