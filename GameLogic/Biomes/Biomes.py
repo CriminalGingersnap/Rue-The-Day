@@ -4,7 +4,7 @@ from Systems import Roll, PlayerSelect as Select
 from Loop import Cards
 
 
-def setFoes(biome, budgets, curseCard) -> list:
+def setFoes(biome, budgets, luckCard) -> list:
     Select.waitPrint("Rolling to determine encounter number.")
     Select.quickPrint("First roll:")
     roll1 = Roll.roll(None, 1, None, None)
@@ -12,9 +12,9 @@ def setFoes(biome, budgets, curseCard) -> list:
     Select.quickPrint("Second roll:")
     roll2 = Roll.roll(None, 1, None, None)
 
-    Select.waitPrint("Applying curse card:")
-    Cards.printDeck([curseCard])
-    roll2 += Cards.findValue(curseCard)
+    Select.waitPrint("Applying luck card:")
+    Cards.printDeck([luckCard])
+    roll2 += Cards.findValue(luckCard)
     Select.waitPrint("Modified second roll: " + str(roll2) + "\n")
     Select.waitPrint("")
 
@@ -34,10 +34,11 @@ def setFoes(biome, budgets, curseCard) -> list:
             case "Flame Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
             case "Flame Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
 
-            case "Kingdom Stronghold": members = Kingdom.strongholdEncounters(roll, rollNum, budget)
+            case "Kingdom Fort": members = Kingdom.strongholdEncounters(roll, rollNum, "Fort", budget)
             case "Kingdom Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
             case "Marshland": members = Kingdom.marshEncounters(roll, budget)
-            case "Outlaw Camp": members = Kingdom.outlierEncounters(roll, rollNum, "Camp", budget)
+            case "Outlaw Camp": members = Kingdom.strongholdEncounters(roll, rollNum, "Camp", budget)
+            case "Outlaw Range": members = Kingdom.outlierEncounters(roll, rollNum, "Range", budget)
             case "Unsettled": members = Kingdom.unsettledEncounters(roll, budget)
 
             case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, budget)

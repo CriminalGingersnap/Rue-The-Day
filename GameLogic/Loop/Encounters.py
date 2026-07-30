@@ -11,10 +11,10 @@ def encounterLoop(playerGroup, biome):
     
     while play:
         mapConditions = Environment.randomEnvironment(biome)
-        enemyGroups = Biomes.setFoes(biome, mapConditions["budget"], mapConditions["curse"])
+        enemyGroups = Biomes.setFoes(biome, mapConditions["budget"], mapConditions["luck"])
 
         battleMap = None
-        if mapConditions["slope"] == "ruin":
+        if (mapConditions["slope"] == "ruin") or (biome == "Kingdom Fort"):
             battleMap = dMap.createMap(players, enemyGroups, mapConditions, ace)
         else: battleMap = iMap.createMap(players, enemyGroups, mapConditions, ace)
 

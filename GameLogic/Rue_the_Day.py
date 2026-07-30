@@ -30,7 +30,14 @@ def adventure(group):
             row, column = marker.pos[0], marker.pos[1]
             letter = worldMap[row][column][0]
             biome = world.legend[letter]
-            Encounters.encounterLoop(group, biome)
+
+            bossFight = False
+            for boss in worldMap.bosses:
+                print(boss)
+                if worldMap.bosses[boss] == marker.pos:
+                    Encounters.customLoop(group, biome, boss)
+
+            if not bossFight: Encounters.encounterLoop(group, biome)
 
             marker.lastCleared.appendleft(marker.pos)
             marker.lastCleared.pop()
@@ -42,6 +49,11 @@ def adventure(group):
                 Print.printWorldMap(world)
 
 
-# B_group = Save.loadGroup("Benediction")
-M_group = Save.loadGroup("Metamorphosis")
-adventure(M_group)
+campaign = Select.pickOption(["Benediction", "Metamorphosis"], "Campaign")
+group = None
+
+match campaign:
+    case "Benediction": group = Save.loadGroup("Benediction")
+    case "Metamorphosis": group = Save.loadGroup("Metamorphosis")
+
+adventure(group)

@@ -64,7 +64,7 @@ def randomEnvironment(biome):
              "obstructions": mapConditions[1],
               "slope": mapConditions[2],
                "budget": mapConditions[3],
-                "curse": mapConditions[4]}
+                "luck": mapConditions[4]}
 
 
 def setMapConditions(biome):
@@ -74,7 +74,7 @@ def setMapConditions(biome):
     Select.waitPrint("\nDraw five numbered cards.")   
     Select.quickPrint("The first three determine topographical slope, obstruction density, and atmospheric density.")   
     Select.quickPrint("The next pair determines enemy dice budgets.")
-    Select.waitPrint("The final face-down card determines curse status.")
+    Select.waitPrint("The final face-down card determines luck. Middle values are safest.")
     
     numberValues = Cards.drawNumbers(5)
     drawn, faceDown = numberValues[0], numberValues[1]

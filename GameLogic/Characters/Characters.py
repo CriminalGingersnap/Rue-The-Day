@@ -68,13 +68,12 @@ def setAttributes(stats, cndt, elm, dice, type):
 
 def setTraits():
     conditions = {"armored": False, "aquatic": False, "blitzing": False,
-                    "calling": {"delay": 0, "quantity": 0, "used": False},
-                     "dead": False, "inviolable": False, "lifeless": False,
-                      "massive": False, "planted": False,
-                       "reposed": False, "running": False,
-                        "skittish": False, "social": False,
-                         "sapient": False, "submerged": False,
-                          "winged": False}
+                    "dead": False, "inviolable": False, "lifeless": False,
+                     "massive": False, "planted": False,
+                      "reposed": False, "running": False,
+                       "skittish": False, "social": False,
+                        "sapient": False, "submerged": False,
+                         "winged": False}
     
     resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal",
                     "Dream": "normal", "Ice": "normal", "Holy": "immune",

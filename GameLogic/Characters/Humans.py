@@ -40,6 +40,10 @@ def setCommon(job, element, rank) -> list:
 
     return [stats, cndt, dice, type]
 
+def setSpecialty(abl, specialtyLevel):
+    abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
+    if specialtyLevel != "None": abl[specialtyLevel] = [random.choice(abilityList)]
+
 
 class archer:
     def __init__(self, element, rank) -> None:
@@ -59,9 +63,7 @@ class archer:
                 abl["boons"] += ["Conceal"]
                 if rank == "Master": specialtyLevel = "mastery"
 
-        abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
-        if specialtyLevel != "None": abl[specialtyLevel] = random.choice(abilityList)
-
+        setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class brute:
@@ -82,9 +84,7 @@ class brute:
                 abl["hindrances"] += ["Bind"]
                 if rank == "Master": specialtyLevel = "mastery"
 
-        abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
-        if specialtyLevel != "None": abl[specialtyLevel] = random.choice(abilityList)
-
+        setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class dragonslayer:
@@ -105,9 +105,7 @@ class dragonslayer:
                 abl["boons"] += ["Conceal"]
                 if rank == "Master": specialtyLevel = "mastery"
 
-        abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
-        if specialtyLevel != "None": abl[specialtyLevel] = random.choice(abilityList)
-
+        setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class knight:
@@ -128,9 +126,7 @@ class knight:
                 abl["reactions"] += ["Riposte"]
                 if rank == "Master": specialtyLevel = "mastery"
 
-        abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
-        if specialtyLevel != "None": abl[specialtyLevel] = random.choice(abilityList)
-
+        setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class mage:
@@ -153,9 +149,7 @@ class mage:
                 else: abl["areas"] += ["Shroud"]
                 if rank == "Master": specialtyLevel = "mastery"
 
-        abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
-        if specialtyLevel != "None": abl[specialtyLevel] = random.choice(abilityList)
-
+        setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class paladin:
@@ -176,7 +170,5 @@ class paladin:
                 abl["areas"] += ["Bless"]                
                 if rank == "Master": specialtyLevel = "mastery"
 
-        abilityList = abl["areas"] + abl["attacks"] + abl["boons"] + abl["hindrances"]
-        if specialtyLevel != "None": abl[specialtyLevel] = random.choice(abilityList)
-
+        setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)

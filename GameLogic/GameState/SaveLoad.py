@@ -1,4 +1,5 @@
-from Campaigns import B_PCs, M_PCs
+from Campaigns.Benediction import PCs as B_PCs
+from Campaigns.Metamorphosis import PCs as M_PCs
 from Characters import Characters
 from Maps import World
 from Systems import PlayerSelect as Select
@@ -76,7 +77,7 @@ def loadCharacter(fighter, campaign, slot, name) -> None:
     try:
         standard = nullCharacter()
         loadCharacter(standard, campaign, slot, name + "sStandard")
-        fighter.inv["standard"] = echo
+        fighter.inv["standard"] = standard
     except FileNotFoundError: pass
 
     Select.waitPrint(fighter.props["name"] + " loaded.")
@@ -148,7 +149,7 @@ def loadGroup(campaign) -> dict:
                 loadCharacter(fighter, campaign, slot, name)
                 group["members"] += [fighter]
 
-        loadWorld(nullWorld, campaign, slot)
+        loadWorld(world, campaign, slot)
 
     except FileNotFoundError:
         Select.waitPrint("New Game")

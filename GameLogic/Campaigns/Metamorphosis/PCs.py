@@ -1,5 +1,5 @@
 from Characters import Humans, Totems
-from . import B_PCs
+from Campaigns.Benediction import PCs as B_PCs
 from Maps import World
 
 
