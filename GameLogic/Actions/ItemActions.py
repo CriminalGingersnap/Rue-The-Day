@@ -47,7 +47,7 @@ def pcSelectItem(job, inventory) -> str:
 
     if item != "None":
         options = ["Detonate", "Extract"]
-        if job == "Paladin": del options["Extract"]
+        if (job == "Paladin") and (item != "Blood"): del options["Extract"]
         application = Select.pickOption(options, "application")
         return [category.lower(), item, application]
 

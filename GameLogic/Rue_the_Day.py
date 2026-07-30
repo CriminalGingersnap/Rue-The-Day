@@ -1,7 +1,7 @@
 # Design rules
-#  #1: One mystery per action. One test per reward.
-#  #2: Complex outcomes from simple systems
-#  #3: Minimize interruptions and downtime
+#  #1: One mystery per action. One challenge per reward.
+#  #2: Complex outcomes from simple systems.
+#  #3: Minimize interruptions and downtime.
 
 from Loop import Encounters
 from Maps import World, Movement, Map_Print as Print
@@ -13,9 +13,6 @@ def adventure(group):
     world = group["world"]
 
     marker, worldMap = world.marker, world.worldMap
-    marker.lastCleared.appendleft(marker.pos)
-    marker.lastCleared.pop()
-
     marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
     Print.printWorldMap(world)
 
@@ -29,31 +26,29 @@ def adventure(group):
 
             row, column = marker.pos[0], marker.pos[1]
             letter = worldMap[row][column][0]
+            if letter == "~": letter = "s"
             biome = world.legend[letter]
 
-            bossFight = False
-            for boss in worldMap.bosses:
-                print(boss)
-                if worldMap.bosses[boss] == marker.pos:
-                    Encounters.customLoop(group, biome, boss)
+            bespoke, event = False, None
+            for eventOption in world.events:
+                if world.events[eventOption] == marker.pos:
+                    bespoke = True
+                    event = eventOption
 
-            if not bossFight: Encounters.encounterLoop(group, biome)
+            victory = False
+            if bespoke: victory = Encounters.customLoop(group, biome, event)
+            else: victory = Encounters.randomLoop(group, biome)
 
-            marker.lastCleared.appendleft(marker.pos)
-            marker.lastCleared.pop()
+            if victory:
+                marker.lastCleared.appendleft(marker.pos)
+                marker.lastCleared.pop()
 
         elif marker.pos == marker.lastCleared[0]:
-            takeRest = Select.yesNo("Rest and Save Game?")
-            if takeRest:
+            if Select.yesNo("Rest and Save Game?"):
                 Encounters.rest(group)
                 Print.printWorldMap(world)
 
 
 campaign = Select.pickOption(["Benediction", "Metamorphosis"], "Campaign")
-group = None
-
-match campaign:
-    case "Benediction": group = Save.loadGroup("Benediction")
-    case "Metamorphosis": group = Save.loadGroup("Metamorphosis")
-
+group = Save.loadGroup(campaign)
 adventure(group)

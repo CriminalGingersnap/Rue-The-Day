@@ -14,7 +14,7 @@ scenes = {"0": [
     ["  ", "Whichever route we choose, we have fourteen days to return to this spot."],
     ["  ", "If we aren't prepared to strike within the next two weeks... Willem will die."]
 ], "1": [
-    ["> ", "We've passed beyond our kingdom's northernmost frontier."]
+    ["> ", "We've passed beyond our kingdom's northernmost frontier."],
     ["  ", "Laura said the wilderness beyond hasn't been settled since before our language existed."],
     ["  ", "Judging from the ruins we've spotted, I believe her."],
     ["  ", "..."],
@@ -26,5 +26,3 @@ scenes = {"0": [
 ], "2": [
     ["> ", ""]
 ]}
-
-Select.readScene(scenes)

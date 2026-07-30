@@ -85,6 +85,8 @@ def loadCharacter(fighter, campaign, slot, name) -> None:
 
 def saveWorld(world, campaign, slot)-> None:
     save = {
+        "ace": world.ace,
+        "events": world.events,
         "map": world.worldMap,
         "legend": world.legend,
         "start": world.marker.pos
@@ -96,6 +98,8 @@ def saveWorld(world, campaign, slot)-> None:
 def loadWorld(world, campaign, slot) -> None:
     with open(setFilePath(campaign, slot, "World"), 'r') as jsonFile:
         load = json.load(jsonFile)
+        world.worldMap = load["ace"]
+        world.worldMap = load["events"]
         world.worldMap = load["map"]
         world.legend = load["legend"]
         world.start = load["start"]
@@ -110,8 +114,9 @@ def saveGroup(group) -> None:
 
     memberNames = []
     for member in group["members"]:
-        saveCharacter(member, group["campaign"], slot, member.props["name"])
-        memberNames += [member.props["name"]]
+        if member.props["rank"] == "player":
+            saveCharacter(member, group["campaign"], slot, member.props["name"])
+            memberNames += [member.props["name"]]
     
     saveWorld(group["world"], group["campaign"], slot)
 
@@ -152,7 +157,10 @@ def loadGroup(campaign) -> dict:
         loadWorld(world, campaign, slot)
 
     except FileNotFoundError:
-        Select.waitPrint("New Game")
+        Select.waitPrint("New Save File")
+        Select.waitPrint("\nThis game does not save automatically. Save manually by resting between encounters.")
+        input("Press enter to acknowledge.\n")
+
         match campaign:
             case "Benediction": group = B_PCs.getBenedictionGroup()
             case "Metamorphosis": group = M_PCs.getMetamorphosisGroup()

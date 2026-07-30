@@ -72,7 +72,7 @@ class lion:
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
-        self.ch = Characters.character(abl, cndt, dice, element, "Bear", rank, stats, type)
+        self.ch = Characters.character(abl, cndt, dice, element, "Lion", rank, stats, type)
 
 class moose:
     def __init__(self, element, rank) -> None:        

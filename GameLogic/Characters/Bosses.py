@@ -35,7 +35,7 @@ class lich:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"], cndt["sapient"] = False, True
 
-        dice = {"martial": 0, "magic": 6}
+        dice = {"martial": 0, "magic": 5}
         abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Bring"], "boons": ["Wreath"], "hindrances": ["Seal"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -49,7 +49,7 @@ class vampire:
         cndt["massive"], cndt["sapient"] = False, True
         stats["speed"] = "max"
 
-        dice = {"martial": 4, "magic": 2}
+        dice = {"martial": 3, "magic": 2}
         abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Confuse", "Drain"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)

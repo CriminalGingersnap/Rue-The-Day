@@ -43,7 +43,7 @@ def setAttributes(stats, cndt, elm, dice, type):
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4
     tolerance = endurance = halfHealth
-    corruption, fatigue, injury = 0, 0, random.choice([0, 0, 0, 0, 0, 1])
+    corruption, fatigue, injury = 0, random.choice([0, 0, 1]), random.choice([0, 0, 0, 0, 0, 1])
 
     if cndt["lifeless"]:
         cndt["sapient"], cndt["skittish"], cndt["social"] = True, False, False
@@ -52,7 +52,6 @@ def setAttributes(stats, cndt, elm, dice, type):
     else:
         if elm == "Toxic": tolerance *= 2
         if type == "human": corruption = random.choice([0, 0, 0, 0, 0, 1])
-        fatigue = random.randint(0, 2)
 
     attributes = {"base_av": av, "cur_av": av,
                    "base_hp": hp, "cur_hp": hp, "half_hp": halfHealth, "quart_hp": quarterHealth,

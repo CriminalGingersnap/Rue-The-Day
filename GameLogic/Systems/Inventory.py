@@ -88,7 +88,7 @@ def setLifeless(echo):
 
 
 def beastInventory(hp, element, rank, type) -> dict:
-    drop = {"cores": {element: 0}, "pearls": {element: 0}}
+    drop = {"cores": {element: 0}, "pearls": {element: 0}, "shards": {element: 0}}
     vitaVolume = 0
 
     if element == "Rot":

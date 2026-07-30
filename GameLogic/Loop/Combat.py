@@ -4,7 +4,7 @@ from Systems import Commitments, PlayerSelect as Select, Sort
 from Maps import Map_Update as uMap
 
 
-def engage(playerGroup, enemyGroups, battleMap) -> list:
+def engage(playerGroup, enemyGroups, battleMap, timePermits) -> list:
     input("\nPress Enter to begin combat.")
 
     playerVictory, playerDefeat, result = False, False, []
@@ -23,8 +23,8 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
             Select.waitPrint("\nCombat advances to the next round.\n")
             if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap)[0]
             if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap)[0]
-        
-    if playerVictory:
+
+    if playerVictory and timePermits:
         Loot.searchAll(group1, result[1])
         return True
     else:
