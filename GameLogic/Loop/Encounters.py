@@ -9,7 +9,7 @@ from collections import deque
 
 
 def customLoop(playerGroup, biome, event) -> bool:
-    encounter, timePermits = None, True
+    encounter, skipCombat, timePermits = None, False, True
 
     match playerGroup["campaign"]:
         case "Benediction":
@@ -21,28 +21,60 @@ def customLoop(playerGroup, biome, event) -> bool:
                     playerGroup["world"].worldMap[5][9], playerGroup["world"].worldMap[7][11] = "s_..↓", "~~~~⇓"
                 case "Village":
                     encounter = B_Maps.villageMap(playerGroup["members"])
-                    playerGroup["world"].worldMap[3][10], playerGroup["world"].worldMap[3][9] = "s___↓" ,"s___↓"
-                    playerGroup["world"].worldMap[3][8], playerGroup["world"].worldMap[5][8] = "d___↓", "d___↓"
+                    playerGroup["world"].worldMap[3][10], playerGroup["world"].worldMap[3][9], playerGroup["world"].worldMap[5][8] = "s___↓", "s___↓", "s___↓"
                     if Select.yesNo("Read 'Shipwrecked' journal entry?"):
                         Select.conversationPrint(B_Journal.scenes["Shipwrecked"])
                 case "Town":
                     encounter = B_Maps.townMap()
                     playerGroup["world"].worldMap[6][7] = "d___↓"
-                    if Select.yesNo("Read '' journal entry?"):
-                        Select.conversationPrint(B_Journal.scenes["Shipwrecked"])
                 case "Lich":
+                    if Select.yesNo("Read 'Ziggurat' journal entry?"):
+                        Select.conversationPrint(B_Journal.scenes["Ziggurat"])
                     encounter = B_Maps.cryptMap(playerGroup["members"])
+                case "Dragon":
+                    skipCombat = True
+                    playerGroup["world"].marker.pos = [1, 6]
+                    playerGroup["world"].worldMap[1][10], playerGroup["world"].worldMap[0][11] = "M_..↓", "M/!!↓"
+                    if Select.yesNo("Read 'Dragon' journal entry?"):
+                        Select.conversationPrint(B_Journal.scenes["Dragon"])
                 case "Vampire":
                     encounter = B_Maps.manorMap()
-        # case "Metamorphosis":
-        #     match event:
+        case "Metamorphosis":
+            match event:
+                case "Beginning":
+                    skipCombat = True
+                    if Select.yesNo("Read 'Escape' journal entry?"):
+                        Select.conversationPrint(M_Journal.scenes["Escape"])
                 # case "Giant": encounter = M_Maps.
-                # case "Strider": encounter = M_Maps.
-                # case "Worm": encounter = M_Maps.
+                case "Strider":
+                    encounter = M_Maps.volcanoMap()
+                case "Worm":
+                    encounter = M_Maps.glacierMap()
+                case "Moose":
+                    skipCombat = True
+                    if Select.yesNo("Read 'Moose' journal entry?"):
+                        Select.conversationPrint(M_Journal.scenes["Moose"])
+                case "Vines":
+                    skipCombat = True
+                    playerGroup["world"].marker.pos = [1, 6]
+                    playerGroup["world"].worldMap[1][6], playerGroup["world"].worldMap[1][7] = "D_..|", "D/!!↑"
+                    if Select.yesNo("Read 'Vines' journal entry?"):
+                        Select.conversationPrint(M_Journal.scenes["Vines"])
                 # case "Prison": encounter = M_Maps.
-                # case "King": encounter = M_Maps.
+                # case "Port": encounter = M_Maps.
 
-    return encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, timePermits)
+    if skipCombat: return True
+    else:
+        result = encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, timePermits)
+        if result:
+            if (event == "Village") and Select.yesNo("Read 'Village' journal entry?"):
+                Select.conversationPrint(B_Journal.scenes["Village"])
+            if (event == "Town") and Select.yesNo("Read 'Town' journal entry?"):
+                Select.conversationPrint(B_Journal.scenes["Town"])
+            if (event == "Ziggurat") and Select.yesNo("Read 'Victory' journal entry?"):
+                Select.conversationPrint(B_Journal.scenes["Victory"])
+
+        return result
 
 
 def randomLoop(playerGroup, biome) -> bool:
@@ -53,7 +85,7 @@ def randomLoop(playerGroup, biome) -> bool:
     enemyGroups = Biomes.setFoes(biome, mapConditions["budget"], mapConditions["luck"])
 
     battleMap = None
-    if (mapConditions["slope"] == "ruin") or (biome == "Kingdom Fort"):
+    if (mapConditions["slope"] == "ruin") or (biome in ["Kingdom Fort", "Rot Locus"]):
         battleMap = dMap.createMap(players, enemyGroups, mapConditions, ace)
     else: battleMap = iMap.createMap(players, enemyGroups, mapConditions, ace)
 

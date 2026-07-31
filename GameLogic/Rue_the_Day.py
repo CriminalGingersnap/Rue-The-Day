@@ -2,6 +2,7 @@
 #  #1: One mystery per action. One challenge per reward.
 #  #2: Complex outcomes from simple systems.
 #  #3: Minimize interruptions and downtime.
+#  #4: Only human/animal characters. No fantasy races or personified gods.
 
 from Loop import Encounters
 from Maps import World, Movement, Map_Print as Print
@@ -31,9 +32,10 @@ def adventure(group):
 
             bespoke, event = False, None
             for eventOption in world.events:
-                if world.events[eventOption] == marker.pos:
+                if world.events[eventOption]["location"] == marker.pos:
                     bespoke = True
                     event = eventOption
+                    world.events[eventOption]["complete"] = True
 
             victory = False
             if bespoke: victory = Encounters.customLoop(group, biome, event)

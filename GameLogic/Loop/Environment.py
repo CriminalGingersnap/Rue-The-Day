@@ -83,10 +83,11 @@ def setMapConditions(biome):
     atmosphereValue = drawn[2]
     budget = [drawn[3], drawn[4]]
 
-    if slope == "ruin": obstructions["pit"] = obstructionValue
-    elif biome in ["Flame Volcano", "Ice Glacier", "Rot Locus"]:
+    if (slope == "ruin") or (biome == "Rot Locus"): obstructions["pit"] = obstructionValue
+    elif biome == "Flame Volcano":
         obstructions["pit"] = (obstructionValue // 3) * 2
         obstructions["wall"] = obstructionValue - obstructions["pit"]
+    elif biome == "Ice Glacier": obstructions["wall"] = obstructionValue * 2
     else: obstructions["wall"] = obstructionValue
     
     atmosphere = setAtmosphere(biome, atmosphereValue)
