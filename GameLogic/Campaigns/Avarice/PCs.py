@@ -3,12 +3,12 @@ from Campaigns.Benediction import PCs as B_PCs
 from Maps import World
 
 
-def getMetamorphosisGroup() -> list:
+def getAvariceGroup() -> list:
     Laura, Martin = getLaura(), getMartin()
-    metWorld = World.metamorphosisMap()
+    metWorld = World.AvariceMap()
 
     return {
-        "campaign": "Metamorphosis",
+        "campaign": "Avarice",
         "days": 0,
         "members": [Laura, Martin],
         "world": metWorld

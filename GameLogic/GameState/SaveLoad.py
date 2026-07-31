@@ -1,5 +1,5 @@
 from Campaigns.Benediction import PCs as B_PCs
-from Campaigns.Metamorphosis import PCs as M_PCs
+from Campaigns.Avarice import PCs as A_PCs
 from Characters import Characters
 from Maps import World
 from Systems import PlayerSelect as Select
@@ -162,8 +162,8 @@ def loadGroup(campaign) -> dict:
         input("Press enter to acknowledge.\n")
 
         match campaign:
+            case "Avarice": group = A_PCs.getAvariceGroup()
             case "Benediction": group = B_PCs.getBenedictionGroup()
-            case "Metamorphosis": group = M_PCs.getMetamorphosisGroup()
 
     return group
 

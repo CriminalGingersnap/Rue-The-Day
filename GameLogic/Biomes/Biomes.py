@@ -1,4 +1,4 @@
-from . import MetamorphosisBiomes as Metamorphosis, KingKillerBiomes as Kingdom
+from . import AvariceBiomes as Avarice, KingKillerBiomes as Kingdom
 from . import BenedictionBiomes as Benediction, InfestationBiomes as Infestation
 from Systems import Roll, PlayerSelect as Select
 from Loop import Cards
@@ -25,14 +25,14 @@ def setFoes(biome, budgets, luckCard) -> list:
         budget = budgets[rollNum]
         members = []
         match biome:
-            case "Wildlands Pass": members = Metamorphosis.passEncounters(roll, budget)
-            case "Wildlands Bay": members = Metamorphosis.bayEncounters(roll, budget)
-            case "Ice Fjord": members = Metamorphosis.fjordEncounter(roll, budget)
-            case "Ice Glacier": members = Metamorphosis.glacierEncounters(roll, budget)
-            case "Dreamwood Periphery": members = Metamorphosis.peripheryEncounters(roll, budget)
-            case "Dreamwood Depths": members = Metamorphosis.depthsEncounters(roll, budget)
-            case "Flame Peninsula": members = Metamorphosis.peninsulaEncounters(roll, budget)
-            case "Flame Volcano": members = Metamorphosis.volcanoEncounters(roll, budget)
+            case "Wildlands Pass": members = Avarice.passEncounters(roll, budget)
+            case "Wildlands Bay": members = Avarice.bayEncounters(roll, budget)
+            case "Ice Fjord": members = Avarice.fjordEncounter(roll, budget)
+            case "Ice Glacier": members = Avarice.glacierEncounters(roll, budget)
+            case "Dreamwood Periphery": members = Avarice.peripheryEncounters(roll, budget)
+            case "Dreamwood Depths": members = Avarice.depthsEncounters(roll, budget)
+            case "Flame Peninsula": members = Avarice.peninsulaEncounters(roll, budget)
+            case "Flame Volcano": members = Avarice.volcanoEncounters(roll, budget)
 
             case "Kingdom Fort": members = Kingdom.strongholdEncounters(roll, rollNum, "Fort", budget)
             case "Kingdom Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)

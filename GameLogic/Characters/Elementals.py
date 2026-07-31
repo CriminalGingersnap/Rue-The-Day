@@ -1,4 +1,4 @@
-from . import Characters, Humans
+from . import Characters
 import random
 
 
@@ -27,6 +27,9 @@ def setCommon(element, rank) -> list:
     stats = {"avoidance": "mid", "hp": "high", "resist": traits[1], "speed": "mid"}
     cndt = traits[0]
     cndt["lifeless"], cndt["sapient"] = True, True
+
+    if rank == "Greater": cndt["reposed"] = random.choice([True, False, False])
+    else: cndt["reposed"] = random.choice([True, False, False, False, False, False])
 
     setElementalResistance(element, stats) 
 

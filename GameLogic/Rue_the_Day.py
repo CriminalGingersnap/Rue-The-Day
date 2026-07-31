@@ -51,6 +51,6 @@ def adventure(group):
                 Print.printWorldMap(world)
 
 
-campaign = Select.pickOption(["Benediction", "Metamorphosis"], "Campaign")
+campaign = Select.pickOption(["Avarice", "Benediction"], "Campaign")
 group = Save.loadGroup(campaign)
 adventure(group)

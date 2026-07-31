@@ -2,7 +2,7 @@ from Systems import PlayerSelect as Select, Conditions, Commitments
 from GameState import SaveLoad as Save
 from Biomes import Biomes
 from Campaigns.Benediction import CustomMaps as B_Maps, Journal as B_Journal
-from Campaigns.Metamorphosis import CustomMaps as M_Maps, Journal as M_Journal
+from Campaigns.Avarice import CustomMaps as A_Maps, Journal as A_Journal
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
 from . import Environment, Combat
 from collections import deque
@@ -12,6 +12,50 @@ def customLoop(playerGroup, biome, event) -> bool:
     encounter, skipCombat, timePermits = None, False, True
 
     match playerGroup["campaign"]:
+        case "Avarice":
+            match event:
+                case "Beginning":
+                    skipCombat = True
+                    playerGroup["world"].worldMap[14][7] = "w/!!↑"
+                    if Select.yesNo("Read 'Escape' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Escape"])
+                case "Threshold":
+                    skipCombat = True
+                    if Select.yesNo("Read 'Threshold' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Threshold"])
+                case "Moose":
+                    skipCombat = True
+                    if Select.yesNo("Read 'Moose' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Moose"])
+                case "Vines":
+                    skipCombat = True
+                    playerGroup["world"].marker.pos = [1, 6]
+                    playerGroup["world"].worldMap[1][6], playerGroup["world"].worldMap[1][7] = "D_..|", "D/!!↑"
+                case "Worm":
+                    playerGroup["world"].worldMap[14][7] = "w___↑"
+                    if Select.yesNo("Read 'Stillness' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Stillness"])
+                    encounter = A_Maps.glacierMap()
+                case "Giant":
+                    playerGroup["world"].worldMap[16][7] = "K___↑"
+                    if Select.yesNo("Read 'Tracks' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Tracks"])
+                    encounter = A_Maps.woodsMap()
+                case "Strider":
+                    playerGroup["world"].worldMap[15][8] = "w___↑"
+                    encounter = A_Maps.volcanoMap()
+                    if Select.yesNo("Read 'Close' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Close"])
+                case "Breakout":
+                    playerGroup["world"].marker.pos = [16, 8]
+                    playerGroup["world"].worldMap[16][8], playerGroup["world"].worldMap[15][8] = "s_..↓", "w/!!↑"
+                    encounter = A_Maps.fortMap()                    
+                case "Rescue":
+                    encounter = A_Maps.campMap(playerGroup)                    
+                    if Select.yesNo("Read 'Vines' journal entry?"):
+                        Select.conversationPrint(A_Journal.scenes["Rescue"])
+                # case "Port": encounter = A_Maps.
+
         case "Benediction":
             match event:
                 case "Leviathan":
@@ -39,40 +83,21 @@ def customLoop(playerGroup, biome, event) -> bool:
                         Select.conversationPrint(B_Journal.scenes["Dragon"])
                 case "Vampire":
                     encounter = B_Maps.manorMap()
-        case "Metamorphosis":
-            match event:
-                case "Beginning":
-                    skipCombat = True
-                    if Select.yesNo("Read 'Escape' journal entry?"):
-                        Select.conversationPrint(M_Journal.scenes["Escape"])
-                # case "Giant": encounter = M_Maps.
-                case "Strider":
-                    encounter = M_Maps.volcanoMap()
-                case "Worm":
-                    encounter = M_Maps.glacierMap()
-                case "Moose":
-                    skipCombat = True
-                    if Select.yesNo("Read 'Moose' journal entry?"):
-                        Select.conversationPrint(M_Journal.scenes["Moose"])
-                case "Vines":
-                    skipCombat = True
-                    playerGroup["world"].marker.pos = [1, 6]
-                    playerGroup["world"].worldMap[1][6], playerGroup["world"].worldMap[1][7] = "D_..|", "D/!!↑"
-                    if Select.yesNo("Read 'Vines' journal entry?"):
-                        Select.conversationPrint(M_Journal.scenes["Vines"])
-                # case "Prison": encounter = M_Maps.
-                # case "Port": encounter = M_Maps.
+        
 
     if skipCombat: return True
     else:
         result = encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, timePermits)
         if result:
-            if (event == "Village") and Select.yesNo("Read 'Village' journal entry?"):
-                Select.conversationPrint(B_Journal.scenes["Village"])
-            if (event == "Town") and Select.yesNo("Read 'Town' journal entry?"):
-                Select.conversationPrint(B_Journal.scenes["Town"])
-            if (event == "Ziggurat") and Select.yesNo("Read 'Victory' journal entry?"):
-                Select.conversationPrint(B_Journal.scenes["Victory"])
+            match event:
+                case "Breakout":
+                    if Select.yesNo("Read 'Breakout' journal entry?"): Select.conversationPrint(A_Journal.scenes["Breakout"])
+                case "Village":
+                    if Select.yesNo("Read 'Village' journal entry?"): Select.conversationPrint(B_Journal.scenes["Village"])
+                case "Town":
+                    if Select.yesNo("Read 'Town' journal entry?"): Select.conversationPrint(B_Journal.scenes["Town"])
+                case "Ziggurat":
+                    if Select.yesNo("Read 'Victory' journal entry?"): Select.conversationPrint(B_Journal.scenes["Victory"])
 
         return result
 

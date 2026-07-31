@@ -46,7 +46,7 @@ class benedictionMap:
         self.marker = mapMarker(self.worldMap, self.start)
 
 
-class metamorphosisMap:
+class AvariceMap:
     def __init__(self) -> None:
         row1  = ["~~~~⇓","~~~~⇓","d___↓","////⇑","////⇑","D___|","D___↑","////⇑","////⇑","////⇑","I___⇑","////⇑"]
         row2  = ["~~~~⇓","~~~~⇓","~~~~⇓","d___↓","D___|","////⇑","D___|","D___↑","////⇑","////⇑","I___↑","I___⇑"]
@@ -64,12 +64,12 @@ class metamorphosisMap:
         row14 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","////⇑","w___↑","////⇑","////⇑","////⇑","////⇑","~~~~↓","////⇑"]
         row15 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","////⇑","w___↑","w_..↑","////⇑","w___↑","~~~~↓","~~~~↓"]
         row16 = ["~~~~⇓","~~~~⇓","////⇑","s___↓","~~~~⇓","////⇑","////⇑","////⇑","w/!!↑","////⇑","////⇑","~~~~↓"]
-        row17 = ["~~~~⇓","~~~~⇓","s___↓","////⇑","~~~~⇓","~~~~⇓","////⇑","K___↑","////⇑","////⇑","~~~~↓","~~~~↓"]
+        row17 = ["~~~~⇓","~~~~⇓","s___↓","////⇑","~~~~⇓","~~~~⇓","////⇑","K/!!↑","////⇑","////⇑","~~~~↓","~~~~↓"]
         row18 = ["~~~~⇓","~~~~⇓","~~~~⇓","s___↓","////⇑","////⇑","~~~~⇓","s___↓","k___|","////⇑","o___↑","~~~~↓"]
         row19 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~↓","m___↓","////⇑","////⇑","k___|","////⇑","o___↑","////⇑","O___↑"]
         row20 = ["~~~~⇓","~~~~⇓","s___↓","m___↓","~~~~↓","m___↓","k___|","////⇑","o___|","////⇑","////⇑","~~~~↓"]
         row21 = ["~~~~⇓","~~~~⇓","s___↓","////⇑","m___↓","~~~~↓","k___|","m___↓","o___|","~~~~↓","~~~~↓","////⇑"]
-        row22 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","K___↑","k___|","~~~~↓","~~~~↓","~~~~↓","o___↑","o___↑","////⇑"]
+        row22 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","K/!!↑","k___|","~~~~↓","~~~~↓","~~~~↓","o___↑","o___↑","////⇑"]
         row23 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~↓","k___|","m___↓","~~~~↓","////⇑","o___↑","////⇑"]
         row24 = ["~~~~⇓","~~~~⇓","~~~~⇓","////⇑","s___↓","m___↓","////⇑","k___|","////⇑","~~~~↓","////⇑","////⇑"]        
         
@@ -82,10 +82,10 @@ class metamorphosisMap:
                           "w": "Wildlands Pass", "W": "Wildlands Bay"}
 
         self.ace = "Clubs"
-        self.events = {"Beginning": {"location": [14, 6], "complete": False}, "Flame Threshold": {"location": [10, 10], "complete": False}, 
-                        "Giant": {"location": [0, 5], "complete": False}, "Moose": {"location": [5, 10], "complete": False},
-                         "Port": {"location": [21, 4], "complete": False}, "Strider": {"location": [6, 0], "complete": False},
-                          "Vines": {"location": [1, 7], "complete": False}, "Worm": {"location": [1, 11], "complete": False}}
+        self.events = {"Beginning": {"location": [14, 6], "complete": False},
+                        "Flame Threshold": {"location": [10, 10], "complete": False}, "Moose": {"location": [5, 10], "complete": False}, "Vines": {"location": [1, 7], "complete": False}, 
+                         "Worm": {"location": [1, 11], "complete": False}, "Giant": {"location": [0, 5], "complete": False}, "Strider": {"location": [6, 0], "complete": False},
+                           "Willem": {"location": [15, 11], "complete": False}, "Port": {"location": [21, 4], "complete": False}, }
         self.start = [14, 7]
         self.marker = mapMarker(self.worldMap, self.start)
 

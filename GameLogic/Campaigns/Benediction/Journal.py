@@ -39,32 +39,37 @@ scenes = {"Shipwrecked": [
     ["  ", "I nearly started shouting at him to get the truth, but Fadia just said,"],
     ["  ", " 'we deserve to know,' in that gentle voice of hers. It worked."],
     ["  ", "..."],
-    ["> ", "Akeem was the second member of his order sent to this nothing town."],
+    ["> ", "It seems Akeem was the second member of his order sent to this nothing town."],
     ["  ", "The first, whom we just put down, was here chasing rumors of a vampire."],
-    ["  ", "Seems to me he found it, but Akeem says a vampire couldn't have blighted the land like this."],
-    ["  ", "Something else is at work."],
+    ["  ", "Seems to me he found one, but Akeem says even a powerful bloodsucker couldn't have blighted the land like this."],
+    ["  ", "He's convinced something else is at work."],
     ["  ", "..."],
     ["  ", "His order's library had a dusty, crumbling map of this region."],
-    ["  ", "To the far west is something called 'the Valley of Death.'"],
-    ["  ", "So obviously we're going there next."],
-
-], "Warning": [
-    ["> ", "..."]
-    # a warning left centuries ago describes a lich imprisoned in the valley beyond. The sacred desert keeps its curse contained.
-], "Ziggurat": [
-    ["> ", "We've found the seat of this evil and will venture inside soon."],
-    ["  ", "It appears humble from without- smaller than the other stepped pyramids around it."],
-    ["  ", "By the entrance, we found a weathered stele toppled onto its side."],
-    ["  ", "Ancient glyphs mark that stone, still legible after two thousand years of abandonment."],
+    ["  ", "Reading it, he learned of a western region called 'the Valley of Death.'"],
+    ["  ", "We're going there next on the basis of its name. Joy."]
+], "Valley": [
+    ["> ", "The valley before us holds no structures aside from pyramids and hosts no life but scavengers."],
+    ["  ", "This entire landscape is a massive, crumbling tomb."],
+    ["  ", "The others almost seem excited to explore. I am the only sane one present."],
     ["  ", "..."],
-    ["> ", "I thought myself a learned man when I lived among sailors, but Akeem and Fadia are true scholars."],
-    ["  ", "Between them, they managed to translate what remains of the inscription."],
-    ["  ", "What they read both sickens and encourages me."],
+    ["> ", "We climbed a small hill to survey what lies before us. At its peak, we found a weathered stele."],
+    ["  ", "Several words had long since chipped away, but the most important phrase endured:"],
+    ["  ", "'In this accursed valley is inturned a lich. Turn back before death claims you.'"],
+    ["  ", "We know now what awaits us. I know not how we will vanquish it."],
+    ["  ", "I cannot turn back alone."]
+], "Ziggurat": [
+    ["> ", "We've reached the seat of this evil and will venture inside soon."],
+    ["  ", "It appears humble from without- smaller and cruder than the pyramids around it."],
+    ["  ", "From its scale and placement at the valley's end, we believe it to be older than its neighbors."],
+    ["  ", "..."],
+    ["> ", "Ancient glyphs mark its lintel, still legible after two thousand years of abandonment."],
+    ["  ", "I had thought myself a learned man when I lived among sailors, but Akeem is a true scholar."],
+    ["  ", "He managed to translate what remains of the inscription. Its words both sicken and encourage me."],
     ["  ", "..."],
     ["> ", "I had assumed the lich was never destroyed because his obliteration was impossible,"],
-    ["  ", " but it seems he only endures because his captors wanted him to suffer."],
-    ["  ", "He was an ancient lord whose peers hated him enough to make him an immortal prisoner."],
-    ["  ", "Goddess willing, we will end his torment and prevent his blight from spreading beyond these lands."],
+    ["  ", " but it seems he endures only because his captors wanted him to suffer."],
+    ["  ", "He was an ancient lord whose peers hated him enough to make him an eternal prisoner."],
+    ["  ", "Goddess willing, we will end his millennia of torment and stop the spread of his blight."],
     ["  ", "We can only hope his guards oblige us."]
 ], "Dragon": [
     ["> ", "We were fools to venture so deeply into this marsh."],
@@ -72,8 +77,8 @@ scenes = {"Shipwrecked": [
     ["  ", "We saw and felt the dragon's shadow cross over our bodies before we heard the beating of its wings."],
     ["  ", "The great beast must have glided towards us silently, keeping to our blind spot until it rose from its dive."],
     ["  ", "..."],
-    ["  ", "Fadia thinks it was merely curious. Akeem agreed with me that its coming was a message."],
-    ["  ", "All acknowledged that staying here would be the death of us. We're turning back."]
+    ["  ", "Fadia thinks the creature was merely curious. Akeem agreed with me that its coming was a message."],
+    ["  ", "Both acknowledged that staying here would be the death of us. We're turning back."]
 ]}
     # ["  ", "The man seems capable enough, but I don't like how much he smiles."],
     # ["  ", "Too much has gone awry for me to another's mirth. I wish he'd stop trying to cheer us up."],
@@ -82,5 +87,3 @@ scenes = {"Shipwrecked": [
     # ["  ", "..."],
     # ["  ", "I feel bad for snapping this morning. The shipwreck wasn't her fault. Even if she is cursed."],
     # ["  ", "Akeem thinks providence brought us together. I pray he's wrong."]
-  
-    # ["  ", "Claims his order sent him here to investigate a nightmare shared by multiple elders."],
