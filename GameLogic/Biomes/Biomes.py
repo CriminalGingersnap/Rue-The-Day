@@ -35,11 +35,11 @@ def setFoes(biome, budgets, luckCard) -> list:
             case "Flame Volcano": members = Avarice.volcanoEncounters(roll, budget)
 
             case "Kingdom Fort": members = Kingdom.strongholdEncounters(roll, rollNum, "Fort", budget)
-            case "Kingdom Road": members = Kingdom.outlierEncounters(roll, rollNum, "Road", budget)
+            case "Kingdom Road": members = Kingdom.strongholdEncounters(roll, rollNum, "Road", budget)
             case "Marshland": members = Kingdom.marshEncounters(roll, budget)
             case "Outlaw Camp": members = Kingdom.strongholdEncounters(roll, rollNum, "Camp", budget)
-            case "Outlaw Range": members = Kingdom.outlierEncounters(roll, rollNum, "Range", budget)
-            case "Unsettled": members = Kingdom.unsettledEncounters(roll, budget)
+            case "Outlaw Range": members = Kingdom.strongholdEncounters(roll, rollNum, "Range", budget)
+            case "Unsettled Lands": members = Kingdom.unsettledEncounters(roll, budget)
 
             case "Dream Sea-Cave": members = Benediction.seaCaveEncounters(roll, budget)
             case "Holy Scrubland": members = Benediction.scrublandEncounters(roll, budget)
@@ -53,7 +53,7 @@ def setFoes(biome, budgets, luckCard) -> list:
             # case "Ice Peak": members = Infestation.peakEncounters(roll, budget)
             case "Marsh Depths": members = Infestation.depthsEncounters(roll, budget)
             case "Shoreline Nest": members = Infestation.nestEncounters(roll, budget)
-            
+
         memberIndex = 1
         for member in members:
             member.props["name"] += "[" + str(rollNum) + str(memberIndex) + "]"
@@ -62,11 +62,13 @@ def setFoes(biome, budgets, luckCard) -> list:
 
         for member in members:
             if "echo" in member.inv:
-                echo = member.inv["echo"]
-                if (echo != "None"):
-                    echo.props["name"] += "[" + str(rollNum) + str(memberIndex) + "]"
-                    echo.props["initials"] = str(rollNum) + str(memberIndex)
-                    memberIndex += 1
+                if memberIndex <= 9:
+                    echo = member.inv["echo"]
+                    if (echo != "None"):
+                        echo.props["name"] += "[" + str(rollNum) + str(memberIndex) + "]"
+                        echo.props["initials"] = str(rollNum) + str(memberIndex)
+                        memberIndex += 1
+                else: member.inv["echo"] = "None"
 
         groups[rollNum] = members
         rollNum += 1

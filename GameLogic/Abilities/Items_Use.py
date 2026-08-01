@@ -108,31 +108,3 @@ def regenerate(fighter) -> None:
 
         Select.waitPrint("Blood essence activates!")
         Conditions.recoverHP(fighter, healing)
-
-        
-def evolve(fighter, item) -> None:
-    fighter.atrb["base_mar"] += 2
-    fighter.atrb["base_mag"] += 2
-    fighter.atrb["base_sp"] += 3
-
-    fighter.atrb["base_hp"] += 6
-    halfHealth, quarterHealth = fighter.atrb["base_hp"] // 2, fighter.atrb["base_hp"] // 4
-    fighter.atrb["half_hp"], fighter.atrb["quart_hp"] = halfHealth, quarterHealth
-    fighter.atrb["tolerance"] = fighter.atrb["endurance"] = halfHealth
-
-    fighter.boons += ["Regenerate"]
-    fighter.cndt["inviolable"] = True
-    fighter.cndt["winged"] = True
-
-    match item:
-        case "Flameheart": fighter.atrb["base_elm"] = "Flame"
-        case "Dreamheart": fighter.atrb["base_elm"] = "Dream"
-        case "Iceheart": fighter.atrb["base_elm"] = "Ice"
-
-    Select.waitPrint(fighter.props["name"] + " begins draconic " + item + " evolution.")
-    Select.waitPrint(fighter.props["name"] + " adopts the " + fighter.atrb["base_elm"] + " element!")
-    Select.waitPrint(fighter.props["name"] + " gains:")
-    for buff in ["6 HP", "3 Speed", "2 Martial Dice", "2 Magic Dice", "The 'Regenerate' Boon", "The 'Winged' condition"]:
-        Select.waitPrint(buff)
-    Select.waitPrint("And the 'Inviolable' condition!")
-

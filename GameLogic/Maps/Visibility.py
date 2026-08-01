@@ -1,4 +1,4 @@
-from . import Map_Update as uMap, MovementOptions as mOpts, Visibility_Fill as Fill
+from . import Map_Instantiate as iMap, Map_Update as uMap, MovementOptions as mOpts, Visibility_Fill as Fill
 
 unseen = "   ?"
 
@@ -35,7 +35,7 @@ def look(position, row, column, battleMap, sightMap, peak):
 
     visible = True
 
-    obstructed = "/" in vistaSpace
+    obstructed = any(obstruction in vistaSpace for obstruction in ["/", ".", "e", "s"] + iMap.intStrings)
     clouded = any(cloud in vistaSpace for cloud in uMap.majorHazards) and ((abs(position[0] - row) > 1) or (abs(position[1] - column) > 1))
     fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
     misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((abs(position[0] - row) > 6) or (abs(position[1] - column) > 6))

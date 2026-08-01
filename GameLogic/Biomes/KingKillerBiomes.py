@@ -1,29 +1,15 @@
 from . import RandomCreatures, RandomHumans
 
 
-# Soldiers, outlaws, and wildlife vie for space and resources.
-def outlierEncounters(roll, rollNumber, type, budget) -> list:
-    members, element, majorBiome = [], "Basic", False
-
-    if rollNumber == 0:
-        match type:
-            case "Range": members = RandomHumans.warriors("Outlaw", element, majorBiome, budget)
-            case "Road": members = RandomHumans.warriors("Soldier", element, majorBiome, budget)
-    else: members = unsettledEncounters(roll, budget)
-            
-    return members
-
 def strongholdEncounters(roll, rollNumber, type, budget) -> list:
-    members, element, majorBiome = [], "Basic", True
+    members, element = [], "Basic"
 
     if rollNumber == 0:
         match type:
-            case "Camp":
-                members = RandomHumans.warriors("Outlaw", element, majorBiome, budget)
-                members += RandomHumans.warriors("Outlaw", element, majorBiome, budget)
-            case "Fort":
-                members = RandomHumans.warriors("Soldier", element, majorBiome, budget)
-                members += RandomHumans.warriors("Soldier", element, majorBiome, budget)
+            case "Range": members = RandomHumans.warriors("Outlaw", element, False, budget)
+            case "Road": members = RandomHumans.warriors("Soldier", element, False, budget)
+            case "Camp": members = RandomHumans.warriors("Outlaw", element, True, budget)
+            case "Fort":members = RandomHumans.warriors("Soldier", element, True, budget)
     else: members = unsettledEncounters(roll, budget)
             
     return members

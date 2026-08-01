@@ -4,7 +4,7 @@
 #  #3: Minimize interruptions and downtime.
 #  #4: Only human/animal characters. No fantasy races or personified gods.
 
-from Loop import Encounters
+from Loop import Encounters, CustomEncounters
 from Maps import World, Movement, Map_Print as Print
 from Systems import PlayerSelect as Select
 from GameState import SaveLoad as Save
@@ -38,7 +38,7 @@ def adventure(group):
                     world.events[eventOption]["complete"] = True
 
             victory = False
-            if bespoke: victory = Encounters.customLoop(group, biome, event)
+            if bespoke: victory = CustomEncounters.customLoop(group, biome, event)
             else: victory = Encounters.randomLoop(group, biome)
 
             if victory:

@@ -4,9 +4,10 @@ from . import LootEquipment, LootStones, LootSummons, CombatPhases as Phases
 import copy
 
 
-def searchAll(players, enemies) -> None:
+def searchAll(playersGroup, enemies) -> None:
+    groupInv, players = playersGroup["inventory"], playersGroup["members"]
     if Select.yesNo("Reorganize party inventory?"): sortItems(players)
-    if Select.yesNo("Loot enemies?"): lootFoes(enemies)
+    if Select.yesNo("Loot enemies?"): lootFoes(groupInv, players, enemies)
 
 
 def sortItems(players):
@@ -37,13 +38,13 @@ def sortItems(players):
             del standard[standard]
 
 
-def lootFoes(players, enemies):
-    humans, standards, creatures = [], [], []
+def lootFoes(groupInv, players, enemies):
+    humans, standards, creatures, boss = [], [], [], None
 
     for enemy in enemies:
         if enemy.props["type"] == "human": humans += [enemy]
         elif enemy.props["job"] == "standard": standards += [enemy]
-        elif enemy.props["rank"] == "Ascendant": continue
+        elif enemy.props["rank"] == "Ascendant": boss = enemy
         else: creatures += enemy
     
     if len(humans) > 0:
@@ -51,6 +52,7 @@ def lootFoes(players, enemies):
         if Select.yesNo("Swap equipment?"): LootEquipment.lootEquipment(players, humans)
     if len(standards) > 0: LootSummons.lootStandards(players, standards)
     if len(creatures) > 0: LootSummons.lootEchos(players, creatures)
+    if boss != None: groupInv += [boss.inv["shards"]]
 
     lootSimple(players, humans + standards + creatures)
 

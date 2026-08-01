@@ -1,10 +1,10 @@
-from . import CombatPhases as Phases, Loot
+from . import CombatPhases as Phases
 from Abilities import AttackAbilities as Attacks, Hindrances_Apply as Hinder
 from Systems import Commitments, PlayerSelect as Select, Sort
 from Maps import Map_Update as uMap
 
 
-def engage(playerGroup, enemyGroups, battleMap, timePermits) -> list:
+def engage(playerGroup, enemyGroups, battleMap) -> list:
     input("\nPress Enter to begin combat.")
 
     playerVictory, playerDefeat, result = False, False, []
@@ -24,11 +24,7 @@ def engage(playerGroup, enemyGroups, battleMap, timePermits) -> list:
             if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap)[0]
             if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap)[0]
 
-    if playerVictory and timePermits:
-        Loot.searchAll(group1, result[1])
-        return True
-    else:
-        return False
+    return result
 
 
 def battle(offenseGroup, targetGroup, battleMap) -> bool:

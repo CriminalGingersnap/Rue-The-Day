@@ -1,6 +1,6 @@
 
 
-scenes = {"Shipwrecked": [
+scenes = {"Village": [
     ["> ", "My prized ship is gone. Its loyal crew, dead."],
     ["  ", "I thought myself the only survivor until I found that witch collapsed on the sand."],
     ["  ", "She must have dragged herself up from the surf before succumbing to exhaustion."],
@@ -12,7 +12,7 @@ scenes = {"Shipwrecked": [
     ["  ", "I'm glad to have at least one true ally left."],
     ["  ", "Tomorrow, we'll head uphill towards a village I spotted to the north. Someone there might sell me a boat."],
     ["  ", "The witch can come along if she wakes by then."]
-], "Village": [
+], "Post Village": [
     ["> ", "So much for the village."],
     ["  ", "The town itself is rotted; none of their rowboats look salvageable."],
     ["  ", "The only thing we gained in coming here was our new companion."],
@@ -27,6 +27,14 @@ scenes = {"Shipwrecked": [
     ["  ", "We'll go there next, and since we can't sail, we'll climb through the caves."],
     ["  ", "The witch should feel at home. I'll be glad to have her, too, even if she is cursed."]
 ], "Town": [
+    ["  ", "The paladin seems capable enough, but I don't like how much he smiles."],
+    ["  ", "Too much has gone awry for me to share another's mirth. I wish he'd stop trying to cheer us up."],
+    ["  ", "Even Fadia seems annoyed. She won't complain though."],
+    ["  ", "I don't think that woman has it in her to say anything cruel."],
+    ["  ", "..."],
+    ["  ", "I feel bad for snapping this morning. The shipwreck wasn't her fault. Even if she is cursed."],
+    # ["  ", "Akeem thinks providence brought us together. I pray he's wrong."]
+], "Post Town": [
     ["> ", "Another dead settlement. The temple at its heart was burned to ash."],
     ["  ", "We could see that from outside the mud-brick walls."],
     ["  ", "Akeem insisted on entering anyway, and Fadia wasn't willing to abandon him."],
@@ -57,7 +65,7 @@ scenes = {"Shipwrecked": [
     ["  ", "'In this accursed valley is inturned a lich. Turn back before death claims you.'"],
     ["  ", "We know now what awaits us. I know not how we will vanquish it."],
     ["  ", "I cannot turn back alone."]
-], "Ziggurat": [
+], "Lich": [
     ["> ", "We've reached the seat of this evil and will venture inside soon."],
     ["  ", "It appears humble from without- smaller and cruder than the pyramids around it."],
     ["  ", "From its scale and placement at the valley's end, we believe it to be older than its neighbors."],
@@ -80,10 +88,3 @@ scenes = {"Shipwrecked": [
     ["  ", "Fadia thinks the creature was merely curious. Akeem agreed with me that its coming was a message."],
     ["  ", "Both acknowledged that staying here would be the death of us. We're turning back."]
 ]}
-    # ["  ", "The man seems capable enough, but I don't like how much he smiles."],
-    # ["  ", "Too much has gone awry for me to another's mirth. I wish he'd stop trying to cheer us up."],
-    # ["  ", "Even Fadia seems annoyed. She won't complain though."],
-    # ["  ", "I don't think that woman has it in her to say anything cruel."],
-    # ["  ", "..."],
-    # ["  ", "I feel bad for snapping this morning. The shipwreck wasn't her fault. Even if she is cursed."],
-    # ["  ", "Akeem thinks providence brought us together. I pray he's wrong."]

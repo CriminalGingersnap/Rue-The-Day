@@ -1,3 +1,5 @@
+from Campaigns.Benediction import Journal as B_Journal
+from Campaigns.Avarice import Journal as A_Journal
 import time
 
 longWait, quickWait = .3, .07
@@ -11,12 +13,18 @@ def slowPrint(text):
     quickPrint('', '')
 
 
-def readScene(phraseList) -> None:
-    for phrase in phraseList:
-        quickPrint(phrase[0], '')
-        conversationPrint(phrase[1])
+def readScene(title, campaign) -> None:
+    if yesNo("Read '" + title + "' journal entry?"):
+        phraseList = ""
+        match campaign:
+            case "Avarice": phraseList = A_Journal.scenes["title"]
+            case "Benediction": phraseList = B_Journal.scenes["title"]
 
-    input("Press Enter to continue.")
+        for phrase in phraseList:
+            quickPrint(phrase[0], '')
+            conversationPrint(phrase[1])
+
+        input("Press Enter to continue.")
 
 def conversationPrint(text):
     for i in text:

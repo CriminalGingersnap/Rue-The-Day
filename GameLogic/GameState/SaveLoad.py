@@ -123,6 +123,7 @@ def saveGroup(group) -> None:
     save = {
         "campaign": group["campaign"],
         "days": group["days"],
+        "inventory": [],
         "members": memberNames,
     }
 
@@ -136,6 +137,7 @@ def loadGroup(campaign) -> dict:
     group = {
         "campaign": "",
         "days": 0,
+        "inventory": [],
         "members": [],
         "world": world
     }
@@ -147,6 +149,7 @@ def loadGroup(campaign) -> dict:
         with open(setFilePath(campaign, slot, "Group"), 'r') as jsonFile:
             load = json.load(jsonFile)
             group["campaign"] = load["campaign"]
+            group["inventory"] = load["inventory"]
             group["days"] = load["days"]
 
             for name in load["members"]:
