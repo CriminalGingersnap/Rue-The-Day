@@ -48,10 +48,10 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     if len(enemies) == 0: return "None"
 
     closestEnemy = Assess.findClosest(fighter, enemies)
-    highestMAGEnemy = Assess.findHighestMAG(enemies)
-    highestMAREnemy = Assess.findHighestMAR(enemies)
+    highestMAGEnemy = Assess.findHighestGeneral(enemies, "cur_mag")
+    highestMAREnemy = Assess.findHighestGeneral(enemies, "cur_mar")
     lowestAVEnemy = Assess.findLowestAV(fighter, enemies)
-    lowestHPEnemy = Assess.findLowestHP(enemies)
+    lowestHPEnemy = Assess.findLowestGeneral(enemies, "cur_hp")
     lowestResFlameEnemy = Assess.findLowestRes(enemies, "Flame")
     lowestResCrushEnemy = Assess.findLowestRes(enemies, "Crush")
     lowestResDreamEnemy = Assess.findLowestRes(enemies, "Dream")

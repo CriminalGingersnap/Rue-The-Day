@@ -175,9 +175,8 @@ def portMap(players, element) -> list:
 
     players[0].pos, players[1].pos, players[2].pos = [0, 1], [1, 1], [2, 1]
 
-    Duke = Humans.brute("Basic", "Novice")
+    Duke = Humans.doctor("Basic", "Adept")
     Duke.props["name"] = "Usurper Duke"
-    Duke.cndt["reposed"], Duke.cndt["skittish"] = True, True
 
     Knight1, Knight2, Knight3 = Humans.knight("Basic", "Elite").ch, Humans.knight("Basic", "Master").ch, Humans.knight("Basic", "Adept").ch    
     Mage1, Mage2 = Humans.mage("Ice", "Adept").ch, Humans.mage("Flame", "Adept").ch   

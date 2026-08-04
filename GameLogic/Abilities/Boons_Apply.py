@@ -54,11 +54,17 @@ def applyGuard(principal):
     return bonus + wreathBonus
 
 
+def applyFortify(principal) -> str:
+    bonus = apply(principal, "Fortify")
+    Conditions.recoverTolerance(principal, bonus)
+
 def applyHeal(principal) -> str:
     bonus = apply(principal, "Heal")
-    if bonus > 0:
-        Select.waitPrint(principal.props["name"] + " heals " + str(bonus) + " points!")
-        Conditions.recoverHP(principal, bonus)
+    Conditions.recoverHP(principal, bonus)
+
+def applyRally(principal) -> str:
+    bonus = apply(principal, "Rally")
+    Conditions.recoverStamina(principal, bonus)
 
 
 def applyVeil(principal):

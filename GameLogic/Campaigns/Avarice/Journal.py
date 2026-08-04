@@ -144,8 +144,8 @@ scenes = {"Escape": [
 ], "Camp": [
     ["> ", "Willem's health has improved. He can walk again."],
     ["  ", "We saw him taking a stroll around the camp with a guard holding each arm."],
-    ["  ", "They never let him get within twelve paces of anyone carrying a bow."],
-    ["  ", "We'll need to put one in his hands before the killing starts."],
+    ["  ", "They never let him get within twelve paces of anyone carrying a bow or banner."],
+    ["  ", "We'll need to craft what he needs and get it into his hands before the killing starts."],
     ["  ", "As much as he loves watching his juniors work, I know he hates feeling left out."],
     ["", ""],
     ["> ", "Laura said she's almost convinced we should just strike now, but we agreed to follow the plan."],

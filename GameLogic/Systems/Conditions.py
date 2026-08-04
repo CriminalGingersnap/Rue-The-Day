@@ -15,24 +15,31 @@ def decrementTolerance(fighter, potency) -> None:
         else:
             if fighter.atrb["tolerance"] == 1:
                 fighter.atrb["corruption"] += 1
-                fighter.atrb["tolerance"] = getTolerance(fighter)
+                fighter.atrb["tolerance"] = fighter.atrb["endurance"]
                 Select.waitPrint(fighter.props["name"] + " gains a point of instability!")
-                Select.waitPrint("Magic rolls become unstable!")
-    
-    if fighter.atrb["corruption"] > 0:
-        Select.waitPrint(fighter.props["name"] + " takes " + str(potency) + " Bleed damage!")
-        takeDamage(fighter, "Bleed", potency)
+                Select.waitPrint("Magic rolls lose stability!")
 
-def getTolerance(fighter) -> int:
-    value = fighter.atrb["endurance"]
-    if fighter.atrb["base_elm"] == "Basic": value *= 2
-    return value
+    corruption = fighter.atrb["corruption"]
+    if corruption > 0:
+        Select.waitPrint(fighter.props["name"] + " takes " + str(corruption) + " Bleed damage!")
+        takeDamage(fighter, "Bleed", corruption)
 
 
 def recoverHP(principal, points):
     if points > 0:
         principal.atrb["cur_hp"] = min(principal.atrb["base_hp"], principal.atrb["cur_hp"] + points)
         Select.waitPrint(principal.props["name"] + " receives " + str(points) + " of healing.\n")
+
+def recoverStamina(principal, points):
+    if points > 0:
+        principal.atrb["stamina"] = min(principal.atrb["base_hp"], principal.atrb["stamina"] + points)
+        Select.waitPrint(principal.props["name"] + " rallies for " + str(points) + " of stamina.\n")
+
+def recoverTolerance(principal, points):
+    if points > 0:
+        principal.atrb["tolerance"] = min(principal.atrb["base_hp"], principal.atrb["tolerance"] + points)
+        Select.waitPrint(principal.props["name"] + " fortifies for " + str(points) + " of tolerance.\n")
+
 
 def takeDamage(target, dmgType, damage) -> None:
     damage = Damage.applyResistance(damage, dmgType, target)

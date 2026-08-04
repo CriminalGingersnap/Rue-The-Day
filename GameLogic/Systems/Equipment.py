@@ -82,9 +82,7 @@ def setWeapon(job, element, skills) -> list:
     match job:
         case "Mage":
             elementList = ["Dream", "Flame", "Holy", "Ice", "Rot"]
-
-            weapon["reach"], weapon["name"] = 8, element
-            weapon["dmgTypes"] = [element]
+            weapon.update({"reach": 8, "name": element, "dmgTypes": element})
 
             if isTwoHanded:
                 elementList.remove(element)
@@ -93,9 +91,7 @@ def setWeapon(job, element, skills) -> list:
             else: weapon["name"] += " Flag"
 
         case "Archer" | "Dragonslayer":
-            weapon["reach"] = 8
-            weapon["twoHanded"] = True
-            weapon["dmgTypes"] += ["Pierce"]
+            weapon.update({"reach": 8, "twoHanded": True, "dmgTypes": ["Pierce"]})
 
             if job == "Archer": weapon["name"] = "Bow"
             else:
@@ -105,8 +101,7 @@ def setWeapon(job, element, skills) -> list:
         case "Brute" | "Knight":
             if isTwoHanded:
                 longOptions = list(set(meleeOptions).intersection(longMelee))
-                weapon["name"] = random.choice(longOptions)
-                weapon["reach"] = 2
+                weapon.update({"name": random.choice(longOptions), "reach": 2})
             else:
                 shortOptions = list(set(meleeOptions).intersection(shortMelee))
                 weapon["name"] = random.choice(shortOptions)
@@ -114,11 +109,9 @@ def setWeapon(job, element, skills) -> list:
             if weapon["name"] in bluntMelee: weapon["dmgTypes"] += ["Crush"]
             if weapon["name"] in sharpMelee: weapon["dmgTypes"] += ["Pierce"]
 
-        case "Paladin":
-            weapon["reach"] = 8
-            weapon["twoHanded"] = False
-            weapon["name"] = "Sling"
-            weapon["dmgTypes"] += ["Crush", "Holy"]
+        case "Doctor": weapon["name"] = "Bag"
+
+        case "Paladin": weapon.update({"reach": 8, "name": "Sling", "dmgTypes": ["Crush", "Holy"]})
 
     if weapon["twoHanded"]: weapon["modifier"] += 1
     if any(dmgType in weapon["dmgTypes"] for dmgType in ["Crush", "Pierce"]): weapon["dmgTypes"] += ["Bleed"]

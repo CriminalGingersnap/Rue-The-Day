@@ -1,7 +1,7 @@
 from Systems import PlayerSelect as Select, Damage
 import random
 
-martialBoons = ["Conceal", "Guard"]
+martialBoons = ["Bandage", "Conceal", "Fortify", "Guard", "Rally"]
 magicBoons = ["Focus", "Heal", "Regenerate", "Veil", "Wreath"]
 
 
@@ -39,12 +39,17 @@ def boonComment(fighter, principal, boon) -> None:
     trueBoon = boon
 
     match boon:
+        case "Bandage":
+            phrase += " bandages " + end
+            trueBoon = "Heal"
         case "Conceal":
             phrase += " conceals " + end
             trueBoon = "Veil"
         case "Heal": phrase += " heals " + end
         case "Focus": phrase += " focuses " + end
+        case "Fortify": phrase += " fortifies " + end
         case "Guard": phrase += " guards " + end
+        case "Rally": phrase += " rallies " + end
         case "Regenerate":
             phrase += " regenerates!"
             trueBoon = "Heal"

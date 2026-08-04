@@ -42,16 +42,14 @@ def setAttributes(stats, cndt, elm, dice, type):
 
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]
     halfHealth, quarterHealth = hp // 2, hp // 4
-    tolerance = endurance = halfHealth
+    endurance = halfHealth
     corruption, fatigue, injury = 0, random.choice([0, 0, 1]), random.choice([0, 0, 0, 0, 0, 1])
 
     if cndt["lifeless"]:
         cndt["sapient"], cndt["skittish"], cndt["social"] = True, False, False
         stats["resist"].update({"Bleed": "immune", "Dream": "immune", "Holy": "normal", "Toxic": "immune"})
         endurance *= 3
-    else:
-        if elm == "Toxic": tolerance *= 2
-        if type == "human": corruption = random.choice([0, 0, 0, 0, 0, 1])
+    elif type == "human": corruption = random.choice([0, 0, 0, 0, 0, 1])
 
     attributes = {"base_av": av, "cur_av": av,
                    "base_hp": hp, "cur_hp": hp, "half_hp": halfHealth, "quart_hp": quarterHealth,
@@ -59,7 +57,7 @@ def setAttributes(stats, cndt, elm, dice, type):
                      "base_elm": elm, "cur_elm": elm,
                       "base_mar": dice["martial"], "base_mag": dice["magic"], "cur_mar": dice["martial"], "cur_mag": dice["magic"],
                        "nat_res": copy.deepcopy(stats["resist"]), "cur_res": copy.deepcopy(stats["resist"]),
-                        "endurance": endurance, "stamina": endurance, "tolerance": tolerance,
+                        "endurance": endurance, "stamina": endurance, "tolerance": endurance,
                          "corruption": corruption, "fatigue": fatigue, "injury": injury}
     
     return attributes
@@ -88,15 +86,17 @@ def setDicts():
 
     commitments = {"Compel": copy.deepcopy(commitDict), "Confound": copy.deepcopy(commitDict),
                     "Confuse": copy.deepcopy(commitDict), "Focus": copy.deepcopy(commitDict),
-                     "Guard": copy.deepcopy(commitDict), "Heal": copy.deepcopy(commitDict),
-                      "Seal": copy.deepcopy(commitDict), "Veil": copy.deepcopy(commitDict),
-                       "Wreath": copy.deepcopy(commitDict)}
+                     "Fortify": copy.deepcopy(commitDict), "Guard": copy.deepcopy(commitDict),
+                      "Heal": copy.deepcopy(commitDict), "Rally": copy.deepcopy(commitDict),
+                       "Seal": copy.deepcopy(commitDict), "Veil": copy.deepcopy(commitDict),
+                        "Wreath": copy.deepcopy(commitDict)}
 
     effects = {"Compel": copy.deepcopy(effectDict), "Confound": copy.deepcopy(effectDict),
                 "Confuse": copy.deepcopy(effectDict), "Focus": copy.deepcopy(effectDict),
-                 "Guard": copy.deepcopy(effectDict), "Heal": copy.deepcopy(effectDict), 
-                  "Seal": copy.deepcopy(effectDict), "Veil": copy.deepcopy(effectDict),
-                   "Wreath": copy.deepcopy(effectDict)}
+                 "Fortify": copy.deepcopy(effectDict), "Guard": copy.deepcopy(effectDict),
+                  "Heal": copy.deepcopy(effectDict), "Rally": copy.deepcopy(effectDict), 
+                   "Seal": copy.deepcopy(effectDict), "Veil": copy.deepcopy(effectDict),
+                    "Wreath": copy.deepcopy(effectDict)}
 
     itemEffects = {"Animate": copy.deepcopy(itemDict), "Invigorate": copy.deepcopy(itemDict), "Imbue": copy.deepcopy(itemDict)}
 

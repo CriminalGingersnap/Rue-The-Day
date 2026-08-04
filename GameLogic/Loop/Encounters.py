@@ -53,7 +53,7 @@ def handleAftermath(victorGroup) -> bool:
             elif fighter.atrb["fatigue"] >=  fighter.atrb["endurance"]:
                 Select.waitPrint(fighter.props["name"] + " collapses from exhaustion!")
                 takeRest = True
-            elif fighter.atrb["corruption"] >=  Conditions.getTolerance(fighter):
+            elif fighter.atrb["corruption"] >=  fighter.atrb["endurance"]:
                 Select.waitPrint(fighter.props["name"] + " collapses from sickness!")
                 takeRest = True
 
@@ -74,7 +74,7 @@ def refresh(fighter) -> None:
     fighter.atrb["stamina"] = fighter.atrb["endurance"]
     fighter.atrb["fatigue"] = 0
 
-    fighter.atrb["tolerance"] = Conditions.getTolerance(fighter)
+    fighter.atrb["tolerance"] = fighter.atrb["endurance"]
     fighter.atrb["corruption"] = 0
 
     fighter.dead = False

@@ -17,7 +17,7 @@ def setCommon(job, element, rank) -> list:
     if job in ["Brute", "Knight"]: stats["speed"] = "high"
 
     match job:
-        case "Archer" | "Brute" | "Knight":
+        case "Archer" | "Brute" | "Doctor" | "Knight":
             match rank:
                 case "Novice": dice["martial"] = 1
                 case "Proficient" | "Adept": dice["martial"] = 2
@@ -103,6 +103,27 @@ class dragonslayer:
             if rank in ["Adept", "Elite"]: specialtyLevel = "specialty"
             if rank in ["Elite", "Master"]:
                 abl["boons"] += ["Conceal"]
+                if rank == "Master": specialtyLevel = "mastery"
+
+        setSpecialty(abl, specialtyLevel)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
+
+class doctor:
+    def __init__(self, element, rank) -> None:
+        job = "Doctor"
+        common = setCommon(job, element, rank)
+        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, {"boons": ["Bandage"]})
+        specialtyLevel = "None"
+
+        if rank in ["Proficient", "Adept", "Elite", "Master"]:
+            abl["boons"] += ["Rally"]
+
+            if rank in ["Adept", "Elite"]: specialtyLevel = "specialty"
+            if rank in ["Elite", "Master"]:
+                abl["boons"] += ["Fortify"]
                 if rank == "Master": specialtyLevel = "mastery"
 
         setSpecialty(abl, specialtyLevel)

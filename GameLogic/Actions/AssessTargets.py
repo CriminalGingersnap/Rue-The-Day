@@ -18,39 +18,28 @@ def findClosest(fighter, targets):
     return closestTarget
 
 
-def findHighestMAG(targets):
-    highestMAGTarget = random.choice(targets)
-    prevMAGHigh = highestMAGTarget.atrb["cur_mag"]
+def findHighestGeneral(targets, key):
+    highestRanked = random.choice(targets)
+    prevHigh = highestRanked.atrb[key]
 
     for target in targets:
-        if target.atrb["cur_mag"] > prevMAGHigh:
-            highestMAGTarget = target
-            prevMAGHigh = target.atrb["cur_mag"]
+        if target.atrb[key] > prevHigh:
+            highestRanked = target
+            prevHigh = target.atrb[key]
     
-    return highestMAGTarget
+    return highestRanked
 
-def findHighestMAR(targets):
-    highestMARTarget = random.choice(targets)
-    prevMAGHigh = highestMARTarget.atrb["cur_mar"]
+def findLowestGeneral(targets, key):
+    lowestRanked = random.choice(targets)
+    prevLow = lowestRanked.atrb[key]
 
     for target in targets:
-        if target.atrb["cur_mar"] > prevMAGHigh:
-            highestMARTarget = target
-            prevMAGHigh = target.atrb["cur_mar"]
+        if target.atrb[key] < prevLow:
+            lowestRanked = target
+            prevLow = target.atrb[key]
     
-    return highestMARTarget
+    return lowestRanked
 
-
-def findLowestHP(targets):
-    lowestHPTarget = random.choice(targets)
-    prevHPLow = lowestHPTarget.atrb["cur_hp"]
-
-    for target in targets:
-        if target.atrb["cur_hp"] < prevHPLow:
-            lowestHPTarget = target
-            prevHPLow = target.atrb["cur_hp"]
-    
-    return lowestHPTarget
 
 def findLowestAV(fighter, targets):
     lowestAVtarget = random.choice(targets)

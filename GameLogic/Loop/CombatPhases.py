@@ -59,6 +59,8 @@ def outro(fighter):
     alive = Sort.setAlive(fighter)
 
     if alive:
+        Boons.applyFortify(fighter)
+        Boons.applyRally(fighter)
         Boons.applyVeil(fighter)
 
         intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
