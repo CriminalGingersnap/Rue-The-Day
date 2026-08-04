@@ -1,8 +1,9 @@
-from Characters import Bosses, AggressiveBeasts as Beasts, Birds, Reptiles, Humans, Elementals, Totems
+from Characters import Bosses, AggressiveBeasts as Beasts, Birds, Reptiles, Humans, Elementals, Insects
 from Campaigns.Benediction import CustomMaps as B_Maps
+from Campaigns.Avarice import PCs as A_Pcs
 
 
-def glacierMap() -> list:
+def glacierMap(players) -> list:
     row1  = ["////⇑","////⇑","%___⇓","////⇑","////⇑","////⇑","////⇑","////⇑","%___⇓","////⇑","%___⇓","%___⇓"]
     row2  = ["////⇑","%___⇓","////⇑","%___⇓","////⇑","%___⇓","////⇑","%___⇓","////⇑","%___⇓","%_01⇓","%___⇓"]
     row3  = ["%_18⇓","////⇑","////⇑","////⇑","%_14⇓","////⇑","////⇑","%_12⇓","////⇑","////⇑","////⇑","%___⇓"]
@@ -17,11 +18,13 @@ def glacierMap() -> list:
     row12 = ["////⇑","////⇑","%___⇓","////⇑","%___⇓","%___⇓","////⇑","////⇑","////⇑","////⇑","%___⇓","%___⇓"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    Worm = Bosses.worm()
+    players[0].pos, players[1].pos = [10, 1], [10, 0]
+
+    Worm = Bosses.worm().ch
     B_Maps.placeFighter(Worm, "01", [1, 10])
     
-    Elemental1, Elemental2, Elemental3, Elemental4 = Elementals.dancer("Ice", "Greater").ch, Elementals.hulk("Ice", "Greater").ch, Elementals.wraith("Ice", "Greater").ch, Reptiles.wraith("Ice", "Random")
-    Elemental5, Elemental6, Elemental7, Elemental8 = Elementals.dancer("Ice", "Random").ch, Elementals.hulk("Ice", "Random").ch, Elementals.wisp("Ice", "Random").ch, Reptiles.wisp("Ice", "Random")
+    Elemental1, Elemental2, Elemental3, Elemental4 = Elementals.dancer("Ice", "Greater").ch, Elementals.hulk("Ice", "Greater").ch, Elementals.wraith("Ice", "Greater").ch, Reptiles.wraith("Ice", "Random").ch
+    Elemental5, Elemental6, Elemental7, Elemental8 = Elementals.dancer("Ice", "Random").ch, Elementals.hulk("Ice", "Random").ch, Elementals.wisp("Ice", "Random").ch, Reptiles.wisp("Ice", "Random").ch
     Elemental9 = Elementals.wisp("Ice", "Random").ch,
     B_Maps.placeFighter(Elemental1, "11", [5, 10])
     B_Maps.placeFighter(Elemental2, "12", [2, 7])
@@ -39,7 +42,7 @@ def glacierMap() -> list:
     return [group1, group2, battleMap]
 
 
-def volcanoMap() -> list:
+def volcanoMap(players) -> list:
     row1  = ["////⇑","////⇑","////⇑","#)))⇓","#)))⇓","////⇑","#)))⇓","////⇑","#)))⇓","////⇑","____⇑","____⇑"]
     row2  = ["____↑","////⇑","#)))⇓","#)))⇓","#)))⇓","____⇑","#)))⇓","#)))⇓","#)))⇓","____⇑","____⇑","____⇑"]
     row3  = ["__L.|","____↑","____↑","#)))⇓","////⇑","#)))⇓","____⇑","#)))⇓","#)))⇓","#)))⇓","____⇑","____⇑"]
@@ -54,10 +57,12 @@ def volcanoMap() -> list:
     row12 = ["////⇑","////⇑","#)))⇓","#)))⇓","____↑","____↑","____↑","////⇑","////⇑","////⇑","____|","____|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    LavaBug = Bosses.strider()
+    players[0].pos, players[1].pos = [2, 0], [3, 1]
+
+    LavaBug = Bosses.strider().ch
     B_Maps.placeFighter(LavaBug, "01", [8, 11])
     
-    Lizard1, Lizard2, Lizard3, Tortoise1 = Reptiles.lizard("Flame", "Adult").ch, Reptiles.lizard("Flame", "Adult").ch, Reptiles.lizard("Flame", "Adult").ch, Reptiles.tortoise("Flame", "Juvenile")
+    Lizard1, Lizard2, Lizard3, Tortoise1 = Reptiles.lizard("Flame", "Adult").ch, Reptiles.lizard("Flame", "Adult").ch, Reptiles.lizard("Flame", "Adult").ch, Reptiles.tortoise("Flame", "Juvenile").ch
     B_Maps.placeFighter(Lizard1, "11", [4, 8])   
     B_Maps.placeFighter(Lizard2, "12", [7, 5])   
     B_Maps.placeFighter(Lizard3, "13", [4, 11])   
@@ -68,12 +73,12 @@ def volcanoMap() -> list:
     return [group1, group2, battleMap]
 
 
-def woodsMap() -> list:
+def woodsMap(players) -> list:
     row1  = ["=___↓","=___↓","////⇑","////⇑","=___↓","=___↓","=_12|","=___|","=___↓","=___↓","=___↓","=___↓"]
     row2  = ["=___|","=___↓","////⇑","////⇑","=___↓","=_11|","=___|","=___↓","=___↓","////⇑","////⇑","=___↓"]
-    row3  = ["=_L.|","=___↓","=___↓","=___↓","=___↓","=___|","=___|","=___↓","////⇑","////⇑","////⇑","////⇑"]
+    row3  = ["=___|","=___↓","=___↓","=___↓","=___↓","=___|","=___|","=___↓","////⇑","////⇑","////⇑","////⇑"]
     row4  = ["=___|","=_M.|","=___|","=___|","=___|","=___|","=___|","=_13↓","////⇑","////⇑","@_01⇓","////⇑"]
-    row5  = ["=___|","=___|","=___|","=___|","=_15↓","=___↓","=___↓","=___↓","////⇑","////⇑","////⇑","=_02↓"]
+    row5  = ["=___|","=_L.|","=___|","=___|","=_15↓","=___↓","=___↓","=___↓","////⇑","////⇑","////⇑","=_02↓"]
     row6  = ["=___|","=___|","=___|","=___↓","=___↓","////⇑","=___↓","=___↓","=___↓","////⇑","////⇑","=___↓"]
     row7  = ["=___|","=___|","=___|","=___↓","////⇑","////⇑","////⇑","=___↓","=___↓","=___↓","=_03↓","=___↓"]
     row8  = ["=___|","=___|","=___|","=___↓","////⇑","////⇑","////⇑","=___↓","=___|","=___|","=___|","=___|"]
@@ -83,11 +88,13 @@ def woodsMap() -> list:
     row12 = ["////⇑","////⇑","=___↓","=___|","=___|","=___|","=___↓","=___↓","////⇑","=___↓","=___↓","=___|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    Giant = Bosses.giant()
+    players[0].pos, players[1].pos = [4, 1], [3, 1]
+
+    Giant = Bosses.giant().ch
     B_Maps.placeFighter(Giant, "01", [3, 10])
     Giant.cndt["reposed"] = True
 
-    Bear, Crow = Beasts.bear("Dream", "Elder"), Birds.crow("Dream", "Elder")
+    Bear, Crow = Beasts.bear("Dream", "Elder").ch, Birds.crow("Dream", "Elder").ch
     B_Maps.placeFighter(Bear, "02", [4, 11])
     B_Maps.placeFighter(Crow, "02", [6, 10])
     
@@ -102,21 +109,45 @@ def woodsMap() -> list:
     return [group1, group2, battleMap]
 
 
-def fortMap(playerGroup) -> list:
-    row1  = ["____|","____|","____|","____|","____|","____|","____⇑","____|","____|","____|","____|","____|"]
-    row2  = ["____|","____|","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓"]
-    row3  = ["_L._|","____|","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓","_~~~⇓"]
-    row4  = ["_M._|","____|","_~~~⇓","_~~~⇓","////↑","////↑","////↑","////↑","////↑","////↑","////↑","////↑"]
-    row5  = ["____|","____|","_~~~⇓","_~~~⇓","////↑","__01⇑","____⇑","____⇑","____⇑","__03⇑","____⇑","____⇑"]
-    row6  = ["____|","____|","_~~~⇓","_~~~⇓","////↑","____⇑","____|","____|","____|","____|","____|","____|"]
-    row7  = ["____|","____|","_~~~⇓","_~~~⇓","////↑","____⇑","____|","____|","____|","____|","____|","____|"]
-    row8  = ["____|","____|","_~~~⇓","_~~~⇓","////↑","____⇑","__04|","____|","____|","____|","____|","____|"]
-    row9  = ["____|","____|","_~~~⇓","_~~~⇓","////↑","__02⇑","____|","____|","____|","____|","____|","____|"]
-    row10 = ["____|","____|","_~~~⇓","_~~~⇓","////↑","____⇑","____|","____|","____|","____|","____|","____|"]
-    row11 = ["____|","____|","_~~~⇓","_~~~⇓","////↑","____⇑","____|","____|","____|","____|","____|","____|"]
-    row12 = ["____|","____|","_~~~⇓","_~~~⇓","////↑","____⇑","__05|","____|","____|","____|","____|","____|"]
+def campMap(players) -> list:
+    row1  = ["____|","____|","////|","____|","____|","____|","____|","__11|","____|","__05|","____|","____|"]
+    row2  = ["____|","____|","////|","////|","____|","____|","__12|","____|","____|","#___|","____|","____|"]
+    row3  = ["__L.|","____|","__02|","////|","____|","____|","____|","____|","____|","f)))|","__09|","____|"]
+    row4  = ["__M.|","____|","__W.|","////|","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row5  = ["____|","__01|","__03|","////|","__06|","____|","____|","____|","____|","__08|","____|","____|"]
+    row6  = ["____|","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row7  = ["____|","____|","____|","/////","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row8  = ["____|","____|","____|","////|","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row9  = ["____|","____|","____|","////|","____|","__07|","____|","____|","____|","////|","////|","////|"]
+    row10 = ["____|","____|","////|","////|","____|","____|","____|","____|","____|","////|","____|","////|"]
+    row11 = ["____|","____|","////|","____|","____|","____|","____|","____|","////|","////|","____|","____|"]
+    row12 = ["__04|","____|","////|","____|","____|","____|","____|","____|","////|","____|","____|","____|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    group1 = []
-    group2 = []
+    players += [Willem]
+    players[0].pos, players[1].pos, players[2].pos = [2, 0], [3, 0], [3, 2]
+
+    Willem = A_Pcs.getWillem()
+    B_Maps.placeFighter(Willem, "01", [3, 2])
+
+    Bandit1, Bandit2, Bandit3 = Humans.brute("Basic", "Elite").ch, Humans.brute("Basic", "Adept").ch, Humans.basic("Basic", "Adept").ch    
+    Bandit4, Bandit5, Bandit6 = Humans.archer("Basic", "Proficient").ch, Humans.mage("Flame", "Proficient").ch, Humans.brute("Basic", "Novice").ch    
+    Bandit7, Bandit8, Bandit9 = Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Elite").ch, Humans.archer("Basic", "Novice").ch    
+    B_Maps.placeFighter(Bandit1, "01", [4, 1])
+    B_Maps.placeFighter(Bandit2, "02", [2, 2])
+    B_Maps.placeFighter(Bandit3, "03", [4, 2])
+    B_Maps.placeFighter(Bandit4, "04", [11, 0])
+    B_Maps.placeFighter(Bandit5, "05", [0, 9])
+    B_Maps.placeFighter(Bandit6, "06", [4, 4])
+    B_Maps.placeFighter(Bandit7, "07", [8, 5])
+    B_Maps.placeFighter(Bandit8, "08", [4, 9])
+    B_Maps.placeFighter(Bandit9, "09", [3, 10])
+
+    Insect1 = Insects.isopod("Basic", "Small").ch
+    Insect2 = Insects.isopod("Basic", "Small").ch
+    B_Maps.placeFighter(Insect1, "11", [0, 7])
+    B_Maps.placeFighter(Insect2, "12", [1, 6])
+
+    group1 = [Bandit1, Bandit2, Bandit3, Bandit4, Bandit5, Bandit6, Bandit7, Bandit8, Bandit9]
+    group2 = [Insect1, Insect2]
     return [group1, group2, battleMap]

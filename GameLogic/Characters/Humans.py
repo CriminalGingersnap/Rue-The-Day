@@ -153,8 +153,8 @@ class mage:
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
 
 class paladin:
-    def __init__(self, rank) -> None:
-        job, element = "Paladin", "Holy"
+    def __init__(self, element, rank) -> None:
+        job = "Paladin"
         common = setCommon(job, element, rank)
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)

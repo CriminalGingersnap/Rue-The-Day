@@ -14,12 +14,13 @@ def slowPrint(text):
 
 
 def readScene(title, campaign) -> None:
-    if yesNo("Read '" + title + "' journal entry?"):
+    if yesNo("\nRead '" + title + "' journal entry?"):
         phraseList = ""
         match campaign:
-            case "Avarice": phraseList = A_Journal.scenes["title"]
-            case "Benediction": phraseList = B_Journal.scenes["title"]
+            case "Avarice": phraseList = A_Journal.scenes[title]
+            case "Benediction": phraseList = B_Journal.scenes[title]
 
+        time.sleep(longWait)
         for phrase in phraseList:
             quickPrint(phrase[0], '')
             conversationPrint(phrase[1])
@@ -29,10 +30,8 @@ def readScene(title, campaign) -> None:
 def conversationPrint(text):
     for i in text:
         quickPrint(i, '')
-        time.sleep(quickWait)
-        if i in [".", ",", "?", "!", ">"]: time.sleep(.2)
-        elif i == ":": time.sleep(.5)
-    waitPrint("\n")
+        if i in [".", ",", "?", "!", ":"]: time.sleep(longWait)
+    quickPrint("\n")
 
 
 def quickPrint(text, ending: str | None = "\n"):

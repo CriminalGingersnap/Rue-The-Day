@@ -1,43 +1,41 @@
 
 
 scenes = {"Escape": [
-    ["> ", "The journal in which I now write was the first object I had ever stolen."],
-    ["  ", "I snatched it from our warden's desk even before I helped myself to his sword."],
-    ["  ", "Laura called me foolish for wasting time digging through his shelves for a quill."],
-    ["  ", "She changed her tune when I found his core stash first."],
-    ["  ", "I finally have proof that my hobbies are useful."],
+    ["> ", "This journal was the first object I ever stole."],
+    ["  ", "I snatched it from our warden's desk before helping myself to his weapons."],
+    ["  ", "Laura called me foolish for searching his shelves for a quill but changed her tune when I found his core stash."],
+    ["  ", "Finally: proof that my hobbies are useful."],
     ["  ", ""],
-    ["> ", "Gods willing, we only have another's day's march before we enter the fjord."],
-    ["  ", "Laura says we'll head East from there- into the glacier."],
-    ["  ", "Of the three titans, the worm should be easiest for us to hunt."],
-    ["  ", "Whichever route we follow, we have fourteen days to return to this spot."],
-    ["  ", "If we aren't prepared to strike within the next two weeks... Willem will die alone."]
+    ["> ", "We have another's day's march before we enter the fjord."],
+    ["  ", "Laura wants to head East from there- into the glacier."],
+    ["  ", "Of this region's three titans, the worm should prove easiest to hunt."],
+    ["  ", ""],
+    [">  ", "Whichever route we follow, we have maybe ten days to return here."],
+    ["  ", "If we aren't prepared to strike within the next two weeks... Willem dies alone."]
 ], "Threshold": [
-    ["> ", "Laura says the wilderness beyond beyond our kingdom's northernmost frontier"],
-    ["  ", " hasn't been settled since before our language existed."],
+    ["> ", "Laura says these woods haven't been settled since before our language first developed."],
     ["  ", "Judging from the ruins we've spotted, I believe her."],
     ["  ", ""],
     ["> ", "Nobody lives here now, at any rate. The wild's gentlest regions serve only as hunting grounds."],
-    ["   ", "It isn't safe to linger even at the edge. No one sane dares its depths."],
-    ["   ", "On that subject, Laura says she's looking forward to seeing her first intact flame elemental."],
-    ["   ", "I'm not."]
+    ["  ", "It isn't safe to linger even at the margins; no one sane delves deeper."],
+    ["  ", "On that subject, Laura says she's looking forward to seeing her first intact flame elemental."],
+    ["  ", "I'm not."]
 ], "Moose": [
-    ["> ", "Walking beside the fjord, we saw a bull moose swimming across its frigid depths."],
-    ["  ", "We stopped for a minute to observe the creature's progress."],
-    ["  ", "I was making some comment about the weather when our moose disappeared."],
+    ["> ", "We saw a bull moose swimming across the fjord and stopped for a minute to observe its progress."],
+    ["  ", "I was making some comment about the weather when our creature disappeared."],
     ["  ", "I saw the moment clearly enough to tell it wasn't diving. It simply fell beneath the surface."],
-    ["  ", "There weren't any sings of struggle, either."],
+    ["  ", "Like it was pulled."],
+    ["  ", "There weren't any sings of struggle, though."],
     ["  ", "Whatever gabbed it either killed the beast instantly or dragged it deep."],
     ["  ", ""],
-    ["> ", "If we'd had any intention of making a raft..."]
+    ["> ", "If we'd had any intentions of making a raft..."]
 ], "Worm": [
-    ["> ", "The elementals here are strangely quiet."],
-    ["  ", "Around every other corner we find one of those headless monsters standing in the paths."],
+    ["> ", "Around every other corner we find an elemental placidly standing in the paths."],
     ["  ", "Some are even frozen inside the walls. They seem at peace."],
-    ["  ", "It's certainly frigid enough that they have nothing to complain about."],
+    ["  ", "It's frigid enough that they've got nothing to complain about."],
     ["  ", ""],
-    ["> ", "The air here gets so cold that every inhalation stings. I have a blanket of frost forming on my beard."],
-    ["  ", "That means we're getting close to our quarry, per Laura."],
+    ["> ", "The air here gets so cold that I have a blanket of frost forming on my beard."],
+    ["  ", "That means we're close to our quarry, per Laura."],
     ["  ", "Right after she said that, I told her that her eyes look beautiful with ice clinging to her lashes."],
     ["  ", "She ordered me to focus. :("],
     ["  ", ""],
@@ -117,15 +115,16 @@ scenes = {"Escape": [
     ["> ", "There's no going back."],
     ["  ", "Laura's ritual barely left us enough time to slip past the fort before"],
     ["  ", "..."],
-    ["  ", "Gods, I didn't expect so much power. That blast turned night to day."],
+    ["  ", "Gods, I didn't expect so much power. That flash turned night to day."],
     ["  ", "The magic was thick enough that even I could feel it pressing on my skin."],
-    ["  ", "Elementals were already forming by the time we got out. Every last one of them looks angry."],
+    ["  ", "Elementals were already forming by the time we got out. Every last one of them looked angry."],
     ["  ", ""],
-    ["> ", "Laura says that patch of ground will remain infused for at least a month."],
+    ["> ", "Laura says that patch of ground will remain infused for several days."],
     ["  ", "I can't see it can ever returning to what it was."],
-    ["  ", "Regardless, the fort has fallen. We saw disorganized survivors making their retreat along the high road."],
+    ["  ", "Regardless, the fort has fallen."],
+    ["  ", "We saw disorganized survivors making their retreat along the high road."],
     ["  ", "It wasn't clear who held command. They might have been deserters."],
-    ["  ", "Clever men, if so, but anyone heading south who shelters at the port will curse his luck for it soon."],
+    ["  ", "Clever men, if so, but anyone who shelters at the port will curse his luck for it soon."],
     ["  ", ""],
     ["  ", "Before we strike there, we need to press into the eastern hills."],
     ["  ", "Willem awaits."]
@@ -134,18 +133,32 @@ scenes = {"Escape": [
     ["  ", "We saw him taking a stroll around the camp with a guard holding each arm."],
     ["  ", "They never let him get within twelve paces of anyone carrying a bow."],
     ["  ", "We'll need to put one in his hands before the killing starts."],
-    ["  ", "As much as he loves watching his students work, I know he hates feeling left out."],
+    ["  ", "As much as he loves watching his juniors work, I know he hates feeling left out."],
     ["  ", ""],
     ["> ", "Laura said she's almost convinced we should just strike now, but we agreed to follow the plan."],
     ["  ", "Let the duke's two-faced pet think we've brought his ransom."],
-    ["  ", "As soon as Willem's in front of us, the highwayman dies."]
+    ["  ", "As soon as Willem's in front of us, the highwayman dies."],
+    ["  ", "After that, we'll need to run."]
 ], "Post Camp": [
-    ["> ", "I doubt we've expunged banditry from the region entirely,"],
-    ["  ", " but they won't cling to these hills as firmly as they used to."]
-], "Port": [
+    ["> ", "It worked! We're reunited with our old mentor, and he's still as spry as ever."],
+    ["  ", "Willem carries himself as if this whole ordeal was a minor inconvenience."],
+    ["  ", "The man barely seems to mind that his cousin tried to have him killed."],
+    ["  ", "He's far more upset about his lands and horses being seized."],
+    ["  ", "We'll get it all back soon."],
+    ["  ", ""],
+    ["> ", "As for the bandits, they haven't pursued us."],
+    ["  ", "Their best men were gathered in that tent for the handoff."],
+    ["  ", "What's left doesn't want to give chase, especially with no leader to urge them."],
+    ["  ", ""],
+    ["> ", "I doubt we've expunged their ilk from the region entirely,"],
+    ["  ", " but they won't cling to these hills as firmly as they used to."],
+    ["  ", "It felt good to finally deal with them. Like working out a splinter."],
+    ["  ", "Now we just have one more irritant to remove."],
+    ["  ", "I wonder if the duke is expecting us yet. I hope he hasn't fled."]
+], "Finale": [
     ["> ", "The duke is still in residence. It seems he's busy trying to restore order amidst the chaos we've already sown."],
     ["  ", "He won't have that problem much longer."],
-], "Post Port": [
-    ["  ", ""]
-    # They send a letter to the king notifying him that one shard remains.
+], "Post Finale": [
+    ["  ", "We sent a letter to the king politely notifying him that one shard remains in our possession."],
+    ["  ", "Our phrasing implied that we're unwilling to hand it over."],
 ]}

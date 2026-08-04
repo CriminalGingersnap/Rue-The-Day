@@ -33,12 +33,14 @@ def look(position, row, column, battleMap, sightMap, peak):
     fighterSpace, vistaSpace = battleMap[position[0]][position[1]], battleMap[row][column]
     standingHeight, vistaHeight = mOpts.heightDict[fighterSpace[-1]], mOpts.heightDict[vistaSpace[-1]]
 
+    rowDiff, colDiff = abs(position[0] - row), abs(position[1] - column)
+
     visible = True
 
-    obstructed = any(obstruction in vistaSpace for obstruction in ["/", ".", "e", "s"] + iMap.intStrings)
-    clouded = any(cloud in vistaSpace for cloud in uMap.majorHazards) and ((abs(position[0] - row) > 1) or (abs(position[1] - column) > 1))
-    fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((abs(position[0] - row) > 3) or (abs(position[1] - column) > 3))
-    misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((abs(position[0] - row) > 6) or (abs(position[1] - column) > 6))
+    obstructed = any(obstruction in vistaSpace for obstruction in ["/", ".", "e", "s"] + iMap.intStrings) and ((rowDiff > 0) or (colDiff > 0))
+    clouded = any(cloud in vistaSpace for cloud in uMap.majorHazards) and ((rowDiff > 1) or (colDiff > 1))
+    fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((rowDiff > 3) or (colDiff > 3))
+    misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((rowDiff > 6) or (colDiff > 6))
 
     if vistaHeight < peak: visible = False
     elif obstructed or clouded or misted or fogged: peak = max(peak, vistaHeight + 1)

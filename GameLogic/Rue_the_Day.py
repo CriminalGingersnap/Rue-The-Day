@@ -18,17 +18,19 @@ def adventure(group):
     Print.printWorldMap(world)
 
     while True:
+        if world.events["Finale"]["location"] == marker.pos: break
+
         marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
         Movement.moveFighter(marker, worldMap, None, None, 24, "world")
         marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
+        row, column = marker.pos[0], marker.pos[1]
+        letter = worldMap[row][column][0]
+        if letter == "~": letter = "s"
+        biome = world.legend[letter]
+        
         if marker.pos not in marker.lastCleared:
             Select.waitPrint("Encounter triggered!!!")
-
-            row, column = marker.pos[0], marker.pos[1]
-            letter = worldMap[row][column][0]
-            if letter == "~": letter = "s"
-            biome = world.legend[letter]
 
             bespoke, event = False, None
             for eventOption in world.events:
@@ -47,7 +49,7 @@ def adventure(group):
 
         elif marker.pos == marker.lastCleared[0]:
             if Select.yesNo("Rest and Save Game?"):
-                Encounters.rest(group)
+                Encounters.rest(group, biome)
                 Print.printWorldMap(world)
 
 

@@ -38,7 +38,7 @@ def getAkeem():
     Akeem = Humans.paladin("Elite").ch
     Akeem.props["name"], Akeem.props["initials"] = "Akeem", "A."
     Akeem.atrb["base_av"], Akeem.atrb["base_hp"], Akeem.atrb["base_sp"] = 9, 16, 4
-    Akeem.abl["specialty"] = "Bless"
+    Akeem.abl["specialty"] = ["Bless"]
 
     resetPlayer(Akeem)
     return Akeem
@@ -47,7 +47,7 @@ def getFadia():
     Fadia = Humans.mage("Dream", "Adept").ch
     Fadia.props["name"], Fadia.props["initials"] = "Fadia", "F."
     Fadia.atrb["base_av"], Fadia.atrb["base_hp"], Fadia.atrb["base_sp"] = 7, 14, 3
-    Fadia.abl["specialty"] = "Wreath"
+    Fadia.abl["specialty"] = ["Wreath"]
 
     resetPlayer(Fadia)
     return Fadia
@@ -56,7 +56,7 @@ def getHassan():
     Hassan = Humans.brute("Basic", "Adept").ch
     Hassan.props["name"], Hassan.props["initials"] = "Hassan", "H."
     Hassan.atrb["base_av"], Hassan.atrb["base_hp"], Hassan.atrb["base_sp"] = 8, 18, 3
-    Hassan.abl["specialty"] = "Bash"
+    Hassan.abl["specialty"] = ["Bash"]
 
     resetPlayer(Hassan)
     return Hassan
@@ -65,7 +65,7 @@ def getLayth():
     Layth = Beasts.lion("Basic", "Juvenile").ch
     Layth.props["name"], Layth.props["initials"] = "Layth", "L."
     Layth.atrb["base_av"], Layth.atrb["base_hp"], Layth.atrb["base_sp"] = 8, 15, 6
-    Layth.abl["specialty"] = "Claw"
+    Layth.abl["specialty"] = ["Claw"]
     
     resetPlayer(Layth)
     return Layth

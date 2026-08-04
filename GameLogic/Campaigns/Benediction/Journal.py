@@ -24,37 +24,49 @@ scenes = {"Village": [
     ["  ", "..."],
     ["> ", "We're all stuck together for the moment, unfortunately."],
     ["  ", "Akeem says there's a walled town atop the cliffs to the northwest."],
-    ["  ", "We'll go there next, and since we can't sail, we'll climb through the caves."],
+    ["  ", "We'll go there next to see what's become of it. Since we can't sail, we'll climb through the caves."],
     ["  ", "The witch should feel at home. I'll be glad to have her, too, even if she is cursed."]
 ], "Town": [
-    ["  ", "The paladin seems capable enough, but I don't like how much he smiles."],
-    ["  ", "Too much has gone awry for me to share another's mirth. I wish he'd stop trying to cheer us up."],
-    ["  ", "Even Fadia seems annoyed. She won't complain though."],
-    ["  ", "I don't think that woman has it in her to say anything cruel."],
+    ["> ", "Another dead settlement. Its fate was obvious before this trek began, but now we have confirmation."],
+    ["  ", "We circled around a bit before deciding what to do and found a break in the outer wall"],
+    ["  ", " that lines up with an alleyway leading into the square."],
+    ["  ", "From our current vantage, we can see both temples at the settlement's heart."],
     ["  ", "..."],
-    ["  ", "I feel bad for snapping this morning. The shipwreck wasn't her fault. Even if she is cursed."],
-    # ["  ", "Akeem thinks providence brought us together. I pray he's wrong."]
+    ["> ", "It seems that the people who lived here honored the northern god of fire next to our lady of light."],
+    ["  ", "Since they're half-heathen and all-the-way dead, I suggested we should leave them to the fate they've already met."],
+    ["  ", "Akeem insists on entering regardless, and Fadia isn't willing to abandon him."],
+    ["  ", "I'm dead either way, and I'd rather die with courage, so I'll go along."],
+    ["  ", "..."],
+    ["> ", "Our one solace is that most of the population seems to have stayed down after being slaughtered,"],
+    ["  ", " and the ones who got up have largely dispersed through the countryside."],
+    ["  ", "At least we won't get swarmed."],
 ], "Post Town": [
-    ["> ", "Another dead settlement. The temple at its heart was burned to ash."],
-    ["  ", "We could see that from outside the mud-brick walls."],
-    ["  ", "Akeem insisted on entering anyway, and Fadia wasn't willing to abandon him."],
-    ["  ", "I went along because I'm dead either way, and I'd rather die with courage."],
-    ["  ", "At least we got some answers at the end of it."],
-    ["  ", "..."],
-    ["> ", "There was a note staked to the chest of that headless paladin."],
-    ["  ", "It simply reads, 'I warned you.'"],
-    ["  ", "Akeem didn't look surprised to see that, which didn't shock me."],
+    ["> ", "We found a paladin inside the flame temple. His head had been cut off in twisted imitation of an elemental."],
+    ["  ", "There was also a note staked into his chest. It simply reads, 'I warned you.'"],
+    ["  ", "Akeem didn't look surprised to see that, which in turn didn't shock me."],
     ["  ", "I nearly started shouting at him to get the truth, but Fadia just said,"],
     ["  ", " 'we deserve to know,' in that gentle voice of hers. It worked."],
     ["  ", "..."],
     ["> ", "It seems Akeem was the second member of his order sent to this nothing town."],
-    ["  ", "The first, whom we just put down, was here chasing rumors of a vampire."],
-    ["  ", "Seems to me he found one, but Akeem says even a powerful bloodsucker couldn't have blighted the land like this."],
+    ["  ", "The first, whom we just put down, came here chasing rumors of a vampire."],
+    ["  ", "Seems to me he found one, but Akeem says even the most powerful bloodsuckers couldn't blight the land like this."],
     ["  ", "He's convinced something else is at work."],
     ["  ", "..."],
-    ["  ", "His order's library had a dusty, crumbling map of this region."],
-    ["  ", "Reading it, he learned of a western region called 'the Valley of Death.'"],
-    ["  ", "We're going there next on the basis of its name. Joy."]
+    ["> ", "His order's library had a dusty, crumbling map of this region, which he studied before departing."],
+    ["  ", "Reading it, he learned of a westerly feature called the 'Valley of Death.'"],
+    ["  ", "We're going there next, purely on the basis of its name. Joy."]
+], "Ally": [
+    ["> ", "We found a greater spinx standing on cliff-side."],
+    ["  ", "It was looking away from us, 'staring' down into a blighted gorge which we presume to be the Valley of Death."],
+    ["  ", "We almost left the monster be before Layth decided to break off."],
+    ["  ", "Ignoring my commands, she walked right up to the thing and started grooming it."],
+    ["  ", "After a few seconds of getting licked, the elemental turned and gently tapped its neck stub against her."],
+    ["  ", "Then it leapt off the cliff and glided down into the valley."],
+    ["  ", "..."],
+    ["> ", "Fadia and I don't know what to make of that. Even Akeem says he's never seen the like."],
+    ["  ", "Elemental guardians are never friendly. At best, they ignore you."],
+    ["  ", "..."],
+    ["> ", "I wonder if we'll see it again."]
 ], "Valley": [
     ["> ", "The valley before us holds no structures aside from pyramids and hosts no life but scavengers."],
     ["  ", "This entire landscape is a massive, crumbling tomb."],
@@ -79,6 +91,8 @@ scenes = {"Village": [
     ["  ", "He was an ancient lord whose peers hated him enough to make him an eternal prisoner."],
     ["  ", "Goddess willing, we will end his millennia of torment and stop the spread of his blight."],
     ["  ", "We can only hope his guards oblige us."]
+], "Post Lich": [
+    ["  ", "I'm not sure how, but we're alive."]
 ], "Dragon": [
     ["> ", "We were fools to venture so deeply into this marsh."],
     ["  ", "In her benevolence, the goddess granted us what I suspect will be our only warning."],
@@ -87,4 +101,10 @@ scenes = {"Village": [
     ["  ", "..."],
     ["  ", "Fadia thinks the creature was merely curious. Akeem agreed with me that its coming was a message."],
     ["  ", "Both acknowledged that staying here would be the death of us. We're turning back."]
+], "Finale": [
+    ["  ", "..."]
+], "Post Finale": [
+    ["> ", "The vampire kept a journal like me."],
+    ["  ", "His entires go back centuries, though it's clear he was often unsure of the actual date. Even to the decade."],
+    ["  ", "I skipped to the final sections to see if I could piece together what happened between him and that town."],
 ]}

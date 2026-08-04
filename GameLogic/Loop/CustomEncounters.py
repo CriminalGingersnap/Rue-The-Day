@@ -28,13 +28,13 @@ def customLoop(playerGroup, biome, event) -> bool:
                     playerGroup["world"].worldMap[1][6], playerGroup["world"].worldMap[1][7] = "D_..|", "D/!!↑"
                 case "Worm":
                     playerGroup["world"].worldMap[14][7] = "w___↑"
-                    encounter = A_Maps.glacierMap()
+                    encounter = A_Maps.glacierMap(playerGroup["members"])
                 case "Giant":
-                    playerGroup["world"].worldMap[16][7] = "K_!!↑"
-                    encounter = A_Maps.woodsMap()
+                    playerGroup["world"].worldMap[16][7] = "K_**↑"
+                    encounter = A_Maps.woodsMap(playerGroup["members"])
                 case "Strider":
                     playerGroup["world"].worldMap[15][8] = "w___↑"
-                    encounter = A_Maps.volcanoMap()
+                    encounter = A_Maps.volcanoMap(playerGroup["members"])
                 case "Breakout":
                     skipCombat = True
                     letter = getLetter(playerGroup["inventory"])
@@ -42,13 +42,13 @@ def customLoop(playerGroup, biome, event) -> bool:
                     playerGroup["world"].worldMap[17][7], playerGroup["world"].worldMap[16][7] = "s_..↓", letter + "!//↑"
                 case "Camp":
                     playerGroup["world"].worldMap[18][11] = "u_..↑"
-                    encounter = A_Maps.campMap(playerGroup)
+                    encounter = A_Maps.campMap(playerGroup["members"])
                 case "Port":
                     letter = getLetter(playerGroup["inventory"])
                     playerGroup["world"].marker.pos = [16, 8]
                     playerGroup["world"].worldMap[20][4], playerGroup["world"].worldMap[21][4] = letter + "!//↑"
 
-                    encounter = A_Maps.portMap
+                    encounter = A_Maps.portMap(playerGroup["members"])
 
         case "Benediction":
             match event:
@@ -61,19 +61,18 @@ def customLoop(playerGroup, biome, event) -> bool:
                     encounter = B_Maps.villageMap(playerGroup["members"])
                     playerGroup["world"].worldMap[3][10], playerGroup["world"].worldMap[3][9], playerGroup["world"].worldMap[5][8] = "s___↓", "s___↓", "s___↓"
                 case "Town":
-                    encounter = B_Maps.townMap()
+                    encounter = B_Maps.townMap(playerGroup["members"])
                     playerGroup["world"].worldMap[6][7] = "d___↓"
-                # case "Ally":
-                    # add lesser sphinx elemental to party. They find it watching the valley. Layth starts sleeping next to it.
+                case "Ally": skipCombat = True
                 case "Valley": skipCombat = True
                 case "Lich":
-                    encounter = B_Maps.cryptMap(playerGroup["members"])
+                    encounter = B_Maps.cryptMap(playerGroup["members"], playerGroup["events"])
                 case "Dragon":
                     skipCombat = True
                     playerGroup["world"].marker.pos = [1, 6]
                     playerGroup["world"].worldMap[1][10], playerGroup["world"].worldMap[0][11] = "M_..↓", "M/!!↓"
-                case "Vampire":
-                    encounter = B_Maps.manorMap()
+                case "Finale":
+                    encounter = B_Maps.manorMap(playerGroup["members"])
 
     if skipCombat: return True
     else:
