@@ -1,9 +1,8 @@
 from Systems import PlayerSelect as Select, Damage
-from . import Boons_Apply as Apply
 import random
 
 martialBoons = ["Conceal", "Guard"]
-magicBoons = ["Focus", "Veil", "Wreath"]
+magicBoons = ["Focus", "Heal", "Regenerate", "Veil", "Wreath"]
 
 
 def commitDice(fighter, principal, boon) -> None: 
@@ -43,8 +42,12 @@ def boonComment(fighter, principal, boon) -> None:
         case "Conceal":
             phrase += " conceals " + end
             trueBoon = "Veil"
+        case "Heal": phrase += " heals " + end
         case "Focus": phrase += " focuses " + end
         case "Guard": phrase += " guards " + end
+        case "Regenerate":
+            phrase += " regenerates!"
+            trueBoon = "Heal"
         case "Veil": phrase += " veils " + end
         case "Wreath": phrase += " wreaths " + end
 

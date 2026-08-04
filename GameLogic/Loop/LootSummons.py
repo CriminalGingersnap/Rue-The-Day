@@ -23,7 +23,7 @@ def lootStandards(players, standards):
 def lootEchos(players, creatures) -> None:
     recentDead = []
     for enemy in creatures:
-        if not (enemy.cndt["lifeless"] or (enemy.type in ["insect", "invertebrate"])): recentDead += [enemy]
+        if not (enemy.cndt["lifeless"] or (enemy.props["type"] in ["insect", "invertebrate"])): recentDead += [enemy]
 
     if len(recentDead) > 0:
         Select.waitPrint("Echos of the slain linger within their fallen bodies.")

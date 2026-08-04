@@ -1,3 +1,4 @@
+from Abilities import Area_Locate as Locate
 from Maps import Movement
 import random
 
@@ -17,7 +18,7 @@ def npcSelectItem(fighter, groups, inventory) -> str:
             closeDmgTypes += enemy.equip["weapon"]["dmgTypes"]
 
     setExtractPreferences(fighter, preferences, enemyDmgTypes, allowList)
-    setDetonationPreferences(preferences, closeDmgTypes)
+    setDetonationPreferences(fighter, groups, preferences, closeDmgTypes)
     
     choices, selection = [], "None"
 
@@ -61,9 +62,13 @@ def setExtractPreferences(fighter, preferences, enemyDmgTypes, allowList):
             if "Toxic" in enemyDmgTypes: preferences["Extract"] += ["Rot"]
 
 
-def setDetonationPreferences(preferences, closeDmgTypes):
-    if "Flame" in closeDmgTypes: preferences["Detonate"] += ["Ice"]
-    elif "Ice" in closeDmgTypes: preferences["Detonate"] += ["Flame"]
+def setDetonationPreferences(fighter, groups, preferences, closeDmgTypes):
+    range = 4
+    if "Sling" == fighter.equip["weapon"]["name"]: range = fighter.equip["weapon"]["reach"]
+    
+    if Locate.findSpace(fighter, groups, range, "stone") != "None":
+        if "Flame" in closeDmgTypes: preferences["Detonate"] += ["Ice"]
+        elif "Ice" in closeDmgTypes: preferences["Detonate"] += ["Flame"]
 
-    if "Rot" in closeDmgTypes: preferences["Detonate"] += ["Holy"]
-    else: preferences["Detonate"] += ["Bleed", "Rot"]
+        if "Rot" in closeDmgTypes: preferences["Detonate"] += ["Holy"]
+        else: preferences["Detonate"] += ["Rot"]

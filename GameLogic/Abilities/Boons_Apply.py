@@ -54,10 +54,11 @@ def applyGuard(principal):
     return bonus + wreathBonus
 
 
-def applyHeal(principal, ability) -> str:
-    bonus = apply(principal, ability)
-    Select.waitPrint(principal.props["name"] + " heals " + str(bonus) + " points!")
-    Conditions.recoverHP(principal, bonus)
+def applyHeal(principal) -> str:
+    bonus = apply(principal, "Heal")
+    if bonus > 0:
+        Select.waitPrint(principal.props["name"] + " heals " + str(bonus) + " points!")
+        Conditions.recoverHP(principal, bonus)
 
 
 def applyVeil(principal):

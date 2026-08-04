@@ -30,7 +30,7 @@ def selectSpace(fighter, groups, boarders, source) -> int:
                 if optionsMap[row][column][2] in iMap.intStrings: 
                     optionsMap[row][column] = optionsMap[row][column][:2] + "!!" + optionsMap[row][column][-1]
 
-        counter, optionDict = 1, {"0": "None"}
+        counter, optionDict = 0, {"0": "None"}
         
         blockers = ["?", "/", ")"]
         if source in ["echo", "standard", "Slip"]: blockers += [".", "!", "e", "s"]
@@ -41,30 +41,20 @@ def selectSpace(fighter, groups, boarders, source) -> int:
                 if not any(blocker in optionsMap[row][column] for blocker in blockers):
                     if fighter.props["rank"] == "player":
                         optionDict[str(counter)] = [row, column]
+                        setSpace(sightMap[row][column], optionsMap[row][column], counter)
                     elif source == "Slip":
                         optionDict[str(counter)] = [row, column, 0]
+                        setSpace(sightMap[row][column], optionsMap[row][column], counter)
                     elif enemyInRange(row, column, enemies) and ((source == "echo") or allyNotInRange(row, column, allies)):
                         optionDict[str(counter)] = [row, column]
-
-                    atmosphere = sightMap[row][column][0]
-                    marker = sightMap[row][column][1]
-                    elevation = sightMap[row][column][-1]
-
-                    if any(playerMark in optionsMap[row][column] for playerMark in [".", "e", "s"]): marker = "."
-                    elif "!" in optionsMap[row][column]: marker = "!"
-
-                    filler = ""
-                    if counter < 10: filler = "_"
-                    
-                    optionsMap[row][column] = atmosphere + marker + str(counter) + filler + elevation
-                    counter += 1
+                        setSpace(sightMap[row][column], optionsMap[row][column], counter)                    
 
         choice = ""
         if fighter.props["rank"] == "player":
             Print.printOptionsMap(optionsMap, "Options Map")
             choice = Select.takeInput(0, counter)
         elif len(optionDict) > 1:
-            if source == "Slip":                
+            if source == "Slip":
                 target = Attacks.npcSelectAttackTarget(fighter, groups["fightingEnemies"], True)
                 choice = Movement.moveNPC(fighter, target, optionDict, 1, counter, False)
             else: choice = random.randint(1, counter)
@@ -88,3 +78,18 @@ def allyNotInRange(row, column, allies):
             notInRange = False
 
     return notInRange
+
+
+def setSpace(sightSpace, optionsSpace, counter) -> None:
+    atmosphere = sightSpace[0]
+    marker = sightSpace[1]
+    elevation = sightSpace[-1]
+
+    if any(playerMark in optionsSpace for playerMark in [".", "e", "s"]): marker = "."
+    elif "!" in optionsSpace: marker = "!"
+
+    filler = ""
+    if counter < 10: filler = "_"
+    
+    optionsSpace = atmosphere + marker + str(counter) + filler + elevation
+    counter += 1

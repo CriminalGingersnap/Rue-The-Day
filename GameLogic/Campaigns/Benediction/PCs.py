@@ -55,7 +55,7 @@ def getFadia():
 def getHassan():
     Hassan = Humans.brute("Basic", "Adept").ch
     Hassan.props["name"], Hassan.props["initials"] = "Hassan", "H."
-    Hassan.atrb["base_av"], Hassan.atrb["base_hp"], Hassan.atrb["base_sp"] = 8, 18, 3
+    Hassan.atrb["base_av"], Hassan.atrb["base_hp"], Hassan.atrb["base_sp"] = 8, 18, 5
     Hassan.abl["specialty"] = ["Bash"]
 
     resetPlayer(Hassan)

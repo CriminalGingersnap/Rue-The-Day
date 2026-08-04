@@ -116,14 +116,14 @@ def getInventory(fighter) -> dict:
 
 
 def swapShield(fighter) -> None:
-    Select.waitPrint(fighter.name + " exchanges " + fighter.equip["shield"] + " for " + fighter.inv["spare"]["shield"] + ".")
+    Select.waitPrint(fighter.props["name"] + " exchanges " + fighter.equip["shield"] + " for " + fighter.inv["spare"]["shield"] + ".")
 
     tempShield = fighter.inv["spare"]["shield"]
     fighter.inv["spare"]["shield"] = fighter.equip["shield"]
     fighter.equip["shield"] = tempShield
 
 def swapWeapon(fighter) -> None:
-    Select.waitPrint(fighter.name + " exchanges " + fighter.equip["weapon"] + " for " + fighter.inv["spare"]["weapon"] + ".")
+    Select.waitPrint(fighter.props["name"] + " exchanges " + fighter.equip["weapon"] + " for " + fighter.inv["spare"]["weapon"] + ".")
 
     tempWeapon = fighter.inv["spare"]["weapon"]
     fighter.inv["spare"]["weapon"] = fighter.equip["weapon"]

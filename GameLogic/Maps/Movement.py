@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select
-from . import Map_Update as uMap, MovementOptions, Map_Print as Print
+from . import Map_Update as uMap, MovementOptions, Map_Print as Print, Map_Instantiate as iMap
 import random
 
 
@@ -96,8 +96,8 @@ def prepareOptions(movementMap, mapHeight) -> list:
             if ":" in contents:
                 spaceNumber = str(contents.split(':')[0])
                 if any(mark in spaceNumber for mark in [".", "!"]): spaceNumber = "1"
-                if "_" in spaceNumber: spaceNumber = spaceNumber.split('_')[1]
-                elif "~" in spaceNumber: spaceNumber = spaceNumber.split('~')[1]
+
+                if spaceNumber[0] not in iMap.intStrings: spaceNumber = spaceNumber[1:]
 
                 stepCount = contents.split(':')[1]
                 stepCount = stepCount[0]

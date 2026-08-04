@@ -27,18 +27,30 @@ def printOptionsMap(instanceMap, mapName, mapHeight=12) -> None:
     for row in range(mapHeight):
         if "World" not in mapName:
             for column in range(12):
-                space = instanceMap[row][column]
+                optionSpace = instanceMap[row][column]
                 topHalf = finishSpace(instanceMap[row][column], mapName)
-                if any(intString in space for intString in iMap.intStrings):
+                if any(intString in optionSpace for intString in iMap.intStrings):
                     console.print("[red]" + topHalf + "[/red]", end = "") 
-                else: print(topHalf, end = "")            
+                else:
+                    if "~" in optionSpace:
+                        if Elevation.doubleDown in optionSpace: console.print("[blue]" + topHalf + "[/blue]", end = "")
+                        else: console.print("[cyan]" + topHalf + "[/cyan]", end = "")
+                    elif "/" in optionSpace: console.print("[gray]" + topHalf + "[/gray]", end = "")
+                    elif ")" in optionSpace: console.print("[purple]" + topHalf + "[/purple]", end = "")
+                    else: print(topHalf, end = "")
             print()
 
         for column in range(12):
-            space = instanceMap[row][column]
-            if any(intString in space for intString in iMap.intStrings):
-                console.print("[red]" + space + "[/red]", end = "") 
-            else: print(space, end = "")
+            optionSpace = instanceMap[row][column]
+            if any(intString in optionSpace for intString in iMap.intStrings):
+                console.print("[red]" + optionSpace + "[/red]", end = "") 
+            else:
+                if "~" in optionSpace:
+                    if Elevation.doubleDown in optionSpace: console.print("[blue]" + optionSpace + "[/blue]", end = "")
+                    else: console.print("[cyan]" + optionSpace + "[/cyan]", end = "")
+                elif "/" in optionSpace: console.print("[gray]" + optionSpace + "[/gray]", end = "")
+                elif ")" in optionSpace: console.print("[purple]" + optionSpace + "[/purple]", end = "")
+                else: print(optionSpace, end = "")
         print()
     print()
 
@@ -52,7 +64,13 @@ def printSightMap(battleMap, sightMap, mapName) -> None:
 
             if "?" in sightSpace:
                 topHalf = finishSpace(battleMap[row][column], mapName)
-                print(topHalf, end = "")
+                
+                if "~" in battleSpace:
+                    if Elevation.doubleDown in battleSpace: console.print("[blue]" + topHalf + "[/blue]", end = "")
+                    else: console.print("[cyan]" + topHalf + "[/cyan]", end = "")
+                elif "/" in battleSpace: console.print("[gray]" + topHalf + "[/gray]", end = "")
+                elif ")" in battleSpace: console.print("[purple]" + topHalf + "[/purple]", end = "")
+                else: print(topHalf, end = "")
             else:
                 topHalf = finishSpace(sightMap[row][column], mapName)
                 console.print("[red]" + topHalf + "[/red]", end = "")
@@ -62,8 +80,15 @@ def printSightMap(battleMap, sightMap, mapName) -> None:
         for column in range(12):
             sightSpace, battleSpace = sightMap[row][column], battleMap[row][column]
 
-            if "?" in sightSpace: print(battleSpace, end = "")
-            else: console.print("[red]" + sightSpace + "[/red]", end = "")
+            if "?" in sightSpace:
+                if "~" in battleSpace:
+                    if Elevation.doubleDown in battleSpace: console.print("[blue]" + battleSpace + "[/blue]", end = "")
+                    else: console.print("[cyan]" + battleSpace + "[/cyan]", end = "")
+                elif "/" in battleSpace: console.print("[gray]" + battleSpace + "[/gray]", end = "")
+                elif ")" in battleSpace: console.print("[purple]" + battleSpace + "[/purple]", end = "")
+                else: print(battleSpace, end = "")
+            else:                
+                console.print("[red]" + sightSpace + "[/red]", end = "")
         print()
     print()
 

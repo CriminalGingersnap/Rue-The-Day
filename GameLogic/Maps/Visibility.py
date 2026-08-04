@@ -40,7 +40,7 @@ def look(position, row, column, battleMap, sightMap, peak):
     obstructed = any(obstruction in vistaSpace for obstruction in ["/", ".", "e", "s"] + iMap.intStrings) and ((rowDiff > 0) or (colDiff > 0))
     clouded = any(cloud in vistaSpace for cloud in uMap.majorHazards) and ((rowDiff > 1) or (colDiff > 1))
     fogged = any(fog in vistaSpace for fog in ["="] + uMap.minorHazards) and ((rowDiff > 3) or (colDiff > 3))
-    misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((rowDiff > 6) or (colDiff > 6))
+    misted = any(mist in vistaSpace for mist in ["-"] + uMap.lingeringHazards) and ((rowDiff > 5) or (colDiff > 5))
 
     if vistaHeight < peak: visible = False
     elif obstructed or clouded or misted or fogged: peak = max(peak, vistaHeight + 1)

@@ -163,7 +163,7 @@ class paladin:
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            abl["boons"] += ["Wreath"]
+            abl["boons"] += ["Heal"]
             
             if rank in ["Adept", "Elite"]: specialtyLevel = "specialty"
             if rank in ["Elite", "Master"]:

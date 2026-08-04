@@ -52,11 +52,11 @@ def humanInventory(element, rank) -> dict:
         budget, pearlCount, coreCount, echo = "", 0, 0, "None"
 
         match rank:
-            case "Novice": budget = 2
-            case "Proficient": budget = 3
-            case "Adept": budget = 4
-            case "Elite": budget = 5
-            case "Master": budget = 6
+            case "Novice": budget = 0
+            case "Proficient": budget = 1
+            case "Adept": budget = 2
+            case "Elite": budget = 4
+            case "Master": budget = 8
         
         vita = random.randint(1, 2)
         budget -= vita

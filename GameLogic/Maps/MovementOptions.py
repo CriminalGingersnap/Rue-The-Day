@@ -91,6 +91,7 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
             if (row == fighterRow) and (column == fighterColumn): continue
 
             moveSpace = movementMap[row][column]
+            atmosphere = sightMap[row][column][0]
             elevation = sightMap[row][column][-1]
             terrain = sightMap[row][column][1]
 
@@ -98,7 +99,9 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
                 if ("~" not in moveSpace) or (mapName != "world"):
                     if (")" not in moveSpace) or winged:
                         stepCount = moveSpace.split(':')[1]
-                        if counter < 10: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
+                        if counter < 10:
+                            if terrain == "~": movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
+                            else: movementMap[row][column] = atmosphere + str(counter) + ":" + str(stepCount) + elevation
                         else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                         counter += 1
 

@@ -62,7 +62,7 @@ def customLoop(playerGroup, biome, event) -> bool:
                     playerGroup["world"].worldMap[3][10], playerGroup["world"].worldMap[3][9], playerGroup["world"].worldMap[5][8] = "s___↓", "s___↓", "s___↓"
                 case "Town":
                     encounter = B_Maps.townMap(playerGroup["members"])
-                    playerGroup["world"].worldMap[6][7] = "d___↓"
+                    playerGroup["world"].worldMap[1][4], playerGroup["world"].worldMap[6][7] = "r___↑", "d___↓"
                 case "Ally": skipCombat = True
                 case "Valley": skipCombat = True
                 case "Lich":

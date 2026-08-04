@@ -72,7 +72,7 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     tossSpace = Locate.findSpace(fighter, groups, range, "stone")
 
     if tossSpace == "None":
-        Select.waitPrint(fighter.name + " cancels a throw before detonation.")
+        Select.waitPrint(fighter.props["name"] + " cancels a throw before detonation.")
         Select.quickPrint("The stone is expended.")
     else:
         potency = 2

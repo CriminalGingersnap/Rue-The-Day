@@ -25,13 +25,13 @@ def readScene(title, campaign) -> None:
             quickPrint(phrase[0], '')
             conversationPrint(phrase[1])
 
-        input("Press Enter to continue.")
+        input("\nPress Enter to continue.\n")
 
 def conversationPrint(text):
     for i in text:
         quickPrint(i, '')
         if i in [".", ",", "?", "!"]: time.sleep(longWait)
-    quickPrint("\n")
+    slowPrint("\n")
 
 
 def quickPrint(text, ending: str | None = "\n"):

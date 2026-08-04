@@ -30,7 +30,7 @@ def animate(fighter, groups, battleMap) -> None:
     echo = fighter.inv["echo"]
     tossSpace = Locate.findSpace(fighter, groups, 4, "echo")
     
-    if tossSpace == "None": Select.waitPrint(fighter.name + " cancels a throw before animation.")
+    if tossSpace == "None": Select.waitPrint(fighter.props["name"] + " cancels a throw before animation.")
     else:
         echo.itemEffects["Animate"]["duration"] = 3
         echo.sightMap + Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
@@ -41,7 +41,7 @@ def plant(fighter, groups, battleMap) -> None:
     standard = fighter.inv["standard"]
     plantSpace = Locate.findSpace(fighter, groups, 1, "standard")
 
-    if plantSpace == "None":  Select.waitPrint(fighter.name + " defers planting a standard.")
+    if plantSpace == "None":  Select.waitPrint(fighter.props["name"] + " defers planting a standard.")
     else:
         standard.pos = plantSpace
         standard.cndt["planted"] = True
