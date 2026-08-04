@@ -30,7 +30,7 @@ def readScene(title, campaign) -> None:
 def conversationPrint(text):
     for i in text:
         quickPrint(i, '')
-        if i in [".", ",", "?", "!", ":"]: time.sleep(longWait)
+        if i in [".", ",", "?", "!"]: time.sleep(longWait)
     quickPrint("\n")
 
 

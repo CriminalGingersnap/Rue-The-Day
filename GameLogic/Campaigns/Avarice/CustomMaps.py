@@ -1,7 +1,7 @@
 from Characters import Bosses, AggressiveBeasts as Beasts, Birds, Reptiles, Humans, Elementals, Insects
 from Campaigns.Benediction import CustomMaps as B_Maps
 from Campaigns.Avarice import PCs as A_Pcs
-
+from Abilities import Area_Apply as Area
 
 def glacierMap(players) -> list:
     row1  = ["////⇑","////⇑","%___⇓","////⇑","////⇑","////⇑","////⇑","////⇑","%___⇓","////⇑","%___⇓","%___⇓"]
@@ -116,7 +116,7 @@ def campMap(players) -> list:
     row4  = ["__M.|","____|","__W.|","////|","____|","____|","____|","____|","____|","____|","____|","____|"]
     row5  = ["____|","__01|","__03|","////|","__06|","____|","____|","____|","____|","__08|","____|","____|"]
     row6  = ["____|","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|"]
-    row7  = ["____|","____|","____|","/////","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row7  = ["____|","____|","____|","////|","____|","____|","____|","____|","____|","____|","____|","____|"]
     row8  = ["____|","____|","____|","////|","____|","____|","____|","____|","____|","____|","____|","____|"]
     row9  = ["____|","____|","____|","////|","____|","__07|","____|","____|","____|","////|","////|","////|"]
     row10 = ["____|","____|","////|","////|","____|","____|","____|","____|","____|","////|","____|","////|"]
@@ -124,13 +124,11 @@ def campMap(players) -> list:
     row12 = ["__04|","____|","////|","____|","____|","____|","____|","____|","////|","____|","____|","____|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
+    Willem = A_Pcs.getWillem()
     players += [Willem]
     players[0].pos, players[1].pos, players[2].pos = [2, 0], [3, 0], [3, 2]
 
-    Willem = A_Pcs.getWillem()
-    B_Maps.placeFighter(Willem, "01", [3, 2])
-
-    Bandit1, Bandit2, Bandit3 = Humans.brute("Basic", "Elite").ch, Humans.brute("Basic", "Adept").ch, Humans.basic("Basic", "Adept").ch    
+    Bandit1, Bandit2, Bandit3 = Humans.brute("Basic", "Elite").ch, Humans.brute("Basic", "Adept").ch, Humans.brute("Basic", "Adept").ch    
     Bandit4, Bandit5, Bandit6 = Humans.archer("Basic", "Proficient").ch, Humans.mage("Flame", "Proficient").ch, Humans.brute("Basic", "Novice").ch    
     Bandit7, Bandit8, Bandit9 = Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Elite").ch, Humans.archer("Basic", "Novice").ch    
     B_Maps.placeFighter(Bandit1, "01", [4, 1])
@@ -150,4 +148,77 @@ def campMap(players) -> list:
 
     group1 = [Bandit1, Bandit2, Bandit3, Bandit4, Bandit5, Bandit6, Bandit7, Bandit8, Bandit9]
     group2 = [Insect1, Insect2]
+    return [group1, group2, battleMap]
+
+
+def portMap(players, element) -> list:
+    row1  = ["////↑","__L.|","____|","____|","////|","__01|","____|","__08|","__05|","__03|","__13|","__18|"]
+    row2  = ["____↑","__M.|","____|","____|","////|","____|","____|","____|","____|","__07|","____|","____|"]
+    row3  = ["////↑","__W.↑","____|","____|","////|","____|","____|","____|","____|","////|","____|","____|"]
+    row4  = ["~~~~⇓","////↑","____|","____|","////|","____|","__09|","____|","____|","////|","____|","____|"]
+    row5  = ["~~~~⇓","____↑","____|","____|","__04|","____|","____|","____|","____|","////|","____|","____|"]
+    row6  = ["~~~~⇓","////↑","____|","__11|","__02|","____|","__06|","____|","__19|","////|","____|","____|"]
+    row7  = ["~~~~⇓","__16↑","____|","____|","////|","____|","____|","____|","__12|","////|","____|","__14|"]
+    row8  = ["~~~~⇓","////↑","____|","____|","////|","////|","////|","////|","////|","////|","____|","____|"]
+    row9  = ["~~~~⇓","____↑","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row10 = ["~~~~⇓","////↑","__17↑","____|","____|","____|","____|","____|","____|","__15|","____|","____|"]
+    row11 = ["~~~~⇓","~~~~⇓","////↑","____↑","////↑","____↑","////↑","____↑","////↑","____↑","////↑","____↑"]
+    row12 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓"]
+    battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+
+    atmosphere = Area.getAtmosphere(1, element)
+
+    for row in range(12):
+        for column in range(12):
+            if "__" in battleMap[row][column]:
+                battleMap[row][column] = atmosphere + battleMap[row][column][1:]
+
+    players[0].pos, players[1].pos, players[2].pos = [0, 1], [1, 1], [2, 1]
+
+    Duke = Humans.brute("Basic", "Novice")
+    Duke.props["name"] = "Usurper Duke"
+    Duke.cndt["reposed"], Duke.cndt["skittish"] = True, True
+
+    Knight1, Knight2, Knight3 = Humans.knight("Basic", "Elite").ch, Humans.knight("Basic", "Master").ch, Humans.knight("Basic", "Adept").ch    
+    Mage1, Mage2 = Humans.mage("Ice", "Adept").ch, Humans.mage("Flame", "Adept").ch   
+    Archer1, Archer2, Archer3 = Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Elite").ch, Humans.archer("Basic", "Adept").ch    
+    B_Maps.placeFighter(Duke, "01", [3, 10])
+    B_Maps.placeFighter(Knight1, "02", [4, 1])
+    B_Maps.placeFighter(Knight2, "03", [2, 2])
+    B_Maps.placeFighter(Knight3, "04", [4, 2])
+    B_Maps.placeFighter(Mage1, "05", [11, 0])
+    B_Maps.placeFighter(Mage2, "06", [0, 9])
+    B_Maps.placeFighter(Archer1, "07", [4, 4])
+    B_Maps.placeFighter(Archer2, "08", [8, 5])
+    B_Maps.placeFighter(Archer3, "09", [4, 9])
+
+    Elemental1, Elemental2, Elemental3 = Elementals.wisp(element, "Random").ch, Elementals.wisp(element, "Random").ch, Elementals.wisp(element, "Random").ch
+    Elemental4, Elemental5, Elemental6, Elemental7, Elemental8, Elemental9 = None, None, None, None, None, None, None, None, None
+
+    match element:
+        case "Dream":
+            Elemental4, Elemental5 = Elementals.nymph("Dream", "Random").ch, Elementals.nymph("Dream", "Random").ch
+            Elemental6, Elemental7 = Elementals.satyr("Dream", "Random").ch, Elementals.satyr("Dream", "Random").ch
+            Elemental8, Elemental9 = Elementals.ogre("Dream", "Random").ch, Elementals.ogre("Dream", "Random").ch
+        case "Flame":
+            Elemental4, Elemental5 = Elementals.ooze("Flame", "Random"), Elementals.ooze("Flame", "Random")
+            Elemental6, Elemental7 = Elementals.hive("Flame", "Random"), Elementals.hive("Flame", "Random")
+            Elemental8, Elemental9 = Elementals.puffer("Flame", "Random"), Elementals.puffer("Flame", "Random")
+        case "Ice":
+            Elemental4, Elemental5 = Elementals.dancer("Ice", "Random"), Elementals.dancer("Ice", "Random")
+            Elemental6, Elemental7 = Elementals.hulk("Ice", "Random"), Elementals.hulk("Ice", "Random")
+            Elemental8, Elemental9 = Elementals.wraith("Ice", "Random"), Elementals.wraith("Ice", "Random")
+
+    B_Maps.placeFighter(Elemental1, "11", [5, 3])
+    B_Maps.placeFighter(Elemental2, "12", [6, 8])
+    B_Maps.placeFighter(Elemental3, "13", [0 ,10])
+    B_Maps.placeFighter(Elemental4, "14", [6, 11])
+    B_Maps.placeFighter(Elemental5, "15", [9, 9])
+    B_Maps.placeFighter(Elemental6, "16", [6, 1])
+    B_Maps.placeFighter(Elemental7, "17", [9, 2])
+    B_Maps.placeFighter(Elemental8, "18", [0, 11])
+    B_Maps.placeFighter(Elemental9, "19", [5, 8])
+
+    group1 = [Duke, Knight1, Knight2, Knight3, Mage1, Mage2, Archer1, Archer2, Archer3]
+    group2 = [Elemental1, Elemental2, Elemental3, Elemental4, Elemental5, Elemental6, Elemental7, Elemental8, Elemental9]
     return [group1, group2, battleMap]

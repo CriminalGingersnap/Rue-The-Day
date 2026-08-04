@@ -17,7 +17,7 @@ def setAlive(fighter) -> bool:
     else: return True
 
 def sortLiving(contingent, battleMap) -> list:
-    fighting, downed = [], []
+    fighting, downed, pacifist = [], [], []
 
     for candidate in contingent:
         if candidate.cndt["dead"]:
@@ -26,6 +26,8 @@ def sortLiving(contingent, battleMap) -> list:
                 uMap.removeFighter(candidate, battleMap)
         else:
             fighting += [candidate]
+
+            if candidate.cndt["reposed"] or candidate.cndt["skittish"]: pacifist += candidate
 
             if "echo" in candidate.inv:
                 echo = candidate.inv["echo"]
@@ -36,8 +38,8 @@ def sortLiving(contingent, battleMap) -> list:
                 standard = candidate.inv["standard"]
                 if (standard != "None") and standard.cndt["planted"]:
                     fighting += [standard]
-    
-    return [fighting, downed]
+
+    return [fighting, downed, pacifist]
 
 
 def sortVisible(contingent, sightMap) -> list:

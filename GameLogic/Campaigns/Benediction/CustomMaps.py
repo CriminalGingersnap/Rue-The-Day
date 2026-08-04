@@ -1,4 +1,5 @@
-from Characters import Bosses, Humans, Elementals, Totems
+from Characters import Bosses, Humans, Elementals, Totems, AggressiveBeasts as Beasts, Birds
+from . import PCs as B_PCs
 
 def placeFighter(fighter, initials, position) -> None:
     fighter.props["name"], fighter.props["initials"] = fighter.props["name"] + "[" + initials + "]", initials
@@ -47,6 +48,46 @@ def shipMap(players) -> list:
     return [group1, group2, battleMap]
 
 
+def villageMap(players) -> list:
+    row1  = ["////|","////|","__14|","////|","____|","__05|","____|","////|","__08|","____|","____|","____|"]
+    row2  = ["____|","////|","____|","////|","____|","____|","__07|","////|","____|","__15|","____|","____|"]
+    row3  = ["____|","____|","____|","////|","____|","__06|","////|","////|","////|","////|","____|","____|"]
+    row4  = ["__01|","////|","____|","////|","____|","////|","////|","____|","____|","////|","____|","////|"]
+    row5  = ["____|","////|","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|"]
+    row6  = ["__02|","////|","____|","__11|","____|","____|","____|","____|","____|","____|","____|","__A.|"]
+    row7  = ["////|","////|","____|","____|","____|","____|","____|","____|","____|","////|","____|","////|"]
+    row8  = ["____|","__L.|","____|","____|","____|","____|","__13|","____|","////|","////|","____|","////|"]
+    row9  = ["__F.|","__H.|","____|","____|","____|","____|","____|","____|","////|","____|","____|","____|"]
+    row10 = ["////|","////|","____|","////|","____|","////|","____|","____|","////|","__09|","____|","____|"]
+    row11 = ["____|","____|","____|","////|","____|","////|","////|","__12|","////|","____|","____|","____|"]
+    row12 = ["__03|","____|","____|","////|","__04|","____|","////|","____|","////|","____|","____|","____|"]
+    battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+
+    Akeem = B_PCs.getAkeem()
+    players += [Akeem]
+    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0], [8, 1], [7, 1], [5, 11]
+    
+    Zombie1, Zombie2, Zombie3 = Humans.brute("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
+    Zombie4, Zombie5, Zombie6 = Humans.brute("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
+    Zombie7, Zombie8, Zombie9 = Humans.archer("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
+    placeFighter(Zombie1, "01", [3, 0])
+    placeFighter(Zombie2, "02", [5, 0])
+    placeFighter(Zombie3, "03", [11, 0])
+    placeFighter(Zombie4, "04", [11, 4])
+    placeFighter(Zombie5, "05", [0, 5])
+    placeFighter(Zombie6, "06", [2, 5])
+    placeFighter(Zombie7, "07", [1, 6])
+    placeFighter(Zombie8, "08", [0, 8])
+    placeFighter(Zombie9, "09", [9, 9])
+
+    Crow1, Crow2, Crow3 = Birds.crow("Basic", "Juvenile").ch, Birds.crow("Basic", "Adult").ch, Birds.crow("Basic", "Adult").ch
+    Dog1, Dog2 = Beasts.hound("Basic", "Juvenile").ch, Beasts.hound("Basic", "Adult").ch
+    placeFighter(Crow1, "11", [5, 3])
+    placeFighter(Crow2, "12", [10, 7])
+    placeFighter(Crow3, "13", [7, 6])
+    placeFighter(Dog1, "14", [0, 2])
+    placeFighter(Dog2, "15", [1, 9])
+
 def templeMap(players) -> list:
     row1  = ["____|","____|","////|","////|","////|","////|","////|","////|","////|","////|","////|","////|"]
     row2  = ["____|","#___|","////|","////|","////|","////|","////|","////|","////|","////|","////|","////|"]
@@ -91,7 +132,7 @@ def cryptMap(players, events) -> list:
     row9  = ["=)))⇓","=)))⇓","=)))⇓","____|","____|","____|","____|","=)))⇓","=)))⇓","=)))⇓","=)))⇓","-___↓"]
     row10 = ["=)))⇓","=)))⇓","=)))⇓","____|","____|","__L.|","____|","=)))⇓","=)))⇓","=)))⇓","=)))⇓","-___↓"]
     row11 = ["=)))⇓","=)))⇓","=)))⇓","=)))⇓","-_A.↓","-_H.↓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓"]
-    row12 = ["=)))⇓","=)))⇓","=)))⇓","=)))⇓","-_F.↓","-_32↓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓"]
+    row12 = ["=)))⇓","=)))⇓","=)))⇓","=)))⇓","-_F.↓","-___↓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
     players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 4], [11, 5], [10, 5], [11, 4]
@@ -101,16 +142,14 @@ def cryptMap(players, events) -> list:
 
     if events["Ally"]["complete"]:
         Sphinx = Elementals.sphinx("Holy", "Greater").ch
-        placeFighter(Sphinx, "31", [9, 4])
-        battleMap[9][4] = "__31"
+        placeFighter(Sphinx, "31", [8, 4])
+        battleMap[8][4] = "__31"
         players += [Sphinx]
 
     Zombie1, Zombie2, Zombie3 = Humans.archer("Rot", "Proficient").ch, Humans.archer("Rot", "Adept").ch, Humans.knight("Rot", "Elite").ch    
     placeFighter(Zombie1, "02", [2, 3])
     placeFighter(Zombie2, "03", [2, 5])
     placeFighter(Zombie3, "04", [2, 6])
-
-    Zombie1.pos, Zombie2.pos, Zombie3.pos = [11, 3], [11, 6], [10, 4]
 
     Elemental1, Elemental2, Elemental3, Elemental4 = Elementals.slime("Rot", "Lesser").ch, Elementals.wisp("Rot", "Greater").ch, Elementals.wisp("Rot", "Lesser").ch, Elementals.grotesquery("Rot", "Greater").ch
     placeFighter(Elemental1, "11", [6, 11])

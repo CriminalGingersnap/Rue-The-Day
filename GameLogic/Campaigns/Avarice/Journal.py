@@ -23,16 +23,16 @@ scenes = {"Escape": [
 ], "Moose": [
     ["> ", "We saw a bull moose swimming across the fjord and stopped for a minute to observe its progress."],
     ["  ", "I was making some comment about the weather when our creature disappeared."],
-    ["  ", "I saw the moment clearly enough to tell it wasn't diving. It simply fell beneath the surface."],
+    ["  ", "I saw the moment it vanished clearly enough to tell it wasn't diving. It simply fell beneath the surface."],
     ["  ", "Like it was pulled."],
-    ["  ", "There weren't any sings of struggle, though."],
-    ["  ", "Whatever gabbed it either killed the beast instantly or dragged it deep."],
+    ["  ", "There weren't any sings of struggle, though. No thrashing limbs beneath the surface."],
+    ["  ", "Whatever gabbed that beast either killed it instantly or dragged it deep."],
     ["  ", ""],
     ["> ", "If we'd had any intentions of making a raft..."]
 ], "Worm": [
     ["> ", "Around every other corner we find an elemental placidly standing in the paths."],
-    ["  ", "Some are even frozen inside the walls. They seem at peace."],
-    ["  ", "It's frigid enough that they've got nothing to complain about."],
+    ["  ", "Some are even frozen inside the walls. They seem at peace, or at least their postures look relaxed."],
+    ["  ", "It's certainly frigid enough that they've got nothing to complain about."],
     ["  ", ""],
     ["> ", "The air here gets so cold that I have a blanket of frost forming on my beard."],
     ["  ", "That means we're close to our quarry, per Laura."],
@@ -44,6 +44,7 @@ scenes = {"Escape": [
 ], "Post Worm": [
     ["> ", "The ice shard nearly gave me frostbite."],
     ["  ", "I only handled for a few seconds while wearing gloves."],
+    ["  ", "The power concentrated in this little thing..."],
     ["  ", ""],
     ["> ", "Before we ventured north, I doubted Laura's plan."],
     ["  ", "After holding the thing myself, I could feel she was right. This can work."],
@@ -103,12 +104,13 @@ scenes = {"Escape": [
     ["  ", "As soon as all three shards are in our hands, we can return south."],
     ["  ", "If we survive what comes after, there will be much to discuss."]
 ], "Post Strider": [
-    ["> ", "So much destructive potential in such a tiny thing."],
+    ["> ", "We have the flame shard."],
+    ["  ", "It's energetic in a way I can't fully describe."],
     ["  ", "Just looking at it made me feel as though a kiln was blazing behind my eyes."],
     ["  ", "It's former host barely touched this wellspring."],
     ["  ", "We'll put that magic to better use."],
 ], "Breakout": [
-    ["> ", "We've returned to our old fort and plan to hide out of sight until dusk."],
+    ["> ", "We've returned to our old fort and plan to hide nearby until dusk."],
     ["  ", "The duke has reinforced this post significantly. Getting in would prove far more challenging than our escape."],
     ["  ", "Good thing we don't need to bother."],
 ], "Post Breakout": [
@@ -128,6 +130,17 @@ scenes = {"Escape": [
     ["  ", ""],
     ["  ", "Before we strike there, we need to press into the eastern hills."],
     ["  ", "Willem awaits."]
+], "Strange Fruit": [
+    ["> ", "We found something odd on the beach- an iron sculpture in the shape of a fantastical fruit."],
+    ["  ", "It somewhat looks like armored potato with a shock of leaves protruding from its top."],
+    ["  ", "Laura said it reminds her of a pinecone."],
+    ["  ", ""],
+    ["> ", "Given its density, I'm not sure how it washed up here instead of sinking."],
+    ["  ", "Perhaps it was filled with hot air."],
+    ["  ", ""],
+    ["> ", "Laura suggested throwing it back into the water to see how it fares, but I decided to hide it a ways inland."],
+    ["  ", "I'll return for this later if I can find my way back."]
+    ["  ", "Watching it brought me comfort."]
 ], "Camp": [
     ["> ", "Willem's health has improved. He can walk again."],
     ["  ", "We saw him taking a stroll around the camp with a guard holding each arm."],

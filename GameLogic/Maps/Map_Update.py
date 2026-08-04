@@ -144,13 +144,13 @@ def updateHazards(battleMap):
                         match scale:
                             case 3: newAtmosphere = random.choice(["I", "I", "i"])
                             case 2: newAtmosphere = random.choice(["i", "i", "%"])
-                            case 1: newAtmosphere = random.choice(["%", "%", "_"])
+                            case 1: newAtmosphere = random.choice(["%", "%", "%", "%", "%", "_"])
                     case "None": newAtmosphere = random.choice(["=", "=", "-", "-", "-", "_"])
                     case "Rot": 
                         match scale:
                             case 3: newAtmosphere = "r"
-                            case 2: newAtmosphere = random.choice(["r", "r", "}"])
-                            case 1: newAtmosphere = "_"
+                            case 2: newAtmosphere = "}"
+                            case 1: newAtmosphere = random.choice(["}", "}", "}", "}", "}", "_"])
                     case "Toxic": 
                         match scale:
                             case 3: newAtmosphere = random.choice(["t", "&"])

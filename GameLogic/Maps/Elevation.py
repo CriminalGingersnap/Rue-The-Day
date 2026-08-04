@@ -109,8 +109,7 @@ def slopeLeftRight(battleMap, lean):
             if selfElevation != downElevation:
                 if random.choice([True, False]):
                     battleMap[row][column] = battleMap[row][column][:-1] + downElevation
-                else:
-                    battleMap[row+1][column] = battleMap[row+1][column][:-1] + selfElevation
+                else: battleMap[row+1][column] = battleMap[row+1][column][:-1] + selfElevation
 
 
 def resetUpDnElv(lean):

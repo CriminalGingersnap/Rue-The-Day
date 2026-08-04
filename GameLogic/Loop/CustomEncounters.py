@@ -3,10 +3,10 @@ from Campaigns.Benediction import CustomMaps as B_Maps
 from Campaigns.Avarice import CustomMaps as A_Maps
 from . import Encounters
 
-def getLetter(inventory) -> str:
+def getElement(inventory) -> str:
     choice = Select.pickOption(inventory, "Shard")
     inventory.remove(choice)
-    return choice[0]
+    return choice
 
 
 def customLoop(playerGroup, biome, event) -> bool:
@@ -37,18 +37,18 @@ def customLoop(playerGroup, biome, event) -> bool:
                     encounter = A_Maps.volcanoMap(playerGroup["members"])
                 case "Breakout":
                     skipCombat = True
-                    letter = getLetter(playerGroup["inventory"])
+                    letter = getElement(playerGroup["inventory"])[0]
                     playerGroup["world"].marker.pos = [17, 7]
                     playerGroup["world"].worldMap[17][7], playerGroup["world"].worldMap[16][7] = "s_..↓", letter + "!//↑"
                 case "Camp":
                     playerGroup["world"].worldMap[18][11] = "u_..↑"
                     encounter = A_Maps.campMap(playerGroup["members"])
                 case "Port":
-                    letter = getLetter(playerGroup["inventory"])
+                    element = getElement(playerGroup["inventory"])
                     playerGroup["world"].marker.pos = [16, 8]
                     playerGroup["world"].worldMap[20][4], playerGroup["world"].worldMap[21][4] = letter + "!//↑"
 
-                    encounter = A_Maps.portMap(playerGroup["members"])
+                    encounter = A_Maps.portMap(playerGroup["members"], element)
 
         case "Benediction":
             match event:

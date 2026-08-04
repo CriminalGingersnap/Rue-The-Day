@@ -31,6 +31,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
     sortedOffense, sortedTarget = Sort.sortLiving(offenseGroup, battleMap), Sort.sortLiving(targetGroup, battleMap)
     validFighters, validTargets = sortedOffense[0], sortedTarget[0]
     downedFighters, downedTargets = sortedOffense[1], sortedTarget[1]
+    pacifistTargets = sortedTarget[2]
     npcGroup = offenseGroup[0].props["rank"] != "player"
 
     if any(((fighter.props["rank"] == "player") and (fighter.props["type"] not in ["echo", "totem"])) for fighter in downedFighters):
@@ -43,6 +44,10 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         Select.slowPrint("\nBattle won!\n")
         input("Press Enter to resolve.")
         return [True, downedTargets]
+    elif (not npcGroup) and (len(validTargets) == len(pacifistTargets)):
+        Select.waitPrint("Remaining enemies will allow combat to end.")
+        disengage = Select.yesNo("Disengage?")
+        if disengage: return  [True, downedTargets]
     
     elif len(validFighters) > 0:
         for fighter in validFighters: Phases.resetFighter(fighter)
@@ -60,7 +65,6 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             Phases.movementStage(fighter, foes, friends, battleMap)
 
         print()
-            
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.abilityStage(fighter, foes, friends)
