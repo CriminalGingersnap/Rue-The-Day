@@ -26,7 +26,7 @@ class bear:
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "hindrances": ["Bind"]})
         if rank == "Elder": abl["areas"] += ["Shroud"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Bear", rank, stats, type)
@@ -40,7 +40,7 @@ class hound:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Rally"]})
         if rank == "Elder": abl["boons"] += ["Focus"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Hound", rank, stats, type)
@@ -54,7 +54,7 @@ class ferret:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
         if rank == "Elder": abl["hindrances"] += ["Confuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ferret", rank, stats, type)
@@ -69,7 +69,7 @@ class lion:
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "hindrances": ["Bind"]})
         if (rank == "Elder") and (element != "Basic"): abl["boons"] += ["Wreath"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Lion", rank, stats, type)

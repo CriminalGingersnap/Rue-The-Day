@@ -42,7 +42,7 @@ class camel:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Spit", "Kick"]})
-        if rank == "Elder": abl["boons"] += ["Veil"]
+        if rank == "Elder": abl["areas"] += ["Shroud"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Camel", rank, stats, type)
 
@@ -55,7 +55,7 @@ class deer:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": [random.choice(["Kick", "Gore"])], "boons": ["Conceal"]})
-        if rank == "Elder": abl["hindrances"] += ["Confound"]
+        if rank == "Elder": abl["boons"] += ["Veil"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Deer", rank, stats, type)
 
@@ -68,7 +68,7 @@ class mole:
 
         dice = {"martial": 1, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Claw"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Wreath"], "hindrances": ["Confound"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Mole", rank, stats, type)
 

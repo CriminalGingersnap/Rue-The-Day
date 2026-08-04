@@ -93,7 +93,7 @@ def setWeapon(job, element, skills) -> list:
         case "Archer" | "Dragonslayer":
             weapon.update({"reach": 8, "twoHanded": True, "dmgTypes": ["Pierce"]})
 
-            if job == "Archer": weapon["name"] = "Bow"
+            if job == "Archer": weapon["name"] = "Long Bow"
             else:
                 weapon["name"] = "Pennant Bow"
                 weapon["dmgTypes"] += [element]

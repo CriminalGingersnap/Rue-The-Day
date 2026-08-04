@@ -27,7 +27,7 @@ class crow:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Peck"], "hindrances": ["Harry"]})
-        if rank == "Elder": abl["hindrances"] += ["Confound"]
+        if rank == "Elder": abl["boons"] += ["Veil"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Crow", rank, stats, type)
 
@@ -37,11 +37,11 @@ class eagle:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["hp"] = "low"
 
-        dice = {"martial": 1, "magic": 1}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "boons": ["Focus"]})
-        if rank == "Elder": abl["areas"] += ["Shroud"]
+        abl = Characters.setAbilities(type, {"attacks": ["Claw"], "hindrances": ["Bind"]})
+        if rank == "Elder": abl["areas"] += ["Focus"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Eagle", rank, stats, type)
 

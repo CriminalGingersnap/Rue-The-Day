@@ -70,10 +70,10 @@ class lizard:
         cndt["armored"], cndt["skittish"] = False, True
         stats["speed"] = "high"
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 1, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
         if rank == "Elder": abl["areas"] += ["Slip"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Lizard", rank, stats, type)

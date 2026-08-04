@@ -1,5 +1,7 @@
 from Characters import Bosses, Humans, Elementals, Totems, AggressiveBeasts as Beasts, Birds
 from . import PCs as B_PCs
+import random
+
 
 def placeFighter(fighter, initials, position) -> None:
     fighter.props["name"], fighter.props["initials"] = fighter.props["name"] + "[" + initials + "]", initials
@@ -88,6 +90,19 @@ def villageMap(players) -> list:
     placeFighter(Crow3, "13", [7, 6])
     placeFighter(Dog1, "14", [0, 2])
     placeFighter(Dog2, "15", [1, 9])
+    
+    group1 = [Zombie1, Zombie2, Zombie3, Zombie4, Zombie5, Zombie6, Zombie7, Zombie8, Zombie9]
+    group2 = [Crow1, Crow2, Crow3, Dog1, Dog2]
+
+    Dagger = {"name": "Dagger", "twoHanded": False, "modifier": 0, "dmgTypes": ["Pierce"], "reach": 1}
+    FishSpear = {"name": "Fishing Spear", "twoHanded": True, "modifier": 0, "dmgTypes": ["Pierce"], "reach": 2}
+    HandWrap = {"name": "Hand Wrap", "twoHanded": False, "modifier": 0, "dmgTypes": ["Crush"], "reach": 1}
+    Plank = {"name": "Plank", "twoHanded": True, "modifier": 0, "dmgTypes": ["Crush"], "reach": 2}
+    for Zombie in group1:
+        if Zombie.props["job"] != "Archer": Zombie.equip["weapon"] = random.choice([Dagger, FishSpear, HandWrap, Plank])
+
+    return [group1, group2, battleMap]
+
 
 def templeMap(players) -> list:
     row1  = ["____|","____|","////|","////|","////|","////|","////|","////|","////|","////|","////|","////|"]
@@ -115,8 +130,8 @@ def templeMap(players) -> list:
     Elemental = Elementals.ooze("Flame", "Lesser").ch
     placeFighter(Elemental, "11", [0, 5])
     
-    group1 = [Paladin, Knight1, Knight2]
-    group2 = []
+    group1 = [Paladin, Knight1, Knight2, Mage]
+    group2 = [Elemental]
 
     return [group1, group2, battleMap]
 
