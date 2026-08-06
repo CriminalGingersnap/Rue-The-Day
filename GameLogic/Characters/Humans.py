@@ -23,7 +23,7 @@ def setCommon(job, element, rank) -> list:
                 case "Proficient" | "Adept": dice["martial"] = 2
                 case "Elite": dice["martial"] = 3
                 case "Master": dice["martial"] = 4
-        case "Mage":
+        case "Mage" | "Witch":
             match rank:
                 case "Novice": dice["magic"] = 1
                 case "Proficient" | "Adept": dice["magic"] = 2
@@ -161,13 +161,11 @@ class mage:
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
-            if element == "Dream": abl["boons"] += ["Focus"]
-            else: abl["attacks"] += ["Bring"]
+            abl["attacks"] += ["Bring"]
             
             if rank in ["Adept", "Elite"]: specialtyLevel = "specialty"
             if rank in ["Elite", "Master"]:
-                if element == "Dream": abl["hindrances"] += ["Compel"]
-                else: abl["areas"] += ["Shroud"]
+                abl["areas"] += ["Shroud"]
                 if rank == "Master": specialtyLevel = "mastery"
 
         setSpecialty(abl, specialtyLevel)
@@ -193,3 +191,21 @@ class paladin:
 
         setSpecialty(abl, specialtyLevel)
         self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)
+
+class witch:
+    def __init__(self, element, rank) -> None:
+        job = "Witch"
+        common = setCommon(job, element, rank)
+        stats, cndt, dice, type = common[0], common[1], common[2], common[3]
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, {"boons": ["Veil"]})
+        specialtyLevel = "None"
+
+        if rank in ["Proficient", "Adept", "Elite", "Master"]:
+            abl["areas"] += ["Slip"]
+            
+            if rank in ["Adept", "Elite"]: specialtyLevel = "specialty"
+            if rank in ["Elite", "Master"]:
+                abl["hindrances"] += ["Compel"]
+                if rank == "Master": specialtyLevel = "mastery"

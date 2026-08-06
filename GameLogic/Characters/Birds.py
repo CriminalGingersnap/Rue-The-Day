@@ -26,7 +26,7 @@ class crow:
         dice = {"martial": 1, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Peck"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Peck"], "boons": ["Rally"]})
         if rank == "Elder": abl["boons"] += ["Veil"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Crow", rank, stats, type)

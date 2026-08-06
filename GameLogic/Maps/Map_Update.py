@@ -1,5 +1,5 @@
 from . import Visibility, Movement, Elevation
-from Abilities import Area_Set as Area
+from Abilities import Area_Set as Area, Boons_Apply as Boons
 from Systems import PlayerSelect as Select, Conditions
 import random
 
@@ -109,8 +109,11 @@ def activateHazards(fighter, battleMap):
                 case 2: points = random.randint(1, 6)
                 case 1: points = 1
 
-            Select.waitPrint("\nMap inflicts " + str(points) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
-            Conditions.takeDamage(fighter, dmgType, points)
+            absorption = Boons.applyWreath(fighter, dmgType)
+            appliedDmg = max(0, points - absorption)
+
+            Select.waitPrint("\nMap inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
+            Conditions.takeDamage(fighter, dmgType, appliedDmg)
 
 
 def updateHazards(battleMap):

@@ -87,7 +87,8 @@ class benedictionMap:
         self.events = {"Leviathan": {"location": [7, 11], "complete": False}, "Village": {"location": [4, 9], "complete": False},
                         "Town": {"location": [0, 6], "complete": False}, "Warning": {"location": [4, 2], "complete": False}, 
                          "Ally": {"location": [2, 3], "complete": False}, "Lich": {"location": [1, 0], "complete": False},
-                          "Dragon": {"location": [0, 11], "complete": False}, "Finale": {"location": [23, 11], "complete": False}}
+                          "Raft": {"location": [10, 3], "complete": False}, "Dragon": {"location": [0, 11], "complete": False},
+                           "Finale": {"location": [23, 11], "complete": False}}
         self.start = [7, 11]
         self.marker = mapMarker(self.worldMap, self.start)
 

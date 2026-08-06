@@ -73,11 +73,9 @@ def npcSelectBoonTarget(fighter, allies, boon):
     if (fighter.cndt["social"] or fighter.cndt["sapient"]) and (len(allies) > 0):
         lowestAVAlly = Assess.findLowestAV(fighter, allies)
         lowestHPAlly = Assess.findLowestGeneral(allies, "cur_hp")
-        lowestResCrushAlly = Assess.findLowestRes(allies, "Crush")
         lowestResDreamAlly = Assess.findLowestRes(allies, "Dream")
         lowestResFlameAlly = Assess.findLowestRes(allies, "Flame")
         lowestResIceAlly = Assess.findLowestRes(allies, "Ice")
-        lowestResPierceAlly = Assess.findLowestRes(allies, "Pierce")
         lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
         lowestStaminaAlly = Assess.findLowestGeneral(allies, "stamina")
         lowestToleranceAlly = Assess.findLowestGeneral(allies, "tolerance")
@@ -93,7 +91,6 @@ def npcSelectBoonTarget(fighter, allies, boon):
                 case "Wreath":
                     dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
                     match dmgType:
-                        case "Dream": target = random.choice([lowestHPAlly, lowestResCrushAlly, lowestResPierceAlly])
                         case "Flame": target = random.choice([lowestHPAlly, lowestResIceAlly])
                         case "Ice": target = random.choice([lowestHPAlly, lowestResFlameAlly])
                         case "Holy": target = random.choice([lowestHPAlly, lowestResRotAlly])

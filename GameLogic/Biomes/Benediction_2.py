@@ -23,7 +23,6 @@ def depthsEncounters(roll, budget) -> list:
 
     return members
 
-
 def nestEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Basic", True
 
@@ -35,7 +34,7 @@ def nestEncounters(roll, budget) -> list:
         case 5: members = RandomCreatures.creatures("crab", element, majorBiome, budget)
         case 6: members = RandomCreatures.creatures("eagle", element, majorBiome, budget)
         case 7: members = RandomCreatures.creatures("seal", element, majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("hawk", element, majorBiome, budget)
+        case 8: members = RandomCreatures.creatures("hawk", "Ice", majorBiome, budget)
         case 9: members = RandomCreatures.creatures("isopod", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("urchin", "Toxic", majorBiome, budget)
         case 11: members = RandomCreatures.creatures("worm", element, majorBiome, budget)        
@@ -45,7 +44,6 @@ def nestEncounters(roll, budget) -> list:
         case 15: members = RandomCreatures.creatures("hydra", "Rot", majorBiome, budget)
 
     return members
-
 
 def lowlandEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Flame", False
@@ -68,7 +66,6 @@ def lowlandEncounters(roll, budget) -> list:
         case 15: members = RandomCreatures.creatures("drake", "Rot", majorBiome, budget)
 
     return members
-
 
 def highlandEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Ice", False

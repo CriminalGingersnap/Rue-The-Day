@@ -67,6 +67,10 @@ def customLoop(playerGroup, biome, event) -> bool:
                 case "Valley": skipCombat = True
                 case "Lich":
                     encounter = B_Maps.cryptMap(playerGroup["members"], playerGroup["events"])
+                case "Raft":
+                    skipCombat = True
+                    playerGroup["world"].marker.pos = [13, 2]
+                    playerGroup["world"].worldMap[10][3], playerGroup["world"].worldMap[13][2] = "s___↓", "s_..↓"
                 case "Dragon":
                     skipCombat = True
                     playerGroup["world"].marker.pos = [1, 6]

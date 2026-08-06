@@ -54,15 +54,19 @@ def selectDefense(player, armorList, shieldList) -> None:
     nullKit = copy.deepcopy(Equipment.nullKit)
 
     for armor in armorList:
-        if armor["modifier"] > carryWeight: armorList.remove[armor]
+        if armor["element"] != "Dream":
+            if armor["modifier"] > carryWeight: armorList.remove[armor]
     if len(armorList) > 0:
         player.equip["armor"] = Select.pickOption([nullKit] + armorList, "armor")
-    carryWeight -= player.equip["armor"]["modifier"]
+
+    if player.equip["armor"]["element"] != "Dream":
+        carryWeight -= player.equip["armor"]["modifier"]
     
     if player.equip["weapon"]["twoHanded"]: shieldList = []
     else:
         for shield in shieldList:
-            if shield["modifier"] > carryWeight: shieldList.remove[shield]
+            if shield["element"] != "Dream":
+                if shield["modifier"] > carryWeight: shieldList.remove[shield]
 
         if len(shieldList) == 0:
             player.equip["shield"] = nullKit

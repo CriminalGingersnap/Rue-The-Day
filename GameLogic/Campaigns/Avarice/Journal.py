@@ -163,15 +163,26 @@ scenes = {"Escape": [
     ["  ", "Their best men were gathered in that tent for the handoff."],
     ["  ", "What's left doesn't want to give chase, especially with no leader to urge them."],
     ["", ""],
-    ["> ", "I doubt we've expunged their ilk from the region entirely,"],
-    ["  ", " but they won't cling to these hills as firmly as they used to."],
+    ["> ", "I doubt we've expunged their ilk from the region entirely, but they won't cling to these hills as firmly as they used to."],
     ["  ", "It felt good to finally deal with them. Like working out a splinter."],
     ["  ", "Now we just have one more irritant to remove."],
     ["  ", "I wonder if the duke is expecting us yet. I hope he hasn't fled."]
 ], "Finale": [
-    ["> ", "The duke is still in residence. It seems he's busy trying to restore order amidst the chaos we've already sown."],
+    ["> ", "The tiny port which shares Willem's surname finally lies before us."],
+    ["  ", "Its new master is still in residence. We saw him visit the docks, struggling to restore order amidst the chaos we've already sown."],
     ["  ", "He won't have that problem much longer."],
 ], "Post Finale": [
-    ["  ", "We sent a letter to the king politely notifying him that one shard remains in our possession."],
-    ["  ", "Our phrasing implied that we're unwilling to hand it over."],
+    ["> ", "The usurper is dead. His southern troops have fled across the river."],
+    ["  ", "Judging by the course of their dust trail, most chose to bypass our nearest city to seek refuge further south."],
+    ["  ", "Perhaps they're going all the way home, or maybe they're afraid we'll bring disaster on their heads a third time if they stop too close."],
+    ["  ", "We'd never afflict our own people in that way, but no one besides the three of us yet knows how far we're willing to go."],
+    ["  ", "That point need to be clarified quickly, lest we appear too wild to be left alive."],
+    ["", ""],
+    ["> ", "To this end, Willem has drafted a letter to His Majesty. We intend to convey it southward through parties sympathetic to our cause."],
+    ["  ", "The missive affirms our enduring loyalty to the crown while also declaring that one elemental shard remains in our possession."],
+    ["  ", "Our phrasing implies that we want to surrender this final weapon in exchange for clemency and re-legitimization."],
+    ["  ", "We have also awarded ourselves due credit for the disruption of banditry and laid all blame for its recent rise with the upstart Duke."],
+    ["", ""],
+    ["> ", "Time will tell whether our gambit profits us."],
+    ["  ", "If our king refuses to parley, then we can always flee back north."]
 ]}

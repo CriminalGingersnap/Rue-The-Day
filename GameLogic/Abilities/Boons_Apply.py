@@ -47,12 +47,8 @@ def applyFocus(principal):
 
 def applyGuard(principal):
     bonus = apply(principal, "Guard")
-    wreathBonus =  principal.effects["Wreath"]["dice"]
     if bonus > 0: Select.waitPrint(principal.props["name"] + "'s AV increases by " + str(bonus) + ".\n")
-    if wreathBonus > 0: Select.waitPrint(principal.props["name"] + "'s wreath increases AV by " + str(wreathBonus) + ".\n")
-
-    return bonus + wreathBonus
-
+    return bonus
 
 def applyFortify(principal) -> str:
     bonus = apply(principal, "Fortify")
@@ -89,16 +85,12 @@ def applyWreath(principal, attackDmgType) -> int:
 
         Select.waitPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
 
-    guardBonus = principal.effects["Guard"]["dice"]
-    if guardBonus > 0: Select.waitPrint(principal.props["name"] + "'s guard blocks " + str(guardBonus) + " magic damage.\n")
-
-    return bonus + guardBonus
+    return bonus
 
 def checkCompatibility(attackDmgType, responseDmgType) -> bool:
     compatible = False
     if (attackDmgType in ["Flame", "Ice"]) and (responseDmgType in ["Flame", "Ice"]): compatible = True
     elif (attackDmgType in ["Holy", "Rot"]) and (responseDmgType == "Holy"): compatible = True
-    elif (attackDmgType in ["Crush", "Pierce", "Dream"]) and (responseDmgType == "Dream"): compatible = True
-    elif (attackDmgType in ["Dream", "Rot", "Toxic"]) and (responseDmgType == "Rot"): compatible = True
+    elif (attackDmgType in ["Rot", "Toxic"]) and (responseDmgType == "Rot"): compatible = True
 
     return compatible

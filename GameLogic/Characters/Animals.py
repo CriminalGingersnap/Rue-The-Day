@@ -14,10 +14,7 @@ def setAnimalResistance(element, rank, stats):
             stats["resist"]["Rot"] = mainRes
             stats["resist"]["Holy"] = "vulnerable"
         case "Dream":
-            stats["resist"]["Pierce"] = mainRes
-            stats["resist"]["Crush"] = mainRes
-            stats["resist"]["Dream"] = "vulnerable"
-            stats["resist"]["Rot"] = "vulnerable"
+            stats["resist"]["Dream"] = "mainRes"
         case "Flame":
             stats["resist"]["Flame"] = mainRes
             stats["resist"]["Ice"] = "vulnerable"

@@ -5,7 +5,7 @@ import random
 
 def npcSelectItem(fighter, groups, inventory) -> str:
     preferences, enemyDmgTypes, closeDmgTypes = {"Detonate": [], "Extract": []}, [], []
-    blockList = allowList = ["Flame", "Dream", "Ice", "Holy", "Rot"]
+    blockList = allowList = ["Flame", "Ice", "Holy", "Rot"]
 
     if fighter.props["job"] == "Paladin": allowList = []
     elif fighter.atrb["base_mag"] > 0:
@@ -51,7 +51,7 @@ def setExtractPreferences(fighter, preferences, enemyDmgTypes, allowList):
                 preferences["Extract"] += ["Ice"]
 
         if "Dream" in allowList:
-            if any(dType in enemyDmgTypes for dType in ["Crush", "Pierce"]) and not any(dType in enemyDmgTypes for dType in ["Dream", "Rot"]):
+            if any(dType in enemyDmgTypes for dType in ["Crush", "Pierce"]):
                 preferences["Extract"] += ["Dream"]
 
         if ("Rot" in allowList) and ("Holy" not in enemyDmgTypes):

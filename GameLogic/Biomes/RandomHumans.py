@@ -5,7 +5,7 @@ import random
 def warriors(warriorType, element, majorBiome, diceBudget) -> list:
     warriorList = []
     outlawRankOptions, soldierRankOptions = ["Novice", "Proficient", "Adept"], ["Proficient", "Adept", "Elite"]
-    outlawJobOptions, soldierJobOptions = ["archer", "brute"], ["archer", "knight", "mage"]
+    outlawJobOptions, soldierJobOptions = ["archer", "brute", "witch"], ["archer", "knight", "mage"]
 
     if majorBiome:
         outlawRankOptions += ["Elite"]
@@ -17,7 +17,7 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         warriorList += [beast]
 
     if (diceBudget > 4) and (warriorType == "Soldier"):
-        totemElement = random.choice(["Flame", "Dream", "Ice"])
+        totemElement = random.choice(["Flame", "Ice"])
         totem = None
         match random.choice(["guidance", "impedance", "sentry", "ward"]):
             case "guidance": totem = Totems.guidance("Dream", "Standard").ch
@@ -51,5 +51,8 @@ def randomHuman(rank, type, element):
         case "brute": return Humans.brute(element, rank).ch
         case "knight": return Humans.knight(element, rank).ch
         case "mage":
-            if element == "Basic": element = random.choice(["Flame", "Dream", "Ice"])
+            if element == "Basic": element = random.choice(["Flame", "Ice"])
             return Humans.mage(element, rank).ch
+        case "witch":
+            if element == "Basic": element = "Dream"
+            return Humans.witch(element, rank).ch

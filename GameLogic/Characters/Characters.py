@@ -98,6 +98,7 @@ def setDicts():
                    "Rally": copy.deepcopy(effectDict), "Seal": copy.deepcopy(effectDict),
                     "Veil": copy.deepcopy(effectDict), "Wreath": copy.deepcopy(effectDict)}
 
-    itemEffects = {"Animate": copy.deepcopy(itemDict), "Invigorate": copy.deepcopy(itemDict), "Imbue": copy.deepcopy(itemDict)}
+    itemEffects = {"Animate": copy.deepcopy(itemDict), "Invigorate": copy.deepcopy(itemDict),
+                    "Imbue": copy.deepcopy(itemDict), "Obscure": copy.deepcopy(itemDict)}
 
     return [commitments, effects, itemEffects]

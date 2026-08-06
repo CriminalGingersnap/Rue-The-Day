@@ -5,8 +5,13 @@ from Abilities import Items_Use as Items, Boons_Apply as Boons, Hindrances_Apply
 
 
 def getSpeedLoss(fighter):
-        speedLoss = (fighter.equip["armor"]["modifier"] + fighter.equip["shield"]["modifier"] + fighter.equip["weapon"]["modifier"] 
-                        + fighter.inv["spares"]["shield"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"])
+        armorLoss, shieldLoss, spareLoss = 0, 0, 0
+        if fighter.equip["armor"]["element"] != "Dream": armorLoss = fighter.equip["armor"]["modifier"]
+        if fighter.equip["shield"]["element"] != "Dream": shieldLoss = fighter.equip["shield"]["modifier"]
+        if fighter.inv["spares"]["shield"]["element"] != "Dream": spareLoss = fighter.inv["spares"]["shield"]["modifier"]
+
+        speedLoss = (armorLoss + shieldLoss + spareLoss 
+                     + fighter.equip["weapon"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"])
 
         if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
 

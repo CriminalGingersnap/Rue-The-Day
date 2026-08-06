@@ -16,7 +16,8 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
             Set.throwStone(fighter, category, element, groups, battleMap)
         case "Extract":
             Select.waitPrint(fighter.props["name"] + " absorbs the essence of " + end)
-            if element == "Bleed": invigorate(fighter, category, battleMap)
+            if element == "Bleed": updateEffect(fighter, "Invigorate", category, battleMap)
+            elif element == "Dream": updateEffect(fighter, "Obscure", category, battleMap)
             else: imbue(fighter, category, element, battleMap)            
             match category:
                 case "pearls": Conditions.decrementTolerance(fighter, 2)
@@ -61,7 +62,6 @@ def imbue(fighter, category, element, battleMap) -> None:
         potency = min(fighter.itemEffects["Imbue"]["potency"] + potency, 3)
 
     match element:
-        case "Dream": dmgCat1, dmgCat2 = ["Crush", "Pierce"], ["Dream", "Rot"]       
         case "Flame": dmgCat1, dmgCat2  = ["Flame"], ["Ice"]
         case "Holy": dmgCat1, dmgCat2 = ["Holy", "Rot"], []
         case "Ice": dmgCat1, dmgCat2 = ["Ice"], ["Flame"]
@@ -82,20 +82,6 @@ def imbue(fighter, category, element, battleMap) -> None:
     battleMap[fighter.pos[0]][fighter.pos[1]] = atmosphere + battleMap[fighter.pos[0]][fighter.pos[1]][1:]
 
 
-def invigorate(fighter, category, battleMap) -> None:
-    potency = 0
-
-    match category:
-        case "pearls": potency = 1
-        case "cores": potency = 2
-
-    if not fighter.cndt["lifeless"]:
-        fighter.itemEffects["Invigorate"]["duration"] = 3
-        fighter.itemEffects["Invigorate"]["potency"] = min(fighter.itemEffects["Invigorate"]["potency"] + potency, 4)
-
-    battleMap[fighter.pos[0]][fighter.pos[1]] = "=" + battleMap[fighter.pos[0]][fighter.pos[1]][1:]
-
-
 def regenerate(fighter) -> None:
     healing, potency = 0, fighter.itemEffects["Invigorate"]["potency"]
 
@@ -108,3 +94,19 @@ def regenerate(fighter) -> None:
 
         Select.waitPrint("Blood essence activates!")
         Conditions.recoverHP(fighter, healing)
+
+
+def updateEffect(fighter, effect, category, battleMap) -> None:
+    potency = 0
+
+    match category:
+        case "pearls": potency = 1
+        case "cores": potency = 2
+
+    if not fighter.cndt["lifeless"]:
+        fighter.itemEffects[effect]["duration"] = 3
+        fighter.itemEffects[effect]["potency"] = min(fighter.itemEffects[effect]["potency"] + potency, 4)
+
+    atmosphere = "="
+    if effect == "Obscure": atmosphere = "@"
+    battleMap[fighter.pos[0]][fighter.pos[1]] = atmosphere + battleMap[fighter.pos[0]][fighter.pos[1]][1:]

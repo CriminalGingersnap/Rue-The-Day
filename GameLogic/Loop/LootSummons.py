@@ -5,7 +5,7 @@ from . import CombatPhases as Phases
 def lootStandards(players, standards):
     Select.waitPrint("Broken standards can be repaired.")
     for player in players:
-        carryWeight = player.atrb["base_sp"] -  Phases.getSpeedLoss(player)
+        carryWeight = player.atrb["base_sp"] - Phases.getSpeedLoss(player)
 
         if carryWeight > 2:
             if Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):

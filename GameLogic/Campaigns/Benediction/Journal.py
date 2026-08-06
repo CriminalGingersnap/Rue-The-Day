@@ -6,18 +6,20 @@ scenes = {"Leviathan": [
     ["  ", "She didn't care where we were going and seemed convinced I'd turn her away despite generous payment."],
     ["  ", "Wasn't at all bothered about being the only woman on board."],
     ["", ""],
-    ["> ", "The crew doesn't trust her. I don't either, but coin is coin."],
+    ["> ", "My crew immediately distrusted her. I don't trust her either, but coin is coin."],
     ["  ", "What's the worst that could happen?"]
 ], "Post Leviathan": [
-    ["> ", "My prized ship is gone. Its loyal crew, dead."],
+    ["> ", "My prized ship is gone. Its loyal crew, lost and likely dead."],
     ["  ", "I thought myself the only survivor until I found that witch collapsed on the sand."],
     ["  ", "She must have dragged herself up from the surf before succumbing to exhaustion."],
-    ["  ", "I nearly threw her back in. I've shared enough of her misfortune already."],
-    ["  ", "I stayed my hand only because she fought with me."],
-    ["  ", "I don't know why our goddess hates her, but it's not for cowardice."],
+    ["", ""],
+    ["  ", "I nearly threw her back in. I've shared enough of this woman's misfortune already."],
+    ["  ", "I only stayed my hand because she fought with me."],
+    ["  ", "Whatever curse she carries, it was not earned through cowardice."],
 ], "Village": [
-    ["  ", "My lion survived also. She found us while I was building a fire from driftwood."],
+    ["  ", "My lion survived. She found us while I was building a fire from driftwood."],
     ["  ", "I'm glad to have at least one true ally left."],
+    ["", ""],
     ["  ", "At daylight, we'll head uphill towards a village I spotted to the north."],
     ["  ", "Someone there might sell me a boat."],
     ["  ", "The witch can come along if she wakes by then."]
@@ -27,23 +29,23 @@ scenes = {"Leviathan": [
     ["  ", "The only thing we gained in coming here was our new companion."],
     ["", ""],
     ["> ", "As for the paladin, he claims he got stranded here after our own fashion."],
-    ["  ", "His encounter with the sea snake occurred about a week prior. We're the first living people he's seen since."],
-    ["  ", "He won't divulge details beyond that, which suits me fine."],
+    ["  ", "His encounter with the snake occurred about a week prior. We're the first living people he's seen since."],
+    ["  ", "He won't divulge details beyond that, which would suit me fine if not for us being stuck together."],
     ["  ", "Whatever business brought him here, I want no further part."],
+    ["  ", "I don't think I'm getting what I want."],
     ["", ""],
-    ["> ", "We're all stuck together for the moment, unfortunately."],
-    ["  ", "Akeem says there's a walled town atop the cliffs to the northwest."],
-    ["  ", "We'll go there next to see what's become of it. Since we can't sail, we'll climb through the caves."],
+    ["> ", "Akeem says there's a walled town atop the cliffs to the northwest."],
+    ["  ", "We'll go there next to see what's become of it. Since we can't sail, we'll have to climb through the caves."],
     ["  ", "The witch should feel at home. I'll be glad to have her, too, even if she is cursed."]
 ], "Town": [
     ["> ", "Another dead settlement. Its fate was obvious before this trek began, but now we have confirmation."],
-    ["  ", "We circled around a bit before deciding what to do and found a break in the outer wall"],
-    ["  ", " that lines up with an alleyway leading into the square."],
+    ["  ", "We circled around a bit before deciding what to do and found a break in the"],
+    ["  ", " outer wall that lines up with an alleyway leading into the main square."],
     ["  ", "From our current vantage, we can see both temples at the settlement's heart."],
     ["", ""],
     ["> ", "It seems that the people who lived here honored the northern god of fire next to our lady of light."],
     ["  ", "Since they're half-heretical and all-the-way dead, I suggested we should leave them to the fate they've already met."],
-    ["  ", "Akeem insists on entering regardless, however, and Fadia isn't willing to abandon him."],
+    ["  ", "Akeem insists on entering regardless, unfortunately, and Fadia isn't willing to abandon him."],
     ["  ", "I suppose I'm dead either way. I'd rather die with courage, so I'll go along."],
     ["", ""],
     ["> ", "Our one solace is that most of the population seems to have stayed down after being slaughtered,"],
@@ -63,7 +65,9 @@ scenes = {"Leviathan": [
     ["", ""],
     ["> ", "His order's library had a dusty, crumbling map of this region, which he studied before departing."],
     ["  ", "Reading it, he learned of a westerly feature called the 'Valley of Death.'"],
-    ["  ", "We're going there next, purely on the basis of its name. Joy."]
+    ["  ", "We're going there next, purely on the basis of its name."],
+    ["", ""],
+    ["  ", "Joy."]
 ], "Ally": [
     ["> ", "We found a greater spinx standing on cliff-side."],
     ["  ", "It was looking away from us, 'staring' down into a blighted gorge which we presume to be the Valley of Death."],
@@ -85,15 +89,15 @@ scenes = {"Leviathan": [
     ["  ", "Several words had long since chipped away, but the most important phrase endured:"],
     ["  ", "'In this accursed valley is inturned a lich. Turn back before death claims you.'"],
     ["  ", "We know now what awaits us. I know not how we will vanquish it."],
-    ["  ", "I cannot turn back alone."]
+    ["  ", "As much as I want to turn back, I cannot leave alone."]
 ], "Lich": [
-    ["> ", "We've reached the seat of this evil and will venture inside soon."],
-    ["  ", "It appears humble from without- smaller and cruder than the pyramids around it."],
-    ["  ", "From its scale and placement at the valley's end, we believe it to be older than its neighbors."],
+    ["> ", "We've reached the seat of this evil and will soon venture inside."],
+    ["  ", "The ziggurat appears humble from without- smaller and cruder than the pyramids around it."],
+    ["  ", "From its scale and placement at the valley's end, we believe it to be older than most of its neighbors."],
     ["", ""],
-    ["> ", "Ancient glyphs mark its lintel, still legible after two thousand years of abandonment."],
+    ["> ", "Ancient glyphs mark the old tomb's lintel, still half-legible after two thousand years of abandonment."],
     ["  ", "I had thought myself a learned man when I lived among sailors, but Akeem is a true scholar."],
-    ["  ", "He managed to translate what remains of the inscription. Its words both sicken and encourage me."],
+    ["  ", "He managed to translate what remains of the inscription. Its words both sickened and encouraged me."],
     ["", ""],
     ["> ", "I had assumed the lich was never destroyed because his obliteration was impossible,"],
     ["  ", " but it seems he endures only because his captors wanted him to suffer."],
@@ -101,7 +105,31 @@ scenes = {"Leviathan": [
     ["  ", "Goddess willing, we will end his millennia of torment and stop the spread of his blight."],
     ["  ", "We can only hope his guards oblige us."]
 ], "Post Lich": [
-    ["  ", "I'm not sure how, but we're alive."]
+    ["> ", "I'm not sure how, but we're all alive. Akeem credits providence, and I have no reason to suspect otherwise."],
+    ["  ", "Fadia held her tongue during that exchange, as she often does when we discuss religion."],
+    ["  ", "I can tell she has thoughts she isn't sharing, but I'll leave her to them."],
+    ["", ""],
+    ["> ", "I'd hoped to find answers in this accursed place. Something to tie up this mystery of rot."],
+    ["  ", "No such luck yet."]
+    ["  ", "I could see a cruel intelligence behind the lich's eyes, and he was happy to make hissing noises at us,"],
+    ["  ", " but if there were any words contained in what he said, I couldn't discern where one ended and the next began."],
+    ["", ""],
+    ["> ", "We did find a bag of silver next to his throne. Modern quality of an unfamiliar mint."],
+    ["  ", "No clue what the dead man planned to spend that on, but it looks like someone recently paid him for services rendered."],
+    ["  ", "I might have tried negotiating for a new pair of legs, myself. Would have been more immediately useful to him."],
+    ["  ", "Anyway, we tossed his body down the pit, Akeem said some holy words, and we returned to sunlight."],
+    ["", ""],
+    ["> ", "There's still a vampire on the loose somewhere."],
+    ["  ", "I didn't even bother asking whether we were dealing with that problem next. Of course we are."],
+    ["  ", "Our best lead is the silver coins. One side has an image of a mountain, and there's a mountain along the coast to our south east."],
+    ["  ", "It's shaky, but we found our lich on the basis of worse evidence."],
+    ["", ""],
+    ["> ", "The question is how we get there."],
+    ["  ", "Akeem's maps showed a 'narrow' straight to the south. Only a few miles from beach to beach."],
+    ["  ", "I'm confident I can build a raft that won't sink in calm weather."],
+    ["  ", "Fadia claims she can hide us from predators. Akeem offered to pray the whole way."],
+    ["  ", "I don't love our odds, but those are terrible regardless."],
+    ["  ", "Onwards we go."],
 ], "Dragon": [
     ["> ", "We were fools to venture so deeply into this marsh."],
     ["  ", "In her benevolence, the goddess granted us what I suspect will be our only warning."],
@@ -111,9 +139,13 @@ scenes = {"Leviathan": [
     ["  ", "Fadia thinks the creature was merely curious. Akeem agreed with me that its coming was a message."],
     ["  ", "Both acknowledged that staying here would be the death of us. We're turning back."]
 ], "Finale": [
-    ["", ""]
+    ["> ", ""]
 ], "Post Finale": [
     ["> ", "The vampire kept a journal like me."],
     ["  ", "His entires go back centuries, though it's clear he was often unsure of the actual date. Even to the decade."],
     ["  ", "I skipped to the final sections to see if I could piece together what happened between him and that town."],
+    ["", ""],
+    ["> ", "From what I could gather, he'd been preying on the locals for a long time."],
+    ["  ", "Their ancestors used to offer blood sacrifices in exchange for protection."],
+    ["  ", "That practice stopped more than a generation ago."],
 ]}

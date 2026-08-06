@@ -61,9 +61,11 @@ def updateKit(equipment, job, rank):
     elif rank in ["Adept", "Elite", "Master"]:
         equipment["armor"]["element"] = random.choice(["Dream", "Flame", "Ice", "Rot"])
 
-        if (not equipment["weapon"]["twoHanded"]) and (equipment["shield"]["name"] == "None"):
+        if equipment["shield"]["name"] != "None": equipment["shield"]["element"] = "Dream"
+
+        elif not equipment["weapon"]["twoHanded"]:
             equipment["shield"]["name"] = "Talisman"
-            equipment["shield"]["element"] = random.choice(["Dream", "Holy", "Flame", "Ice", "Rot"])
+            equipment["shield"]["element"] = random.choice(["Holy", "Flame", "Ice", "Rot"])
 
 
 def setWeapon(job, element, skills) -> list:
@@ -80,9 +82,9 @@ def setWeapon(job, element, skills) -> list:
     isTwoHanded = random.choice([True, False])
 
     match job:
-        case "Mage":
+        case "Mage" | "Witch":
             elementList = ["Dream", "Flame", "Holy", "Ice", "Rot"]
-            weapon.update({"reach": 8, "name": element, "dmgTypes": element})
+            weapon.update({"reach": 8, "name": element, "dmgTypes": [element]})
 
             if isTwoHanded:
                 elementList.remove(element)

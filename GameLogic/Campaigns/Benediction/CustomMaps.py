@@ -154,6 +154,7 @@ def cryptMap(players, events) -> list:
     players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 4], [11, 5], [10, 5], [11, 4]
 
     Lich = Bosses.lich().ch
+    Lich.atrb["injury"], Lich.cndt["planted"] = 1, True
     placeFighter(Lich, "01", [0, 5])
 
     if events["Ally"]["complete"]:
