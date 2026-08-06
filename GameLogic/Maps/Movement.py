@@ -26,6 +26,8 @@ def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName=""
         stepCount = spaceOptions[moveChoice][2]
         fighter.atrb["cur_sp"] -= stepCount
         if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
+    elif not player: Select.waitPrint(fighter.props["name"] + " remains in place.")
+
 
     else: stationary = True
     return stationary
@@ -88,7 +90,7 @@ def movePlayer(movementMap, lastSpace, name, mapHeight) -> str:
 
 def prepareOptions(movementMap, mapHeight) -> list:
     spaceOptions = {}
-    firstSpace = lastSpace = 1
+    firstSpace, lastSpace = 1, 0
 
     for row in range(mapHeight):
         for column in range(12):

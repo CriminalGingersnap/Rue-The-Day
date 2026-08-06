@@ -31,7 +31,7 @@ def apply(principal, ability) -> int:
         if principal in source.commits[ability]["targets"]:
             element = ""
             if ability == "Wreath": element = source.commits[ability]["additional"] + " "
-            if print: Select.waitPrint(element + specific + " triggered on " + principal.props["name"] + "!")
+            if print: Select.waitPrint("\n" + element + specific + " triggered on " + principal.props["name"] + "!")
 
             roll = expend(source, dice, specific, dType)
             increase = roll[0]
@@ -65,9 +65,11 @@ def applyRally(principal) -> str:
 
 def applyVeil(principal):
     roll = apply(principal, "Veil")
-    distance = max(10 - roll, 2)
-    principal.effects["Veil"]["additional"] = distance
-    Select.waitPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.\n")
+
+    if roll > 0:
+        distance = max(10 - roll, 2)
+        principal.effects["Veil"]["additional"] = distance
+        Select.waitPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.\n")
 
 
 def applyWreath(principal, attackDmgType) -> int:

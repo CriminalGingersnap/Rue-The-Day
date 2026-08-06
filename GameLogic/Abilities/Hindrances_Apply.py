@@ -46,22 +46,24 @@ def applyConfound(target) -> int:
 
 
 def applyDrain(principal) -> int:
-    target = principal.commits["Drain"]["target"]
-    cap = target.atrb["base_hp"] - target.atrb["cur_hp"]
+    targets = principal.commits["Drain"]["targets"]
 
-    if (cap > 0) and not target.cndt["lifeless"]:
-        Conditions.takeDamage(target, "Bleed", principal.commits["Drain"]["dice"])
-
+    for target in targets:
         cap = target.atrb["base_hp"] - target.atrb["cur_hp"]
-        Select.waitPrint(target.props["name"] + " has lost " + str(cap) + " points of health.")
 
-        gain = Boons.apply(target, "Drain")
-        if principal.props["type"] != target.props["type"]:
-            Select.waitPrint("Drain is half effective between creatures of different types.")
-            gain //= 2
+        if (cap > 0) and not target.cndt["lifeless"]:
+            Conditions.takeDamage(target, "Bleed", principal.commits["Drain"]["dice"])
 
-        if gain > 0:
-            Select.waitPrint(principal.props["name"] + " heals " + str(gain) + " points!")
-            Conditions.recoverHP(principal, gain)
-    else:
-        Select.waitPrint(target.props["name"] + " has no spilled blood to sup.")
+            cap = target.atrb["base_hp"] - target.atrb["cur_hp"]
+            Select.waitPrint(target.props["name"] + " has lost " + str(cap) + " points of health.")
+
+            gain = Boons.apply(target, "Drain")
+            if principal.props["type"] != target.props["type"]:
+                Select.waitPrint("Drain is half effective between creatures of different types.")
+                gain //= 2
+
+            if gain > 0:
+                Select.waitPrint(principal.props["name"] + " heals " + str(gain) + " points!")
+                Conditions.recoverHP(principal, gain)
+        else:
+            Select.waitPrint(target.props["name"] + " has no spilled blood to sup.")

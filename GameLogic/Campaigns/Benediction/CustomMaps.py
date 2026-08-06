@@ -31,7 +31,7 @@ def shipMap(players) -> list:
     Sailor1, Sailor2, Sailor3 = Humans.knight("Basic", "Proficient").ch, Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Novice").ch 
     placeFighter(Sailor1, "31", [6, 3])
     placeFighter(Sailor2, "32", [5, 6])
-    placeFighter(Sailor3, "32", [6, 2])
+    placeFighter(Sailor3, "33", [6, 2])
 
     Pirate1, Pirate2, Pirate3 = Humans.archer("Basic", "Proficient").ch, Humans.archer("Basic", "Novice").ch, Humans.archer("Basic", "Novice").ch    
     placeFighter(Pirate1, "11", [10, 3])

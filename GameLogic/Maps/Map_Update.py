@@ -71,7 +71,7 @@ def hideTraps(fighter, sightMap):
 
 
 def identifyAtmosphere(atmosphere) -> str:
-    dmgType = ""
+    dmgType = "None"
     if atmosphere in ["b", "B"]: dmgType = "Bleed"
     if atmosphere in ["c", "C"]: dmgType = "Crush"
     elif atmosphere in ["d", "D", "@"]: dmgType = "Dream"
@@ -99,11 +99,11 @@ def activateHazards(fighter, battleMap):
     if atmosphere in hazards:
         points, dmgType = 0, identifyAtmosphere(atmosphere)
         scale = getScale(atmosphere)
-        
+
         if (fighter.props["type"] in ["elemental", "echo"]) and (fighter.atrb["cur_elm"] == dmgType):
             Select.waitPrint("\nMap causes " + str(points) + " healing for " + fighter.props["name"] + "!")
             Conditions.recoverHP(fighter, scale)
-        else:
+        elif dmgType != "None":
             match scale:
                 case 3: points = random.randint(2, 12)
                 case 2: points = random.randint(1, 6)
@@ -156,7 +156,7 @@ def updateHazards(battleMap):
                         match scale:
                             case 3: newAtmosphere = random.choice(["t", "&"])
                             case 2: newAtmosphere = random.choice(["&", "-"])
-                            case 1: newAtmosphere = "_"
+                            case 1: newAtmosphere = "-"
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]

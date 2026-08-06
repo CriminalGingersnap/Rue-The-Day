@@ -110,7 +110,7 @@ scenes = {"Leviathan": [
     ["  ", "I can tell she has thoughts she isn't sharing, but I'll leave her to them."],
     ["", ""],
     ["> ", "I'd hoped to find answers in this accursed place. Something to tie up this mystery of rot."],
-    ["  ", "No such luck yet."]
+    ["  ", "No such luck yet."],
     ["  ", "I could see a cruel intelligence behind the lich's eyes, and he was happy to make hissing noises at us,"],
     ["  ", " but if there were any words contained in what he said, I couldn't discern where one ended and the next began."],
     ["", ""],

@@ -96,7 +96,7 @@ def woodsMap(players) -> list:
 
     Bear, Crow = Beasts.bear("Dream", "Elder").ch, Birds.crow("Dream", "Elder").ch
     B_Maps.placeFighter(Bear, "02", [4, 11])
-    B_Maps.placeFighter(Crow, "02", [6, 10])
+    B_Maps.placeFighter(Crow, "03", [6, 10])
     
     Wolf1, Wolf2, Wolf3, Wolf4, Wolf5 = Beasts.wolf("Rot", "Random").ch, Beasts.wolf("Rot", "Random").ch, Beasts.wolf("Rot", "Random").ch, Beasts.wolf("Rot", "Random").ch, Beasts.wolf("Rot", "Random").ch
     B_Maps.placeFighter(Wolf1, "11", [4, 8])
@@ -141,8 +141,7 @@ def campMap(players) -> list:
     B_Maps.placeFighter(Bandit8, "08", [4, 9])
     B_Maps.placeFighter(Bandit9, "09", [3, 10])
 
-    Insect1 = Insects.isopod("Basic", "Small").ch
-    Insect2 = Insects.isopod("Basic", "Small").ch
+    Insect1, Insect2 = Insects.isopod("Basic", "Small").ch, Insects.isopod("Basic", "Small").ch
     B_Maps.placeFighter(Insect1, "11", [0, 7])
     B_Maps.placeFighter(Insect2, "12", [1, 6])
 

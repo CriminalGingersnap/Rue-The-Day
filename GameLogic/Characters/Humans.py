@@ -199,7 +199,7 @@ class witch:
         stats, cndt, dice, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"boons": ["Veil"]})
+        abl = Characters.setAbilities(type, {"boons": ["Focus"]})
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -209,3 +209,6 @@ class witch:
             if rank in ["Elite", "Master"]:
                 abl["hindrances"] += ["Compel"]
                 if rank == "Master": specialtyLevel = "mastery"
+
+        setSpecialty(abl, specialtyLevel)
+        self.ch = Characters.character(abl, cndt, dice, element, job, rank, stats, type)

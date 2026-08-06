@@ -44,10 +44,10 @@ def getAkeem():
     return Akeem
 
 def getFadia():
-    Fadia = Humans.mage("Dream", "Adept").ch
+    Fadia = Humans.witch("Dream", "Adept").ch
     Fadia.props["name"], Fadia.props["initials"] = "Fadia", "F."
     Fadia.atrb["base_av"], Fadia.atrb["base_hp"], Fadia.atrb["base_sp"] = 7, 14, 3
-    Fadia.abl["specialty"] = ["Wreath"]
+    Fadia.abl["specialty"] = ["Compel"]
 
     resetPlayer(Fadia)
     return Fadia
