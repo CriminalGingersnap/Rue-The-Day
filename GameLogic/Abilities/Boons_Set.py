@@ -1,7 +1,7 @@
 from Systems import PlayerSelect as Select, Damage
 import random
 
-martialBoons = ["Bandage", "Conceal", "Fortify", "Guard", "Rally"]
+martialBoons = ["Bandage", "Conceal", "Evade", "Fortify", "Guard", "Rally"]
 magicBoons = ["Focus", "Heal", "Regenerate", "Veil", "Wreath"]
 
 
@@ -20,7 +20,11 @@ def commitDice(fighter, principal, boon) -> None:
     else: newDice = diceCap
 
     trueBoon = boonComment(fighter, principal, boon)
+    setBoon(fighter, principal, newDice, boon, trueBoon)
+    fighter.atrb[dType] -= newDice
 
+
+def setBoon(fighter, principal, newDice, boon, trueBoon) -> None:
     if newDice > principal.effects[trueBoon]["dice"]:
         fighter.commits[trueBoon]["targets"] += [principal]
         principal.effects[trueBoon]["source"] = fighter
@@ -30,7 +34,6 @@ def commitDice(fighter, principal, boon) -> None:
             principal.effects["Wreath"]["additional"] = dmgType
 
     principal.effects[trueBoon]["dice"] += newDice
-    fighter.atrb[dType] -= newDice
 
 
 def boonComment(fighter, principal, boon) -> None:
@@ -45,6 +48,9 @@ def boonComment(fighter, principal, boon) -> None:
         case "Conceal":
             phrase += " conceals " + end
             trueBoon = "Veil"
+        case "Evade":
+            phrase += " evades!"
+            trueBoon = "Guard"
         case "Heal": phrase += " heals " + end
         case "Focus": phrase += " focuses " + end
         case "Fortify": phrase += " fortifies " + end

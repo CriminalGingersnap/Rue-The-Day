@@ -4,24 +4,21 @@ from Abilities import Items_Use as Use
 from Maps import Movement
 
 
-def itemAction(fighter, groups, battleMap) -> None:
-    inventory = getInventory(fighter)
+def itemAction(fighter, groups, battleMap, selection) -> None:
+    if fighter.props["rank"] == "player":
+        inventory = getInventory(fighter)
+        if inventory["Total"] > 0:
+            del inventory["Total"]
+            selection = pcSelectItem(fighter.props["job"], inventory)
 
-    if inventory["Total"] > 0:
-        del inventory["Total"]
-        selection = "None"
+    if selection != "None":
+        category, item, application = selection[0], selection[1], selection[2],
 
-        if fighter.props["rank"] == "player": selection = pcSelectItem(fighter.props["job"], inventory)
-        else: selection = NPC.npcSelectItem(fighter, groups, inventory)
+        if category == "echo": fighter.inv["echo"] = "None"
+        elif category != "standard": fighter.inv[category][item] -= 1
 
-        if selection != "None":
-            category, item, application = selection[0], selection[1], selection[2],
-
-            if category == "echo": fighter.inv["echo"] = "None"
-            elif category != "standard": fighter.inv[category][item] -= 1
-
-            target = getTarget(fighter, groups, application)
-            Use.execute(target, category, item, application, groups, battleMap)
+        target = getTarget(fighter, groups, application)
+        Use.execute(target, category, item, application, groups, battleMap)
 
 
 def pcSelectItem(job, inventory) -> str:

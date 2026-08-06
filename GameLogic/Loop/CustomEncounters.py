@@ -10,7 +10,7 @@ def getElement(inventory) -> str:
 
 
 def customLoop(playerGroup, biome, event) -> bool:
-    encounter, skipCombat, timePermits = None, False, True
+    encounter, skipCombat, timePermits, deathPermitted = None, False, True, False
 
     Select.readScene(event, playerGroup["campaign"])
 
@@ -54,7 +54,7 @@ def customLoop(playerGroup, biome, event) -> bool:
             match event:
                 case "Leviathan":
                     encounter = B_Maps.shipMap(playerGroup["members"])
-                    timePermits = False
+                    timePermits, deathPermitted = False, True
                     playerGroup["world"].marker.pos = [5, 9]
                     playerGroup["world"].worldMap[5][9], playerGroup["world"].worldMap[7][11] = "s_..↓", "~~~~⇓"
                 case "Village":
@@ -81,5 +81,5 @@ def customLoop(playerGroup, biome, event) -> bool:
     if skipCombat: return True
     else:
         result = Encounters.encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, timePermits)
-        Select.readScene("Post " + event, playerGroup["campaign"])
-        return result
+        if result or deathPermitted: Select.readScene("Post " + event, playerGroup["campaign"])
+        return result or deathPermitted

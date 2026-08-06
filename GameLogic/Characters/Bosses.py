@@ -7,7 +7,7 @@ def setCommon(element) -> list:
     traits = Characters.setTraits()
     cndt = traits[0]
     cndt["massive"], cndt["inviolable"] = True, True
-    stats = {"avoidance": "mid", "hp": "boss", "resist": traits[1], "speed": "mid"}
+    stats = {"avoidance": "low", "hp": "boss", "resist": traits[1], "speed": "mid"}
     Animals.setAnimalResistance(element, rank, stats)   
 
     return [stats, cndt, type, rank]
@@ -34,6 +34,7 @@ class lich:
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"], cndt["sapient"] = False, True
+        stats["avoidance"] = "min"
 
         dice = {"martial": 0, "magic": 5}
         abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Bring"], "boons": ["Wreath"], "hindrances": ["Seal"]})
@@ -47,7 +48,7 @@ class vampire:
         common = setCommon(element)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"], cndt["sapient"] = False, True
-        stats["speed"] = "max"
+        stats["avoidance"], stats["speed"] = "mid", "max"
 
         dice = {"martial": 3, "magic": 2}
         abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Confuse", "Drain"]})
@@ -76,7 +77,7 @@ class worm:
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3] 
         cndt["reposed"] = True  
-        stats["avoidance"], stats["speed"]  = "low", "low"
+        stats["avoidance"], stats["speed"]  = "min", "low"
 
         dice = {"martial": 3, "magic": 3}
         abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Ram", "Spit"], "boons": ["Wreath"]})

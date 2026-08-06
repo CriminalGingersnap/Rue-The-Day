@@ -25,9 +25,13 @@ def resistCompulsion(attempt, target, ability) -> list:
 
     source = target.effects[ability]["source"]
     if Hinder.canCompel(source, target, ability):
-        if target.cndt["social"] and (ability == "Compel"):
-            threshold += 3
-            phrase += "+3 (Social) | "
+        if ability == "Compel":
+            if target.cndt["sapient"]:
+                threshold += 5
+                phrase += "+5 (Sapient) | "
+            elif target.cndt["social"]:
+                threshold += 3
+                phrase += "+3 (Social) | "
 
     Select.waitPrint(phrase)
     Select.waitPrint("Total: " + threshold)

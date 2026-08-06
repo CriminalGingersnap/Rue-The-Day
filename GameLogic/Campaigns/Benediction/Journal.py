@@ -13,7 +13,8 @@ scenes = {"Leviathan": [
     ["  ", "I thought myself the only survivor until I found that witch collapsed on the sand."],
     ["  ", "She must have dragged herself up from the surf before succumbing to exhaustion."],
     ["", ""],
-    ["  ", "I nearly threw her back in. I've shared enough of this woman's misfortune already."],
+    ["  ", "I nearly threw her back in."],
+    ["  ", "I've shared enough of this woman's misfortune already."],
     ["  ", "I only stayed my hand because she fought with me."],
     ["  ", "Whatever curse she carries, it was not earned through cowardice."],
 ], "Village": [

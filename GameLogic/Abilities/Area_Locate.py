@@ -9,16 +9,14 @@ def findSpace(fighter, groups, range, source) -> list:
     column, row = fighter.pos[1], fighter.pos[0]
     leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
     topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
-    borders = [leftEdge, rightEdge, topEdge, bottomEdge]
 
-    markedSpace = selectSpace(fighter, groups, borders, source)
+    markedSpace = selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdge)
     return markedSpace
 
 
-def selectSpace(fighter, groups, boarders, source) -> int:
+def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdge) -> int:
     enemies, allies = groups["fightingEnemies"], groups["fightingAllies"]
     sightMap = fighter.sightMap
-    leftEdge, rightEdge, topEdge, bottomEdge = boarders[0], boarders[1], boarders[2], boarders[3]
 
     if (leftEdge == rightEdge) and (topEdge == bottomEdge): return [leftEdge, topEdge]
     else:
@@ -41,13 +39,13 @@ def selectSpace(fighter, groups, boarders, source) -> int:
                 if not any(blocker in optionsMap[row][column] for blocker in blockers):
                     if fighter.props["rank"] == "player":
                         optionDict[str(counter)] = [row, column]
-                        setSpace(sightMap[row][column], optionsMap[row][column], counter)
+                        setSpace(sightMap, optionsMap, row, column, counter)
                     elif source == "Slip":
                         optionDict[str(counter)] = [row, column, 0]
-                        setSpace(sightMap[row][column], optionsMap[row][column], counter)
+                        setSpace(sightMap, optionsMap, row, column, counter)
                     elif enemyInRange(row, column, enemies) and ((source == "echo") or allyNotInRange(row, column, allies)):
                         optionDict[str(counter)] = [row, column]
-                        setSpace(sightMap[row][column], optionsMap[row][column], counter)                    
+                        setSpace(sightMap, optionsMap, row, column, counter)                    
 
         choice = ""
         if fighter.props["rank"] == "player":
@@ -80,16 +78,16 @@ def allyNotInRange(row, column, allies):
     return notInRange
 
 
-def setSpace(sightSpace, optionsSpace, counter) -> None:
-    atmosphere = sightSpace[0]
-    marker = sightSpace[1]
-    elevation = sightSpace[-1]
+def setSpace(sightMap, optionsMap, row, column, counter) -> None:
+    atmosphere = sightMap[row][column][0]
+    marker = sightMap[row][column][1]
+    elevation = sightMap[row][column][-1]
 
-    if any(playerMark in optionsSpace for playerMark in [".", "e", "s"]): marker = "."
-    elif "!" in optionsSpace: marker = "!"
+    if any(playerMark in optionsMap[row][column] for playerMark in [".", "e", "s"]): marker = "."
+    elif "!" in optionsMap[row][column]: marker = "!"
 
     filler = ""
     if counter < 10: filler = "_"
     
-    optionsSpace = atmosphere + marker + str(counter) + filler + elevation
+    optionsMap[row][column] = atmosphere + marker + str(counter) + filler + elevation
     counter += 1

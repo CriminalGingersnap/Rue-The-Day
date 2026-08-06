@@ -42,7 +42,7 @@ def apply(principal, ability) -> int:
 
 def applyFocus(principal):
     bonus = apply(principal, "Focus")
-    if bonus > 0: Select.waitPrint(principal.props["name"] + "'s attempt increases by " + str(bonus) + ".")
+    if bonus > 0: Select.waitPrint(principal.props["name"] + "'s attempt increases by " + str(bonus) + ".\n")
     return bonus
 
 def applyGuard(principal):
@@ -85,7 +85,7 @@ def applyWreath(principal, attackDmgType) -> int:
             Select.waitPrint("Wreath provides half protection against it's own element!")
             Select.waitPrint("Total reduced to " + str(bonus) + "!")
 
-        Select.waitPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
+        Select.waitPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.\n")
 
     return bonus
 

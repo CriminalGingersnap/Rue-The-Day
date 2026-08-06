@@ -54,27 +54,26 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     lowestHPEnemy = Assess.findLowestGeneral(enemies, "cur_hp")
     lowestResFlameEnemy = Assess.findLowestRes(enemies, "Flame")
     lowestResCrushEnemy = Assess.findLowestRes(enemies, "Crush")
-    lowestResDreamEnemy = Assess.findLowestRes(enemies, "Dream")
     lowestResIceEnemy = Assess.findLowestRes(enemies, "Ice")
     lowestResHolyEnemy = Assess.findLowestRes(enemies, "Holy")
     lowestResPierceEnemy = Assess.findLowestRes(enemies, "Pierce")
     lowestResRotEnemy = Assess.findLowestRes(enemies, "Rot")
     lowestResToxicEnemy = Assess.findLowestRes(enemies, "Toxic")
 
-    target = closestEnemy
+    target, threats, vulnerable = closestEnemy, [closestEnemy,  highestMAGEnemy, highestMAREnemy], [lowestAVEnemy, lowestHPEnemy]
     if not pickClosest:
         if not fighter.cndt["sapient"]:                            
-            target = random.choice([closestEnemy, lowestHPEnemy, lowestAVEnemy])
+            target = random.choice(threats + vulnerable)
 
         else:                            
             match fighter.atrb["cur_elm"]:
                 case "Basic":
                     weaponDmgTypes = fighter.equip["weapon"]["dmgTypes"]
-                    if "Pierce" in weaponDmgTypes: target = random.choice([lowestResPierceEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
-                    elif "Crush" in weaponDmgTypes: target = random.choice([lowestResCrushEnemy, highestMAGEnemy, lowestAVEnemy, lowestHPEnemy])
-                case "Rot": target = random.choice([highestMAREnemy, highestMAGEnemy, lowestResRotEnemy])
-                case "Dream": target = random.choice([highestMAGEnemy, lowestResDreamEnemy])
-                case "Flame": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResFlameEnemy])
+                    if "Pierce" in weaponDmgTypes: target = random.choice(threats + vulnerable + [lowestResPierceEnemy])
+                    elif "Crush" in weaponDmgTypes: target = random.choice(threats + vulnerable + [lowestResCrushEnemy])
+                case "Rot": target = random.choice(threats + [lowestResRotEnemy])
+                case "Dream": target = random.choice(threats)
+                case "Flame": target = random.choice(vulnerable + [lowestResFlameEnemy])
                 case "Holy":
                     nonLivingTargets = Assess.findUndead(enemies)
                     if len(nonLivingTargets) > 0:
@@ -82,8 +81,8 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
                         lowestAVUndead = Assess.findLowestAV(fighter, nonLivingTargets)
                         lowestHPUndead = Assess.findLowestHP(nonLivingTargets)
                         target = random.choice([highestMARUndead, lowestAVUndead, lowestHPUndead])
-                    else: target = random.choice([highestMAGEnemy, lowestAVEnemy, lowestResHolyEnemy])
-                case "Ice": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResIceEnemy])
-                case "Toxic": target = random.choice([highestMAREnemy, lowestHPEnemy, lowestResToxicEnemy])
+                    else: target = random.choice(threats + [lowestResHolyEnemy])
+                case "Ice": target = random.choice(vulnerable + [lowestResIceEnemy])
+                case "Toxic": target = random.choice(vulnerable + [lowestResToxicEnemy])
 
     return target

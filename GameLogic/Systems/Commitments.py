@@ -18,6 +18,7 @@ def checkReach(fighter) -> None:
 
             for target in targets:
                 if target not in reachable:
+                    Select.waitPrint(target.props["name"] + " is out of reach.")
                     removeCommitment(fighter, target, commitment)
                 
 

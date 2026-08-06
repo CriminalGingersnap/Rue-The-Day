@@ -4,7 +4,7 @@ import random, copy
 nullKit = {"name": "None", "modifier": 0,  "element": "Basic"}
 nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1}
 
-def setEquipment(attacks, cndt, element, job, rank, skills, type) -> list:
+def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
     global nullKit, nullWeapon
 
     equipment = {"armor": copy.deepcopy(nullKit),
@@ -12,7 +12,7 @@ def setEquipment(attacks, cndt, element, job, rank, skills, type) -> list:
                    "weapon": copy.deepcopy(nullWeapon)}
 
     if type  == "human":
-        equipment["weapon"] = setWeapon(job, element, skills)
+        equipment["weapon"] = setWeapon(job, element, specialties)
         equipment["armor"] = setKit(job, False, equipment["weapon"]["modifier"])
         equipment["shield"] = setKit(job, equipment["weapon"]["twoHanded"], equipment["armor"]["modifier"] + equipment["weapon"]["modifier"])
         updateKit(equipment, job, rank)
@@ -68,28 +68,15 @@ def updateKit(equipment, job, rank):
             equipment["shield"]["element"] = random.choice(["Holy", "Flame", "Ice", "Rot"])
 
 
-def setWeapon(job, element, skills) -> list:
-    longMelee, shortMelee = ["Poleaxe", "Spear", "Staff"], ["Axe", "Mace", "War Pick"]
-    bluntMelee, sharpMelee = ["Mace", "Poleaxe", "Staff", "War Pick"], ["Axe", "Poleaxe", "Spear", "War Pick"]
-
-    meleeOptions = []
-    if "Bash" in skills: meleeOptions += bluntMelee
-    if "Stab" in skills: meleeOptions += sharpMelee
-    if not any(meleeSkill in skills for meleeSkill in ["Bash", "Stab"]):
-        meleeOptions = bluntMelee + sharpMelee
-
+def setWeapon(job, element, specialties) -> list:
     weapon = {"name": "", "twoHanded": False, "modifier": 1, "dmgTypes": [], "reach": 1}
     isTwoHanded = random.choice([True, False])
 
     match job:
         case "Mage" | "Witch":
-            elementList = ["Dream", "Flame", "Holy", "Ice", "Rot"]
             weapon.update({"reach": 8, "name": element, "dmgTypes": [element]})
 
-            if isTwoHanded:
-                elementList.remove(element)
-                weapon["dmgTypes"] += [random.choice(elementList)]
-                weapon["name"] = weapon["dmgTypes"][1] + " " + weapon["name"] + " Banner"
+            if isTwoHanded: weapon["name"] += " Banner"
             else: weapon["name"] += " Flag"
 
         case "Archer" | "Dragonslayer":
@@ -101,6 +88,14 @@ def setWeapon(job, element, skills) -> list:
                 weapon["dmgTypes"] += [element]
 
         case "Brute" | "Knight":
+            longMelee, shortMelee = ["Spear", "Staff"], ["Axe", "Club", "Mace", "Sword"]
+            bluntMelee, sharpMelee = ["Club", "Mace", "Staff"], ["Axe", "Spear", "Sword"]
+
+            meleeOptions = []
+            if "Bash" in specialties: meleeOptions += bluntMelee
+            elif "Stab" in specialties: meleeOptions += sharpMelee
+            else: meleeOptions = bluntMelee + sharpMelee
+
             if isTwoHanded:
                 longOptions = list(set(meleeOptions).intersection(longMelee))
                 weapon.update({"name": random.choice(longOptions), "reach": 2})
@@ -116,6 +111,5 @@ def setWeapon(job, element, skills) -> list:
         case "Paladin": weapon.update({"reach": 8, "name": "Sling", "dmgTypes": ["Crush", "Holy"]})
 
     if weapon["twoHanded"]: weapon["modifier"] += 1
-    if any(dmgType in weapon["dmgTypes"] for dmgType in ["Crush", "Pierce"]): weapon["dmgTypes"] += ["Bleed"]
 
     return weapon

@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select
-from . import ItemActions, BoonActions as Boons, AttackActions as Attacks
+from . import ItemActions, ItemActions_NPC, BoonActions as Boons, AttackActions as Attacks
 from Abilities import Move_Apply as Moves, Area_Set as Area
 from Maps import Movement
 import random, copy
@@ -7,7 +7,9 @@ import random, copy
 
 def moveAction(fighter, groups, battleMap) -> None:
     posOptions = copy.deepcopy(fighter.abl["areas"])
-    
+
+    if fighter.atrb["cur_sp"] > 0: posOptions += ["Evade"]
+
     if ("Inventory" in posOptions) and not ItemActions.hasItems(fighter): posOptions.remove("Inventory")
     if "spares" in fighter.inv:
         if (fighter.inv["spares"]["weapon"]["name"] != "None"): posOptions += ["Swap Weapon"]
@@ -22,8 +24,8 @@ def moveAction(fighter, groups, battleMap) -> None:
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move", "Stay"]
         posOptions.sort()
         movePlayer(fighter, groups, posOptions, battleMap)
-    else:
-        moveNPC(fighter, groups, posOptions, battleMap)
+
+    else: moveNPC(fighter, groups, posOptions, battleMap)
     
 
 def movePlayer(fighter, groups, posOptions, battleMap) -> None:
@@ -63,12 +65,19 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies, True)
 
         if target != "None": stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
-                
+
     if stationary:
+        itemSelection = "None"
+        if "Inventory" in posOptions:
+            inventory = ItemActions.getInventory(fighter)
+            del inventory["Total"]
+            itemSelection = ItemActions_NPC.npcSelectItem(fighter, groups, inventory)
+            if itemSelection == "None": posOptions.remove("Inventory")
+
         if len(posOptions) == 0:
             Select.waitPrint(fighter.props["name"] + " remains in place.")
             fighter.cndt["blitzing"] = True
         else: choice = random.choice(posOptions)
 
         if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
-        elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap)
+        elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap, itemSelection)

@@ -1,18 +1,22 @@
 
-from Systems import PlayerSelect as Select, Conditions
-from . import Attacks_Martial as Martial
+from Systems import PlayerSelect as Select
+from . import Attacks_Martial as Martial, Boons_Set as Boons
 from Actions import ItemActions
 
-stationaryAbilities = ["Examine", "Inventory", "Swap Shield", "Swap Weapon"]
+
+stationaryAbilities = ["Evade", "Examine", "Inventory", "Swap Shield", "Swap Weapon"]
 
 
-def execute(fighter, groups, ability, battleMap) -> None: 
+def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None: 
     reachable = groups["reachable"]
     visibleTargets = reachable["visibleAllies"] + reachable["visibleEnemies"]
 
     match ability:
+        case "Evade":
+            trueBoon = Boons.boonComment(fighter, fighter, ability)
+            Boons.setBoon(fighter, fighter, 1, ability, trueBoon)
         case "Examine": applyExamine(visibleTargets)
-        case "Inventory": ItemActions.itemAction(fighter, groups, battleMap)
+        case "Inventory": ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
         case "Swap Shield": ItemActions.swapShield(fighter)
         case "Swap Weapon": ItemActions.swapWeapon(fighter)
 

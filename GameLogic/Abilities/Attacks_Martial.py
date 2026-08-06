@@ -39,14 +39,15 @@ def attack(fighter, target, attack, dice) -> None:
     dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], attack)
     av = getBaseAv(attack, dmgType, target)
 
-    attemptIncrease = Boons.applyFocus(fighter)
-    attemptReduction = Hinder.applyConfound(fighter)
-    avIncrease = Boons.applyGuard(target)
-    avReduction = Hinder.applyConfuse(target)
-
     Select.quickPrint("Attack roll:")
     attempt = Roll.roll(fighter, dice, attack, "martial")
+
+    attemptIncrease = Boons.applyFocus(fighter)
+    attemptReduction = Hinder.applyConfound(fighter)
     attempt += (attemptIncrease - attemptReduction)
+
+    avIncrease = Boons.applyGuard(target)
+    avReduction = Hinder.applyConfuse(target)
     av += (avIncrease - avReduction)
 
     contact(fighter, target, dmgType, dice, attempt, av)

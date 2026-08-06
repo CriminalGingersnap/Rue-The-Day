@@ -29,9 +29,7 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
 
 def battle(offenseGroup, targetGroup, battleMap) -> bool:
     sortedOffense, sortedTarget = Sort.sortLiving(offenseGroup, battleMap), Sort.sortLiving(targetGroup, battleMap)
-    validFighters, validTargets = sortedOffense[0], sortedTarget[0]
-    downedFighters, downedTargets = sortedOffense[1], sortedTarget[1]
-    pacifistTargets = sortedTarget[2]
+    validFighters, validTargets, downedFighters, downedTargets, pacifistTargets = sortedOffense[0], sortedTarget[0], sortedOffense[1], sortedTarget[1], sortedTarget[2]
     npcGroup = offenseGroup[0].props["rank"] != "player"
 
     if any(((fighter.props["rank"] == "player") and (fighter.props["type"] not in ["echo", "totem"])) for fighter in downedFighters):

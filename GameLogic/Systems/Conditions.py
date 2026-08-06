@@ -52,12 +52,6 @@ def setInjury(target):
     injuryPhrase, speedPhrase, avPhrase = "\n" + target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
     print = False
 
-    if target.atrb["cur_hp"] > (target.atrb["half_hp"] + target.atrb["quart_hp"]):
-        if target.atrb["injury"] == 0:
-            if target.cndt["lifeless"]: injuryPhrase += "unimpaired!"
-            else: injuryPhrase += "unwounded!"
-            Select.waitPrint(injuryPhrase)
-
     if target.atrb["half_hp"] < target.atrb["cur_hp"] <= (target.atrb["half_hp"] + target.atrb["quart_hp"]):
         if target.atrb["injury"] < 1:
             if target.cndt["lifeless"]: injuryPhrase += "lightly damaged!"
