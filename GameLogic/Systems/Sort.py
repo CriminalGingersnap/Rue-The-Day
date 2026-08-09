@@ -1,5 +1,5 @@
 from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
-from Maps import Map_Update as uMap, Movement
+from Maps import Map_Update as uMap, Movement, Map_Instantiate as iMap
 from Systems import PlayerSelect as Select
 
 
@@ -27,7 +27,7 @@ def sortLiving(contingent, battleMap) -> list:
         else:
             fighting += [candidate]
 
-            if candidate.cndt["reposed"] or candidate.cndt["skittish"]: pacifist += candidate
+            if candidate.cndt["reposed"] or candidate.cndt["skittish"]: pacifist += [candidate]
 
             if "echo" in candidate.inv:
                 echo = candidate.inv["echo"]
@@ -48,7 +48,9 @@ def sortVisible(contingent, sightMap) -> list:
     for fighter in contingent:
         for row in range(12):
             for column in range(12):
-                if fighter.props["initials"] in sightMap[row][column]: visible += [fighter]
+                if fighter.props["initials"] in sightMap[row][column]:
+                    veiled = sightMap[row][column][0] in iMap.intStrings
+                    if not veiled: visible += [fighter]
         
         if fighter not in visible: invisible += [fighter]
     

@@ -54,13 +54,13 @@ def revealOthers(fighter, allies, enemies, sightMap):
                 elevation = sightMap[row][column][-1]
                 sightMap[row][column] = " !!?" + elevation
 
-def hideVeiled(fighter, contingent, instanceMap):
+def hideVeiled(fighter, contingent, sightMap):
     for other in contingent:
         visibleDistance = fighter.effects["Veil"]["additional"]
 
         if (visibleDistance != None) and (visibleDistance > 0):
             if Movement.getTargetDistance(fighter, other) > visibleDistance:
-                removeFighter(other, instanceMap)
+                sightMap[other.pos[0]][other.pos[1]][0] = str(fighter.effects["Veil"]["additional"])
 
 def hideTraps(fighter, sightMap):
     for row in range(12):

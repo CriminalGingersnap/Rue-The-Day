@@ -33,12 +33,12 @@ def recoverHP(principal, points):
 def recoverStamina(principal, points):
     if points > 0:
         principal.atrb["stamina"] = min(principal.atrb["base_hp"], principal.atrb["stamina"] + points)
-        Select.waitPrint(principal.props["name"] + " rallies for " + str(points) + " of stamina.\n")
+        Select.waitPrint(principal.props["name"] + " rallies for " + str(points) + " points of stamina.\n")
 
 def recoverTolerance(principal, points):
     if points > 0:
         principal.atrb["tolerance"] = min(principal.atrb["base_hp"], principal.atrb["tolerance"] + points)
-        Select.waitPrint(principal.props["name"] + " fortifies for " + str(points) + " of tolerance.\n")
+        Select.waitPrint(principal.props["name"] + " fortifies for " + str(points) + " points of tolerance.\n")
 
 
 def takeDamage(target, dmgType, damage) -> None:

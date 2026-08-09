@@ -18,8 +18,8 @@ def customLoop(playerGroup, biome, event) -> bool:
         case "Avarice":
             match event:
                 case "Escape":
-                    skipCombat = True
                     playerGroup["world"].worldMap[14][7] = "w/!!↑"
+                    encounter = A_Maps.archerMap(playerGroup["members"])
                 case "Threshold": skipCombat = True
                 case "Moose": skipCombat = True
                 case "Vines":

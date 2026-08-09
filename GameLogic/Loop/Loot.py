@@ -12,7 +12,7 @@ def searchAll(playersGroup, enemies) -> None:
 
 def sortItems(players):
     playerStock = LootStones.getStock(players)
-    standards = []
+    standards = ["None"]
     for player in players:
         Select.waitPrint("Assign stones to " + player.props["name"] + ".")
         Select.quickPrint("Items not selected by any party member will be lost.")
@@ -39,7 +39,7 @@ def sortItems(players):
 
 
 def lootFoes(groupInv, players, enemies):
-    humans, standards, creatures, boss = [], [], [], None
+    humans, standards, creatures, boss = [], ["None"], [], None
 
     for enemy in enemies:
         if enemy.props["type"] == "human": humans += [enemy]
@@ -50,7 +50,7 @@ def lootFoes(groupInv, players, enemies):
     if len(humans) > 0:
         Select.waitPrint("Searching enemies for useful items.")
         if Select.yesNo("Swap equipment?"): LootEquipment.lootEquipment(players, humans)
-    if len(standards) > 0: LootSummons.lootStandards(players, standards)
+    if len(standards) > 1: LootSummons.lootStandards(players, standards)
     if len(creatures) > 0: LootSummons.lootEchos(players, creatures)
     if boss != None: groupInv += [boss.inv["shards"]]
 

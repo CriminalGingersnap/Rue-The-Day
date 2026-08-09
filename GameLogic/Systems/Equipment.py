@@ -40,7 +40,7 @@ def setKit(job, twoHanded, burden) -> list:
     if twoHanded: kit["name"] = "None"
     else:
         capacity = 3 - burden
-        if job in ["Brute", "Knight"]: capacity += 2
+        if job in ["Brute", "Knight"]: capacity += 1
 
         if capacity > 0:
             options += ["Light"]

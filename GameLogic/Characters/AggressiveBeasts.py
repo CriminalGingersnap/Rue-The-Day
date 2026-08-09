@@ -31,20 +31,6 @@ class bear:
 
         self.ch = Characters.character(abl, cndt, dice, element, "Bear", rank, stats, type)
 
-class hound:
-    def __init__(self, element, rank) -> None:
-        common = setCommon(element, rank)
-        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["social"] = True
-        
-        dice = {"martial": 1, "magic": 0}
-        Animals.makeUpdates(element, cndt, rank, stats, dice)
-
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Rally"]})
-        if rank == "Elder": abl["boons"] += ["Focus"]
-
-        self.ch = Characters.character(abl, cndt, dice, element, "Hound", rank, stats, type)
-
 class ferret:
     def __init__(self, element, rank) -> None:        
         common = setCommon(element, rank)
@@ -58,6 +44,20 @@ class ferret:
         if rank == "Elder": abl["hindrances"] += ["Confuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ferret", rank, stats, type)
+
+class hound:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["social"] = True
+        
+        dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Rally"]})
+        if rank == "Elder": abl["boons"] += ["Focus"]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Hound", rank, stats, type)
 
 class lion:
     def __init__(self, element, rank) -> None:

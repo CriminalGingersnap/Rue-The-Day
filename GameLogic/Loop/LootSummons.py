@@ -8,8 +8,9 @@ def lootStandards(players, standards):
         carryWeight = player.atrb["base_sp"] - Phases.getSpeedLoss(player)
 
         if carryWeight > 2:
-            if Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):
-                standard = Select.targetSelect(standards)
+            Select.waitPrint("Equip a new standard to " + player.props["name"] + ".")
+            standard = Select.targetSelect(standards)
+            if standard != "None":
                 standard.cndt["planted"], standard.cndt["reposed"] = False, False
                 standard.props["initials"] = player.props["name"][0] + "s"
                 standard.props["name"] = player.props["name"] + "'s Standard"
@@ -21,15 +22,16 @@ def lootStandards(players, standards):
 
 
 def lootEchos(players, creatures) -> None:
-    recentDead = []
+    recentDead = ["None"]
     for enemy in creatures:
         if not (enemy.cndt["lifeless"] or (enemy.props["type"] in ["insect", "invertebrate"])): recentDead += [enemy]
 
     if len(recentDead) > 0:
         Select.waitPrint("Echos of the slain linger within their fallen bodies.")
         for player in players:
-            if Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
-                echo = Select.targetSelect(recentDead)
+            Select.waitPrint("Bind a new echo to " + player.props["name"] + ".")
+            echo = Select.targetSelect(recentDead)
+            if echo != "None":
                 Inventory.setLifeless(echo)
                 echo.cndt["reposed"] = False
                 echo.props["initials"] = player.props["name"][0] + "e"

@@ -77,7 +77,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                 for attack in fighter.attackQueue:
                     ability, target, dice = attack[0], attack[1], attack[2]
                     if target.cndt["dead"]: Select.waitPrint("Attack canceled against slain target.")
-                    else: Attacks.execute(fighter, target, ability, dice)
+                    else:
+                        Select.waitPrint(ability + " triggers against " + target.props["name"] + "!")
+                        Attacks.execute(fighter, target, ability, dice)
 
             Phases.outro(fighter)
 

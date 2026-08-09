@@ -21,7 +21,7 @@ def moveAction(fighter, groups, battleMap) -> None:
         if len(visibleTargets) > 1: posOptions += ["Examine"]
         else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
 
-        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move", "Stay"]
+        if fighter.atrb["cur_sp"] > 0: posOptions += ["Blitz", "Move"]
         posOptions.sort()
         movePlayer(fighter, groups, posOptions, battleMap)
 
@@ -32,7 +32,7 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     answer = Select.pickOption(posOptions, fighter.props["name"] + "'s positional action")
     if "Examine" in answer: answer = "Examine"
 
-    if answer in ["Move", "Stay"]:
+    if answer in ["Blitz", "Move"]:
         stationary = True
         if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None, False)
         if stationary: fighter.cndt["blitzing"] = True
@@ -75,7 +75,7 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             if itemSelection == "None": posOptions.remove("Inventory")
 
         if len(posOptions) == 0:
-            Select.waitPrint(fighter.props["name"] + " remains in place.")
+            Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")
             fighter.cndt["blitzing"] = True
         else: choice = random.choice(posOptions)
 

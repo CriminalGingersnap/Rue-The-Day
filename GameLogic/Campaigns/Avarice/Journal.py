@@ -10,8 +10,19 @@ scenes = {"Escape": [
     ["  ", "Laura wants to head East from there- into the glacier."],
     ["  ", "Of this region's three titans, the worm should prove easiest to hunt."],
     ["", ""],
-    [">  ", "Whichever route we follow, we have maybe ten days to return here."],
+    ["> ", "Whichever route we follow, we have maybe ten days to return here."],
     ["  ", "If we aren't prepared to strike within the next two weeks... Willem dies alone."]
+], "Post Escape": [
+    ["> ", "The Duke's best hunter pursued us personally."],
+    ["  ", "Not knowing precisely where we were, he must have overtaken us last night and prepared his ambush."],
+    ["  ", "At least we don't need to worry about running into him later."],
+    ["", ""],
+    ["> ", "His faction can't have any inkling of our plan, so sending an assassin almost feels petty."],
+    ["  ", "Laura and I might have just been fleeing."],
+    ["  ", "I think I would have permitted an escape, had our fortunes been reversed."],
+    ["  ", "Perhaps that makes me a fool."],
+    ["", ""],
+    ["  ", "I won't be asking my partner for her opinion on that subject."]
 ], "Threshold": [
     ["> ", "Laura says these woods haven't been settled since before our language first developed."],
     ["  ", "Judging from the ruins we've spotted, I believe her."],

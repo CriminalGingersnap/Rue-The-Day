@@ -30,7 +30,7 @@ def readScene(title, campaign) -> None:
 def conversationPrint(text):
     for i in text:
         quickPrint(i, '')
-        if i in [".", ",", "?", "!"]: time.sleep(longWait)
+        if i in [".", ",", "?", "!", ":"]: time.sleep(longWait)
     slowPrint("\n")
 
 
@@ -54,9 +54,11 @@ def targetSelect(targets) -> int:
         if target.props["name"] == name: return target
 
 
-def pickOption(options, category):    
-    waitPrint("\nSelect " + category + ":")
-    return makeSelection(options)
+def pickOption(options, category):
+    if (len(options) == 1) and ("->" in options[0]): return options[0]
+    else:
+        waitPrint("\nSelect " + category + ":")
+        return makeSelection(options)
 
 def makeSelection(options):
     for option in options:

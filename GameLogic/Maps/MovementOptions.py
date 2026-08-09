@@ -153,7 +153,10 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aqua
     if nextWet and (aquatic or nextFrozen): nextZ = waterLine
 
     if lastZ < nextZ: cost = (nextZ - lastZ) + 1
-    elif lastZ > nextZ: cost = (lastZ - nextZ)
+    elif lastZ > nextZ:
+        if winged: cost = 1
+        else: cost = (lastZ - nextZ)
+
 
     if nextWet and not nextFrozen:
         if aquatic: cost -= 1

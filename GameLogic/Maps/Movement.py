@@ -26,8 +26,7 @@ def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName=""
         stepCount = spaceOptions[moveChoice][2]
         fighter.atrb["cur_sp"] -= stepCount
         if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
-    elif not player: Select.waitPrint(fighter.props["name"] + " remains in place.")
-
+    elif not player: Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")
 
     else: stationary = True
     return stationary
@@ -53,7 +52,7 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
     highestEffective = desiredDistance = 0
     rankedOptions, rankedIndices = {}, {}
 
-    for spaceNumber in range(firstSpace, lastSpace):
+    for spaceNumber in range(firstSpace, lastSpace + 1):
         row, column = spaceOptions[str(spaceNumber)][0], spaceOptions[str(spaceNumber)][1]
         spaceToTarget = getSpaceDistance(target.pos[0], row, target.pos[1], column)
 

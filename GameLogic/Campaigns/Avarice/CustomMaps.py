@@ -1,7 +1,46 @@
-from Characters import Bosses, AggressiveBeasts as Beasts, Birds, Reptiles, Humans, Elementals, Insects
+from Characters import Bosses, AggressiveBeasts as Beasts, Birds, Reptiles, Humans, Elementals, Insects, Totems
 from Campaigns.Benediction import CustomMaps as B_Maps
 from Campaigns.Avarice import PCs as A_Pcs
 from Abilities import Area_Apply as Area
+
+def archerMap(players) -> list:
+    row1  = ["____↑","____↑","____↓","____↑","////⇑","__11↑","////⇑","____↑","____↓","____↑","____↑","____↓"]
+    row2  = ["____↑","____↓","____↑","____↓","____↑","____↓","____↑","____↓","____↑","____↓","____↓","____↑"]
+    row3  = ["////⇑","____↑","////⇑","____↑","____↓","____↑","____↑","____↑","____↑","____↑","____↑","____↓"]
+    row4  = ["____↑","____↓","____↑","////⇑","____↑","____↓","____↑","____↑","////⇑","____↑","____↓","____↑"]
+    row5  = ["____↓","____↑","////⇑","____↑","____↑","____↑","____↓","____↑","____↑","////⇑","____↑","____↓"]
+    row6  = ["____↑","____↓","____↑","____↓","____↓","____↑","____↑","____↓","____↓","__01↑","____↓","____↑"]
+    row7  = ["__L.↑","____↑","____↓","____↑","____↑","____↓","____↑","____↑","____↑","____↓","__04↑","////⇑"]
+    row8  = ["__M.↑","____↓","____↑","____↑","____↑","____↑","____↑","____↑","____↑","____↑","____↓","____↑"]
+    row9  = ["____↓","____↑","____↑","////⇑","____↑","____↑","____↑","////⇑","__02↓","____↑","____↑","____↓"]
+    row10 = ["____↑","____↑","////⇑","____↑","____↓","____↓","____↓","____↑","____↑","____↓","____↑","____↑"]
+    row11 = ["____↓","____↓","____↑","____↓","____↑","____↑","____↑","__03↓","____↑","____↑","____↓","____↑"]
+    row12 = ["____↑","____↑","____↓","____↑","____↓","____↓","____↑","____↑","////⇑","____↑","____↑","____↓"]
+    battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
+
+    players[0].pos, players[1].pos = [6, 0], [7, 0]
+
+    Archer = Humans.archer("Basic", "Master").ch
+    Hound1, Hound2 = Beasts.hound("Basic", "Adult").ch, Beasts.hound("Basic", "Adult").ch
+    Standard = Totems.ward("Ice", "Standard").ch
+
+    Archer.atrb["fatigue"], Archer.atrb["injury"] = 1, 0
+    Hound1.atrb["fatigue"], Archer.atrb["injury"] = 1, 0
+    Hound2.atrb["fatigue"], Archer.atrb["injury"] = 1, 0
+    Standard.cndt["reposed"] = False
+
+    B_Maps.placeFighter(Archer, "01", [5, 9])
+    B_Maps.placeFighter(Hound1, "02", [8, 8])
+    B_Maps.placeFighter(Hound2, "03", [10, 7])
+    B_Maps.placeFighter(Standard, "04", [6, 11])
+
+    Wyrm = Reptiles.wyrm("Flame", "Juvenile").ch
+    B_Maps.placeFighter(Wyrm, "11", [0, 5])
+
+    group1 = [Archer, Hound1, Hound2, Standard]
+    group2 = [Wyrm]
+    return [group1, group2, battleMap]
+
 
 def glacierMap(players) -> list:
     row1  = ["////⇑","////⇑","%___⇓","////⇑","////⇑","////⇑","////⇑","////⇑","%___⇓","////⇑","%___⇓","%___⇓"]
@@ -25,7 +64,7 @@ def glacierMap(players) -> list:
     
     Elemental1, Elemental2, Elemental3, Elemental4 = Elementals.dancer("Ice", "Greater").ch, Elementals.hulk("Ice", "Greater").ch, Elementals.wraith("Ice", "Greater").ch, Reptiles.wraith("Ice", "Random").ch
     Elemental5, Elemental6, Elemental7, Elemental8 = Elementals.dancer("Ice", "Random").ch, Elementals.hulk("Ice", "Random").ch, Elementals.wisp("Ice", "Random").ch, Reptiles.wisp("Ice", "Random").ch
-    Elemental9 = Elementals.wisp("Ice", "Random").ch,
+    Elemental9 = Elementals.wisp("Ice", "Random").ch
     B_Maps.placeFighter(Elemental1, "11", [5, 10])
     B_Maps.placeFighter(Elemental2, "12", [2, 7])
     B_Maps.placeFighter(Elemental3, "13", [4, 11])

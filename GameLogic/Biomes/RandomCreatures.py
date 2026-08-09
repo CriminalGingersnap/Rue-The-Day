@@ -7,23 +7,24 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
 
     if type == "random":
         match diceBudget:
-            case 3: type = random.choice(["bear", "camel", "crocodile", "lion", "moose", "turtle", "wyrm"])
-            case 2: type = random.choice(["deer", "ferret", "hound", "lizard", "seal", "sheep", "tortoise"])
+            case 3: type = random.choice(["bear", "camel", "crocodile", "eagle", "lion", "moose", "ostrich", "turtle", "wyrm"])
+            case 2: type = random.choice(["crow", "deer", "ferret", "hawk", "hound", "lizard", "seal", "sheep", "tortoise"])
         if type == "wyrm": element = "Toxic"
         rankOptions = ["Adult"]
 
     while diceBudget > 0:
         rankChoice, beast = random.choice(rankOptions), None
         match type:
-            case "bat": beast = AvoidantBeasts.bat(element, rankChoice).ch
             case "bear": beast = AggressiveBeasts.bear(element, rankChoice).ch      
-            case "deer": beast = AvoidantBeasts.deer(element, rankChoice).ch
-            case "camel": beast = AvoidantBeasts.camel(element, rankChoice).ch
             case "ferret": beast = AggressiveBeasts.ferret(element, rankChoice).ch
             case "hound": beast = AggressiveBeasts.hound(element, rankChoice).ch
-            case "sheep": beast = AggressiveBeasts.sheep(element, rankChoice).ch
             case "lion": beast = AggressiveBeasts.lion(element, rankChoice).ch
             case "moose": beast = AggressiveBeasts.moose(element, rankChoice).ch
+            case "sheep": beast = AggressiveBeasts.sheep(element, rankChoice).ch
+
+            case "bat": beast = AvoidantBeasts.bat(element, rankChoice).ch
+            case "camel": beast = AvoidantBeasts.camel(element, rankChoice).ch
+            case "deer": beast = AvoidantBeasts.deer(element, rankChoice).ch
             case "mole": beast = AvoidantBeasts.mole(element, rankChoice).ch
             case "seal": beast = AvoidantBeasts.seal(element, rankChoice).ch
 
@@ -34,6 +35,7 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
 
             case "crocodile": beast = Reptiles.crocodile(element, rankChoice).ch
             case "drake": beast = Reptiles.drake(element, rankChoice).ch
+            case "hydra": beast = Reptiles.hydra(element, rankChoice).ch
             case "lizard": beast = Reptiles.lizard(element, rankChoice).ch
             case "tortoise": beast = Reptiles.tortoise(element, rankChoice).ch
             case "turtle": beast = Reptiles.turtle(element, rankChoice).ch
@@ -47,6 +49,7 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
 
             case "crab": beast = Invertebrates.crab(element, rankChoice).ch
             case "leech": beast = Invertebrates.leech(element, rankChoice).ch
+            case "mussel": beast = Invertebrates.mussel(element, rankChoice).ch
             case "octopus": beast = Invertebrates.octopus(element, rankChoice).ch
             case "urchin": beast = Invertebrates.urchin(element, rankChoice).ch
             case "worm": beast = Invertebrates.worm(element, rankChoice).ch

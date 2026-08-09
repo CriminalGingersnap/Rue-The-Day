@@ -7,16 +7,16 @@ import random
 def npcAction(fighter, groups) -> None:
     reachable, fightingAllies, fightingEnemies = groups["reachable"], groups["fightingAllies"], groups["fightingEnemies"]
     actionOptions = []
-    
-    boonChoice, boonTarget = BoonActions.npcSelectBoon(fighter, fightingEnemies), "None"
-    if boonChoice != "None":
-        boonTarget = BoonActions.npcSelectBoonTarget(fighter, reachable["boonReachable"], boonChoice)
-        if boonTarget != "None": actionOptions += ["Boon"]
 
     attackChoice, attackTarget = "None", AttackActions.npcSelectAttackTarget(fighter, reachable["attackReachable"], False)
     if attackTarget != "None":
         attackChoice = AttackActions.npcSelectAttack(fighter, attackTarget)
-        if attackChoice != "None": actionOptions += ["Attack"]
+        if attackChoice != "None": actionOptions += ["Attack", "Attack"]
+
+    boonChoice, boonTarget = BoonActions.npcSelectBoon(fighter, fightingEnemies), "None"
+    if boonChoice != "None":
+        boonTarget = BoonActions.npcSelectBoonTarget(fighter, reachable["boonReachable"], boonChoice)
+        if boonTarget != "None": actionOptions += ["Boon"]
     
     hindranceTarget, hindranceChoice = "None", HindranceActions.npcSelectHindrance(fighter, reachable["hinderReachable"], fightingAllies)
     if hindranceChoice != "None":
