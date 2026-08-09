@@ -3,18 +3,19 @@
 scenes = {"Escape": [
     ["> ", "This journal was the first object I ever stole."],
     ["  ", "I snatched it from our warden's desk before helping myself to his weapons."],
-    ["  ", "Laura called me foolish for searching his shelves for a quill but changed her tune when I found his core stash."],
+    ["  ", "Laura wasn't happy with how much time I spent searching his shelves for a quill,"],
+    ["  ", " but she changed her tune when I found his core stash."],
     ["  ", "Finally: proof that my hobbies are useful."],
     ["", ""],
     ["> ", "We have another's day's march before we enter the fjord."],
     ["  ", "Laura wants to head East from there- into the glacier."],
-    ["  ", "Of this region's three titans, the worm should prove easiest to hunt."],
+    ["  ", "Its titan should prove easiest to hunt."],
     ["", ""],
-    ["> ", "Whichever route we follow, we have maybe ten days to return here."],
-    ["  ", "If we aren't prepared to strike within the next two weeks... Willem dies alone."]
+    ["> ", "Whichever route we follow, we have maybe thirty days to return here."],
+    ["  ", "If we aren't fully prepared to strike within the next five weeks... Willem dies alone."]
 ], "Post Escape": [
     ["> ", "The Duke's best hunter pursued us personally."],
-    ["  ", "Not knowing precisely where we were, he must have overtaken us last night and prepared his ambush."],
+    ["  ", "He must have overtaken us last night to prepare his ambush."],
     ["  ", "At least we don't need to worry about running into him later."],
     ["", ""],
     ["> ", "His faction can't have any inkling of our plan, so sending an assassin almost feels petty."],
@@ -24,10 +25,10 @@ scenes = {"Escape": [
     ["", ""],
     ["  ", "I won't be asking my partner for her opinion on that subject."]
 ], "Threshold": [
-    ["> ", "Laura says these woods haven't been settled since before our language first developed."],
+    ["> ", "Laura says these woods haven't been settled since centuries before our language first developed."],
     ["  ", "Judging from the ruins we've spotted, I believe her."],
     ["", ""],
-    ["> ", "Nobody lives here now, at any rate. The wild's gentlest regions serve only as hunting grounds."],
+    ["> ", "Nobody lives here now, at any rate. The gentlest regions of this wild serve only as hunting grounds."],
     ["  ", "It isn't safe to linger even at the margins; no one sane delves deeper."],
     ["  ", "On that subject, Laura says she's looking forward to seeing her first intact flame elemental."],
     ["  ", "I'm not."]

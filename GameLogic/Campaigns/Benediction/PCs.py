@@ -27,7 +27,7 @@ def getBenedictionGroup() -> list:
 
     return {
         "campaign": "Benediction",
-        "days": 0,
+        "days": 1,
         "inventory": [],
         "members": [Fadia, Hassan, Layth],
         "world": benWorld

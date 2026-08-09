@@ -37,6 +37,7 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
         for column in range(leftEdge, rightEdge+1):
             for row in range(topEdge, bottomEdge+1):
                 if not any(blocker in optionsMap[row][column] for blocker in blockers):
+                    counter += 1
                     if fighter.props["rank"] == "player":
                         optionDict[str(counter)] = [row, column]
                         setSpace(sightMap, optionsMap, row, column, counter)
@@ -90,4 +91,3 @@ def setSpace(sightMap, optionsMap, row, column, counter) -> None:
     if counter < 10: filler = "_"
     
     optionsMap[row][column] = atmosphere + marker + str(counter) + filler + elevation
-    counter += 1

@@ -12,7 +12,7 @@ def pcSelectBoon(fighter, allies):
         for option in range(len(boonOptions)):
             boonOptions[option] = boonOptions[option] + " -> " + allies[0].props["name"]
 
-    answer = Select.pickOption(boonOptions, "boon").split(" -> ")[0]
+    answer = Select.pickOption(boonOptions, "boon", False).split(" -> ")[0]
     return answer
 
 

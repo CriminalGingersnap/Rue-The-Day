@@ -68,6 +68,9 @@ def rest(group, biome) -> None:
     group["world"].marker.lastCleared = deque([group["world"].marker.pos,[],[],[],[],[],[]])
     group["world"].ace = Environment.updateAce(group["world"].ace, biome)
 
+    Select.waitPrint(str(group["days"]) + " days completed.")
+    Select.waitPrint(str(35 - group["days"]) + " days remain.")
+
     Save.saveGroup(group)
 
 def refresh(fighter) -> None:

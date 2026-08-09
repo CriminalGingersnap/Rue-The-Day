@@ -11,7 +11,7 @@ def pcSelectHindrance(fighter, enemies) -> str:
         for option in range(len(hindranceOptions)):
             hindranceOptions[option] = hindranceOptions[option] + " -> " + enemies[0].props["name"]
 
-    answer = Select.pickOption(hindranceOptions, "hindrance").split(" -> ")[0]
+    answer = Select.pickOption(hindranceOptions, "hindrance", False).split(" -> ")[0]
     return answer
 
 

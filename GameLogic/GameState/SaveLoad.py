@@ -26,7 +26,8 @@ class nullWorld:
     def __init__(self) -> None:
         self.worldMap = []
         self.legend = {}
-        self.start = []
+        self.ace = ""
+        self.events = {}
         self.marker = None
 
 
@@ -89,7 +90,7 @@ def saveWorld(world, campaign, slot)-> None:
         "events": world.events,
         "map": world.worldMap,
         "legend": world.legend,
-        "start": world.marker.pos
+        "pos": world.marker.pos
     }
     
     with open(setFilePath(campaign, slot, "World"), 'w') as jsonFile:
@@ -98,18 +99,17 @@ def saveWorld(world, campaign, slot)-> None:
 def loadWorld(world, campaign, slot) -> None:
     with open(setFilePath(campaign, slot, "World"), 'r') as jsonFile:
         load = json.load(jsonFile)
-        world.worldMap = load["ace"]
-        world.worldMap = load["events"]
+        world.ace = load["ace"]
+        world.events = load["events"]
         world.worldMap = load["map"]
         world.legend = load["legend"]
-        world.start = load["start"]
-        world.marker = World.mapMarker(load["map"], load["start"])
+        world.marker = World.mapMarker(load["map"], load["pos"])
 
     Select.waitPrint(campaign + " world loaded.")
 
 
 def saveGroup(group) -> None:
-    Select.waitPrint("Enter Save Slot (3 Per Campaign):")
+    Select.waitPrint("\nEnter Save Slot (3 Per Campaign):")
     slot = str(Select.takeInput(1, 3))
 
     memberNames = []

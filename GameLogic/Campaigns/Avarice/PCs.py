@@ -9,7 +9,7 @@ def getAvariceGroup() -> list:
 
     return {
         "campaign": "Avarice",
-        "days": 0,
+        "days": 1,
         "inventory": [],
         "members": [Laura, Martin],
         "world": avaWorld

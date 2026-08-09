@@ -46,7 +46,8 @@ def setAttributes(stats, cndt, elm, dice, type):
     corruption, fatigue, injury = 0, random.choice([0, 0, 1]), random.choice([0, 0, 0, 0, 0, 1])
 
     if cndt["lifeless"]:
-        cndt["sapient"], cndt["skittish"], cndt["social"] = True, False, False
+        cndt["skittish"] = False
+        if type != "totem": cndt["social"] = False
         stats["resist"].update({"Bleed": "immune", "Dream": "immune", "Holy": "normal", "Toxic": "immune"})
         endurance *= 3
     elif type == "human": corruption = random.choice([0, 0, 0, 0, 0, 1])

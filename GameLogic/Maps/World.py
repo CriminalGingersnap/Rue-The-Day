@@ -17,7 +17,7 @@ class AvariceMap:
         row9  = ["F___↑","////⇑","f___↑","////⇑","~~~~⇓","////⇑","~~~~↓","W___|","////⇑","W___↑","~~~~↓","////⇑"]
         row10 = ["~~~~⇓","F___↑","f___|","f___↓","////⇑","////⇑","~~~~↓","////⇑","W___↑","////⇑","~~~~↓","~~~~↓"]
         row11 = ["////⇑","~~~~⇓","////⇑","f___↓","////⇑","f___|","~~~~↓","W___|","////⇑","W___↑","////⇑","////⇑"]
-        row12 = ["~~~~⇓","~~~~⇓","~~~~⇓","f___↓","f___↓","////⇑","w___|","~~~~↓","~~~~↓","////⇑","////⇑","~~~~↓"]        
+        row12 = ["~~~~⇓","~~~~⇓","~~~~⇓","f___↓","f___↓","////⇑","w___|","~~~~↓","~~~~↓","////⇑","////⇑","~~~~↓"]
         row13 = ["~~~~⇓","////⇑","~~~~⇓","////⇑","////⇑","////⇑","w___↑","////⇑","~~~~↓","~~~~↓","////⇑","////⇑"]
         row14 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","////⇑","w___↑","////⇑","////⇑","////⇑","////⇑","~~~~↓","////⇑"]
         row15 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","////⇑","w___↑","w_..↑","////⇑","w___↑","~~~~↓","~~~~↓"]
@@ -29,7 +29,7 @@ class AvariceMap:
         row21 = ["~~~~⇓","~~~~⇓","s___↓","////⇑","m___↓","~~~~↓","k___|","m___↓","u___|","~~~~↓","~~~~↓","////⇑"]
         row22 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","K/!!↑","k___|","~~~~↓","~~~~↓","~~~~↓","u___↑","u___↑","////⇑"]
         row23 = ["~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~⇓","~~~~↓","k___|","m___↓","~~~~↓","////⇑","u___↑","////⇑"]
-        row24 = ["~~~~⇓","~~~~⇓","~~~~⇓","////⇑","s___↓","m___↓","////⇑","k___|","////⇑","~~~~↓","////⇑","////⇑"]        
+        row24 = ["~~~~⇓","~~~~⇓","~~~~⇓","////⇑","s___↓","m___↓","////⇑","k___|","////⇑","~~~~↓","////⇑","////⇑"]
         
         self.worldMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12,
                           row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24]
@@ -45,8 +45,7 @@ class AvariceMap:
                          "Worm": {"location": [1, 11], "complete": False}, "Giant": {"location": [0, 5], "complete": False}, "Strider": {"location": [7, 1], "complete": False},
                           "Breakout": {"location": [16, 7], "complete": False}, "Camp": {"location": [15, 11], "complete": False}, "Finale": {"location": [21, 4], "complete": False},
                            "Strange Fruit": {"location": [23, 2], "complete": False},}
-        self.start, self.end = [14, 7], [21, 4]
-        self.marker = mapMarker(self.worldMap, self.start)
+        self.marker = mapMarker(self.worldMap, [14, 7])
 
 
 class benedictionMap:
@@ -89,8 +88,7 @@ class benedictionMap:
                          "Ally": {"location": [2, 3], "complete": False}, "Lich": {"location": [1, 0], "complete": False},
                           "Raft": {"location": [10, 3], "complete": False}, "Dragon": {"location": [0, 11], "complete": False},
                            "Finale": {"location": [23, 11], "complete": False}}
-        self.start = [7, 11]
-        self.marker = mapMarker(self.worldMap, self.start)
+        self.marker = mapMarker(self.worldMap, [7, 11])
 
 
 class mapMarker:
@@ -101,7 +99,7 @@ class mapMarker:
         self.cndt = {"aquatic": False, "skittish": False, "winged": False}
         self.props = {"initials": "..", "name": "World", "rank": "world", "type": "marker"}
 
-        self.lastCleared = deque([[],[],[],[],[],[],[]])
+        self.lastCleared = deque([start,[],[],[],[],[],[]])
         self.sightMap = createSightMap(worldMap, start, self.props["rank"])
 
         Select.waitPrint("World marker instantiated!")

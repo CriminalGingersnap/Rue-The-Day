@@ -37,7 +37,8 @@ def sortLiving(contingent, battleMap) -> list:
             if "standard" in candidate.inv:
                 standard = candidate.inv["standard"]
                 if (standard != "None") and standard.cndt["planted"]:
-                    fighting += [standard]
+                    if standard.cndt["dead"]: downed += [standard]
+                    else: fighting += [standard]
 
     return [fighting, downed, pacifist]
 

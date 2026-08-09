@@ -37,22 +37,26 @@ def updateAce(ace, biome):
             case "Spades":
                 ace = "Clubs"
                 backs[0] = aces[0]
-                Select.conversationPrint("Tides rise, rivers flood, ice melts, or rain falls thick from heavy clouds. Water collects in deep pools.")
+                Select.waitPrint("Tides rise, rivers flood, ice melts, or rain falls thick from heavy clouds.")
+                Select.waitPrint("Water collects in deep pools.")
             case "Clubs":
                 ace = "Hearts"
                 backs[1] = aces[1]
-                Select.conversationPrint("Rain abates, melting ends, or tides and rivers recede. Water levels drop while heavy fog accumulates.")    
+                Select.waitPrint("Rain abates, melting ends, or tides and rivers recede.")    
+                Select.waitPrint("Water levels drop while heavy fog accumulates.")    
             case "Hearts":
                 ace = "Diamonds"
                 backs[2] = aces[2]
-                Select.conversationPrint("Fog and mist linger quietly over the land, though standing water is nowhere to be seen.")
+                Select.waitPrint("Fog and mist linger quietly over the land.")
+                Select.waitPrint("Standing water is nowhere to be seen.")
             case "Diamonds":
                 ace = "Spades"
                 backs[3] = aces[3]
-                Select.conversationPrint("Strong winds or bright sunlight drive out what remains of moisture. Water vanishes even from the air.")
+                Select.waitPrint("Strong winds or bright sunlight drive out what remains of moisture.")
+                Select.waitPrint("Water vanishes even from the air.")
 
         Cards.printDeck(backs)
-    else: "The weather holds."
+    else: Select.conversationPrint("The weather holds.")
 
     return ace
 
