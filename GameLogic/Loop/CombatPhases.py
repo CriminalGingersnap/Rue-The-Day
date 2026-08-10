@@ -87,9 +87,7 @@ def abilityStage(fighter, enemies, allies) -> None:
 
     if fighter.cndt["reposed"]: Select.waitPrint(fighter.props["name"] + " waits in repose.")
     elif len(fightingEnemies) > 0:
-        if fighter.props["rank"] == "player":
-            actionChoice = PlayerAbl.chooseAction(fighter, reachable)
-            PlayerAbl.takeAction(fighter, actionChoice, reachable)
+        if fighter.props["rank"] == "player": PlayerAbl.playerAction(fighter, reachable)
         else: NPCAbl.npcAction(fighter, groups)
 
         if fighter.cndt["blitzing"]:

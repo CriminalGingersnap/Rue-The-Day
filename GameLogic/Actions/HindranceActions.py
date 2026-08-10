@@ -31,7 +31,7 @@ def usefulHindrances(fighter, enemies, allies):
     selfMar, allyMar = False, False
 
     for enemy in enemies:
-        if any(attack in Attacks.martialAttack for attack in enemy.abl["attacks"]): hindrancePreferences += ["Harry", "Confound"]
+        if any(attack in Attacks.martialAttack for attack in enemy.abl["attacks"]): hindrancePreferences += ["Bind", "Confound"]
         if canCompel(fighter, enemy, "Compel"): hindrancePreferences += ["Compel"]
         if canCompel(fighter, enemy, "Seal"): hindrancePreferences += ["Seal"]
         if enemy.atrb["cur_hp"] < enemy.atrb["base_hp"]: hindrancePreferences += ["Drain"]
@@ -40,7 +40,7 @@ def usefulHindrances(fighter, enemies, allies):
     for ally in allies:
         allyMar = any(attack in Attacks.martialAttack for attack in ally.abl["attacks"])
          
-    if selfMar or allyMar: hindrancePreferences += ["Bind", "Confuse"]
+    if selfMar or allyMar: hindrancePreferences += ["Harry", "Stun"]
 
     return hindrancePreferences
 

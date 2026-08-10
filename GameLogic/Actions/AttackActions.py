@@ -48,17 +48,17 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
     if len(enemies) == 0: return "None"
 
     closestEnemy = Assess.findClosest(fighter, enemies)
-    highestMAGEnemy = Assess.findHighestGeneral(enemies, "cur_mag")
-    highestMAREnemy = Assess.findHighestGeneral(enemies, "cur_mar")
+    highestMAGEnemy = Assess.findHighestAtrb(enemies, "cur_mag")
+    highestMAREnemy = Assess.findHighestAtrb(enemies, "cur_mar")
     lowestAVEnemy = Assess.findLowestAV(fighter, enemies)
-    lowestHPEnemy = Assess.findLowestGeneral(enemies, "cur_hp")
-    lowestResFlameEnemy = Assess.findLowestRes(enemies, "Flame")
-    lowestResCrushEnemy = Assess.findLowestRes(enemies, "Crush")
-    lowestResIceEnemy = Assess.findLowestRes(enemies, "Ice")
-    lowestResHolyEnemy = Assess.findLowestRes(enemies, "Holy")
-    lowestResPierceEnemy = Assess.findLowestRes(enemies, "Pierce")
-    lowestResRotEnemy = Assess.findLowestRes(enemies, "Rot")
-    lowestResToxicEnemy = Assess.findLowestRes(enemies, "Toxic")
+    lowestHPEnemy = Assess.findLowestAtrb(fighter, enemies, "cur_hp")
+    lowestResFlameEnemy = Assess.findLowestRes(fighter, enemies, "Flame")
+    lowestResCrushEnemy = Assess.findLowestRes(fighter, enemies, "Crush")
+    lowestResIceEnemy = Assess.findLowestRes(fighter, enemies, "Ice")
+    lowestResHolyEnemy = Assess.findLowestRes(fighter, enemies, "Holy")
+    lowestResPierceEnemy = Assess.findLowestRes(fighter, enemies, "Pierce")
+    lowestResRotEnemy = Assess.findLowestRes(fighter, enemies, "Rot")
+    lowestResToxicEnemy = Assess.findLowestRes(fighter, enemies, "Toxic")
 
     target, threats, vulnerable = closestEnemy, [closestEnemy,  highestMAGEnemy, highestMAREnemy], [lowestAVEnemy, lowestHPEnemy]
     if not pickClosest:

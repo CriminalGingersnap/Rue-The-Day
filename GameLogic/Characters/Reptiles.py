@@ -29,7 +29,7 @@ class crocodile:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
-        if rank == "Elder": abl["hindrances"] += ["Confuse"]
+        if rank == "Elder": abl["hindrances"] += ["Stun"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Crocodile", rank, stats, type)
 

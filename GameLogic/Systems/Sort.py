@@ -71,8 +71,7 @@ def canReach(fighter, target, ability) -> bool:
     abilityReach = min(getReach(ability), weaponReach)
 
     distance = Movement.getTargetDistance(fighter, target)
-    if distance <= abilityReach:
-        reachable = True
+    if distance <= abilityReach: reachable = True
 
     return reachable
 

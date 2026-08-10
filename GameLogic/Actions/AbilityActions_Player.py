@@ -3,6 +3,11 @@ from . import AttackActions as Attack, BoonActions as Boon, HindranceActions as 
 from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
 
 
+def playerAction(fighter, reachable) -> None:
+    actionChoice = chooseAction(fighter, reachable)
+    takeAction(fighter, actionChoice, reachable) 
+
+
 def chooseAction(fighter, reachable) -> str:
     usableAttacks = Attack.usableAttacks(fighter, reachable["attackReachable"])
     usableBoons = Boon.usableBoons(fighter)
@@ -53,3 +58,5 @@ def takeAction(fighter, actionChoice, reachable) -> None:
             hindranceChoice = Hindrance.pcSelectHindrance(fighter, reachable["hinderReachable"])
             hindranceTarget = Select.targetSelect(reachable["hinderReachable"])
             Hinder.commitDice(fighter, hindranceTarget, hindranceChoice)
+
+        case "End Turn": fighter.cndt["blitzing"] = False

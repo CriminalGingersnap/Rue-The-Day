@@ -51,7 +51,7 @@ class vampire:
         stats["avoidance"], stats["speed"] = "mid", "max"
 
         dice = {"martial": 3, "magic": 2}
-        abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Confuse", "Drain"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Drain", "Stun"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Vampire", rank, stats, type)

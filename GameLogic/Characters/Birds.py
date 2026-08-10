@@ -55,7 +55,7 @@ class hawk:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Kick", "Peck"]})
-        if rank == "Elder": abl["hindrances"] += ["Confuse"]
+        if rank == "Elder": abl["hindrances"] += ["Stun"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Hawk", rank, stats, type)
 

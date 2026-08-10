@@ -38,8 +38,8 @@ def resistCompulsion(attempt, target, ability) -> list:
     return attempt > threshold
 
 
-def applyConfuse(target) -> int:
-    reduction = Boons.apply(target, "Confuse")
+def applyStun(target) -> int:
+    reduction = Boons.apply(target, "Stun")
     if reduction > 0: Select.waitPrint(target.props["name"] + "'s AV temporarily decreases by " + str(reduction) + ".")
     return reduction
 

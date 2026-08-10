@@ -18,9 +18,9 @@ def findClosest(fighter, targets):
     return closestTarget
 
 
-def findHighestGeneral(targets, key):
+def findHighestAtrb(targets, key):
     highestRanked = random.choice(targets)
-    prevHigh = highestRanked.atrb[key]
+    prevHigh = 0
 
     for target in targets:
         if target.atrb[key] > prevHigh:
@@ -29,47 +29,50 @@ def findHighestGeneral(targets, key):
     
     return highestRanked
 
-def findLowestGeneral(targets, key):
+def findLowestAtrb(fighter, targets, key, includeSelf=True):
     lowestRanked = random.choice(targets)
-    prevLow = lowestRanked.atrb[key]
+    prevLow = 100
 
-    for target in targets:
-        if target.atrb[key] < prevLow:
-            lowestRanked = target
-            prevLow = target.atrb[key]
+    for target in targets:        
+        if includeSelf or (fighter != target):
+            if target.atrb[key] < prevLow:
+                lowestRanked = target
+                prevLow = target.atrb[key]
     
     return lowestRanked
 
 
-def findLowestAV(fighter, targets):
+def findLowestAV(fighter, targets, includeSelf=True):
     lowestAVtarget = random.choice(targets)
-    prevLow, dmgType = 15, "Crush"
+    prevLow, dmgType = 100, "Crush"
 
     if any(attack in Damage.pierceAttacks for attack in fighter.abl["attacks"]): dmgType = "Pierce"
 
     for target in targets:
-        guess = Martial.getProbableAv(fighter, dmgType, target)
+        if includeSelf or (fighter != target):
+            guess = Martial.getProbableAv(fighter, dmgType, target)
 
-        if guess < prevLow:
-            lowestAVtarget = target
-            prevLow = guess
+            if guess < prevLow:
+                lowestAVtarget = target
+                prevLow = guess
 
     return lowestAVtarget
 
 
-def findLowestRes(targets, dmgType):
+def findLowestRes(fighter, targets, dmgType, includeSelf=True):
     lowestResTarget = random.choice(targets)
-    prevResLow = 1
+    prevResLow = 100
 
     for target in targets:
-        resInt = rankRes(target, dmgType) + target.effects["Guard"]["dice"]
-        if target.effects["Wreath"]["dice"] > 0:
-            compatible = Boons.checkCompatibility(dmgType, target.effects["Wreath"]["additional"])
-            if compatible: resInt += (3 * target.effects["Wreath"]["dice"])
+        if includeSelf or (fighter != target):
+            resInt = rankRes(target, dmgType)
+            if target.effects["Wreath"]["dice"] > 0:
+                compatible = Boons.checkCompatibility(dmgType, target.effects["Wreath"]["additional"])
+                if compatible: resInt += (3 * target.effects["Wreath"]["dice"])
 
-        if resInt < prevResLow:
-            lowestResTarget = target
-            prevResLow = resInt
+            if resInt < prevResLow:
+                lowestResTarget = target
+                prevResLow = resInt
 
     return lowestResTarget
 

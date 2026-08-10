@@ -9,15 +9,9 @@ def getProbableAv(fighter, dmgType, target) -> int:
     probAv = getBaseAv("Bash", dmgType, target)
 
     probAv += target.effects["Guard"]["dice"] * 3
-    probAv -= target.effects["Confuse"]["dice"] * 3
-    probAv += target.effects["Wreath"]["dice"]
-
+    probAv -= target.effects["Stun"]["dice"] * 3
     probAv += fighter.effects["Confound"]["dice"] * 3
     probAv -= fighter.effects["Focus"]["dice"] * 3
-
-    if fighter.cndt["aquatic"]:
-        if fighter.cndt["submerged"]: probAv += 2
-        else: probAv -= 2
 
     return probAv
 
@@ -47,7 +41,7 @@ def attack(fighter, target, attack, dice) -> None:
     attempt += (attemptIncrease - attemptReduction)
 
     avIncrease = Boons.applyGuard(target)
-    avReduction = Hinder.applyConfuse(target)
+    avReduction = Hinder.applyStun(target)
     av += (avIncrease - avReduction)
 
     contact(fighter, target, dmgType, dice, attempt, av)

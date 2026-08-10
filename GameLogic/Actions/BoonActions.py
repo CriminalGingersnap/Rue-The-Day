@@ -68,32 +68,33 @@ def usableBoons(fighter):
 
 
 def npcSelectBoonTarget(fighter, allies, boon):
-    target = fighter
+    target, includeSelf = fighter, ((fighter.props["type"] not in ["echo", "totem"]) or (fighter.props["job"] == "Door"))
+    cooperative = (fighter.cndt["social"] or fighter.cndt["sapient"])
 
-    if (fighter.cndt["social"] or fighter.cndt["sapient"]) and (len(allies) > 0):
-        lowestAVAlly = Assess.findLowestAV(fighter, allies)
-        lowestHPAlly = Assess.findLowestGeneral(allies, "cur_hp")
-        lowestResDreamAlly = Assess.findLowestRes(allies, "Dream")
-        lowestResFlameAlly = Assess.findLowestRes(allies, "Flame")
-        lowestResIceAlly = Assess.findLowestRes(allies, "Ice")
-        lowestResRotAlly = Assess.findLowestRes(allies, "Rot")
-        lowestStaminaAlly = Assess.findLowestGeneral(allies, "stamina")
-        lowestToleranceAlly = Assess.findLowestGeneral(allies, "tolerance")
-        
-        if boon in ["Conceal", "Regenerate"]: target = fighter
-        else:
-            match boon:
-                case "Bandage" | "Heal": target = lowestHPAlly
-                case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])
-                case "Fortify": target = lowestToleranceAlly
-                case "Rally": target = lowestStaminaAlly
-                case "Veil": target = random.choice([fighter, lowestHPAlly])
-                case "Wreath":
-                    dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
-                    match dmgType:
-                        case "Flame": target = random.choice([lowestHPAlly, lowestResIceAlly])
-                        case "Ice": target = random.choice([lowestHPAlly, lowestResFlameAlly])
-                        case "Holy": target = random.choice([lowestHPAlly, lowestResRotAlly])
-                        case "Rot": target = random.choice([lowestHPAlly, lowestResDreamAlly])
+    if (boon not in ["Conceal", "Regenerate"]) and cooperative and (len(allies) > 1):
+        print(fighter.props["name"])
+        print(includeSelf)
+        lowestAVAlly = Assess.findLowestAV(fighter, allies, includeSelf)
+        lowestHPAlly = Assess.findLowestAtrb(fighter, allies, "cur_hp", includeSelf)
+        lowestResDreamAlly = Assess.findLowestRes(fighter, allies, "Dream", includeSelf)
+        lowestResFlameAlly = Assess.findLowestRes(fighter, allies, "Flame", includeSelf)
+        lowestResIceAlly = Assess.findLowestRes(fighter, allies, "Ice", includeSelf)
+        lowestResRotAlly = Assess.findLowestRes(fighter, allies, "Rot", includeSelf)
+        lowestStaminaAlly = Assess.findLowestAtrb(fighter, allies, "stamina", includeSelf)
+        lowestToleranceAlly = Assess.findLowestAtrb(fighter, allies, "tolerance", includeSelf)
+    
+        match boon:
+            case "Bandage" | "Heal": target = lowestHPAlly
+            case "Guard": target = random.choice([lowestAVAlly, lowestHPAlly])
+            case "Fortify": target = lowestToleranceAlly
+            case "Rally": target = lowestStaminaAlly
+            case "Veil": target = random.choice([fighter, lowestHPAlly])
+            case "Wreath":
+                dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
+                match dmgType:
+                    case "Flame": target = random.choice([lowestHPAlly, lowestResIceAlly])
+                    case "Ice": target = random.choice([lowestHPAlly, lowestResFlameAlly])
+                    case "Holy": target = random.choice([lowestHPAlly, lowestResRotAlly])
+                    case "Rot": target = random.choice([lowestHPAlly, lowestResDreamAlly])
 
     return target

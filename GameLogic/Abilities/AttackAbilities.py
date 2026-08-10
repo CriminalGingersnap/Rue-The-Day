@@ -35,7 +35,6 @@ def execute(fighter, target, attack, dice) -> dict:
     if attack in martialAttack: Martial.attack(fighter, target, attack, dice)
     elif attack in magicAttack: Magic.attack(fighter, target, attack, dice)
     Conditions.setInjury(target)
-    input("\nPress Enter to advance.\n")
 
 
 def attackComment(fighter, target, attack):

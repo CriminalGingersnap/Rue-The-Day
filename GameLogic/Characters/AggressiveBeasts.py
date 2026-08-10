@@ -41,7 +41,7 @@ class ferret:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
-        if rank == "Elder": abl["hindrances"] += ["Confuse"]
+        if rank == "Elder": abl["hindrances"] += ["Stun"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ferret", rank, stats, type)
 

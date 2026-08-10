@@ -27,8 +27,9 @@ def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
         if cndt["massive"]:
             equipment["weapon"]["reach"] = 2
             equipment["weapon"]["modifier"] = 2
-        if type in ["elemental", "totem"]: equipment["weapon"]["reach"] = 8
-        if type == "elemental": equipment["weapon"]["modifier"] = 3      
+        if type in ["elemental", "totem"]:
+            equipment["weapon"]["reach"] = 8
+            if type == "elemental": equipment["weapon"]["modifier"] = 2
 
     return equipment
 

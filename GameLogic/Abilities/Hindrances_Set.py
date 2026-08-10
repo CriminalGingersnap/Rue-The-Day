@@ -3,7 +3,7 @@ import random
 
 
 martialHindrances = ["Bind", "Drain", "Harry"]
-magicHindrances = ["Compel", "Confuse", "Confound", "Seal"]
+magicHindrances = ["Compel", "Confound", "Seal", "Stun"]
 
 
 def commitDice(fighter, target, hindrance) -> None:
@@ -41,14 +41,14 @@ def hindranceComment(fighter, target, hindrance) -> str:
             trueHindrance = "Confound"
         case "Compel": phrase += " attempts to compel " + end
         case "Confound": phrase += " confounds " + end
-        case "Confuse": phrase += " confuses " + end
         case "Drain": phrase += " drains spent vitality from " + end
         case "Harry":
             phrase += " harries " + end
-            trueHindrance = "Confuse"
+            trueHindrance = "Stun"
         case "Seal": 
             phrase += " attempts to seal " + end
             trueHindrance = "Compel"
+        case "Stun": phrase += " stuns " + end
 
     Select.waitPrint(phrase)
     return trueHindrance

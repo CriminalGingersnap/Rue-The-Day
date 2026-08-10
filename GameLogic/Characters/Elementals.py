@@ -182,8 +182,8 @@ class ogre:
 
         if rank == "Greater": 
             dice["martial"] += 2
-            abl["mastery"] = [random.choice(["Bash", "Confuse", "Slip"])]
-        else: abl["specialty"] = [random.choice(["Bash", "Confuse", "Slip"])]
+            abl["mastery"] = [random.choice(["Bash", "Slip", "Stun"])]
+        else: abl["specialty"] = [random.choice(["Bash", "Slip", "Stun"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ogre", rank, stats, type)
 
@@ -307,7 +307,7 @@ class shadow:
         stats["speed"] = "low"
 
         dice = {"martial": 0, "magic": 3}
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "hindrances": ["Confuse", "Confound"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "hindrances": ["Confound", "Stun"]})
         
         if rank == "Greater":
             dice["magic"] += 2

@@ -6,9 +6,9 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
     beastList, rankOptions = [], getAnimalRankOptions(majorBiome)
 
     if type == "random":
-        match diceBudget:
-            case 3: type = random.choice(["bear", "camel", "crocodile", "eagle", "lion", "moose", "ostrich", "turtle", "wyrm"])
-            case 2: type = random.choice(["crow", "deer", "ferret", "hawk", "hound", "lizard", "seal", "sheep", "tortoise"])
+        if diceBudget == 2: type = random.choice(["crow", "deer", "ferret", "hawk", "hound", "lizard", "seal", "sheep", "tortoise"])
+        else: type = random.choice(["bear", "camel", "crocodile", "eagle", "lion", "moose", "ostrich", "turtle", "wyrm"])
+
         if type == "wyrm": element = "Toxic"
         rankOptions = ["Adult"]
 
