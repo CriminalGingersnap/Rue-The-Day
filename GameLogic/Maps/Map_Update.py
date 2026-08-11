@@ -1,4 +1,4 @@
-from . import Visibility, Movement, Elevation
+from . import Visibility, Movement, Elevation, Map_Instantiate as iMap, MovementOptions as mOpts
 from Abilities import Area_Set as Area, Boons_Apply as Boons
 from Systems import PlayerSelect as Select, Conditions
 import random
@@ -20,7 +20,9 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     removeFighter(fighter, sightMap)
     marker = setMarker(fighter, battleMap[row][column])
     battleMap[row][column] = marker
-    fighter.pos = [row, column]
+
+    fighter.pos = [row, column, 0]
+    iMap.updateFighterHeight([fighter], battleMap)
     
     if fighter.props["rank"] == "Ascendant":
         Area.affectSpace([row, column], fighter.atrb["cur_elm"], 2, battleMap)
@@ -65,7 +67,8 @@ def hideVeiled(fighter, contingent, sightMap):
 def hideTraps(fighter, sightMap):
     for row in range(12):
         for column in range(12):
-            distance = Movement.getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column)
+            height = mOpts.heightDict[sightMap[row][column][-1]]
+            distance = Movement.getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column, fighter.pos[2], height)
             if (distance > 2) and ("]" in sightMap[row][column]):
                 sightMap[row][column] = sightMap[row][column][:-1] + "|"
 

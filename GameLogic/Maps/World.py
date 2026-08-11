@@ -45,7 +45,7 @@ class AvariceMap:
                          "Worm": {"location": [1, 11], "complete": False}, "Giant": {"location": [0, 5], "complete": False}, "Strider": {"location": [7, 1], "complete": False},
                           "Breakout": {"location": [16, 7], "complete": False}, "Camp": {"location": [15, 11], "complete": False}, "Finale": {"location": [21, 4], "complete": False},
                            "Strange Fruit": {"location": [23, 2], "complete": False},}
-        self.marker = mapMarker(self.worldMap, [14, 7])
+        self.marker = mapMarker(self.worldMap, [14, 7, 4])
 
 
 class benedictionMap:
@@ -88,7 +88,7 @@ class benedictionMap:
                          "Ally": {"location": [2, 3], "complete": False}, "Lich": {"location": [1, 0], "complete": False},
                           "Raft": {"location": [10, 3], "complete": False}, "Dragon": {"location": [0, 11], "complete": False},
                            "Finale": {"location": [23, 11], "complete": False}}
-        self.marker = mapMarker(self.worldMap, [7, 11])
+        self.marker = mapMarker(self.worldMap, [7, 11, 1])
 
 
 class mapMarker:
@@ -99,8 +99,8 @@ class mapMarker:
         self.cndt = {"aquatic": False, "skittish": False, "winged": False}
         self.props = {"initials": "..", "name": "World", "rank": "world", "type": "marker"}
 
-        self.lastCleared = deque([start,[],[],[],[],[],[]])
-        self.sightMap = createSightMap(worldMap, start, self.props["rank"])
+        self.lastCleared = deque([self.pos,[],[],[],[],[],[]])
+        self.sightMap = createSightMap(worldMap, self.pos, self.props["rank"])
 
         Select.waitPrint("World marker instantiated!")
 
@@ -110,7 +110,7 @@ def createSightMap(worldMap, position, rank):
 
     for column in range(12):
         for row in range(24):
-            spaceDistance = Movement.getSpaceDistance(position[0], row, position[1], column)
+            spaceDistance = Movement.getSpaceDistance(position[0], row, position[1], column, 0, 0)
             if spaceDistance > 2:
                 sightMap[row][column] = Visibility.unseen + worldMap[row][column][-1]
 

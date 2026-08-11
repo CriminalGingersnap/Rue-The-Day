@@ -1,11 +1,11 @@
 from Systems import PlayerSelect as Select
-from . import Map_Update as uMap, MovementOptions, Map_Print as Print, Map_Instantiate as iMap
+from . import Map_Update as uMap, MovementOptions as mOpts, Map_Print as Print, Map_Instantiate as iMap
 import random
 
 
 def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName="") -> None:
-    movementMap = MovementOptions.setMoveOptions(fighter, target, battleMap, mapHeight, mapName)
-    moveOptions = prepareOptions(movementMap, mapHeight)
+    movementMap = mOpts.setMoveOptions(fighter, target, battleMap, mapHeight, mapName)
+    moveOptions = prepareOptions(movementMap, battleMap, mapHeight)
     spaceOptions, firstSpace, lastSpace = moveOptions[0], moveOptions[1], moveOptions[2]
     stationary, moveChoice = False, None
 
@@ -23,7 +23,7 @@ def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName=""
         if not player: Select.waitPrint(fighter.props["name"] + " moves.")
         uMap.updatePlacement(battleMap, fighter.sightMap, row, column, fighter)
 
-        stepCount = spaceOptions[moveChoice][2]
+        stepCount = spaceOptions[moveChoice][3]
         fighter.atrb["cur_sp"] -= stepCount
         if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
     elif not player: Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")
@@ -32,15 +32,14 @@ def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName=""
     return stationary
 
 
-def getTargetDistance(fighter, target):
-    fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
-    targetRow, targetColumn = target.pos[0], target.pos[1]
-    rowDiff, columnDiff = abs(fighterRow - targetRow), abs(fighterColumn - targetColumn)
-    return max(rowDiff, columnDiff)
+def getTargetDistance(fighter, target) -> int:
+    fighterRow, fighterColumn, fighterHeight = fighter.pos[0], fighter.pos[1], fighter.pos[2]
+    targetRow, targetColumn, targetHeight = target.pos[0], target.pos[1], target.pos[2]
+    return getSpaceDistance(fighterRow, targetRow, fighterColumn, targetColumn, fighterHeight, targetHeight)
 
-def getSpaceDistance(row1, row2, column1, column2) -> int:
-    rowDiff, columnDiff = abs(row1 - row2), abs(column1 - column2)
-    return max(rowDiff, columnDiff)
+def getSpaceDistance(row1, row2, column1, column2, height1, height2) -> int:
+    rowDiff, columnDiff, heightDiff = abs(row1 - row2), abs(column1 - column2), abs(height1 - height2)
+    return max(rowDiff, columnDiff, heightDiff)
 
 
 def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) -> str:
@@ -53,8 +52,8 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
     rankedOptions, rankedIndices = {}, {}
 
     for spaceNumber in range(firstSpace, lastSpace + 1):
-        row, column = spaceOptions[str(spaceNumber)][0], spaceOptions[str(spaceNumber)][1]
-        spaceToTarget = getSpaceDistance(target.pos[0], row, target.pos[1], column)
+        row, column, height = spaceOptions[str(spaceNumber)][0], spaceOptions[str(spaceNumber)][1], spaceOptions[str(spaceNumber)][2]
+        spaceToTarget = getSpaceDistance(target.pos[0], row, target.pos[1], column, target.pos[2], height)
 
         if spaceToTarget in rankedOptions: rankedOptions[spaceToTarget] += [[row, column, spaceNumber]]
         else: rankedOptions[spaceToTarget] = [[row, column, spaceNumber]]
@@ -67,7 +66,7 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
 
     for square in rankedOptions[desiredDistance]:
         row, column = square[0], square[1]
-        spaceToFighter = getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column)
+        spaceToFighter = getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column, fighter.pos[2], height)
 
         if spaceToFighter < leastFromFighter:
             leastFromFighter = spaceToFighter
@@ -87,7 +86,7 @@ def movePlayer(movementMap, lastSpace, name, mapHeight) -> str:
     return str(Select.takeInput(1, lastSpace))
 
 
-def prepareOptions(movementMap, mapHeight) -> list:
+def prepareOptions(movementMap, battleMap, mapHeight) -> list:
     spaceOptions = {}
     firstSpace, lastSpace = 1, 0
 
@@ -103,7 +102,8 @@ def prepareOptions(movementMap, mapHeight) -> list:
                 stepCount = contents.split(':')[1]
                 stepCount = stepCount[0]
 
-                spaceOptions[spaceNumber] = [row, column, int(stepCount)]
+                height = mOpts.heightDict[battleMap[row][column][-1]]
+                spaceOptions[spaceNumber] = [row, column, height, int(stepCount)]
                 lastSpace += 1
 
     if "1" not in spaceOptions: firstSpace = 2

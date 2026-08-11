@@ -2,6 +2,7 @@ from Characters import Bosses, AggressiveBeasts as Beasts, Birds, Reptiles, Huma
 from Campaigns.Benediction import CustomMaps as B_Maps
 from Campaigns.Avarice import PCs as A_Pcs
 from Abilities import Area_Apply as Area
+from Maps import Map_Instantiate as iMap
 
 def archerMap(players) -> list:
     row1  = ["____↑","____↑","____↓","____↑","////⇑","__11↑","////⇑","____↑","____↓","____↑","____↑","____↓"]
@@ -18,7 +19,7 @@ def archerMap(players) -> list:
     row12 = ["____↑","____↑","____↓","____↑","____↓","____↓","____↑","____↑","////⇑","____↑","____↑","____↓"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos = [6, 0], [7, 0]
+    players[0].pos, players[1].pos = [6, 0, 0], [7, 0, 0]
 
     Archer = Humans.archer("Basic", "Master").ch
     Hound1, Hound2 = Beasts.hound("Basic", "Adult").ch, Beasts.hound("Basic", "Adult").ch
@@ -39,6 +40,8 @@ def archerMap(players) -> list:
 
     group1 = [Archer, Hound1, Hound2, Standard]
     group2 = [Wyrm]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
+
     return [group1, group2, battleMap]
 
 
@@ -57,7 +60,7 @@ def glacierMap(players) -> list:
     row12 = ["////⇑","////⇑","%___⇓","////⇑","%___⇓","%___⇓","////⇑","////⇑","////⇑","////⇑","%___⇓","%___⇓"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos = [10, 1], [10, 0]
+    players[0].pos, players[1].pos = [10, 1, 0], [10, 0, 0]
 
     Worm = Bosses.worm().ch
     B_Maps.placeFighter(Worm, "01", [1, 10])
@@ -78,6 +81,8 @@ def glacierMap(players) -> list:
     group1 = [Worm]
     group2 = [Elemental1, Elemental2, Elemental3, Elemental4, Elemental5, Elemental6, Elemental7, Elemental8, Elemental9]
     for elemental in group2: elemental.cndt["reposed"] = True
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
+
     return [group1, group2, battleMap]
 
 
@@ -96,7 +101,7 @@ def volcanoMap(players) -> list:
     row12 = ["////⇑","////⇑","#)))⇓","#)))⇓","____↑","____↑","____↑","////⇑","////⇑","////⇑","____|","____|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos = [2, 0], [3, 1]
+    players[0].pos, players[1].pos = [2, 0, 0], [3, 1, 0]
 
     LavaBug = Bosses.strider().ch
     B_Maps.placeFighter(LavaBug, "01", [8, 11])
@@ -109,6 +114,8 @@ def volcanoMap(players) -> list:
 
     group1 = [LavaBug]
     group2 = [Lizard1, Lizard2, Lizard3, Tortoise1]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
+
     return [group1, group2, battleMap]
 
 
@@ -127,7 +134,7 @@ def woodsMap(players) -> list:
     row12 = ["////⇑","////⇑","=___↓","=___|","=___|","=___|","=___↓","=___↓","////⇑","=___↓","=___↓","=___|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos = [4, 1], [3, 1]
+    players[0].pos, players[1].pos = [4, 1, 0], [3, 1, 0]
 
     Giant = Bosses.giant().ch
     B_Maps.placeFighter(Giant, "01", [3, 10])
@@ -145,6 +152,8 @@ def woodsMap(players) -> list:
 
     group1 = [Giant, Bear, Crow]
     group2 = [Wolf1, Wolf2, Wolf3, Wolf4, Wolf5]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
+
     return [group1, group2, battleMap]
 
 
@@ -165,7 +174,7 @@ def campMap(players) -> list:
 
     Willem = A_Pcs.getWillem()
     players += [Willem]
-    players[0].pos, players[1].pos, players[2].pos = [2, 0], [3, 0], [3, 2]
+    players[0].pos, players[1].pos, players[2].pos = [2, 0, 0], [3, 0, 0], [3, 2, 0]
 
     Bandit1, Bandit2, Bandit3 = Humans.brute("Basic", "Elite").ch, Humans.brute("Basic", "Adept").ch, Humans.brute("Basic", "Adept").ch    
     Bandit4, Bandit5, Bandit6 = Humans.archer("Basic", "Proficient").ch, Humans.mage("Flame", "Proficient").ch, Humans.brute("Basic", "Novice").ch    
@@ -186,6 +195,8 @@ def campMap(players) -> list:
 
     group1 = [Bandit1, Bandit2, Bandit3, Bandit4, Bandit5, Bandit6, Bandit7, Bandit8, Bandit9]
     group2 = [Insect1, Insect2]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
+
     return [group1, group2, battleMap]
 
 
@@ -211,7 +222,7 @@ def portMap(players, element) -> list:
             if "__" in battleMap[row][column]:
                 battleMap[row][column] = atmosphere + battleMap[row][column][1:]
 
-    players[0].pos, players[1].pos, players[2].pos = [0, 1], [1, 1], [2, 1]
+    players[0].pos, players[1].pos, players[2].pos = [0, 1, 0], [1, 1, 0], [2, 1, 0]
 
     Duke = Humans.doctor("Basic", "Adept")
     Duke.props["name"] = "Usurper Duke"
@@ -258,4 +269,6 @@ def portMap(players, element) -> list:
 
     group1 = [Duke, Knight1, Knight2, Knight3, Mage1, Mage2, Archer1, Archer2, Archer3]
     group2 = [Elemental1, Elemental2, Elemental3, Elemental4, Elemental5, Elemental6, Elemental7, Elemental8, Elemental9]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
+
     return [group1, group2, battleMap]

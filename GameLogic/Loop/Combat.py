@@ -20,7 +20,6 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
         result = battle(group1, group2 + group3, battleMap)
         playerVictory = result[0]
         if not playerVictory:
-            Select.waitPrint("\nCombat advances to the next round.\n")
             if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap)[0]
             if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap)[0]
 

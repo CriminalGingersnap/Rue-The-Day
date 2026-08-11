@@ -30,8 +30,8 @@ def createSightMap(battleMap, position, rank, mapHeight=12):
 
 
 def look(position, row, column, battleMap, sightMap, peak):
-    fighterSpace, vistaSpace = battleMap[position[0]][position[1]], battleMap[row][column]
-    standingHeight, vistaHeight = mOpts.heightDict[fighterSpace[-1]], mOpts.heightDict[vistaSpace[-1]]
+    vistaSpace = battleMap[row][column]
+    standingHeight, vistaHeight = position[2], mOpts.heightDict[vistaSpace[-1]]
 
     rowDiff, colDiff = abs(position[0] - row), abs(position[1] - column)
 

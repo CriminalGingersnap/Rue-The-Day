@@ -12,7 +12,7 @@ def firstPlacement(instanceMap, rowCount, fighter) -> None:
 
         available = visitSpace(instanceMap, rowCount, row, column, fighter)
 
-    fighter.pos = [row, column]
+    fighter.pos = [row, column, 0]
 
 
 def visitSpace(instanceMap, rowCount, row, column, fighter) -> bool:

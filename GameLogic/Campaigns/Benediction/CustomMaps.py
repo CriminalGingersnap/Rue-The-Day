@@ -1,11 +1,11 @@
 from Characters import Bosses, Humans, Elementals, Totems, AggressiveBeasts as Beasts, Birds
+from Maps import Map_Instantiate as iMap
 from . import PCs as B_PCs
-import random
 
 
 def placeFighter(fighter, initials, position) -> None:
     fighter.props["name"], fighter.props["initials"] = fighter.props["name"] + "[" + initials + "]", initials
-    fighter.pos = position
+    fighter.pos = position + [0]
 
 
 def shipMap(players) -> list:
@@ -23,7 +23,7 @@ def shipMap(players) -> list:
     row12 = ["-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓","-~~~⇓"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos, players[2].pos = [4, 2], [6, 4], [5, 4]
+    players[0].pos, players[1].pos, players[2].pos = [4, 2, 0], [6, 4, 0], [5, 4, 0]
 
     Leviathan = Bosses.leviathan().ch
     placeFighter(Leviathan, "01", [10, 10])
@@ -50,6 +50,7 @@ def shipMap(players) -> list:
     players += [Sailor1, Sailor2, Sailor3]
     group1 = [Leviathan]
     group2 = [Pirate1, Pirate2, Pirate3, Pirate4, Pirate5, Pirate6, Pirate7]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
 
     return [group1, group2, battleMap]
 
@@ -71,7 +72,7 @@ def villageMap(players) -> list:
 
     Akeem = B_PCs.getAkeem()
     players += [Akeem]
-    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0], [8, 1], [7, 1], [5, 11]
+    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0, 0], [8, 1, 0], [7, 1, 0], [5, 11, 0]
     
     Zombie1, Zombie2, Zombie3 = Humans.brute("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
     Zombie4, Zombie5, Zombie6 = Humans.brute("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
@@ -96,6 +97,7 @@ def villageMap(players) -> list:
     
     group1 = [Zombie1, Zombie2, Zombie3, Zombie4, Zombie5, Zombie6, Zombie7, Zombie8, Zombie9]
     group2 = [Crow1, Crow2, Vulture, Dog1, Dog2]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
 
     return [group1, group2, battleMap]
 
@@ -115,7 +117,7 @@ def templeMap(players) -> list:
     row12 = ["____|","____|","////|","////|","////|","////|","////|","////|","////|","////|","////|","////|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0], [6, 0], [7, 1], [5, 1]
+    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0, 0], [6, 0, 0], [7, 1, 0], [5, 1, 0]
 
     Paladin, Knight1, Knight2, Mage = Humans.paladin("Rot", "Adept").ch, Humans.knight("Rot", "Proficient").ch, Humans.knight("Rot", "Proficient").ch, Humans.mage("Rot", "Proficient").ch
     placeFighter(Paladin, "01", [5, 5])
@@ -128,6 +130,7 @@ def templeMap(players) -> list:
     
     group1 = [Paladin, Knight1, Knight2, Mage]
     group2 = [Elemental]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
 
     return [group1, group2, battleMap]
 
@@ -147,7 +150,7 @@ def cryptMap(players, events) -> list:
     row12 = ["=)))⇓","=)))⇓","=)))⇓","=)))⇓","-_F.↓","-___↓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓","=)))⇓"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 4], [11, 5], [10, 5], [11, 4]
+    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 4, 0], [11, 5, 0], [10, 5, 0], [11, 4, 0]
 
     Lich = Bosses.lich().ch
     Lich.atrb["injury"], Lich.cndt["planted"] = 1, True
@@ -172,6 +175,7 @@ def cryptMap(players, events) -> list:
 
     group1 = [Lich, Zombie1, Zombie2, Zombie3]
     group2 = [Elemental1, Elemental2, Elemental3, Elemental4]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
 
     return [group1, group2, battleMap]
 
@@ -179,9 +183,9 @@ def cryptMap(players, events) -> list:
 def manorMap(players) -> list:
     row1  = ["////|","////|","////|","////|","////|","////|","____|","__06↓","-___↓","////|","////|","////|"]
     row2  = ["////|","////|","////|","////|","////|","////|","____|","////|","-___↓","}_01↓","////|","////|"]
-    row3  = ["////|","////|","____|","____|","////|","____|","____|","////|","-___↓","-___↓","////|","////|"]
-    row4  = ["////|","////|","____|","__11|","__03|","____|","____|","__05↓","-___↓","-___↓","////|","////|"]
-    row5  = ["////|","////|","__15|","____|","////|","____|","____|","////|","-___↓","-___↓","%___⇓","%_19⇓"]
+    row3  = ["////|","////|","____|","____|","////|","____]","____|","////|","-___↓","-___↓","////|","////|"]
+    row4  = ["////|","////|","____|","__11|","__03|","____]","____|","__05↓","-___↓","-___↓","////|","////|"]
+    row5  = ["////|","////|","__15|","____|","////|","____]","____|","////|","-___↓","-___↓","%___⇓","%_19⇓"]
     row6  = ["////|","////|","____|","____|","////|","__16|","____|","////|","////|","////|","%___⇓","%___⇓"]
     row7  = ["-_A.|","-_02|","____|","____|","////|","////|","////|","////|","////|","////|","%___⇓","%___⇓"]
     row8  = ["-_H.|","////|","____|","____|","////|","////|","////|","////|","-_17↓","-___↓","%___⇓","%_18⇓"]
@@ -191,7 +195,7 @@ def manorMap(players) -> list:
     row12 = ["-___|","////|","////|","////|","////|","////|","////|","////|","////|","////|","////|","////|"]
     battleMap = [row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12]
 
-    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0], [7, 0], [9, 0], [6, 0]
+    players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0, 0], [7, 0, 0], [9, 0, 0], [6, 0, 0]
 
     Vampire = Bosses.vampire().ch
     placeFighter(Vampire, "01", [])
@@ -222,5 +226,6 @@ def manorMap(players) -> list:
 
     group1 = [Vampire, Door1, Door2, Door3, Door4, Door5]
     group2 = [Ghoul1, Ghoul2, Ghoul3, Ghoul4, Ghoul5, Ghoul6, Ghoul7, Ghoul8, Ghoul9]
+    iMap.updateFighterHeight(players + group1 + group2, battleMap)
 
     return [group1, group2, battleMap]

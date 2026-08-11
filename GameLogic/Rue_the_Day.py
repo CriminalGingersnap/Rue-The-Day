@@ -34,7 +34,8 @@ def adventure(group):
 
             bespoke, event = False, None
             for eventOption in world.events:
-                if world.events[eventOption]["location"] == marker.pos:
+                eventRow, eventCol = world.events[eventOption]["location"][0], world.events[eventOption]["location"][1]
+                if (eventRow == marker.pos[0]) and (eventCol == marker.pos[1]):
                     bespoke = True
                     event = eventOption
                     world.events[eventOption]["complete"] = True

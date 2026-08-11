@@ -1,5 +1,5 @@
 from Systems import PlayerSelect as Select
-from Maps import Movement, Map_Instantiate as iMap, Map_Print as Print
+from Maps import Movement, Map_Instantiate as iMap, Map_Print as Print, MovementOptions as mOpts
 from Actions import AttackActions as Attacks
 import random
 
@@ -45,10 +45,12 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
                         counter += 1
                         optionDict[str(counter)] = [row, column, 0]
                         setSpace(sightMap, optionsMap, row, column, counter)
-                    elif enemyInRange(row, column, enemies) and ((source == "echo") or allyNotInRange(row, column, allies)):
-                        counter += 1
-                        optionDict[str(counter)] = [row, column]
-                        setSpace(sightMap, optionsMap, row, column, counter)                    
+                    else:
+                        height = mOpts.heightDict[sightMap[row][column][-1]]
+                        if enemyInRange(row, column, height, enemies) and ((source == "echo") or allyNotInRange(row, column, height, allies)):
+                            counter += 1
+                            optionDict[str(counter)] = [row, column]
+                            setSpace(sightMap, optionsMap, row, column, counter)                    
 
         choice = ""
         if fighter.props["rank"] == "player":
@@ -64,18 +66,18 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
         return optionDict[str(choice)]
 
 
-def enemyInRange(row, column, enemies) -> bool:
+def enemyInRange(row, column, height, enemies) -> bool:
     inRange = False
     for enemy in enemies:
-        if Movement.getSpaceDistance(enemy.pos[0], row, enemy.pos[1], column) <= 3: 
+        if Movement.getSpaceDistance(enemy.pos[0], row, enemy.pos[1], column, enemy.pos[2], height) <= 3: 
             inRange = True
 
     return inRange
 
-def allyNotInRange(row, column, allies):
+def allyNotInRange(row, column, height, allies):
     notInRange = True
     for ally in allies:
-        if Movement.getSpaceDistance(ally.pos[0], row, ally.pos[1], column) <= 3: 
+        if Movement.getSpaceDistance(ally.pos[0], row, ally.pos[1], column, ally.pos[2], height) <= 3: 
             notInRange = False
 
     return notInRange

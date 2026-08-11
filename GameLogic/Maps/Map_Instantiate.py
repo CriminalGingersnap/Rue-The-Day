@@ -1,4 +1,4 @@
-from . import Map_Populate as pMap, Elevation, Map_Print as Print
+from . import Map_Populate as pMap, Elevation, MovementOptions as mOpts
 from Systems import PlayerSelect as Select
 import random
 
@@ -60,6 +60,7 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
 
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, mapConditions["slope"])
+    updateFighterHeight(playerGroup + enemyGroups, battleMap)
 
     return battleMap
 
@@ -83,3 +84,9 @@ def placeOcclusions(mapConditions, instanceMap, multiplier):
         for i in range(occlusions[atmo] * multiplier):
             available = False
             while not available: available = pMap.placeFog(instanceMap, atmo)
+
+
+def updateFighterHeight(group, battleMap) -> None:
+    for fighter in group:
+        space = battleMap[fighter.pos[0]][fighter.pos[1]]
+        fighter.pos[2] = mOpts.heightDict[space[-1]]
