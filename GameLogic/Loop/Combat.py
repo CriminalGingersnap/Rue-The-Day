@@ -67,7 +67,7 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.abilityStage(fighter, foes, friends)
 
-        if npcGroup: input("\nPress Enter to execute attacks.")
+        if npcGroup: input("\nPress Enter to execute abilities.")
 
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:
@@ -82,7 +82,5 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
                         Attacks.execute(fighter, target, ability, dice)
 
             Phases.outro(fighter)
-
-        if npcGroup: input("\nPress Enter to advance combat to the next round.\n")
-
+        input("\nPress Enter to advance combat to the next round.\n\n")
     return [False, None]

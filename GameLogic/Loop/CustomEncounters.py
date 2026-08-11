@@ -81,5 +81,12 @@ def customLoop(playerGroup, biome, event) -> bool:
     if skipCombat: return True
     else:
         result = Encounters.encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, timePermits)
-        if result or deathPermitted: Select.readScene("Post " + event, playerGroup["campaign"])
+        if result or deathPermitted:
+            Select.readScene("Post " + event, playerGroup["campaign"])
+            if event == "Leviathan":
+                playerGroup["members"][0].equip["weapon"] = {"name": "Rag", "twoHanded": False, "modifier": 0, "dmgTypes": ["Dream"], "reach": 8}
+                playerGroup["members"][1].equip["weapon"] = {"name": "Plank", "twoHanded": True, "modifier": 0, "dmgTypes": ["Crush"], "reach": 2}
+                playerGroup["members"][0].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic"}
+                playerGroup["members"][1].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic"}
+
         return result or deathPermitted

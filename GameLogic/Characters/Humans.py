@@ -49,7 +49,7 @@ class archer:
     def __init__(self, element, rank) -> None:
         job = "Archer"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         
         abl = Characters.setAbilities(type, {"attacks": ["Broadhead"]})
@@ -70,7 +70,7 @@ class brute:
     def __init__(self, element, rank) -> None:
         job = "Brute"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
@@ -91,7 +91,7 @@ class dragonslayer:
     def __init__(self, element, rank) -> None:
         job = "Dragonslayer"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
@@ -112,7 +112,7 @@ class doctor:
     def __init__(self, element, rank) -> None:
         job = "Doctor"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"boons": ["Bandage"]})
@@ -133,7 +133,7 @@ class knight:
     def __init__(self, element, rank) -> None:
         job = "Knight"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"boons": ["Guard"]})
@@ -154,7 +154,7 @@ class mage:
     def __init__(self, element, rank) -> None:
         job = "Mage"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
@@ -175,7 +175,7 @@ class paladin:
     def __init__(self, element, rank) -> None:
         job = "Paladin"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Sling"]})
@@ -196,7 +196,7 @@ class witch:
     def __init__(self, element, rank) -> None:
         job = "Witch"
         common = setCommon(job, element, rank)
-        cndt, dice, stats, type = common[0], common[1], common[2], common[3], common[4]
+        cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"boons": ["Focus"]})

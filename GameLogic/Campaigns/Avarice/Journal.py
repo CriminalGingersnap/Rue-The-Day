@@ -2,7 +2,7 @@
 
 scenes = {"Escape": [
     ["> ", "This journal was the first object I ever stole."],
-    ["  ", "I snatched it from our warden's desk before helping myself to his weapons."],
+    ["  ", "I snatched it from our warden's desk before helping myself to his armory."],
     ["  ", "Laura wasn't happy with how much time I spent searching his shelves for a quill,"],
     ["  ", " but she changed her tune when I found his core stash."],
     ["  ", "Finally: proof that my hobbies are useful."],

@@ -11,7 +11,7 @@ def getGroups(fighter, enemies, allies) -> list:
 def setAlive(fighter) -> bool:
     if fighter.atrb["cur_hp"] <= 0:
         fighter.cndt["dead"] = True
-        Select.conversationPrint("\n" + fighter.props["name"] + " has fallen.")
+        Select.conversationPrint("\n" + fighter.props["name"] + " has fallen.\n")
 
         return False
     else: return True

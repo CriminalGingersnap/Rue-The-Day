@@ -42,10 +42,11 @@ def recoverTolerance(principal, points):
 
 
 def takeDamage(target, dmgType, damage) -> None:
-    damage = Damage.applyResistance(damage, dmgType, target)
+    if damage > 0:
+        damage = Damage.applyResistance(damage, dmgType, target)
 
-    if dmgType != "Dream": target.atrb["cur_hp"] = target.atrb["cur_hp"] - damage
-    else: decrementStamina(target, damage)
+        if dmgType != "Dream": target.atrb["cur_hp"] = target.atrb["cur_hp"] - damage
+        else: decrementStamina(target, damage)
 
 
 def setInjury(target):
@@ -94,7 +95,7 @@ def setInjury(target):
 
     elif target.atrb["cur_hp"] <= -target.atrb["half_hp"]:
         if target.cndt["lifeless"]: injuryPhrase += "destroyed!"
-        else: injuryPhrase += "slain!"
+        else: injuryPhrase += "slain!\n"
         target.cndt["dead"] = True
 
         Commitments.clearCommitments(target)

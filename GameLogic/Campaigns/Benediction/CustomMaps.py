@@ -75,7 +75,7 @@ def villageMap(players) -> list:
     
     Zombie1, Zombie2, Zombie3 = Humans.brute("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
     Zombie4, Zombie5, Zombie6 = Humans.brute("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
-    Zombie7, Zombie8, Zombie9 = Humans.archer("Rot", "Novice").ch, Humans.brute("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
+    Zombie7, Zombie8, Zombie9 = Humans.archer("Rot", "Novice").ch, Humans.mage("Rot", "Novice").ch, Humans.knight("Rot", "Novice").ch
     placeFighter(Zombie1, "01", [3, 0])
     placeFighter(Zombie2, "02", [5, 0])
     placeFighter(Zombie3, "03", [11, 0])
@@ -96,13 +96,6 @@ def villageMap(players) -> list:
     
     group1 = [Zombie1, Zombie2, Zombie3, Zombie4, Zombie5, Zombie6, Zombie7, Zombie8, Zombie9]
     group2 = [Crow1, Crow2, Vulture, Dog1, Dog2]
-
-    Dagger = {"name": "Dagger", "twoHanded": False, "modifier": 0, "dmgTypes": ["Pierce"], "reach": 1}
-    FishSpear = {"name": "Fishing Spear", "twoHanded": True, "modifier": 0, "dmgTypes": ["Pierce"], "reach": 2}
-    HandWrap = {"name": "Hand Wrap", "twoHanded": False, "modifier": 0, "dmgTypes": ["Crush"], "reach": 1}
-    Plank = {"name": "Plank", "twoHanded": True, "modifier": 0, "dmgTypes": ["Crush"], "reach": 2}
-    for Zombie in group1:
-        if Zombie.props["job"] != "Archer": Zombie.equip["weapon"] = random.choice([Dagger, FishSpear, HandWrap, Plank])
 
     return [group1, group2, battleMap]
 
