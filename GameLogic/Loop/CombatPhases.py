@@ -90,6 +90,6 @@ def abilityStage(fighter, enemies, allies) -> None:
         if fighter.props["rank"] == "player": PlayerAbl.playerAction(fighter, reachable)
         else: NPCAbl.npcAction(fighter, groups)
 
-        if fighter.cndt["blitzing"]:
+        if fighter.cndt["blitzing"] and ((fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0)):
             fighter.cndt["blitzing"] = False
             abilityStage(fighter, enemies, allies)

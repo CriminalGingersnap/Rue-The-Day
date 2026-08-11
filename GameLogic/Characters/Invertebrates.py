@@ -56,7 +56,7 @@ class octopus:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Bite"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Peck"], "hindrances": ["Bind"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Octopus", rank, stats, type)
     

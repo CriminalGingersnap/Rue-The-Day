@@ -6,10 +6,10 @@ from Loop import Cards
 def setFoes(biome, budgets, luckCard) -> list:
     Select.waitPrint("Rolling to determine encounter number.")
     Select.quickPrint("First roll:")
-    roll1 = Roll.roll(None, 1, None, None)
+    roll1 = Roll.roll(None, None, 1, None, None)
 
     Select.quickPrint("Second roll:")
-    roll2 = Roll.roll(None, 1, None, None)
+    roll2 = Roll.roll(None, None, 1, None, None)
 
     Select.waitPrint("Applying luck card:")
     Cards.printDeck([luckCard])

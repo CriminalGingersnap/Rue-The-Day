@@ -8,7 +8,7 @@ def setCommon(job) -> list:
     traits[1].update({"Pierce": "resistant", "Flame": "vulnerable"})
     stats = {"avoidance": "min", "hp": "low", "resist": traits[1], "speed": "min"}
     cndt = traits[0]
-    cndt["lifeless"], cndt["planted"], cndt["reposed"], cndt["social"] = True, True, True, True
+    cndt["lifeless"], cndt["planted"], cndt["reposed"], cndt["skittish"], cndt["social"] = True, True, True, True, True
     
     dice = {"martial": 0, "magic": 1}
 

@@ -28,7 +28,7 @@ def execute(fighter, groups, ability, battleMap) -> str:
 
     if ability == "Shroud": markedSpace = [fighterRow, fighterColumn]
     else:
-        if ability == "Slip": range = Roll.roll(fighter, fighter.atrb["base_mag"], "Slip", "magic") + 1
+        if ability == "Slip": range = Roll.roll(fighter, fighter, fighter.atrb["base_mag"], "Slip", "magic") + 1
         markedSpace = Locate.findSpace(fighter, groups, range, ability)
 
     if markedSpace == "None": Select.waitPrint(fighter.props["name"] + " dispels an area ability before execution.")

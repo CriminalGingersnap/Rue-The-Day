@@ -34,7 +34,7 @@ def attack(fighter, target, attack, dice) -> None:
     av = getBaseAv(attack, dmgType, target)
 
     Select.quickPrint("Attack roll:")
-    attempt = Roll.roll(fighter, dice, attack, "martial")
+    attempt = Roll.roll(fighter, target, dice, attack, "martial")
 
     attemptIncrease = Boons.applyFocus(fighter)
     attemptReduction = Hinder.applyConfound(fighter)

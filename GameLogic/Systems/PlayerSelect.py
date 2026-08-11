@@ -48,7 +48,7 @@ def targetSelect(targets) -> int:
     targetNames = []
     for target in targets: targetNames += [target.props["name"]]
     
-    name = pickOption(targetNames, "target")
+    name = pickOption(targetNames, "target", False)
 
     for target in targets:
         if target.props["name"] == name: return target

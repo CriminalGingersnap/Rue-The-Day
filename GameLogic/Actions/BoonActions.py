@@ -72,8 +72,6 @@ def npcSelectBoonTarget(fighter, allies, boon):
     cooperative = (fighter.cndt["social"] or fighter.cndt["sapient"])
 
     if (boon not in ["Conceal", "Regenerate"]) and cooperative and (len(allies) > 1):
-        print(fighter.props["name"])
-        print(includeSelf)
         lowestAVAlly = Assess.findLowestAV(fighter, allies, includeSelf)
         lowestHPAlly = Assess.findLowestAtrb(fighter, allies, "cur_hp", includeSelf)
         lowestResDreamAlly = Assess.findLowestRes(fighter, allies, "Dream", includeSelf)

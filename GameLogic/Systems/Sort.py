@@ -11,7 +11,7 @@ def getGroups(fighter, enemies, allies) -> list:
 def setAlive(fighter) -> bool:
     if fighter.atrb["cur_hp"] <= 0:
         fighter.cndt["dead"] = True
-        Select.waitPrint("\n" + fighter.props["name"] + " has fallen.")
+        Select.conversationPrint("\n" + fighter.props["name"] + " has fallen.")
 
         return False
     else: return True
@@ -104,8 +104,8 @@ def sortReachable(fighter, fightingEnemies, fightingAllies) -> list:
 
 def getReach(ability) -> int:
     twoReach = Attacks.closeMartialAttack + Boons.martialBoons + Hinder.martialHindrances
-    fourReach = Attacks.midMartialAttack + Boons.magicBoons + Hinder.magicHindrances
-    eight = Attacks.farMartialAttack + Attacks.magicAttack
+    fourReach = Attacks.midMartialAttack
+    eight = Attacks.farMartialAttack + Attacks.magicAttack + Boons.magicBoons + Hinder.magicHindrances
     reach = 0
     
     if ability in twoReach: reach = 2

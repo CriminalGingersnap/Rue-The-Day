@@ -1,11 +1,14 @@
 from . import PlayerSelect as Select
+from Maps import Movement
 import random, time
 
 
-def roll(fighter, dice, ability, dType) -> int:
+def roll(fighter, target, dice, ability, dType) -> int:
     total = 0
     if dice > 0: total = castDice(dice)
-    if fighter != None: total += mods(fighter, ability, dType)
+    if fighter != None:
+        distancePenalty = Movement.getTargetDistance(fighter, target) // 2
+        total += mods(fighter, distancePenalty, ability, dType)
     
     Select.quickPrint("Total: ", '')
     time.sleep(Select.longWait * 2)
@@ -14,8 +17,12 @@ def roll(fighter, dice, ability, dType) -> int:
     return total
 
 
-def mods(fighter, ability, dType) -> int:
+def mods(fighter, distancePenalty, ability, dType) -> int:
     phrase, mod = " | ", 0
+
+    if distancePenalty > 0:
+        mod -= distancePenalty
+        phrase += "-" + str(distancePenalty) + " (Distance) | "
 
     if ability in fighter.abl["specialty"]:
         mod += 1

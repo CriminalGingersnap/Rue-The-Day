@@ -3,7 +3,7 @@ from . import Boons_Set, Hindrances_Set
 import random
 
 
-def expend(source, dice, ability, dType) -> int:
+def expend(source, principal, dice, ability, dType) -> int:
     if dice > 0 and (source.cndt["dead"] == False):
         expenditure = 0
 
@@ -13,7 +13,7 @@ def expend(source, dice, ability, dType) -> int:
             expenditure = Select.takeInput(1, dice)
         else: expenditure = random.randint(1, dice)
 
-        roll = Roll.roll(source, expenditure, ability, dType)
+        roll = Roll.roll(source, principal, expenditure, ability, dType)
         return [roll, expenditure]
     else: return [0, 0]
 
@@ -30,10 +30,10 @@ def apply(principal, ability) -> int:
     if (source != None) and (dice > 0):
         if principal in source.commits[ability]["targets"]:
             element = ""
-            if ability == "Wreath": element = source.commits[ability]["additional"] + " "
+            if ability == "Wreath": element = principal.effects[ability]["additional"] + " "
             if print: Select.waitPrint("\n" + element + specific + " triggered on " + principal.props["name"] + "!")
 
-            roll = expend(source, dice, specific, dType)
+            roll = expend(source, principal, dice, specific, dType)
             increase = roll[0]
             principal.effects[ability]["dice"] -= roll[1]
 

@@ -98,7 +98,7 @@ def setInjury(target):
         target.cndt["dead"] = True
 
         Commitments.clearCommitments(target)
-        Select.waitPrint(injuryPhrase)
+        Select.conversationPrint(injuryPhrase)
 
     if print:
         Select.waitPrint(injuryPhrase)

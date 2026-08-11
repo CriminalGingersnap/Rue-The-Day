@@ -28,7 +28,7 @@ def updateAce(ace, biome):
         case _: threshold = 7
 
     Select.waitPrint("Rolling to trigger change in weather. Current threshold: " + str(threshold))
-    roll = Roll.roll(None, 2, None, None)
+    roll = Roll.roll(None, None, 2, None, None)
 
     if roll >= threshold:
         Select.conversationPrint("The weather shifts.")
