@@ -18,7 +18,7 @@ def getAvariceGroup() -> list:
 
 def getLaura():
     Laura = Humans.mage("Flame", "Master").ch
-    Laura.props["name"], Laura.props["initials"] = "Laura", "L."
+    Laura.props["name"], Laura.props["initials"], Laura.props["favored"] = "Laura", "L.", "human"
     Laura.atrb["base_av"], Laura.atrb["base_hp"], Laura.atrb["base_sp"] = 8, 15, 4
     Laura.abl["mastery"] = ["Bring"]
     
@@ -28,7 +28,7 @@ def getLaura():
 
 def getMartin():
     Martin = Humans.knight("Basic", "Master").ch
-    Martin.props["name"], Martin.props["initials"] = "Martin", "M."
+    Martin.props["name"], Martin.props["initials"], Martin.props["favored"] = "Martin", "M.", "beast"
     Martin.atrb["base_av"], Martin.atrb["base_hp"], Martin.atrb["base_sp"] = 9, 17, 5
     Martin.abl["mastery"] = ["Guard"]
 
@@ -44,7 +44,7 @@ def getMartin():
 
 def getWillem():
     Willem = Humans.dragonslayer("Basic", "Master").ch
-    Willem.props["name"], Willem.props["initials"] = "Willem", "W."
+    Willem.props["name"], Willem.props["initials"], Willem.props["favored"] = "Willem", "W.", "reptile"
     Willem.atrb["base_av"], Willem.atrb["base_hp"], Willem.atrb["base_sp"] = 8, 14, 3
     Willem.abl["mastery"] = ["Bodkin"]
     

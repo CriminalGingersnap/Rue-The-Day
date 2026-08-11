@@ -23,7 +23,7 @@ pearls = {
 def setInventory(element, hp, job, rank, type) -> dict:
     match type:
         case "human": return humanInventory(element, rank)
-        case "beast" | "invertebrate" | "insect" | "reptile": return beastInventory(hp, element, rank, type)
+        case "beast" | "bird" | "invertebrate" | "insect" | "reptile": return beastInventory(hp, element, rank, type)
         case "elemental": return elementalInventory(element, rank)
         case "totem": return totemInventory(element, job)
 
@@ -103,7 +103,7 @@ def beastInventory(hp, element, rank, type) -> dict:
             case "high": vitaVolume = 3
             case "max": vitaVolume = 4
     else:
-        drop["pearls"]["Dream"] = random.choice([1, 0, 0, 0, 0, 0])
+        drop["pearls"]["Dream"] = random.choice([1, 0, 0])
         match hp:
             case "min": vitaVolume = 1
             case "low": vitaVolume = 2

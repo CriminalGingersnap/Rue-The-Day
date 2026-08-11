@@ -93,7 +93,7 @@ def rankRes(target, dmgType) -> int:
 def findUndead(targets): # Update for elementals
     undead = []
     for target in targets:
-        if target.cndt["lifeless"]:
+        if target.cndt["lifeless"] and (target.atrb["base_elm"] == "Rot"):
             undead += target
 
     return undead

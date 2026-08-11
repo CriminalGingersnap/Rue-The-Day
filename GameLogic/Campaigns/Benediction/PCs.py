@@ -36,7 +36,7 @@ def getBenedictionGroup() -> list:
 
 def getAkeem():
     Akeem = Humans.paladin("Elite").ch
-    Akeem.props["name"], Akeem.props["initials"] = "Akeem", "A."
+    Akeem.props["name"], Akeem.props["initials"], Akeem.props["favored"] = "Akeem", "A.", "human"
     Akeem.atrb["base_av"], Akeem.atrb["base_hp"], Akeem.atrb["base_sp"] = 9, 16, 4
     Akeem.abl["specialty"] = ["Bless"]
 
@@ -45,7 +45,7 @@ def getAkeem():
 
 def getFadia():
     Fadia = Humans.witch("Dream", "Adept").ch
-    Fadia.props["name"], Fadia.props["initials"] = "Fadia", "F."
+    Fadia.props["name"], Fadia.props["initials"], Fadia.props["favored"] = "Fadia", "F.", "bird"
     Fadia.atrb["base_av"], Fadia.atrb["base_hp"], Fadia.atrb["base_sp"] = 7, 14, 3
     Fadia.abl["specialty"] = ["Compel"]
 
@@ -54,7 +54,7 @@ def getFadia():
 
 def getHassan():
     Hassan = Humans.brute("Basic", "Adept").ch
-    Hassan.props["name"], Hassan.props["initials"] = "Hassan", "H."
+    Hassan.props["name"], Hassan.props["initials"], Hassan.props["favored"] = "Hassan", "H.", "invertebrate"
     Hassan.atrb["base_av"], Hassan.atrb["base_hp"], Hassan.atrb["base_sp"] = 8, 18, 5
     Hassan.abl["specialty"] = ["Bash"]
 
@@ -63,7 +63,7 @@ def getHassan():
 
 def getLayth():
     Layth = Beasts.lion("Basic", "Juvenile").ch
-    Layth.props["name"], Layth.props["initials"] = "Layth", "L."
+    Layth.props["name"], Layth.props["initials"], Layth.props["favored"] = "Layth", "L.", "insect"
     Layth.atrb["base_av"], Layth.atrb["base_hp"], Layth.atrb["base_sp"] = 8, 15, 6
     Layth.abl["specialty"] = ["Claw"]
     

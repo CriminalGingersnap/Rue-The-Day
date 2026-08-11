@@ -3,7 +3,7 @@ import random
 
 
 def setCommon(element, rank) -> list:
-    type = "beast"
+    type = "bird"
     if rank == "Random": rank = random.choice(["Juvenile", "Juvenile", "Adult", "Adult", "Elder"])
 
     traits = Characters.setTraits()
@@ -73,3 +73,18 @@ class ostrich:
         if rank == "Elder": abl["hindrances"] += ["Confound"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ostrich", rank, stats, type)
+
+class vulture:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["skittish"] = True
+        stats["avoidance"], stats["hp"], stats["speed"] = "mid", "low", "mid"
+
+        dice = {"martial": 1, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, {"attacks": ["Peck", "Spit"]})
+        if rank == "Elder": abl["boons"] += ["Wreath"]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Vulture", rank, stats, type)

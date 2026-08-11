@@ -86,16 +86,16 @@ def villageMap(players) -> list:
     placeFighter(Zombie8, "08", [0, 8])
     placeFighter(Zombie9, "09", [9, 9])
 
-    Crow1, Crow2, Crow3 = Birds.crow("Basic", "Juvenile").ch, Birds.crow("Basic", "Adult").ch, Birds.crow("Basic", "Adult").ch
+    Crow1, Crow2, Vulture = Birds.crow("Basic", "Juvenile").ch, Birds.crow("Basic", "Adult").ch, Birds.vulture("Basic", "Adult").ch
     Dog1, Dog2 = Beasts.hound("Basic", "Juvenile").ch, Beasts.hound("Basic", "Adult").ch
     placeFighter(Crow1, "11", [5, 3])
     placeFighter(Crow2, "12", [10, 7])
-    placeFighter(Crow3, "13", [7, 6])
+    placeFighter(Vulture, "13", [7, 6])
     placeFighter(Dog1, "14", [0, 2])
     placeFighter(Dog2, "15", [1, 9])
     
     group1 = [Zombie1, Zombie2, Zombie3, Zombie4, Zombie5, Zombie6, Zombie7, Zombie8, Zombie9]
-    group2 = [Crow1, Crow2, Crow3, Dog1, Dog2]
+    group2 = [Crow1, Crow2, Vulture, Dog1, Dog2]
 
     Dagger = {"name": "Dagger", "twoHanded": False, "modifier": 0, "dmgTypes": ["Pierce"], "reach": 1}
     FishSpear = {"name": "Fishing Spear", "twoHanded": True, "modifier": 0, "dmgTypes": ["Pierce"], "reach": 2}

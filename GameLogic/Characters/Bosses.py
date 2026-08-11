@@ -32,12 +32,13 @@ class lich:
         element = "Rot"
         common = setCommon(element)
 
-        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        stats, cndt, type, rank = common[0], common[1], "human", common[3]
         cndt["massive"], cndt["sapient"] = False, True
         stats["avoidance"] = "min"
 
         dice = {"martial": 0, "magic": 5}
         abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Bring"], "boons": ["Wreath"], "hindrances": ["Seal"]})
+        abl["mastery"] = ["Wreath"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Lich", rank, stats, type)
@@ -46,12 +47,13 @@ class vampire:
     def __init__(self) -> None:
         element = "Rot"
         common = setCommon(element)
-        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        stats, cndt, type, rank = common[0], common[1], "human", common[3]
         cndt["massive"], cndt["sapient"] = False, True
         stats["avoidance"], stats["speed"] = "mid", "max"
 
         dice = {"martial": 3, "magic": 2}
         abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Drain", "Stun"]})
+        abl["mastery"] = ["Drain"]
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Vampire", rank, stats, type)

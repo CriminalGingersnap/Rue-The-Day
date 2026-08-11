@@ -8,7 +8,8 @@ def roll(fighter, target, dice, ability, dType) -> int:
     if dice > 0: total = castDice(dice)
     if fighter != None:
         distancePenalty = Movement.getTargetDistance(fighter, target) // 2
-        total += mods(fighter, distancePenalty, ability, dType)
+        favoredType = fighter.props["favored"] == target.props["type"]
+        total += mods(fighter, distancePenalty, favoredType, ability, dType)
     
     Select.quickPrint("Total: ", '')
     time.sleep(Select.longWait * 2)
@@ -17,12 +18,16 @@ def roll(fighter, target, dice, ability, dType) -> int:
     return total
 
 
-def mods(fighter, distancePenalty, ability, dType) -> int:
+def mods(fighter, distancePenalty, favoredType, ability, dType) -> int:
     phrase, mod = " | ", 0
 
     if distancePenalty > 0:
         mod -= distancePenalty
         phrase += "-" + str(distancePenalty) + " (Distance) | "
+
+    if favoredType:
+        mod += 1
+        phrase += "+1 (Favored) | "
 
     if ability in fighter.abl["specialty"]:
         mod += 1

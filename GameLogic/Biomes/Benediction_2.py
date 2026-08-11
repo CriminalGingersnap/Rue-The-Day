@@ -11,7 +11,7 @@ def depthsEncounters(roll, budget) -> list:
         case 4: members = RandomCreatures.creatures("turtle", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("crab", element, majorBiome, budget)
         case 6: members = RandomCreatures.creatures("leech", "Toxic", majorBiome, budget)
-        case 7: members = RandomCreatures.creatures("hawk", element, majorBiome, budget)
+        case 7: members = RandomCreatures.creatures("hawk", "Ice", majorBiome, budget)
         case 8: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
         case 9: members = RandomCreatures.creatures("tortoise", element, majorBiome, budget)
         case 10: members = RandomCreatures.creatures("bat", element, majorBiome, budget)

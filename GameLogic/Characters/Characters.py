@@ -12,9 +12,16 @@ class character:
 
         self.equip = Equipment.setEquipment(abl["attacks"], cndt, elm, job, rank, abl["specialty"] + abl["mastery"], type)
         self.inv = Inventory.setInventory(elm, self.atrb["base_hp"], job, rank, type)
-        
+
+        favored = ""
+        if type in ["elemental", "totem"]: favored = "human"
+        else:
+            types = ["beast", "bird", "insect", "invertebrate", "reptile"]
+            if cndt["sapient"]: types += ["elemental", "human", "totem"]
+            favored = random.choice(types)
+
         name = rank + " " + job + "(" + elm + ")"
-        self.props = {"initials": "", "job": job, "name": name, "rank": rank, "type": type}
+        self.props = {"favored": favored, "initials": "", "job": job, "name": name, "rank": rank, "type": type}
 
         self.attackQueue, self.pos = [], []
         self.sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -30,7 +37,6 @@ def setAbilities(type, additions) -> dict:
 
     abilityList = abilities["areas"] + abilities["attacks"] + abilities["boons"] + abilities["hindrances"]
     if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]
-    elif type == "elemental": abilities["mastery"] = [random.choice(abilityList)]
 
     return abilities
 

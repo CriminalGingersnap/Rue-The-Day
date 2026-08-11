@@ -79,9 +79,9 @@ scenes = {"Leviathan": [
     ["", ""],
     ["> ", "His order's library had a dusty, crumbling map of this region, which he studied before departing."],
     ["  ", "Reading it, he learned of a westerly feature called the 'Valley of Death.'"],
-    ["  ", "We're going there next, purely on the basis of its name."],
+    ["  ", "He's going there next, purely on the basis of its name."],
     ["", ""],
-    ["> ", "Joy."]
+    ["> ", "I suppose we're going with him."]
 ], "Ally": [
     ["> ", "We found a greater spinx standing on cliff-side."],
     ["  ", "It was looking away from us, 'staring' down into a blighted gorge which we presume to be the Valley of Death."],
@@ -139,13 +139,16 @@ scenes = {"Leviathan": [
     ["> ", "We didn't hear about this sooner because Fadia had worried we'd turn on her,"],
     ["  ", " and we couldn't have reached the mountain anyway."],
     ["  ", "She hopes she's proven her commitment by now."],
-    ["  ", "I'm not sure either way, but Akeem's willing to let it drop."],
+    ["  ", "Akeem was willing to let it drop if she told us what she wanted from the vampire."],
+    ["  ", "She refused, then promised that she isn't seeking his help any more."],
+    ["  ", "We're apparently just going to live with that."],
     ["", ""],
     ["> ", "Secrets aside, the question of how we cross the bay still remains."],
     ["  ", "Akeem's maps showed him a 'narrow' straight to our south. Only a few miles from beach to beach."],
     ["  ", "I'm confident I can build a raft fit to float that distance in calm weather."],
     ["  ", "Fadia claims she can hide us from predators. Akeem offered to pray the whole way."],
-    ["  ", "I don't love our odds, but those are terrible regardless."],
+    ["", ""],
+    ["> ", "I don't love our odds, but those are terrible regardless."],
     ["  ", "Onwards we go."],
 ], "Dragon": [
     ["> ", "We were fools to venture so deeply into this marsh."],
@@ -156,8 +159,16 @@ scenes = {"Leviathan": [
     ["  ", "Fadia thinks the creature was merely curious. Akeem agreed with me that its coming was a message."],
     ["  ", "Both acknowledged that staying here would be the death of us. We're turning back."]
 ], "Finale": [
-    ["> ", ""]
+    ["> ", "We see a manor at the mountaintop. Our final objective."],
+    ["  ", "With the vampire's lair in sight, Akeem finally pressed the issue of Fadia's purpose in coming here."],
+    ["  ", "To my surprise, she confessed it."],
+    ["", ""],
+    ["", ""]
 ], "Post Finale": [
+    ["> ", "Vengeance is delivered."],
+    ["  ", "Hopefully the people of that rotted town will find their way to restful slumber."],
+    ["  ", "I'm not going back to check."],
+    ["", ""],
     ["> ", "The vampire kept a journal like me."],
     ["  ", "His entires go back centuries, though it's clear he was often unsure of the actual date. Even to the decade."],
     ["  ", "I skipped to the final sections to see if I could piece together what happened between him and that town."],
