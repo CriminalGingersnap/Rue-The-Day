@@ -53,18 +53,19 @@ def mods(fighter, distancePenalty, favoredType, flanking, ability, dType) -> int
         phrase += "+2 (Mastery) | "
 
     if dType == "magic":
+        if fighter.atrb["corruption"] > 0:
+            if random.choice([True, False]):
+                mod += fighter.atrb["corruption"]
+                phrase += "+"
+            else:
+                mod -= fighter.atrb["corruption"]
+                phrase += "-"
+            phrase += str(fighter.atrb["corruption"]) + " (Corruption) | "
+
         weapon = fighter.equip["weapon"]["modifier"]        
         if weapon > 0:
             mod += weapon
             phrase += "+" + str(weapon) + " (Weapon) | "
-
-        if fighter.itemEffects["Imbue"]["duration"] > 0:
-            mod += fighter.itemEffects["Imbue"]["potency"]
-            phrase += "+" + str(fighter.itemEffects["Imbue"]["potency"]) + " (Imbue) | "
-
-    elif (dType == "martial") and (fighter.itemEffects["Invigorate"]["duration"] > 0):
-        mod += fighter.itemEffects["Invigorate"]["potency"]
-        phrase += "+" + str(fighter.itemEffects["Invigorate"]["potency"]) + " (Invigoration) | "
 
     if fighter.atrb["fatigue"] > 0:
         mod -= fighter.atrb["fatigue"]
@@ -72,15 +73,6 @@ def mods(fighter, distancePenalty, favoredType, flanking, ability, dType) -> int
     if fighter.atrb["injury"] > 0:
         mod -=  fighter.atrb["injury"]
         phrase += "-" + str(fighter.atrb["injury"]) + " (Injury) | "
-    
-    if fighter.atrb["corruption"] > 0:
-        if random.choice([True, False]):
-            mod += fighter.atrb["corruption"]
-            phrase += "+"
-        else:
-            mod -= fighter.atrb["corruption"]
-            phrase += "-"
-        phrase += str(fighter.atrb["corruption"]) + " (Corruption) | "
 
     if fighter.cndt["submerged"] and not fighter.cndt["aquatic"]:
         mod -= 3

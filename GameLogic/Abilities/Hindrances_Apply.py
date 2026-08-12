@@ -19,7 +19,7 @@ def applyCompel(target, ability) -> None:
 
 def resistCompulsion(attempt, target, ability) -> list:
     penalty = target.atrb["corruption"] + target.atrb["fatigue"]
-    threshold = max(1, ((3 * (target.atrb["base_mag"] + target.atrb["base_mar"])) - penalty))
+    threshold = max(1, (((3 * target.atrb["base_mag"]) + (2 * target.atrb["base_mar"])) - penalty))
 
     phrase = "Resistance Threshold: " + str(threshold) + " "
 

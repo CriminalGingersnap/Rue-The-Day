@@ -12,10 +12,8 @@ def itemAction(fighter, groups, battleMap, selection) -> None:
             selection = pcSelectItem(fighter.props["job"], inventory)
 
     if selection != "None":
-        category, item, application = selection[0], selection[1], selection[2],
-
-        if category == "echo": fighter.inv["echo"] = "None"
-        elif category != "standard": fighter.inv[category][item] -= 1
+        category, item, application = selection[0], selection[1], selection[2]
+        if category not in ["echo", "standard"]: fighter.inv[category][item] -= 1
 
         target = getTarget(fighter, groups, application)
         Use.execute(target, category, item, application, groups, battleMap)

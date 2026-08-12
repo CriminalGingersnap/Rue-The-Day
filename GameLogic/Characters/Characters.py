@@ -33,7 +33,7 @@ def setAbilities(type, additions) -> dict:
     abilities = {"areas": [], "attacks": [], "boons": [], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
     
     abilities.update(additions)
-    if type == "human": abilities["areas"] += ["Inventory -> Access"]
+    if type == "human": abilities["areas"] += ["Inventory"]
 
     abilityList = abilities["areas"] + abilities["attacks"] + abilities["boons"] + abilities["hindrances"]
     if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]

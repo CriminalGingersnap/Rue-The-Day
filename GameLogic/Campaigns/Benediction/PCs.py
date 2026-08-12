@@ -6,15 +6,13 @@ from Systems import Equipment
 def resetPlayer(player) -> None:
     player.atrb["corruption"], player.atrb["fatigue"], player.atrb["injury"] = 0, 0, 0
     player.props["rank"] = "player"
-    if "echo" in player.inv: player.inv["echo"] = "None"
 
     player.atrb["cur_av"] = player.atrb["base_av"]
     player.atrb["cur_sp"] = player.atrb["base_sp"]
 
     player.atrb["cur_hp"] = player.atrb["base_hp"]
-    halfHealth, quarterHealth = player.atrb["base_hp"] // 2, player.atrb["base_hp"] // 4
-    player.atrb["half_hp"], player.atrb["quart_hp"] = halfHealth, quarterHealth
-    player.atrb["endurance"] = player.atrb["stamina"] = player.atrb["tolerance"] = halfHealth
+    player.atrb["quart_hp"] = player.atrb["base_hp"] // 4
+    player.atrb["half_hp"] = player.atrb["endurance"] = player.atrb["stamina"] = player.atrb["tolerance"] = player.atrb["base_hp"] // 2
 
     player.equip = Equipment.setEquipment(player.abl["attacks"], player.cndt, player.atrb["base_elm"], player.props["job"],
                                            player.props["rank"], player.abl["specialty"] + player.abl["mastery"], "human")

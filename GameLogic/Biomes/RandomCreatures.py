@@ -14,8 +14,8 @@ def creatures(creatureType, element, majorBiome, diceBudget) -> list:
     beastList, firstCreature = [], True
 
     if creatureType == "random":
-        if diceBudget == 2: creatureType = random.choice([oneDie_Vrt])
-        elif diceBudget > 2: creatureType = random.choice([twoDice_Vrt])
+        if diceBudget == 2: creatureType = random.choice(oneDie_Vrt)
+        elif diceBudget > 2: creatureType = random.choice(twoDice_Vrt)
         if creatureType in ["lizard", "wyrm"]: element == "Toxic"
 
     while diceBudget > 0:

@@ -43,10 +43,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
         return [True, downedTargets]
     elif (not npcGroup) and (len(validTargets) == len(pacifistTargets)):
         Select.waitPrint("Remaining enemies will allow combat to end.")
-        disengage = Select.yesNo("Disengage?")
-        if disengage: return  [True, downedTargets]
+        if Select.yesNo("Disengage?"): return  [True, downedTargets]
     
-    elif len(validFighters) > 0:
+    if len(validFighters) > 0:
         for fighter in validFighters: Phases.resetFighter(fighter)
 
         friends, foes = validFighters, validTargets

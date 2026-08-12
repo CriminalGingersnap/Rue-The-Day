@@ -27,7 +27,8 @@ def decrementTolerance(fighter, potency) -> None:
 
 def recoverHP(principal, points):
     if points > 0:
-        principal.atrb["cur_hp"] = min(principal.atrb["base_hp"], principal.atrb["cur_hp"] + points)
+        cap = principal.atrb["base_hp"] + principal.atrb["half_hp"]
+        principal.atrb["cur_hp"] = min(cap, principal.atrb["cur_hp"] + points)
         Select.waitPrint(principal.props["name"] + " receives " + str(points) + " of healing.\n")
 
 def recoverStamina(principal, points):

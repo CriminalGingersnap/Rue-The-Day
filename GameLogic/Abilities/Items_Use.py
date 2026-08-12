@@ -36,6 +36,7 @@ def animate(fighter, groups, battleMap) -> None:
         echo.itemEffects["Animate"]["duration"] = 3
         echo.sightMap + Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
         uMap.updatePlacement(battleMap, echo.sightMap, tossSpace[0], tossSpace[1], echo)
+        fighter.inv["echo"] = "None"
 
 
 def plant(fighter, groups, battleMap) -> None:
@@ -78,11 +79,11 @@ def imbue(fighter, category, element, battleMap) -> None:
     fighter.itemEffects["Imbue"]["duration"] = 3
     fighter.itemEffects["Imbue"]["additional"] = element
 
-    atmosphere = Apply.getAtmosphere(1, dmgType)
+    atmosphere = Apply.getAtmosphere(1, element)
     battleMap[fighter.pos[0]][fighter.pos[1]] = atmosphere + battleMap[fighter.pos[0]][fighter.pos[1]][1:]
 
 
-def regenerate(fighter) -> None:
+def invigorate(fighter) -> None:
     healing, potency = 0, fighter.itemEffects["Invigorate"]["potency"]
 
     if healing > 0:
@@ -94,6 +95,7 @@ def regenerate(fighter) -> None:
 
         Select.waitPrint("Blood essence activates!")
         Conditions.recoverHP(fighter, healing)
+        Conditions.recoverStamina(fighter, healing)
 
 
 def updateEffect(fighter, effect, category, battleMap) -> None:
@@ -108,5 +110,7 @@ def updateEffect(fighter, effect, category, battleMap) -> None:
         fighter.itemEffects[effect]["potency"] = min(fighter.itemEffects[effect]["potency"] + potency, 4)
 
     atmosphere = "="
-    if effect == "Obscure": atmosphere = "@"
+    match effect:
+        case "Invigorate": atmosphere = ";"
+        case "Obscure": atmosphere = "@"
     battleMap[fighter.pos[0]][fighter.pos[1]] = atmosphere + battleMap[fighter.pos[0]][fighter.pos[1]][1:]

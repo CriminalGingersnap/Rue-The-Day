@@ -93,9 +93,8 @@ def beastInventory(hp, element, rank, type) -> dict:
 
     if element == "Rot":
         match hp:
-            case "mid": vitaVolume = 1
-            case "high": vitaVolume = 2
-            case "max": vitaVolume = 3      
+            case "high": vitaVolume = 1
+            case "max": vitaVolume = 2
     elif type in ["insect", "invertebrate"]:
         match hp:
             case "low": vitaVolume = 1

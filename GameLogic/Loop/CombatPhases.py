@@ -30,8 +30,6 @@ def resetFighter(fighter) -> None:
     if fighter.props["type"] == "human":
         speedLoss = getSpeedLoss(fighter) - 2
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
-        if fighter.itemEffects["Invigorate"]["duration"] > 0 and not fighter.cndt["planted"]:
-            fighter.atrb["cur_sp"] += 1
 
     match fighter.atrb["injury"]:
         case 1: fighter.atrb["cur_sp"] -= fighter.atrb["cur_sp"] // 4
@@ -60,7 +58,7 @@ def setSight(fighter, enemies, allies, battleMap, print):
 def outro(fighter):
     Boons.applyHeal(fighter)
     Hindrances.applyDrain(fighter)
-    Items.regenerate(fighter)
+    Items.invigorate(fighter)
     alive = Sort.setAlive(fighter)
 
     if alive:
@@ -87,3 +85,5 @@ def abilityStage(fighter, enemies, allies) -> None:
         if fighter.cndt["blitzing"] and ((fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0)):
             fighter.cndt["blitzing"] = False
             abilityStage(fighter, enemies, allies)
+    else:
+        Select.waitPrint("No ability options.")
