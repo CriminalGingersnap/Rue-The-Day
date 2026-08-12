@@ -3,12 +3,14 @@ from . import RandomCreatures as Creatures
 import random
 
 
-def elementals(type, element, majorBiome, diceBudget):
-    elementalList, rankOptions = [], getElementalRankOptions(majorBiome)
+def elementals(elementalType, element, majorBiome, diceBudget):
+    elementalList, firstElemental = [], True
 
     while diceBudget > 0:
-        rankChoice, elemental = random.choice(rankOptions), None
-        match type:
+        rankOptions = getElementalRankOptions(majorBiome, diceBudget, elementalType, firstElemental)
+        rankChoice, elemental, elementalType = random.choice(rankOptions[0]), None, rankOptions[1]
+
+        match elementalType:
             case "dancer": elemental = Elementals.dancer(element, rankChoice).ch
             case "hulk": elemental = Elementals.hulk(element, rankChoice).ch
             case "wraith": elemental = Elementals.wraith(element, rankChoice).ch
@@ -34,7 +36,16 @@ def elementals(type, element, majorBiome, diceBudget):
 
     return elementalList
 
-def getElementalRankOptions(majorBiome):
-    rankOptions = ["Lesser"]
-    if majorBiome: rankOptions += ["Greater"]
-    return rankOptions
+def getElementalRankOptions(majorBiome, diceBudget, elementalType, firstElemental):
+    rankOptions = []
+
+    if diceBudget > 2: rankOptions += ["Lesser"]
+    if (diceBudget > 4) and majorBiome: rankOptions += ["Greater"]
+
+    if len(rankOptions) == 0:
+        if firstElemental:
+            firstElemental = False
+            rankOptions += ["Lesser"]
+        else: elementalType, rankOptions = "wisp", ["Lesser"]
+
+    return [rankOptions, elementalType]

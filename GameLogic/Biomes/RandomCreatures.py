@@ -2,19 +2,27 @@ from Characters import AggressiveBeasts, AvoidantBeasts, Birds, Invertebrates, I
 import random
 
 
-def creatures(type, element, majorBiome, diceBudget) -> list:
-    beastList, rankOptions = [], getAnimalRankOptions(majorBiome)
+oneDie_Vrt = ["bat", "crow", "deer", "ferret", "hawk", "hound", "lizard", "seal", "sheep", "vulture"]
+oneDie_Inv = ["ant", "hornet", "leech", "mussel", "urchin", "worm"]
+twoDice_Vrt = ["camel", "eagle", "mole", "moose", "ostrich", "tortoise", "turtle", "wyrm"]
+twoDice_Inv = ["beetle", "centipede", "crab", "isopod", "octopus"]
+threeDice_Vrt = ["bear", "crocodile", "drake", "hydra", "lion", "terror bird"]
+threeDice_Inv = ["anemone", "spider"]
 
-    if type == "random":
-        if diceBudget == 2: type = random.choice(["crow", "deer", "ferret", "hawk", "hound", "lizard", "seal", "sheep", "tortoise"])
-        else: type = random.choice(["bear", "camel", "crocodile", "eagle", "lion", "moose", "ostrich", "turtle", "wyrm"])
 
-        if type == "wyrm": element = "Toxic"
-        rankOptions = ["Adult"]
+def creatures(creatureType, element, majorBiome, diceBudget) -> list:
+    beastList, firstCreature = [], True
+
+    if creatureType == "random":
+        if diceBudget == 2: creatureType = random.choice([oneDie_Vrt])
+        elif diceBudget > 2: creatureType = random.choice([twoDice_Vrt])
+        if creatureType in ["lizard", "wyrm"]: element == "Toxic"
 
     while diceBudget > 0:
-        rankChoice, beast = random.choice(rankOptions), None
-        match type:
+        rankOptions = getAnimalRankOptions(majorBiome, diceBudget, creatureType, firstCreature)
+        rankChoice, beast, creatureType = random.choice(rankOptions[0]), None, rankOptions[1]
+
+        match creatureType:
             case "bear": beast = AggressiveBeasts.bear(element, rankChoice).ch      
             case "ferret": beast = AggressiveBeasts.ferret(element, rankChoice).ch
             case "hound": beast = AggressiveBeasts.hound(element, rankChoice).ch
@@ -32,6 +40,8 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
             case "eagle": beast = Birds.eagle(element, rankChoice).ch
             case "hawk": beast = Birds.hawk(element, rankChoice).ch
             case "ostrich": beast = Birds.ostrich(element, rankChoice).ch
+            case "terror bird": beast = Birds.terrorBird(element, rankChoice).ch
+            case "vulture": beast = Birds.vulture(element, rankChoice).ch
 
             case "crocodile": beast = Reptiles.crocodile(element, rankChoice).ch
             case "drake": beast = Reptiles.drake(element, rankChoice).ch
@@ -46,7 +56,9 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
             case "centipede": beast = Insects.centipede(element, rankChoice).ch
             case "hornet": beast = Insects.hornet(element, rankChoice).ch
             case "isopod": beast = Insects.isopod(element, rankChoice).ch
+            case "spider": beast = Insects.spider(element, rankChoice).ch
 
+            case "anemone": beast = Invertebrates.anemone(element, rankChoice).ch
             case "crab": beast = Invertebrates.crab(element, rankChoice).ch
             case "leech": beast = Invertebrates.leech(element, rankChoice).ch
             case "mussel": beast = Invertebrates.mussel(element, rankChoice).ch
@@ -60,7 +72,42 @@ def creatures(type, element, majorBiome, diceBudget) -> list:
     return beastList
 
 
-def getAnimalRankOptions(majorBiome):
-    rankOptions = ["Juvenile", "Adult"]
-    if majorBiome: rankOptions += ["Elder"]
-    return rankOptions
+def getAnimalRankOptions(majorBiome, diceBudget, creatureType, firstCreature):
+    rankOptions = []
+
+    if creatureType in oneDie_Inv:
+        rankOptions += ["Small"]
+        if diceBudget > 1: rankOptions += ["Large"]
+    elif creatureType in twoDice_Inv:
+        if diceBudget > 1: rankOptions += ["Small"]
+        if diceBudget > 2: rankOptions += ["Large"]
+    elif creatureType in threeDice_Inv:
+        if diceBudget > 2: rankOptions += ["Small"]
+        if diceBudget > 3: rankOptions += ["Large"]
+    
+    elif creatureType in oneDie_Vrt:
+        rankOptions += ["Juvenile"]
+        if diceBudget > 1: rankOptions += ["Adult"]
+        if majorBiome and (diceBudget > 2): rankOptions += ["Elder"]
+    elif creatureType in twoDice_Vrt:
+        if diceBudget > 1: rankOptions += ["Juvenile"]
+        if diceBudget > 2: rankOptions += ["Adult"]
+        if majorBiome and (diceBudget > 3): rankOptions += ["Elder"]
+    elif creatureType in threeDice_Vrt:        
+        if diceBudget > 2: rankOptions += ["Juvenile"]
+        if diceBudget > 3: rankOptions += ["Adult"]
+        if majorBiome and (diceBudget > 4): rankOptions += ["Elder"]
+
+    if len(rankOptions) == 0:
+        if firstCreature:
+            firstCreature = False
+            if creatureType in twoDice_Vrt + threeDice_Vrt: rankOptions += ["Juvenile"]
+            elif creatureType in twoDice_Inv + threeDice_Inv: rankOptions += ["Small"]
+        else:
+            if creatureType in ["anemone", "crab", "isopod", "octopus"]: creatureType, rankOptions = "urchin", ["Small"]
+            elif creatureType in ["beetle", "centipede", "drake", "spider"]: creatureType, rankOptions = "lizard", ["Juvenile"]
+            elif creatureType in ["camel", "lion", "ostrich"]: creatureType, rankOptions = "vulture", ["Juvenile"]
+            elif creatureType in ["crocodile", "hydra", "tortoise", "turtle", "wyrm"]: creatureType, rankOptions = "hawk", ["Juvenile"]
+            elif creatureType in ["bear", "eagle", "mole", "moose", "terror bird"]: creatureType, rankOptions = "crow", ["Juvenile"]
+
+    return [rankOptions, creatureType]

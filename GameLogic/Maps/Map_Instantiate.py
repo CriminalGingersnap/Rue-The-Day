@@ -60,7 +60,7 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
 
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, mapConditions["slope"])
-    updateFighterHeight(playerGroup + enemyGroups, battleMap)
+    updateFighterHeight(playerGroup + enemyGroups[0] + enemyGroups[1], battleMap)
 
     return battleMap
 

@@ -1,18 +1,19 @@
-from Characters import AggressiveBeasts, Humans, Totems
+from Characters import AggressiveBeasts, Birds, Humans, Totems
 import random
 
 
 def warriors(warriorType, element, majorBiome, diceBudget) -> list:
     warriorList = []
-    outlawRankOptions, soldierRankOptions = ["Novice", "Proficient", "Adept"], ["Proficient", "Adept", "Elite"]
-    outlawJobOptions, soldierJobOptions = ["archer", "brute", "witch"], ["archer", "knight", "mage"]
 
     if majorBiome:
         outlawRankOptions += ["Elite"]
         soldierRankOptions += ["Master"]
 
     if diceBudget > 4:
-        beast = AggressiveBeasts.hound(element, random.choice(["Adult", "Juvenile"])).ch
+        beast = None
+        match random.choice["hawk", "hound"]:
+            case "hawk": beast = Birds.hawk(element, random.choice(["Adult", "Juvenile"])).ch
+            case "hound": beast = AggressiveBeasts.hound(element, random.choice(["Adult", "Juvenile"])).ch
         diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])
         warriorList += [beast]
 
@@ -29,18 +30,32 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
         diceBudget -= totem.atrb["base_mag"]
         warriorList += [totem]
 
+    outlawJobOptions, soldierJobOptions = ["archer", "brute", "witch"], ["archer", "knight", "mage"]
+
     while diceBudget > 0:
         warrior, type, rank = None, "", ""
-        if warriorType == "Outlaw":
-            rank = random.choice(outlawRankOptions)
-            type = random.choice(outlawJobOptions)
-        else:
-            rank = random.choice(soldierRankOptions)
-            type = random.choice(soldierJobOptions)
 
-        warrior = randomHuman(rank, type, element)
-        diceBudget -= (warrior.atrb["base_mag"] + warrior.atrb["base_mar"])
-        warriorList += [warrior]
+        rankOptions = []
+        if diceBudget > 1: rankOptions += ["Proficient", "Adept"]
+        if diceBudget > 2: rankOptions += ["Elite"]
+
+        match warriorType:
+            case "Outlaw":
+                rankOptions += ["Novice"]
+                type = random.choice(outlawJobOptions)
+            case "Soldier":
+                if diceBudget > 3: rankOptions += ["Master"]
+                type = random.choice(soldierJobOptions)
+
+        if len(rankOptions) > 0:
+            rank = random.choice(rankOptions)
+            warrior = randomHuman(rank, type, element)
+            diceBudget -= (warrior.atrb["base_mag"] + warrior.atrb["base_mar"])
+            warriorList += [warrior]
+        else:            
+            beast = AggressiveBeasts.hound(element, "Juvenile").ch
+            diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])
+            warriorList += [beast]
         
     return warriorList
 

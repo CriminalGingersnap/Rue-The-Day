@@ -189,10 +189,8 @@ def adjustEnvironment(battleMap, environment):
                     if "/" not in battleMap[row][column]:
                         flood(battleMap, row, column, 1)
                         if battleMap[row][column][0] == "_":
-                            if down in battleMap[row][column]:
+                            if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
                                 battleMap[row][column] = "=" + battleMap[row][column][1:]
-                            if middle in battleMap[row][column]:
-                                battleMap[row][column] = "-" + battleMap[row][column][1:]
                     
         case "Diamonds":
             for row in range(12):
@@ -201,7 +199,7 @@ def adjustEnvironment(battleMap, environment):
                         if any(downer in battleMap[row][column] for downer in [doubleDown, down]):
                             battleMap[row][column] = "-" + battleMap[row][column][1:]
                     elif battleMap[row][column][0] in ["-", "="]:
-                        if any(upper in battleMap[row][column] for upper in [middle, up]):
+                        if any(upper in battleMap[row][column] for upper in [up, doubleUp]):
                             battleMap[row][column] = "_" + battleMap[row][column][1:]
 
 

@@ -5,7 +5,7 @@ import random
 
 majorHazards =     ["B", "C", "D", "F", "H", "I", "P", "R", "T"]
 minorHazards =     ["b", "c", "d", "f", "h", "i", "p", "r", "t"]
-lingeringHazards = [          "@", "#", "+", "%",      "}", "&"]
+lingeringHazards = [";",       "@", "#", "+", "%",      "}", "&"]
 hazards = majorHazards + minorHazards
 
 
@@ -75,7 +75,7 @@ def hideTraps(fighter, sightMap):
 
 def identifyAtmosphere(atmosphere) -> str:
     dmgType = "None"
-    if atmosphere in ["b", "B"]: dmgType = "Bleed"
+    if atmosphere in ["b", "B", ";"]: dmgType = "Bleed"
     if atmosphere in ["c", "C"]: dmgType = "Crush"
     elif atmosphere in ["d", "D", "@"]: dmgType = "Dream"
     if atmosphere in ["f", "F", "#"]: dmgType = "Flame"

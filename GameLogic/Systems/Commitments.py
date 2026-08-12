@@ -32,7 +32,7 @@ def clearCommitments(fighter):
 
 def removeCommitment(fighter, target, commitment):
     if (fighter != target) and (commitment not in ["Drain", "Fortify", "Heal", "Rally"]):
-        Select.waitPrint("Commitment " + fighter.commits[commitment]["ability"] + " terminated by " + fighter.props["name"] + ".")
+        Select.waitPrint("Commitment " + commitment + " terminated by " + fighter.props["name"] + ".")
     
     Effects.removeEffect(target, commitment)
     fighter.commits[commitment] = {"targets": [], "additional": None}

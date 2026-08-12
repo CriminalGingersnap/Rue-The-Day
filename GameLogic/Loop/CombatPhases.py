@@ -68,12 +68,6 @@ def outro(fighter):
         Boons.applyRally(fighter)
         Boons.applyVeil(fighter)
 
-        intensity = max(0, (fighter.atrb["base_mag"] - fighter.atrb["cur_mag"]) + (fighter.atrb["base_mar"] - fighter.atrb["cur_mar"]))
-        if fighter.cndt["running"]:
-            fighter.cndt["running"] = False
-            intensity += 1
-        Conditions.decrementStamina(fighter, intensity)
-
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:
     if (fighter.atrb["cur_sp"] > 0) or ((fighter.atrb["base_mag"] > 1) or (fighter.atrb["base_mar"] > 1)):
@@ -86,7 +80,7 @@ def abilityStage(fighter, enemies, allies) -> None:
     reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
 
     if fighter.cndt["reposed"]: Select.waitPrint(fighter.props["name"] + " waits in repose.")
-    elif len(fightingEnemies) > 0:
+    elif (len(fightingEnemies) > 0) and ((fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0)):
         if fighter.props["rank"] == "player": PlayerAbl.playerAction(fighter, reachable)
         else: NPCAbl.npcAction(fighter, groups)
 
