@@ -2,9 +2,10 @@
 from Systems import PlayerSelect as Select
 from . import Attacks_Martial as Martial, Boons_Set as Boons
 from Actions import ItemActions
+from Maps import Map_Print as Print
 
 
-stationaryAbilities = ["Evade", "Examine", "Inventory", "Swap Shield", "Swap Weapon"]
+stationaryAbilities = ["Evade", "Examine", "Inventory -> Access", "Inventory -> Rummage", "Swap Shield", "Swap Weapon"]
 
 
 def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None: 
@@ -15,15 +16,19 @@ def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None:
         case "Evade":
             trueBoon = Boons.boonComment(fighter, fighter, ability)
             Boons.setBoon(fighter, fighter, 1, ability, trueBoon)
-        case "Examine": applyExamine(visibleTargets)
-        case "Inventory": ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
+        case "Examine": applyExamine(visibleTargets, battleMap)
+        case "Inventory -> Access": ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
+        case "Inventory -> Rummage":
+            ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
+            ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
+            fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = 0, 0
         case "Swap Shield": ItemActions.swapShield(fighter)
         case "Swap Weapon": ItemActions.swapWeapon(fighter)
 
     fighter.atrb["cur_sp"] = 0
 
 
-def applyExamine(visibleTargets) -> None:
+def applyExamine(visibleTargets, battleMap) -> None:
     examinee = Select.targetSelect(visibleTargets)
 
     if examinee != "None":
@@ -90,5 +95,8 @@ def applyExamine(visibleTargets) -> None:
             if examinee.cndt[condition] == True:
                 Select.quickPrint(condition, ending = " | ")
 
-        input("\n\nPress Enter to continue")
+        if Select.yesNo("View " + examinee.props["name"] + "'s sight map?"):
+            Print.printSightMap(battleMap, examinee.sightMap, examinee.props["name"] + "'s Sight Map")
+            input("\n\nPress Enter to continue")
+
         Select.waitPrint("")

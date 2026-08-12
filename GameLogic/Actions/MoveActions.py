@@ -10,7 +10,7 @@ def moveAction(fighter, groups, battleMap) -> None:
 
     if fighter.atrb["cur_sp"] > 0: posOptions += ["Evade"]
 
-    if ("Inventory" in posOptions) and not ItemActions.hasItems(fighter): posOptions.remove("Inventory")
+    if ("Inventory -> Access" in posOptions) and not ItemActions.hasItems(fighter): posOptions.remove("Inventory -> Access")
     if "spares" in fighter.inv:
         if (fighter.inv["spares"]["weapon"]["name"] != "None"): posOptions += ["Swap Weapon"]
         if (fighter.inv["spares"]["shield"]["name"] != "None"): posOptions += ["Swap Shield"]
@@ -22,6 +22,9 @@ def moveAction(fighter, groups, battleMap) -> None:
         else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
 
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Blitz", "Move"]
+        if ("Inventory -> Access" in posOptions) and (ItemActions.getInventory(fighter)["Total"] > 1):
+            posOptions += ["Inventory -> Rummage"]
+
         posOptions.sort()
         movePlayer(fighter, groups, posOptions, battleMap)
 
@@ -64,11 +67,11 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
 
     if stationary:
         itemSelection = "None"
-        if "Inventory" in posOptions:
+        if "Inventory -> Access" in posOptions:
             inventory = ItemActions.getInventory(fighter)
             del inventory["Total"]
             itemSelection = ItemActions_NPC.npcSelectItem(fighter, groups, inventory)
-            if itemSelection == "None": posOptions.remove("Inventory")
+            if itemSelection == "None": posOptions.remove("Inventory -> Access")
 
         if len(posOptions) == 0:
             Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")

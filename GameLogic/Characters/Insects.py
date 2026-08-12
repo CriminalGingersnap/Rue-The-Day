@@ -78,3 +78,16 @@ class isopod:
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Isopod", rank, stats, type)
+
+class spider:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["massive"], cndt["reposed"] = True, True
+        stats["hp"]= "max"
+
+        dice = {"martial": 3, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Drain"]})
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Spider", rank, stats, type)

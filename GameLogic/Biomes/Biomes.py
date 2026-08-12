@@ -38,7 +38,7 @@ def setFoes(biome, budgets, luckCard) -> list:
             case "Marshland": members = Avarice_2.marshEncounters(roll, budget)
             case "Outlaw Camp": members = Avarice_2.strongholdEncounters(roll, rollNum, "Camp", budget)
             case "Outlaw Range": members = Avarice_2.strongholdEncounters(roll, rollNum, "Range", budget)
-            case "Unsettled Lands": members = Avarice_2.unsettledEncounters(roll, budget)
+            case "Borderland Forrest": members = Avarice_2.forestEncounters(roll, budget)
 
             case "Dream Sea-Cave": members = Benediction_1.seaCaveEncounters(roll, budget)
             case "Holy Scrubland": members = Benediction_1.scrublandEncounters(roll, budget)

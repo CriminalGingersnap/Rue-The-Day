@@ -9,6 +9,19 @@ def setCommon(element, rank) -> list:
     return common
 
 
+class anemone:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["massive"], cndt["planted"] = True, True
+        stats["hp"], stats["speed"] = "max", "min"
+
+        dice = {"martial": 2, "magic": 1}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "areas": ["Shroud"], "hindrances": ["Bind"]})
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Anemone", rank, stats, type)
+
 class crab:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)

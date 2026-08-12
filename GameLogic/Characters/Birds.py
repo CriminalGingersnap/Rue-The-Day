@@ -74,6 +74,21 @@ class ostrich:
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ostrich", rank, stats, type)
 
+class terrorBird:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["winged"] = False
+        stats["hp"] = "high"
+
+        dice = {"martial": 3, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(type, {"attacks": ["Kick", "Peck"]})
+        if rank == "Elder": abl["areas"] += ["Slip"]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Terror Bird", rank, stats, type)
+
 class vulture:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)

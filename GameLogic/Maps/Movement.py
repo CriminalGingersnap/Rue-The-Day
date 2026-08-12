@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select
+from Systems import PlayerSelect as Select, Conditions
 from . import Map_Update as uMap, MovementOptions as mOpts, Map_Print as Print, Map_Instantiate as iMap
 import random
 
@@ -21,8 +21,9 @@ def moveFighter(fighter, battleMap, target, mapHeight=12, mapName="") -> None:
         uMap.updatePlacement(battleMap, fighter.sightMap, row, column, fighter)
 
         stepCount = spaceOptions[moveChoice][3]
+        if stepCount > fighter.atrb["cur_sp"] // 2: Conditions.decrementStamina(fighter, 1)
         fighter.atrb["cur_sp"] -= stepCount
-        if stepCount > fighter.atrb["base_sp"] // 2: fighter.cndt["running"] = True
+
     elif not player: Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")
 
     else: stationary = True

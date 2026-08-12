@@ -25,7 +25,7 @@ class crocodile:
         cndt["aquatic"] = True
         stats["hp"], stats["speed"] = "max", "high"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
@@ -70,7 +70,7 @@ class lizard:
         cndt["armored"], cndt["skittish"] = False, True
         stats["speed"] = "high"
 
-        dice = {"martial": 1, "magic": 1}
+        dice = {"martial": 0, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})

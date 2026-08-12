@@ -20,7 +20,7 @@ class character:
             if cndt["sapient"]: types += ["elemental", "human", "totem"]
             favored = random.choice(types)
 
-        name = rank + " " + job
+        name = rank + " " + job + "(" + elm + ")"
         self.props = {"favored": favored, "initials": "", "job": job, "name": name, "rank": rank, "type": type}
 
         self.attackQueue, self.pos = [], []
@@ -33,7 +33,7 @@ def setAbilities(type, additions) -> dict:
     abilities = {"areas": [], "attacks": [], "boons": [], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
     
     abilities.update(additions)
-    if type == "human": abilities["areas"] += ["Inventory"]
+    if type == "human": abilities["areas"] += ["Inventory -> Access"]
 
     abilityList = abilities["areas"] + abilities["attacks"] + abilities["boons"] + abilities["hindrances"]
     if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]
@@ -74,10 +74,8 @@ def setTraits():
     conditions = {"armored": False, "aquatic": False, "blitzing": False,
                     "dead": False, "inviolable": False, "lifeless": False,
                      "massive": False, "planted": False,
-                      "reposed": False, "running": False,
-                       "skittish": False, "social": False,
-                        "sapient": False, "submerged": False,
-                         "winged": False}
+                      "reposed": False, "skittish": False, "social": False,
+                        "sapient": False, "submerged": False, "winged": False}
     
     resistances = {"Bleed": "normal", "Flame": "normal", "Crush": "normal",
                     "Dream": "normal", "Ice": "normal", "Holy": "immune",

@@ -7,7 +7,7 @@ def getAtmosphere(scale, dmgType) -> str:
     scale = min(scale, 3)
 
     match dmgType:
-        case "Bleed": big, little, lingering = "B", "b", "="
+        case "Bleed": big, little, lingering = "B", "b", ";"
         case "Crush": big, little = "C", "c"
         case "Dream": big, little, lingering = "D", "d", "@"
         case "Flame": big, little, lingering = "F", "f", "#"
