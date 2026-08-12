@@ -1,6 +1,6 @@
 from Systems import PlayerSelect as Select
-from Campaigns.Benediction import CustomMaps as B_Maps
-from Campaigns.Avarice import CustomMaps as A_Maps
+from Campaigns.Benediction import CustomMaps as B_Maps, Journal as B_Journal
+from Campaigns.Avarice import CustomMaps as A_Maps, Journal as A_Journal
 from Maps import Map_Instantiate as iMap
 from . import Encounters
 
@@ -98,3 +98,15 @@ def customLoop(playerGroup, biome, event) -> bool:
                 playerGroup["members"][1].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic"}
 
         return result or deathPermitted
+
+
+def readJournal(group, world) -> None:
+    if Select.yesNo("Reread prior journal entries?"):
+        entries = ["None"]
+        for eventOption in world.events:
+            if world.events[eventOption]["complete"]:
+                entries += [eventOption]
+                if "Post " + eventOption in A_Journal.scenes | B_Journal.scenes: entries += ["Post" + eventOption]
+
+        entry = Select.pickOption(entries, " journal entry")
+        if entry != "None": Select.readScene(entry, group["campaign"], True)

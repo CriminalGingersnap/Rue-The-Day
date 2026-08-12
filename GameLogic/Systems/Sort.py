@@ -43,17 +43,21 @@ def sortLiving(contingent, battleMap) -> list:
     return [fighting, downed, pacifist]
 
 
+def isVisible(fighter, sightMap) -> bool:
+    visible = False
+    for row in range(12):
+        for column in range(12):
+            if fighter.props["initials"] in sightMap[row][column]:
+                veiled = sightMap[row][column][0] in iMap.intStrings
+                if not veiled: visible = True
+                
+    return visible
+
 def sortVisible(contingent, sightMap) -> list:
     visible, invisible = [], []
-
     for fighter in contingent:
-        for row in range(12):
-            for column in range(12):
-                if fighter.props["initials"] in sightMap[row][column]:
-                    veiled = sightMap[row][column][0] in iMap.intStrings
-                    if not veiled: visible += [fighter]
-        
-        if fighter not in visible: invisible += [fighter]
+        if isVisible(fighter, sightMap): visible += [fighter]
+        else: invisible += [fighter]
     
     return [visible, invisible]
 

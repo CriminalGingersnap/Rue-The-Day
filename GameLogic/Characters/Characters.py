@@ -20,7 +20,7 @@ class character:
             if cndt["sapient"]: types += ["elemental", "human", "totem"]
             favored = random.choice(types)
 
-        name = rank + " " + job + "(" + elm + ")"
+        name = rank + " " + job
         self.props = {"favored": favored, "initials": "", "job": job, "name": name, "rank": rank, "type": type}
 
         self.attackQueue, self.pos = [], []

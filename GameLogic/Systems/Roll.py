@@ -1,6 +1,18 @@
-from . import PlayerSelect as Select
+from . import PlayerSelect as Select, Sort
 from Maps import Movement
 import random, time
+
+
+def getFlanking(fighter, target) -> bool:
+    flanking = not Sort.isVisible(fighter, target.sightMap)
+    if flanking:
+        if fighter.props["rank"] == target.props["rank"] == "player": flanking = False
+        else:
+            fighterTeam = fighter.sightMap[fighter.pos[0]][fighter.pos[1]][2]
+            targetTeam = target.sightMap[target.pos[0]][target.pos[1]][2]
+            if fighterTeam == targetTeam: flanking = False
+
+    return flanking
 
 
 def roll(fighter, target, dice, ability, dType) -> int:
@@ -8,8 +20,9 @@ def roll(fighter, target, dice, ability, dType) -> int:
     if dice > 0: total = castDice(dice)
     if fighter != None:
         distancePenalty = Movement.getTargetDistance(fighter, target) // 2
-        favoredType = fighter.props["favored"] == target.props["type"]
-        total += mods(fighter, distancePenalty, favoredType, ability, dType)
+        favoredType = (fighter.props["favored"] == target.props["type"]) and not (fighter == target)
+        flanking = getFlanking(fighter, target)
+        total += mods(fighter, distancePenalty, favoredType, flanking, ability, dType)
     
     Select.quickPrint("Total: ", '')
     time.sleep(Select.longWait * 2)
@@ -18,16 +31,18 @@ def roll(fighter, target, dice, ability, dType) -> int:
     return total
 
 
-def mods(fighter, distancePenalty, favoredType, ability, dType) -> int:
+def mods(fighter, distancePenalty, favoredType, flanking, ability, dType) -> int:
     phrase, mod = " | ", 0
 
     if distancePenalty > 0:
         mod -= distancePenalty
         phrase += "-" + str(distancePenalty) + " (Distance) | "
-
     if favoredType:
         mod += 1
         phrase += "+1 (Favored) | "
+    if flanking:
+        mod += 1
+        phrase += "+1 (Flanking) | "
 
     if ability in fighter.abl["specialty"]:
         mod += 1

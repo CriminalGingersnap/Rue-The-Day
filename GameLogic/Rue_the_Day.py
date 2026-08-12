@@ -21,7 +21,7 @@ def adventure(group):
         if world.events["Finale"]["location"] == marker.pos: break
 
         marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
-        Movement.moveFighter(marker, worldMap, None, None, 24, "world")
+        Movement.moveFighter(marker, worldMap, None, 24, "world")
         marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
         row, column = marker.pos[0], marker.pos[1]
@@ -35,7 +35,7 @@ def adventure(group):
             bespoke, event = False, None
             for eventOption in world.events:
                 eventRow, eventCol = world.events[eventOption]["location"][0], world.events[eventOption]["location"][1]
-                if (eventRow == marker.pos[0]) and (eventCol == marker.pos[1]):
+                if (eventRow == marker.pos[0]) and (eventCol == marker.pos[1]) and not (world.events[eventOption]["complete"]):
                     bespoke = True
                     event = eventOption
                     world.events[eventOption]["complete"] = True

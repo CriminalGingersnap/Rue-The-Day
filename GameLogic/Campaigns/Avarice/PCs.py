@@ -34,12 +34,6 @@ def getMartin():
 
     B_PCs.resetPlayer(Martin)
     Martin.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic"}
-
-    totem = Totems.guidance("Dream", "Standard").ch
-    totem.cndt["planted"], totem.cndt["reposed"] = False, False
-    totem.props["rank"], totem.props["initials"], totem.props["name"] = "player", "Ms", "Martin's Standard"
-    Martin.inv["standard"] = totem
-
     return Martin
 
 def getWillem():

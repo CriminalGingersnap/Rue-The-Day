@@ -1,8 +1,8 @@
-from Systems import PlayerSelect as Select, Conditions, Commitments
+from Systems import PlayerSelect as Select, Commitments
 from GameState import SaveLoad as Save
 from Biomes import Biomes
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
-from . import Environment, Combat, Loot
+from . import Environment, Combat, Loot, CustomEncounters
 from collections import deque
 
 
@@ -63,15 +63,18 @@ def handleAftermath(victorGroup) -> bool:
 
 def rest(group, biome) -> None:
     for fighter in group["members"]: refresh(fighter)
+    world = group["world"]
 
     group["days"] += 1
-    group["world"].marker.lastCleared = deque([group["world"].marker.pos,[],[],[],[],[],[]])
-    group["world"].ace = Environment.updateAce(group["world"].ace, biome)
+    world.marker.lastCleared = deque([world.marker.pos,[],[],[],[],[],[]])
+    world.ace = Environment.updateAce(world.ace, biome)
 
     Select.waitPrint(str(group["days"]) + " days completed.")
     Select.waitPrint(str(35 - group["days"]) + " days remain.")
 
     Save.saveGroup(group)
+    CustomEncounters.readJournal(group, world)
+        
 
 def refresh(fighter) -> None:
     fighter.atrb["stamina"] = fighter.atrb["endurance"]

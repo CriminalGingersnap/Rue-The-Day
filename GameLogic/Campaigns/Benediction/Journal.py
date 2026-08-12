@@ -162,8 +162,20 @@ scenes = {"Leviathan": [
     ["> ", "We see a manor at the mountaintop. Our final objective."],
     ["  ", "With the vampire's lair in sight, Akeem finally pressed the issue of Fadia's purpose in coming here."],
     ["  ", "To my surprise, she confessed it."],
+    ["  ", "Fadia came to this land in the hopes of obtaining immortality. No other reason."],
     ["", ""],
-    ["", ""]
+    ["> ", "She repeated her claim that she hadn't known her family's 'man of the mountain' was actually a vampire..."],
+    ["  ", "But come on. She's not an idiot. The thought must have crossed her mind."],
+    ["  ", "She won't outright confess to the paladin that she'd planned to sacrifice her own soul for eternal life,"],
+    ["  ", " but he and I aren't idiots either."],
+    ["", ""],
+    ["> ", "I'm not sure how much trust I would extend if Fadia and I were here alone."],
+    ["  ", "We've bled together, yes, but this is no minor hurdle."],
+    ["  ", "Akeem though, was just quiet for a few seconds before saying,"],
+    ["  ", " 'Heaven brought us together for this purpose. I will keep faith if you do likewise, sister.'"],
+    ["", ""],
+    ["> ", "I suppose that's it."],
+    ["  ", "We'll find out soon how true she really is."]
 ], "Post Finale": [
     ["> ", "Vengeance is delivered."],
     ["  ", "Hopefully the people of that rotted town will find their way to restful slumber."],

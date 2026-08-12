@@ -3,7 +3,7 @@ from . import Map_Update as uMap, MovementOptions as mOpts, Map_Print as Print, 
 import random
 
 
-def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName="") -> None:
+def moveFighter(fighter, battleMap, target, mapHeight=12, mapName="") -> None:
     movementMap = mOpts.setMoveOptions(fighter, target, battleMap, mapHeight, mapName)
     moveOptions = prepareOptions(movementMap, battleMap, mapHeight)
     spaceOptions, firstSpace, lastSpace = moveOptions[0], moveOptions[1], moveOptions[2]
@@ -11,13 +11,10 @@ def moveFighter(fighter, battleMap, target, closeRanks, mapHeight=12, mapName=""
 
     player = fighter.props["rank"] in ["player", "world"]
     if player: moveChoice = movePlayer(movementMap, lastSpace, fighter.props["name"], mapHeight)
-    else: moveChoice = moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks)
+    else: moveChoice = moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace)
 
     row = spaceOptions[moveChoice][0]
     column = spaceOptions[moveChoice][1]
-    
-    if (battleMap[row][column][1] == "~") and not fighter.cndt["winged"]: fighter.cndt["submerged"] = True
-    else: fighter.cndt["submerged"] = False
 
     if int(moveChoice) != 1:
         if not player: Select.waitPrint(fighter.props["name"] + " moves.")
@@ -42,7 +39,7 @@ def getSpaceDistance(row1, row2, column1, column2, height1, height2) -> int:
     return max(rowDiff, columnDiff, heightDiff)
 
 
-def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) -> str:
+def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace) -> str:
     targetDistance = getTargetDistance(fighter, target)
     reach = fighter.equip["weapon"]["reach"]
 
@@ -61,7 +58,7 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace, closeRanks) ->
         if spaceToTarget < leastToTarget: leastToTarget = spaceToTarget
         if (spaceToTarget > highestEffective) and (spaceToTarget <= reach): highestEffective = spaceToTarget
 
-    if closeRanks or (highestEffective == 0): desiredDistance = leastToTarget
+    if highestEffective == 0: desiredDistance = leastToTarget
     else: desiredDistance = highestEffective
 
     for square in rankedOptions[desiredDistance]:

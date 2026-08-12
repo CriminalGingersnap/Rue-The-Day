@@ -33,7 +33,7 @@ def archerMap(players) -> list:
     B_Maps.placeFighter(Archer, "01", [5, 9])
     B_Maps.placeFighter(Hound1, "02", [8, 8])
     B_Maps.placeFighter(Hound2, "03", [10, 7])
-    B_Maps.placeFighter(Standard, "04", [6, 11])
+    B_Maps.placeFighter(Standard, "04", [6, 10])
 
     Wyrm = Reptiles.wyrm("Flame", "Juvenile").ch
     B_Maps.placeFighter(Wyrm, "11", [0, 5])

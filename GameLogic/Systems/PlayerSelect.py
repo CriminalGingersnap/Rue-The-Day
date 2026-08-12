@@ -2,7 +2,7 @@ from Campaigns.Benediction import Journal as B_Journal
 from Campaigns.Avarice import Journal as A_Journal
 import time
 
-longWait, quickWait = .3, .05
+longWait, quickWait = .3, .07
 
 # make a fast print option for large blocks of text. let the player choose before it starts.
 def slowPrint(text):
@@ -13,8 +13,8 @@ def slowPrint(text):
     quickPrint('', '')
 
 
-def readScene(title, campaign) -> None:
-    if yesNo("\nRead '" + title + "' journal entry?"):
+def readScene(title, campaign, skipPrompt=False) -> None:
+    if skipPrompt or yesNo("\nRead '" + title + "' journal entry?"):
         phraseList = ""
         match campaign:
             case "Avarice": phraseList = A_Journal.scenes[title]

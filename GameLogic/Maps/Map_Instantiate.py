@@ -87,6 +87,18 @@ def placeOcclusions(mapConditions, instanceMap, multiplier):
 
 
 def updateFighterHeight(group, battleMap) -> None:
+    waterLine = 0
+    for column in range(12):
+        for row in range(12):
+            wetSpace = battleMap[row][column]
+            if "~" in wetSpace: waterLine = max(waterLine, (mOpts.heightDict[wetSpace[-1]] + 1))
+    
     for fighter in group:
         space = battleMap[fighter.pos[0]][fighter.pos[1]]
         fighter.pos[2] = mOpts.heightDict[space[-1]]
+        
+        if fighter.cndt["winged"]: fighter.pos[2] += 1
+        elif(battleMap[row][column][1] == "~"):
+            fighter.pos[2] = waterLine
+            fighter.cndt["submerged"] = True
+        else: fighter.cndt["submerged"] = False

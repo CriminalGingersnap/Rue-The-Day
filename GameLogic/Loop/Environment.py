@@ -31,31 +31,34 @@ def updateAce(ace, biome):
     roll = Roll.roll(None, None, 2, None, None)
 
     if roll >= threshold:
-        Select.conversationPrint("The weather shifts.")
-
+        phrase1, phrase2 = "", ""
         match ace:
             case "Spades":
                 ace = "Clubs"
                 backs[0] = aces[0]
-                Select.waitPrint("Tides rise, rivers flood, ice melts, or rain falls thick from heavy clouds.")
-                Select.waitPrint("Water collects in deep pools.")
+                phrase1 = "Tides rise, rivers flood, ice melts, or rain falls thick from heavy clouds."
+                phrase2 = "Water collects in deep pools."
             case "Clubs":
                 ace = "Hearts"
                 backs[1] = aces[1]
-                Select.waitPrint("Rain abates, melting ends, or tides and rivers recede.")    
-                Select.waitPrint("Water levels drop while heavy fog accumulates.")    
+                phrase1 = "Rain abates, melting ceases, or tides and rivers recede."    
+                phrase2 = "Water levels drop while heavy fog accumulates."    
             case "Hearts":
                 ace = "Diamonds"
                 backs[2] = aces[2]
-                Select.waitPrint("Fog and mist linger quietly over the land.")
-                Select.waitPrint("Standing water is nowhere to be seen.")
+                phrase1 = "Fog and mist linger quietly over the land."
+                phrase2 = "Standing water is nowhere to be seen."
             case "Diamonds":
                 ace = "Spades"
                 backs[3] = aces[3]
-                Select.waitPrint("Strong winds or bright sunlight drive out what remains of moisture.")
-                Select.waitPrint("Water vanishes even from the air.")
+                phrase1 = "Strong winds or bright sunlight drive out what remains of moisture."
+                phrase2 = "Water vanishes even from the air."
 
+        Select.conversationPrint("The weather shifts.")
         Cards.printDeck(backs)
+        Select.waitPrint(phrase1)
+        Select.waitPrint(phrase2)
+
     else: Select.conversationPrint("The weather holds.")
 
     return ace

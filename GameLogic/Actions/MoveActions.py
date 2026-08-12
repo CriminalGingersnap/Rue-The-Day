@@ -34,7 +34,7 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
 
     if answer in ["Blitz", "Move"]:
         stationary = True
-        if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None, False)
+        if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None)
         if stationary: fighter.cndt["blitzing"] = True
     elif answer in Moves.stationaryAbilities:
         Moves.execute(fighter, groups, answer, battleMap)
@@ -48,11 +48,10 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
     stationary, target, choice = True, "None", ""
 
     if fighter.atrb["cur_sp"] > 0:
-        closeRanks = False
+        if (len(reachableEnemies) == 0) and ((len(fighter.abl["attacks"]) + len(fighter.abl["hindrances"])) > 0):
+            target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies, True)
 
-        if (fighter.props["type"] == "human") and (len(reachableAllies) == 1) and (len(fightingAllies) > 1):
-            closeRanks = True
-
+        elif (len(reachableAllies) == 1) and (len(fightingAllies) > 1):
             fightingAlliesMinusSelf = []
             for ally in fightingAllies:
                 if ally != fighter: fightingAlliesMinusSelf += [ally]
@@ -61,10 +60,7 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
             if boonChoice != "None": target = Boons.npcSelectBoonTarget(fighter, fightingAlliesMinusSelf, boonChoice)
             else: target = random.choice(fightingAlliesMinusSelf)
 
-        elif len(reachableEnemies) == 0:
-            target = Attacks.npcSelectAttackTarget(fighter, fightingEnemies, True)
-
-        if target != "None": stationary = Movement.moveFighter(fighter, battleMap, target, closeRanks)
+        if target != "None": stationary = Movement.moveFighter(fighter, battleMap, target)
 
     if stationary:
         itemSelection = "None"
