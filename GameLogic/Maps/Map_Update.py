@@ -27,6 +27,8 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     
     if fighter.props["rank"] == "Ascendant":
         Area.affectSpace([row, column], fighter.atrb["cur_elm"], 2, battleMap)
+    elif (fighter.props["rank"] == "player") and ("*" in battleMap[row][column]):
+        Select.slowPrint(fighter.props["name"] + " steps into a wellspring of fate!")
 
     if battleMap[row][column][-1] == "]":
         dmgType = random.choice(["Crush", "Flame", "Ice", "Pierce", "Rot", "Toxic"])

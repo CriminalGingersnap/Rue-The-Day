@@ -3,7 +3,7 @@ from . import Map_Instantiate as iMap, Map_Update as uMap, MovementOptions as mO
 unseen = "   ?"
 
 
-def createSightMap(battleMap, position, rank, insightful, mapHeight=12):
+def createSightMap(battleMap, position, playerRank, insightful, mapHeight=12):
     sightMap = [[], [], [], [], [], [], [], [], [], [], [], []]
     if mapHeight == 24: sightMap = [[], [], [], [], [], [], [], [], [], [], [], [],
                                     [], [], [], [], [], [], [], [], [], [], [], []]
@@ -14,7 +14,6 @@ def createSightMap(battleMap, position, rank, insightful, mapHeight=12):
 
     row, column = position[0], position[1]
     sightMap[row][column] = battleMap[row][column]
-    playerRank = rank == "player"
 
     lookUp(playerRank, insightful, position, row, column, battleMap, sightMap)
     lookDown(playerRank, insightful, position, row, column, battleMap, sightMap, mapHeight)

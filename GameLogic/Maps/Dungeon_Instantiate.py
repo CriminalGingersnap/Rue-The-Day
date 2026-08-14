@@ -24,6 +24,9 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     
     Select.waitPrint("Placing occlusions...")
     iMap.placeOcclusions(mapConditions, battleMap)
+    
+    Select.waitPrint("Placing fate well...")
+    pMap.placeObstruction(battleMap, iMap.fateWell, 1, 12)
          
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, "flat")

@@ -32,11 +32,12 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
     if any(((fighter.props["rank"] == "player") and (fighter.props["type"] not in ["echo", "totem"])) for fighter in downedFighters):
         return [False, None]
     elif any(((target.props["rank"] == "player") and (target.props["type"] not in ["echo", "totem"])) for target in downedTargets):
-        Select.slowPrint("\nPlayer defeat.\n")
+        Select.slowPrint("\nBattle lost.\n")
         input("Press Enter to resolve.")
         return [True, None]
     elif len(validTargets) == 0:
-        Select.slowPrint("\nBattle won!\n")
+        Select.slowPrint("\nControl established over a wellspring of fate.\n")
+        Select.waitPrint("Saving enabled.")
         input("Press Enter to resolve.")
         return [True, downedTargets]
     elif (not npcGroup) and (len(validTargets) == len(pacifistTargets)):

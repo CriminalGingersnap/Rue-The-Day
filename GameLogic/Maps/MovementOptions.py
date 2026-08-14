@@ -33,7 +33,7 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
     npc, simulation = fighter.props["rank"] not in ["player", "world"], None
     if npc:
         if skittish: simulation = target.sightMap
-        else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"], fighter.cndt["insightful"])
+        else: simulation = Visibility.createSightMap(battleMap, target.pos, False, fighter.cndt["insightful"])
     sightMap = fighter.sightMap
     movementMap = instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, mapHeight)
     

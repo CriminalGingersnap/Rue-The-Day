@@ -44,10 +44,13 @@ def resetFighter(fighter) -> None:
 
 
 def setSight(fighter, enemies, allies, battleMap, print):
-    sightMap = Visibility.createSightMap(battleMap, fighter.pos, fighter.props["rank"], fighter.cndt["insightful"])
+    playerRank = fighter.props["rank"] == "player"
+    if playerRank and ("*" in battleMap[fighter.pos[0]][fighter.pos[1]]): fighter.cndt["insightful"] = True
+
+    sightMap = Visibility.createSightMap(battleMap, fighter.pos, playerRank, fighter.cndt["insightful"])
     uMap.hideVeiled(fighter, enemies + allies, sightMap)
 
-    if fighter.props["rank"] == "player":
+    if playerRank:
         uMap.revealOthers(fighter, allies, enemies, sightMap)
         uMap.hideTraps(fighter, sightMap)
         if print: Print.printSightMap(battleMap, sightMap, fighter.props["name"] + "'s Sight Map")

@@ -106,7 +106,7 @@ class mapMarker:
 
 
 def setMarkerSight(worldMap, position, rank):
-    sightMap = Visibility.createSightMap(worldMap, position, rank, True, 24)
+    sightMap = Visibility.createSightMap(worldMap, position, True, True, 24)
 
     for column in range(12):
         for row in range(24):

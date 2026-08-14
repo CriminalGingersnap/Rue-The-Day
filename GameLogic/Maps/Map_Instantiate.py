@@ -54,12 +54,12 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     
     battleMap = combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 
+    Select.waitPrint("Placing fate well...")
+    pMap.placeObstruction(battleMap, fateWell, 1, 12)
+
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, mapConditions["slope"])
     updateFighterHeight(playerGroup + enemyGroups[0] + enemyGroups[1], battleMap)
-
-    Select.waitPrint("Placing fate well...")
-    pMap.placeObstruction(battleMap, fateWell, 1, 12)
 
     return battleMap
 
