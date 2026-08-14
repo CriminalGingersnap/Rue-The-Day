@@ -72,8 +72,8 @@ def setAttributes(stats, cndt, elm, dice, type):
 
 def setTraits():
     conditions = {"armored": False, "aquatic": False, "blitzing": False,
-                    "dead": False, "inviolable": False, "lifeless": False,
-                     "massive": False, "planted": False,
+                    "dead": False, "insightful": False, "inviolable": False,
+                     "lifeless": False, "massive": False, "planted": False,
                       "reposed": False, "skittish": False, "social": False,
                         "sapient": False, "submerged": False, "winged": False}
     

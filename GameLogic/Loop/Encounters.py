@@ -10,7 +10,7 @@ def randomLoop(playerGroup, biome) -> bool:
     players = playerGroup["members"]
     ace = playerGroup["world"].ace
 
-    mapConditions = Environment.randomEnvironment(biome)
+    mapConditions = Environment.randomEnvironment(ace, biome)
     enemyGroups = Biomes.setFoes(biome, mapConditions["budget"], mapConditions["luck"])
 
     battleMap = None
@@ -18,13 +18,13 @@ def randomLoop(playerGroup, biome) -> bool:
         battleMap = dMap.createMap(players, enemyGroups, mapConditions, ace)
     else: battleMap = iMap.createMap(players, enemyGroups, mapConditions, ace)
 
-    return encounterLoop(playerGroup, enemyGroups, battleMap, biome)
+    return encounterLoop(playerGroup, enemyGroups, battleMap, biome, mapConditions["atmosphere"])
 
 
-def encounterLoop(playerGroup, enemyGroups, battleMap, biome, timePermits = True) -> bool:
+def encounterLoop(playerGroup, enemyGroups, battleMap, biome, atmosphere, timePermits = True) -> bool:
     players = playerGroup["members"]    
 
-    result = Combat.engage(players, enemyGroups, battleMap)
+    result = Combat.engage(players, enemyGroups, battleMap, atmosphere)
     playerVictory = result[0]
 
     if playerVictory:

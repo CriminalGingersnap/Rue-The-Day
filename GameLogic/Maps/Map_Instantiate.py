@@ -2,14 +2,10 @@ from . import Map_Populate as pMap, Elevation, MovementOptions as mOpts
 from Systems import PlayerSelect as Select
 import random
 
-wall, pool, pit =  "////|", "_~~~|", "_)))|"
+wall, pool, pit, fateWell =  "////|", "_~~~|", "_)))|", "_***|"
 impermissible = [wall, pit]
 
 emptySpace = "____|"
-fogSpace, mistSpace = "=___|", "-___|"
-dazzleSpace, deathSpace, sacredSpace = "@___|", "}___|", "+___|"
-noxiousSpace, rimeSpace, smokeSpace = "&___|", "%___|", "#___|"
-
 intStrings = ["0","1","2","3","4","5","6","7","8","9"]
 
 
@@ -45,9 +41,9 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
             thirdMap[row] += box
     
     Select.waitPrint("\nPlacing obstructions and occlusions...")
-    placeOcclusions(mapConditions, mainMap, 1)
-    placeOcclusions(mapConditions, secondMap, 1)
-    placeOcclusions(mapConditions, thirdMap, 1)
+    placeOcclusions(mapConditions, mainMap, 4)
+    placeOcclusions(mapConditions, secondMap, 4)
+    placeOcclusions(mapConditions, thirdMap, 4)
 
     Select.waitPrint("Placing PCs...")
     for fighter in playerGroup: pMap.firstPlacement(mainMap, 4, fighter)
@@ -62,28 +58,20 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     Elevation.setElevation(battleMap, environment, mapConditions["slope"])
     updateFighterHeight(playerGroup + enemyGroups[0] + enemyGroups[1], battleMap)
 
+    Select.waitPrint("Placing fate well...")
+    pMap.placeObstruction(battleMap, fateWell, 1, 12)
+
     return battleMap
 
 
-def placeOcclusions(mapConditions, instanceMap, multiplier):
+def placeOcclusions(mapConditions, instanceMap, mapHeight=12):
     obstacles, occlusions = mapConditions["obstructions"], mapConditions["atmosphere"]
 
-    for i in range(obstacles["wall"] * multiplier):
-        available = False
-        while not available: available = pMap.placeObstruction(instanceMap, wall, multiplier)
-
-    for i in range(obstacles["pit"] * multiplier):
-        available = False
-        while not available: available = pMap.placeObstruction(instanceMap, pit, multiplier)
-
-    for i in range(obstacles["trap"] * multiplier):
-        available = False
-        while not available: available = pMap.placeTrap(instanceMap)
-
-    for atmo in occlusions:
-        for i in range(occlusions[atmo] * multiplier):
-            available = False
-            while not available: available = pMap.placeFog(instanceMap, atmo)
+    pMap.placeObstruction(instanceMap, wall, obstacles["wall"], mapHeight)
+    pMap.placeObstruction(instanceMap, pit, obstacles["pit"], mapHeight)
+    pMap.placeTrap(instanceMap, obstacles["trap"], mapHeight)
+            
+    for atmo in occlusions: pMap.placeFog(instanceMap, atmo, occlusions[atmo], mapHeight)
 
 
 def updateFighterHeight(group, battleMap) -> None:

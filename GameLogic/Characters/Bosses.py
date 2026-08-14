@@ -6,7 +6,7 @@ def setCommon(element) -> list:
 
     traits = Characters.setTraits()
     cndt = traits[0]
-    cndt["massive"], cndt["inviolable"] = True, True
+    cndt["massive"], cndt["insightful"], cndt["inviolable"] = True, True, True
     stats = {"avoidance": "low", "hp": "boss", "resist": traits[1], "speed": "mid"}
     Animals.setAnimalResistance(element, rank, stats)   
 
@@ -45,7 +45,7 @@ class lich:
 
 class vampire:
     def __init__(self) -> None:
-        element = "Rot"
+        element = "Bleed"
         common = setCommon(element)
         stats, cndt, type, rank = common[0], common[1], "human", common[3]
         cndt["massive"], cndt["sapient"] = False, True

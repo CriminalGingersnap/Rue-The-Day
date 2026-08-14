@@ -5,7 +5,7 @@ from Actions import ItemActions
 from Maps import Map_Print as Print
 
 
-stationaryAbilities = ["Evade", "Examine", "Inventory -> Access", "Inventory", "Swap Shield", "Swap Weapon"]
+stationaryAbilities = ["Evade", "Examine", "Inventory -> Access", "Inventory", "Swap Shield", "Swap Weapon", "Tap"]
 
 
 def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None: 
@@ -21,13 +21,14 @@ def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None:
         case "Inventory":
             searchIntensity = Select.pickOption(["Access", "Rummage"], "search intensity")
             ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
-
             if searchIntensity == "Rummage":
                 ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
                 fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = 0, 0
-
         case "Swap Shield": ItemActions.swapShield(fighter)
         case "Swap Weapon": ItemActions.swapWeapon(fighter)
+        case "Tap":
+            fighter.cndt["insightful"] = True
+            Select.waitPrint(fighter.props["name"] + " taps into a wellspring of fate, gaining temporary insight!")
 
     fighter.atrb["cur_sp"] = 0
 

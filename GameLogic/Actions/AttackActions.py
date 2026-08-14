@@ -67,7 +67,7 @@ def npcSelectAttackTarget(fighter, enemies, pickClosest):
 
         else:                            
             match fighter.atrb["cur_elm"]:
-                case "Basic":
+                case "Basic" | "Bleed":
                     weaponDmgTypes = fighter.equip["weapon"]["dmgTypes"]
                     if "Pierce" in weaponDmgTypes: target = random.choice(threats + vulnerable + [lowestResPierceEnemy])
                     elif "Crush" in weaponDmgTypes: target = random.choice(threats + vulnerable + [lowestResCrushEnemy])

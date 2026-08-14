@@ -66,6 +66,8 @@ def canCompel(fighter, enemy, ability) -> bool:
     elif enemy.atrb["cur_elm"] != "Holy":
         if (fighter.atrb["cur_elm"] == "Flame") and (enemy.atrb["cur_elm"] != "Ice"): canCompel = True
         elif (fighter.atrb["cur_elm"] == "Ice") and (enemy.atrb["cur_elm"] != "Flame"): canCompel = True
-        elif fighter.atrb["cur_elm"] in ["Dream", "Rot"]: canCompel = True
+        elif (fighter.atrb["cur_elm"] == "Bleed") and (enemy.atrb["cur_elm"] != "Rot"): canCompel = True
+        elif (fighter.atrb["cur_elm"] == "Rot") and (enemy.atrb["cur_elm"] != "Bleed"): canCompel = True
+        elif fighter.atrb["cur_elm"] == "Dream": canCompel = True
 
     return canCompel

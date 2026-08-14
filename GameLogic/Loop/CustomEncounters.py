@@ -88,7 +88,7 @@ def customLoop(playerGroup, biome, event) -> bool:
 
     if skipCombat: return True
     else:
-        result = Encounters.encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, timePermits)
+        result = Encounters.encounterLoop(playerGroup, [encounter[0], encounter[1]], encounter[2], biome, encounter[3], timePermits)
         if result or deathPermitted:
             Select.readScene("Post " + event, playerGroup["campaign"])
             if event == "Leviathan":
@@ -101,12 +101,12 @@ def customLoop(playerGroup, biome, event) -> bool:
 
 
 def readJournal(group, world) -> None:
-    if Select.yesNo("Reread prior journal entries?"):
-        entries = ["None"]
-        for eventOption in world.events:
-            if world.events[eventOption]["complete"]:
-                entries += [eventOption]
-                if "Post " + eventOption in A_Journal.scenes | B_Journal.scenes: entries += ["Post" + eventOption]
+    entries = ["None"]
+    for eventOption in world.events:
+        if world.events[eventOption]["complete"]:
+            entries += [eventOption]
+            if "Post " + eventOption in A_Journal.scenes | B_Journal.scenes: entries += ["Post" + eventOption]
 
+    if (len(entries) > 1) and Select.yesNo("Reread a prior journal entry?"):
         entry = Select.pickOption(entries, " journal entry")
         if entry != "None": Select.readScene(entry, group["campaign"], True)

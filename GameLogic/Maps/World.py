@@ -100,13 +100,13 @@ class mapMarker:
         self.props = {"initials": "..", "name": "World", "rank": "world", "type": "marker"}
 
         self.lastCleared = deque([self.pos,[],[],[],[],[],[]])
-        self.sightMap = createSightMap(worldMap, self.pos, self.props["rank"])
+        self.sightMap = setMarkerSight(worldMap, self.pos, self.props["rank"])
 
         Select.waitPrint("World marker instantiated!")
 
 
-def createSightMap(worldMap, position, rank):
-    sightMap = Visibility.createSightMap(worldMap, position, rank, 24)
+def setMarkerSight(worldMap, position, rank):
+    sightMap = Visibility.createSightMap(worldMap, position, rank, True, 24)
 
     for column in range(12):
         for row in range(24):

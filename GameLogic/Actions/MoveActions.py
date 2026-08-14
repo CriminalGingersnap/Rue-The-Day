@@ -22,6 +22,8 @@ def moveAction(fighter, groups, battleMap) -> None:
         else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
 
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Blitz", "Move"]
+        if "*" in battleMap[fighter.pos[0]][fighter.pos[1]]: posOptions += ["Tap"]
+        
         if ("Inventory" in posOptions) and (ItemActions.getInventory(fighter)["Total"] == 1):
             posOptions += ["Inventory -> Access"]
             posOptions.remove("Inventory")

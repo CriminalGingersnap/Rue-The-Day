@@ -4,7 +4,7 @@ from Systems import Commitments, PlayerSelect as Select, Sort
 from Maps import Map_Update as uMap
 
 
-def engage(playerGroup, enemyGroups, battleMap) -> list:
+def engage(playerGroup, enemyGroups, battleMap, atmosphere) -> list:
     input("\nPress Enter to begin combat.")
 
     playerVictory, playerDefeat, result = False, False, []
@@ -15,18 +15,16 @@ def engage(playerGroup, enemyGroups, battleMap) -> list:
     for fighter in group3: fighter.sightMap = Phases.setSight(fighter, group1 + group2, group3, battleMap, False)
 
     while not (playerVictory or playerDefeat):
-        uMap.updateHazards(battleMap)
-
-        result = battle(group1, group2 + group3, battleMap)
+        result = battle(group1, group2 + group3, battleMap, atmosphere)
         playerVictory = result[0]
         if not playerVictory:
-            if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap)[0]
-            if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap)[0]
+            if not playerDefeat: playerDefeat = battle(group2, group1 + group3, battleMap, atmosphere)[0]
+            if not playerDefeat: playerDefeat = battle(group3, group1 + group2, battleMap, atmosphere)[0]
 
     return result
 
 
-def battle(offenseGroup, targetGroup, battleMap) -> bool:
+def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
     sortedOffense, sortedTarget = Sort.sortLiving(offenseGroup, battleMap), Sort.sortLiving(targetGroup, battleMap)
     validFighters, validTargets, downedFighters, downedTargets, pacifistTargets = sortedOffense[0], sortedTarget[0], sortedOffense[1], sortedTarget[1], sortedTarget[2]
     npcGroup = offenseGroup[0].props["rank"] != "player"
@@ -55,6 +53,9 @@ def battle(offenseGroup, targetGroup, battleMap) -> bool:
             Hinder.applyCompel(fighter, "Seal")
             if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
             uMap.activateHazards(fighter, battleMap)
+
+        uMap.updateHazards(battleMap)
+        uMap.addHazards(battleMap, atmosphere)
 
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)

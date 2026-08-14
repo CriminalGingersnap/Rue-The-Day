@@ -23,7 +23,7 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     fixCorners(battleMap)
     
     Select.waitPrint("Placing occlusions...")
-    iMap.placeOcclusions(mapConditions, battleMap, 1)
+    iMap.placeOcclusions(mapConditions, battleMap)
          
     Select.waitPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, "flat")

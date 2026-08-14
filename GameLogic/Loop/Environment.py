@@ -64,8 +64,8 @@ def updateAce(ace, biome):
     return ace
 
 
-def randomEnvironment(biome):
-    mapConditions = setMapConditions(biome)
+def randomEnvironment(ace, biome):
+    mapConditions = setMapConditions(ace, biome)
 
     return {"atmosphere": mapConditions[0],
              "obstructions": mapConditions[1],
@@ -74,7 +74,7 @@ def randomEnvironment(biome):
                 "luck": mapConditions[4]}
 
 
-def setMapConditions(biome):
+def setMapConditions(ace, biome):
     slopeOptions = ["right", "lr", "up", "down", "ud", "craters", "hills", "ruin"] 
     obstructions = {"wall": 0, "trap": 0, "pit": 0}
     
@@ -97,22 +97,27 @@ def setMapConditions(biome):
     elif biome == "Ice Glacier": obstructions["wall"] = obstructionValue * 2
     else: obstructions["wall"] = obstructionValue
     
-    atmosphere = setAtmosphere(biome, atmosphereValue)
+    atmosphere = setAtmosphere(ace, biome, atmosphereValue)
 
     return [atmosphere, obstructions, slope, budget, faceDown]
 
 
-def setAtmosphere(biome, extent) -> dict:
-    atmosphere = {"Sacred": 0, "Death": 0, "Dazzle": 0, "Rime": 0, "Smoke": 0, "Noxious": 0}
+def setAtmosphere(ace, biome, extent) -> dict:
+    atmosphere = {"}": 0, "@": 0, "=": 0, "-": 0, "&": 0, "%": 0, "+": 0, ";": 0, "#": 0}
 
     if biome in ["Dreamwood Depths", "Flame Volcano", "Holy Desert", "Ice Glacier", "Ice Peak", "Rot Locus"]: extent += 3
     
     match biome:
-        case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["Dazzle"] = extent
-        case "Flame Volcano" | "Flame Peninsula" | "Flame Lowland": atmosphere["Smoke"] = extent
-        case "Holy Desert" | "Holy Scrubland": atmosphere["Sacred"] = extent
-        case "Ice Glacier" | "Ice Fjord" | "Ice Highland": atmosphere["Rime"] = extent
-        case "Marsh": atmosphere["Noxious"] = extent
-        case "Rot Locus" | "Rot Encroachment": atmosphere["Death"] = extent
+        case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["@"] = extent
+        case "Flame Volcano" | "Flame Peninsula" | "Flame Lowland": atmosphere["#"] = extent
+        case "Holy Desert" | "Holy Scrubland": atmosphere["+"] = extent
+        case "Ice Glacier" | "Ice Fjord" | "Ice Highland": atmosphere["%"] = extent
+        case "Marsh": atmosphere["&"] = extent
+        case "Rot Locus" | "Rot Encroachment": atmosphere["}"] = extent
+
+    match ace:
+        case "Hearts": atmosphere["="] = 4
+        case "Diamonds": atmosphere["="], atmosphere["-"] = 1, 2
+        case "Clubs": atmosphere["-"] = 5
     
     return atmosphere

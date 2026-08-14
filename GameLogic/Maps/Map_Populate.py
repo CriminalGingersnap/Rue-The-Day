@@ -29,7 +29,7 @@ def visitSpace(instanceMap, rowCount, row, column, fighter) -> bool:
     return walkable
 
 
-def walk(instanceMap, rowCount, startingRow, startingColumn, rightStop):
+def walk(instanceMap, rowCount, startingRow, startingColumn, rightStop) -> bool:
     nextColumn, downStop, makingProgress = startingColumn + 1, rowCount - 1, True
     upRow, downRow = max(0, startingRow - 1), min(downStop, startingRow + 1)
 
@@ -62,40 +62,51 @@ def walk(instanceMap, rowCount, startingRow, startingColumn, rightStop):
     return makingProgress
 
 
-def placeObstruction(instanceMap, obstruction, multiplier) -> bool:
-    rowCount = 4 * multiplier
-    row, column = random.randint(0, (rowCount - 1)), random.randint(0, 11)
+def placeObstruction(instanceMap, obsSpace, obsRange, mapHeight) -> None:
+    spaceOptions, colStart, colStop = [], random.randint(0, 4), random.randint(8, 12)
+    for row in range(mapHeight):
+        for column in range(colStart, colStop):
+            if instanceMap[row][column] == iMap.emptySpace: spaceOptions += [[row, column]]
 
-    if instanceMap[row][column] == iMap.emptySpace:
-        instanceMap[row][column] = obstruction
-        walkable = walk(instanceMap, rowCount, row, max(0, column - 1), 11)
-        if not walkable: instanceMap[row][column] = iMap.emptySpace
-        return walkable
-    else:
-        return False
+    while (len(spaceOptions) > 0) and (obsRange > 0):
+        randSpace = random.choice(spaceOptions)
+        randRow, randColumn = randSpace[0], randSpace[1]
+        instanceMap[randRow][randColumn] = obsSpace
+        
+        walkable = walk(instanceMap, mapHeight, randRow, max(0, randColumn - 1), 11)
+        if not walkable: instanceMap[randRow][randColumn] = iMap.emptySpace
 
-def placeFog(instanceMap, type) -> bool:
-    row, column = random.randint(0, 11), random.randint(0, 11)
+        spaceOptions.remove(randSpace)
+        obsRange -= 1
 
-    if instanceMap[row][column] == iMap.emptySpace:
-        if type == "Death": instanceMap[row][column] = iMap.deathSpace
-        elif type == "Dazzle": instanceMap[row][column] = iMap.dazzleSpace
-        elif type == "Fog": instanceMap[row][column] = iMap.fogSpace
-        elif type == "Mist": instanceMap[row][column] = iMap.mistSpace
-        elif type == "Noxious": instanceMap[row][column] = iMap.noxiousSpace
-        elif type == "Rime": instanceMap[row][column] = iMap.rimeSpace
-        elif type == "Sacred": instanceMap[row][column] = iMap.sacredSpace
-        elif type == "Smoke": instanceMap[row][column] = iMap.smokeSpace
-        return True
-    else:
-        return False
 
-def placeTrap(instanceMap):
-    row, column = random.randint(0, 11), random.randint(0, 11)
+def placeTrap(instanceMap, trapRange, mapHeight) -> None:
+    spaceOptions = []
+    for row in range(mapHeight):
+        for column in range(12):
+            if not any(char in instanceMap[row][column] for char in ["/", ".", ")", "~"] + iMap.intStrings):
+                spaceOptions += [[row, column]]
 
-    if not any(char in instanceMap[row][column] for char in ["/", ".", ")", "~"] + iMap.intStrings):
-        atmosphere = instanceMap[row][column][0]
-        instanceMap[row][column] = atmosphere + "___]"
-        return True
-    else:
-        return False
+    while (len(spaceOptions) > 0) and (trapRange > 0):
+        randSpace = random.choice(spaceOptions)
+        randRow, randColumn = randSpace[0], randSpace[1]
+        instanceMap[randRow][randColumn] = instanceMap[randRow][randColumn][0] + "___]"
+
+        spaceOptions.remove(randSpace)
+        trapRange -= 1
+
+
+def placeFog(instanceMap, atmo, atmoRange, mapHeight) -> None:
+    atmo, spaceOptions = "_", []
+
+    for row in range(mapHeight):
+        for column in range(12):
+            if instanceMap[row][column][0] == "_": spaceOptions += [[row, column]]
+
+    while (len(spaceOptions) > 0) and (atmoRange > 0):
+        randSpace = random.choice(spaceOptions)
+        randRow, randColumn = randSpace[0], randSpace[1]
+        instanceMap[randRow][randColumn] = atmo + instanceMap[randRow][randColumn][1:]
+
+        spaceOptions.remove(randSpace)
+        atmoRange -= 1

@@ -44,7 +44,7 @@ def resetFighter(fighter) -> None:
 
 
 def setSight(fighter, enemies, allies, battleMap, print):
-    sightMap = Visibility.createSightMap(battleMap, fighter.pos, fighter.props["rank"])
+    sightMap = Visibility.createSightMap(battleMap, fighter.pos, fighter.props["rank"], fighter.cndt["insightful"])
     uMap.hideVeiled(fighter, enemies + allies, sightMap)
 
     if fighter.props["rank"] == "player":
@@ -65,6 +65,9 @@ def outro(fighter):
         Boons.applyFortify(fighter)
         Boons.applyRally(fighter)
         Boons.applyVeil(fighter)
+
+        if fighter.props["rank"] != "Ascendant":
+            fighter.cndt["insightful"] = False
 
 
 def movementStage(fighter, enemies, allies, battleMap) -> None:

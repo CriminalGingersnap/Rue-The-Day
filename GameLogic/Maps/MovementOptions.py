@@ -33,7 +33,7 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
     npc, simulation = fighter.props["rank"] not in ["player", "world"], None
     if npc:
         if skittish: simulation = target.sightMap
-        else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"])
+        else: simulation = Visibility.createSightMap(battleMap, target.pos, fighter.props["rank"], fighter.cndt["insightful"])
     sightMap = fighter.sightMap
     movementMap = instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, mapHeight)
     
@@ -58,6 +58,9 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
                         freeSpace = True
                     elif "~~~" in sightSpace:
                         movementMap[row][column] = "~:" + str(stepCount)
+                        freeSpace = True
+                    elif "***" in sightSpace:
+                        movementMap[row][column] = "*:" + str(stepCount)
                         freeSpace = True
                     elif ")" in sightSpace:
                         movementMap[row][column] = "):" + str(stepCount)
@@ -100,7 +103,7 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
                     if (")" not in moveSpace) or winged:
                         stepCount = moveSpace.split(':')[1]
                         if counter < 10:
-                            if terrain == "~": movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
+                            if terrain in ["~", "*"]: movementMap[row][column] = terrain + str(counter) + ":" + str(stepCount) + elevation
                             else: movementMap[row][column] = atmosphere + str(counter) + ":" + str(stepCount) + elevation
                         else: movementMap[row][column] = str(counter) + ":" + str(stepCount) + elevation
                         counter += 1

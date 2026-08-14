@@ -27,6 +27,7 @@ def colorPrint(comparisonSpace, printingSpace) -> None:
         else: console.print("[cyan]" + printingSpace + "[/cyan]", end = "")
     elif "/" in comparisonSpace: console.print("[gray]" + printingSpace + "[/gray]", end = "")
     elif ")" in comparisonSpace: console.print("[purple]" + printingSpace + "[/purple]", end = "")
+    elif "*" in comparisonSpace: console.print("[gold]" + printingSpace + "[/gold]" , end = "")
     elif "]" in comparisonSpace: print(printingSpace[:-1] + "|", end = "")
     else: print(printingSpace, end = "")
 
@@ -65,7 +66,8 @@ def printSightMap(battleMap, sightMap, mapName) -> None:
                 colorPrint(battleSpace, topHalf)
             else:
                 topHalf = finishSpace(sightMap[row][column], mapName)
-                console.print("[red]" + topHalf + "[/red]", end = "")
+                if "*" in sightSpace: colorPrint(sightSpace, topHalf)
+                else: console.print("[red]" + topHalf + "[/red]", end = "")
 
         print()
 
@@ -73,6 +75,7 @@ def printSightMap(battleMap, sightMap, mapName) -> None:
             sightSpace, battleSpace = sightMap[row][column], battleMap[row][column]
 
             if "?" in sightSpace: colorPrint(battleSpace, battleSpace)
+            elif "*" in sightSpace: colorPrint(sightSpace, sightSpace)
             else: console.print("[red]" + sightSpace + "[/red]", end = "")
         print()
     print()
@@ -88,13 +91,7 @@ def printWorldMap(world) -> None:
             if biome not in displayList: displayList += biome
 
             worldSpace = world.worldMap[row][column]
-
-            if "~" in worldSpace:
-                if Elevation.doubleDown in worldSpace: console.print("[blue]" + worldSpace + "[/blue]", end = "")
-                else: console.print("[cyan]" + worldSpace + "[/cyan]", end = "")
-            elif "/" in worldSpace: console.print("[gray]" + worldSpace + "[/gray]", end = "")
-            elif ")" in worldSpace: console.print("[purple]" + worldSpace + "[/purple]", end = "")
-            else: print(worldSpace, end = "")
+            colorPrint(worldSpace, worldSpace)
         print()
     print()
             

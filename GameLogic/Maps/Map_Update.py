@@ -1,11 +1,12 @@
 from . import Visibility, Movement, Elevation, Map_Instantiate as iMap, MovementOptions as mOpts
 from Abilities import Area_Set as Area, Boons_Apply as Boons
 from Systems import PlayerSelect as Select, Conditions
+from Loop import Environment
 import random
 
 majorHazards =     ["B", "C", "D", "F", "H", "I", "P", "R", "T"]
 minorHazards =     ["b", "c", "d", "f", "h", "i", "p", "r", "t"]
-lingeringHazards = [";",       "@", "#", "+", "%",      "}", "&"]
+lingeringHazards = [";",      "@", "#", "+", "%",      "}", "&"]
 hazards = majorHazards + minorHazards
 
 
@@ -163,3 +164,11 @@ def updateHazards(battleMap):
                     case "Crush" | "Pierce": newAtmosphere = "_"
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
+
+
+def addHazards(battleMap, atmosphere):
+    mapConditions = {"atmosphere": atmosphere,
+                      "obstructions": {"wall": 0, "trap": 0, "pit": 0}}
+    if any((atmosphere[atmo] > 0) for atmo in atmosphere):
+        Select.waitPrint("\nAdding atmospheric effects...")
+        iMap.placeOcclusions(mapConditions, battleMap)

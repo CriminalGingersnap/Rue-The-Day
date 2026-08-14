@@ -14,13 +14,13 @@ def adventure(group):
     world = group["world"]
 
     marker, worldMap = world.marker, world.worldMap
-    marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
+    marker.sightMap = World.setMarkerSight(worldMap, marker.pos, "world")
     Print.printWorldMap(world)
 
     while True:
         if world.events["Finale"]["location"] == marker.pos: break
 
-        marker.sightMap = World.createSightMap(worldMap, marker.pos, "world")
+        marker.sightMap = World.setMarkerSight(worldMap, marker.pos, "world")
         Movement.moveFighter(marker, worldMap, None, 24, "world")
         marker.atrb["cur_sp"] = marker.atrb["base_sp"]
 
