@@ -4,7 +4,7 @@ scenes = {"Escape": [
     ["> ", "This journal was the first object I ever stole."],
     ["  ", "I snatched it from our warden's desk before helping myself to his armory."],
     ["  ", "Laura wasn't amused by how much time I spent hunting for a quill,"],
-    ["  ", " but she changed her tune when I found his core stash."],
+    ["  ", "  but she changed her tune when I found his core stash."],
     ["  ", "Finally: proof that my hobbies are useful."],
     ["", ""],
     ["> ", "We have another's day's march before the fjord."],
@@ -74,7 +74,7 @@ scenes = {"Escape": [
     ["  ", "I wonder if the ancients changed it somehow. Maybe it's been growing here since their empire collapsed."],
     ["", ""],
     ["> ", "Regardless, today reminded me that despite our prowess, ambitions, and achievements,"],
-    ["  ", " there are still places in this world better left alone."]
+    ["  ", "  there are still places in this world better left alone."]
 ], "Giant": [
     ["> ", "We found the giant's tracks atop a bed of moss."],
     ["  ", "There's no other explanation for that confused mess of scorch marks, frostbite, decay, and physical damage."],
