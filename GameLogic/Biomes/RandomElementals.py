@@ -25,7 +25,7 @@ def elementals(elementalType, element, majorBiome, diceBudget):
 
             case "bull": elemental = Elementals.bull(element, rankChoice).ch
             case "obelisk": elemental = Elementals.obelisk(element, rankChoice).ch
-            case "spinx": elemental = Elementals.sphinx(element, rankChoice).ch
+            case "sphinx": elemental = Elementals.sphinx(element, rankChoice).ch
 
             case "wisp": elemental = Elementals.wisp(element, rankChoice).ch
 

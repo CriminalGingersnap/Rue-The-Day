@@ -28,7 +28,7 @@ class leviathan:
         self.ch = Characters.character(abl, cndt, dice, element, "Leviathan", rank, stats, type)
 
 class lich:
-    def __init__(self) -> None:
+    def __init__(self, days) -> None:
         element = "Rot"
         common = setCommon(element)
 
@@ -42,9 +42,10 @@ class lich:
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Lich", rank, stats, type)
+        self.ch.atrb["cur_hp"] = self.ch.atrb["cur_hp"] = min(50, days + 15)
 
 class vampire:
-    def __init__(self) -> None:
+    def __init__(self, days) -> None:
         element = "Bleed"
         common = setCommon(element)
         stats, cndt, type, rank = common[0], common[1], "human", common[3]
@@ -57,6 +58,7 @@ class vampire:
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Vampire", rank, stats, type)
+        self.ch.atrb["cur_hp"] = self.ch.atrb["cur_hp"] = min(50, days + 10)
 
 
 class giant:

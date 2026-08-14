@@ -1,7 +1,6 @@
 from Systems import PlayerSelect as Select
 from Campaigns.Benediction import CustomMaps as B_Maps, Journal as B_Journal
 from Campaigns.Avarice import CustomMaps as A_Maps, Journal as A_Journal
-from Maps import Map_Instantiate as iMap
 from . import Encounters
 
 def getElement(inventory) -> str:
@@ -26,33 +25,32 @@ def customLoop(playerGroup, biome, event) -> bool:
                 case "Moose": skipCombat = True
                 case "Vines":
                     skipCombat = True
-                    marker.pos = [1, 6, 0]
-                    iMap.updateFighterHeight([marker], worldMap)
+                    marker.pos = [1, 6, 3]
                     worldMap[1][6], worldMap[1][7] = "D_..|", "D/!!↑"
                 case "Worm":
+                    worldMap[1][11] = "I_..⇑"
                     worldMap[14][7] = "w___↑"
                     encounter = A_Maps.glacierMap(playerGroup["members"])
                 case "Giant":
-                    worldMap[16][7] = "K_**↑"
+                    worldMap[0][5] = "D_..|"
+                    worldMap[16][7] = "K***↑"
                     encounter = A_Maps.woodsMap(playerGroup["members"])
                 case "Strider":
+                    worldMap[7][1] = "F_..⇑"
                     worldMap[15][8] = "w___↑"
                     encounter = A_Maps.volcanoMap(playerGroup["members"])
                 case "Breakout":
                     skipCombat = True
                     letter = getElement(playerGroup["inventory"])[0]
-                    marker.pos = [17, 7, 0]
-                    iMap.updateFighterHeight([marker], worldMap)
-                    worldMap[17][7], worldMap[16][7] = "s_..↓", letter + "!//↑"
+                    marker.pos = [17, 7, 1]
+                    worldMap[17][7], worldMap[16][7] = "s_..↓", letter + "/!!↑"
                 case "Camp":
-                    worldMap[18][11] = "u_..↑"
+                    worldMap[18][11] = "o_..↑"
+                    worldMap[21][4] = "K***↑"
                     encounter = A_Maps.campMap(playerGroup["members"])
                 case "Port":
                     element = getElement(playerGroup["inventory"])
-                    marker.pos = [16, 8, 0]
-                    iMap.updateFighterHeight([marker], worldMap)
-                    worldMap[20][4], worldMap[21][4] = letter + "!//↑"
-
+                    worldMap[21][4] = letter + "_..↑"
                     encounter = A_Maps.portMap(playerGroup["members"], element)
 
         case "Benediction":
@@ -60,31 +58,31 @@ def customLoop(playerGroup, biome, event) -> bool:
                 case "Leviathan":
                     encounter = B_Maps.shipMap(playerGroup["members"])
                     timePermits, deathPermitted = False, True
-                    marker.pos = [5, 9, 0]
-                    iMap.updateFighterHeight([marker], worldMap)
+                    marker.pos = [5, 9, 1]
                     worldMap[5][9], worldMap[7][11] = "s_..↓", "~~~~⇓"
                 case "Village":
                     encounter = B_Maps.villageMap(playerGroup["members"])
-                    worldMap[3][10], worldMap[3][9], worldMap[5][8] = "s___↓", "s___↓", "s___↓"
+                    worldMap[4][9],worldMap[3][10], worldMap[3][9], worldMap[5][8] = "r_..↓", "s___↓", "s___↓", "s___↓"
                 case "Town":
+                    worldMap[0][5], worldMap[1][0], worldMap[1][4], worldMap[6][7] = "R_..↑", "R***⇓", "r___↑", "d___↓"
                     encounter = B_Maps.townMap(playerGroup["members"])
-                    worldMap[1][4], worldMap[6][7] = "r___↑", "d___↓"
                 case "Ally": skipCombat = True
                 case "Valley": skipCombat = True
                 case "Lich":
-                    encounter = B_Maps.cryptMap(playerGroup["members"], playerGroup["events"])
+                    worldMap[1][0] = "R_..⇓"
+                    worldMap[10][3] = "s***↓"
+                    encounter = B_Maps.cryptMap(playerGroup["members"], playerGroup["events"], playerGroup["days"])
                 case "Raft":
                     skipCombat = True
-                    marker.pos = [13, 2, 0]
-                    iMap.updateFighterHeight([marker], worldMap)
+                    marker.pos = [13, 2, 1]
                     worldMap[10][3], worldMap[13][2] = "s___↓", "s_..↓"
                 case "Dragon":
                     skipCombat = True
-                    marker.pos = [1, 6, 0]
-                    iMap.updateFighterHeight([marker], worldMap)
+                    marker.pos = [1, 6, 1]
                     worldMap[1][10], worldMap[0][11] = "M_..↓", "M/!!↓"
                 case "Finale":
-                    encounter = B_Maps.manorMap(playerGroup["members"])
+                    worldMap[11][11] = "I_..⇑"
+                    encounter = B_Maps.manorMap(playerGroup["members"], playerGroup["days"])
 
     if skipCombat: return True
     else:

@@ -52,14 +52,14 @@ scenes = {"Escape": [
     ["  ", "She ordered me to focus. :("],
     ["", ""],
     ["> ", "We just heard a rumble from up ahead, so I suppose I'm done writing for now."],
-    ["  ", "Gods willing, this won't be my final entry."],
+    ["  ", "Gods willing, this won't be my final entry."]
 ], "Post Worm": [
     ["> ", "The ice shard nearly gave me frostbite."],
     ["  ", "I only handled for a few seconds while wearing gloves."],
     ["  ", "The power concentrated in this little thing..."],
     ["", ""],
     ["> ", "Before we ventured north, I doubted Laura's plan."],
-    ["  ", "After holding the thing myself, I could feel she was right. This can work."],
+    ["  ", "After holding the item myself, I could feel she was right. This can work."]
 ], "Vines": [
     ["> ", "Laura saved my life again."],
     ["  ", "We found a narrow stream on our way uphill. Its water smelled sour, so we crossed with care but otherwise thought little of it."],
@@ -101,7 +101,7 @@ scenes = {"Escape": [
     ["  ", "We hunted this creature."],
     ["  ", "If it'd started pleading for life, I might have abandoned our plan then and there."],
     ["  ", "I still feel sullied after butchering something with such a human voice."],
-    ["  ", "At least its face doesn't look like ours."],
+    ["  ", "At least its face doesn't look like ours."]
 ], "Strider": [
     ["> ", "The volcano started bellowing ash as we neared its summit. With no time to retreat, we sheltered inside a cave."],
     ["  ", "I covered our bodies with my cloak, then Laura brought my face close to hers and formed a wreath around our heads."],
@@ -120,11 +120,11 @@ scenes = {"Escape": [
     ["  ", "It's energetic in a way I can't fully describe."],
     ["  ", "Just looking at it made me feel as though a kiln was blazing behind my eyes."],
     ["  ", "It's former host barely touched this wellspring."],
-    ["  ", "We'll put that magic to better use."],
+    ["  ", "We'll put that magic to better use."]
 ], "Breakout": [
     ["> ", "We've returned to our old fort and plan to hide nearby until dusk."],
     ["  ", "The duke has reinforced this post significantly. Getting in would prove far more challenging than our escape."],
-    ["  ", "Good thing we don't need to bother."],
+    ["  ", "Good thing we don't need to bother."]
 ], "Post Breakout": [
     ["> ", "There's no going back."],
     ["  ", "Laura's ritual barely left us enough time to slip past the fort before"],
@@ -182,7 +182,7 @@ scenes = {"Escape": [
 ], "Finale": [
     ["> ", "The tiny port which shares Willem's surname finally lies before us."],
     ["  ", "Its new master is still in residence. We saw him visit the docks, struggling to restore order amidst the chaos we've already sown."],
-    ["  ", "He won't have that problem much longer."],
+    ["  ", "He won't have that problem much longer."]
 ], "Post Finale": [
     ["> ", "The usurper is dead. His southern troops have fled across the river."],
     ["  ", "Judging by the course of their dust trail, most chose to bypass our nearest city to seek refuge further south."],

@@ -14,6 +14,7 @@ def createSightMap(battleMap, position, playerRank, insightful, mapHeight=12):
 
     row, column = position[0], position[1]
     sightMap[row][column] = battleMap[row][column]
+    if insightful and not playerRank: sightMap[row][column] = "*" + battleMap[row][column][1:]
 
     lookUp(playerRank, insightful, position, row, column, battleMap, sightMap)
     lookDown(playerRank, insightful, position, row, column, battleMap, sightMap, mapHeight)

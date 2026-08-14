@@ -160,7 +160,6 @@ def stepCost(sightMap, lastRow, lastColumn, nextRow, nextColumn, waterLine, aqua
         if winged: cost = 1
         else: cost = (lastZ - nextZ)
 
-
     if nextWet and not nextFrozen:
         if aquatic: cost -= 1
         elif not winged: cost += 1

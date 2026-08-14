@@ -81,7 +81,7 @@ def setMapConditions(ace, biome):
     Select.waitPrint("\nDraw five numbered cards.")   
     Select.quickPrint("The first three determine topographical slope, obstruction density, and atmospheric density.")   
     Select.quickPrint("The next pair determines enemy dice budgets.")
-    Select.waitPrint("The final face-down card determines luck. Middle values are safest.")
+    Select.waitPrint("The final face-down card modifies enemy type.")
     
     numberValues = Cards.drawNumbers(5)
     drawn, faceDown = numberValues[0], numberValues[1]
