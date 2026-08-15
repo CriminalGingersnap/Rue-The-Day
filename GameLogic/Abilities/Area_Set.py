@@ -20,12 +20,11 @@ def execute(fighter, dice, groups, ability, battleMap) -> str:
         case "Slip": phrase += " slips between spaces! Rolling range."
 
     Select.waitPrint(phrase)
-    markedSpace, fighterRow, fighterColumn = [0, 0], fighter.pos[0], fighter.pos[1]
 
-    if ability in ["Bless", "Infuse"]: markedSpace = [fighterRow, fighterColumn]
-    else:
-        if ability == "Slip": range = Roll.roll(fighter, fighter, fighter.atrb["base_mag"], "Slip", "magic") + 1
-        markedSpace = Locate.findSpace(fighter, groups, range, ability)
+    if ability in ["Bless", "Infuse", "Screen"]: range = 0
+    if ability == "Slip": range = Roll.roll(fighter, fighter, fighter.atrb["base_mag"], "Slip", "magic")
+    markedSpace = Locate.findSpace(fighter, groups, range, ability)
+    fighterRow, fighterColumn = fighter.pos[0], fighter.pos[1]
 
     if markedSpace == "None": Select.waitPrint(fighter.props["name"] + " dispels an area ability before execution.")
     else:
@@ -34,7 +33,6 @@ def execute(fighter, dice, groups, ability, battleMap) -> str:
                 halfScale = max(1, dice // 2)
                 atmosphere = Apply.getAtmosphere(halfScale, fighter.atrb["cur_elm"])
                 Apply.spreadAtmosphere(atmosphere, 1, markedSpace[0], markedSpace[1], battleMap)
-                if ability == "Infuse": battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
             case "Breath":
                 atmosphere, nextSpace = Apply.getAtmosphere(2, fighter.atrb["cur_elm"]), markedSpace
                 for spaceNum in range(dice):
@@ -47,6 +45,8 @@ def execute(fighter, dice, groups, ability, battleMap) -> str:
                 tossRow, tossColumn = markedSpace[0], markedSpace[1]
                 uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
+        if ability in ["Infuse", "Screen"]:
+            battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
 
 def getNextSpace(markedSpace, fighterRow, fighterColumn) -> list:
     nextSpace = markedSpace[:]

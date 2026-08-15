@@ -28,7 +28,7 @@ def updatePlacement(battleMap, sightMap, row, column, fighter):
     if fighter.props["rank"] == "Ascendant":
         Area.affectSpace([row, column], fighter.atrb["cur_elm"], 2, battleMap)
     elif (fighter.props["rank"] == "player") and ("*" in battleMap[row][column]):
-        Select.slowPrint(fighter.props["name"] + " steps into a wellspring of fate!")
+        Select.waitPrint(fighter.props["name"] + " steps into a wellspring of fate!")
 
     if battleMap[row][column][-1] == "]":
         dmgType = random.choice(["Crush", "Flame", "Ice", "Pierce", "Rot", "Toxic"])
@@ -104,12 +104,12 @@ def activateHazards(fighter, battleMap):
     atmosphere = battleMap[row][column][0]
 
     if atmosphere in hazards:
-        print(fighter.props["name"] + " is standing in a hazard space!")
+        Select.waitPrint(fighter.props["name"] + " is standing in a hazard space!")
         points, dmgType = 0, identifyAtmosphere(atmosphere)
         scale = getScale(atmosphere)
 
         if (fighter.props["type"] in ["elemental", "echo"]) and (fighter.atrb["cur_elm"] == dmgType):
-            Select.waitPrint("\nThe map causes " + str(points) + " healing for " + fighter.props["name"] + "!")
+            Select.waitPrint("The map causes " + str(points) + " healing for " + fighter.props["name"] + "!")
             Conditions.recoverHP(fighter, scale)
         elif dmgType != "None":
             match scale:
@@ -120,7 +120,7 @@ def activateHazards(fighter, battleMap):
             absorption = Boons.applyWreath(fighter, dmgType)
             appliedDmg = max(0, points - absorption)
 
-            Select.waitPrint("\nThe map inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
+            Select.waitPrint("The map inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
             Conditions.takeDamage(fighter, dmgType, appliedDmg)
 
 

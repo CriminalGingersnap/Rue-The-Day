@@ -109,7 +109,7 @@ def loadWorld(world, campaign, slot) -> None:
 
 
 def saveGroup(group) -> None:
-    Select.waitPrint("\nEnter Save Slot (3 Per Campaign):")
+    Select.waitPrint("\nSelect a save slot to record progress (3 per campaign):")
     slot = str(Select.takeInput(1, 3))
 
     memberNames = []
@@ -142,7 +142,7 @@ def loadGroup(campaign) -> dict:
         "world": world
     }
 
-    Select.waitPrint("Enter Save Slot (1-3):")
+    Select.waitPrint("Select a save slot (1-3) to load the " + campaign + " campaign:")
     slot = str(Select.takeInput(1, 3))
 
     try:

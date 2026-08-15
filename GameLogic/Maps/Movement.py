@@ -45,7 +45,7 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace) -> str:
     reach = fighter.equip["weapon"]["reach"]
 
     closestIndex = 1
-    leastToTarget = leastFromFighter = targetDistance
+    leastToTarget, leastFromFighter = targetDistance, fighter.atrb["cur_sp"]
     highestEffective = desiredDistance = 0
     rankedOptions, rankedIndices = {}, {}
 
@@ -53,8 +53,8 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace) -> str:
         row, column, height = spaceOptions[str(spaceNumber)][0], spaceOptions[str(spaceNumber)][1], spaceOptions[str(spaceNumber)][2]
         spaceToTarget = getSpaceDistance(target.pos[0], row, target.pos[1], column, target.pos[2], height)
 
-        if spaceToTarget in rankedOptions: rankedOptions[spaceToTarget] += [[row, column, spaceNumber]]
-        else: rankedOptions[spaceToTarget] = [[row, column, spaceNumber]]
+        if spaceToTarget in rankedOptions: rankedOptions[spaceToTarget] += [[row, column, height, spaceNumber]]
+        else: rankedOptions[spaceToTarget] = [[row, column, height, spaceNumber]]
 
         if spaceToTarget < leastToTarget: leastToTarget = spaceToTarget
         if (spaceToTarget > highestEffective) and (spaceToTarget <= reach): highestEffective = spaceToTarget
@@ -63,15 +63,12 @@ def moveNPC(fighter, target, spaceOptions, firstSpace, lastSpace) -> str:
     else: desiredDistance = highestEffective
 
     for square in rankedOptions[desiredDistance]:
-        row, column = square[0], square[1]
+        row, column, height = square[0], square[1], square[2]
         spaceToFighter = getSpaceDistance(fighter.pos[0], row, fighter.pos[1], column, fighter.pos[2], height)
+        if spaceToFighter < leastFromFighter: leastFromFighter = spaceToFighter
 
-        if spaceToFighter < leastFromFighter:
-            leastFromFighter = spaceToFighter
-            rankedIndices[spaceToFighter] = [square[2]]
-        elif spaceToFighter == leastFromFighter:
-            if spaceToFighter not in rankedIndices: rankedIndices[spaceToFighter] = [square[2]]
-            else: rankedIndices[spaceToFighter] += [square[2]]
+        if spaceToFighter in rankedIndices: rankedIndices[spaceToFighter] += [square[3]]
+        else: rankedIndices[spaceToFighter] = [square[3]]
 
     closestIndex = random.choice(rankedIndices[leastFromFighter])
     return str(closestIndex)

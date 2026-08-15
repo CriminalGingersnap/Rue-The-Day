@@ -49,7 +49,7 @@ def applyResistance(damage, dmgType, target) -> int:
         if dmgType == armorType:
             Select.waitPrint("Enchantments provide half protection against their own element.")
             armorEnchantReduction /= 2
-        Select.waitPrint("Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
+        Select.waitPrint("Damage multiplier reduces by " + str(armorEnchantReduction) + ".")
 
     reduction = armorEnchantReduction + shieldEnchantReduction
     multiplier = max(0, multiplier - reduction)    

@@ -20,7 +20,8 @@ def moveAction(fighter, groups, battleMap) -> None:
         if len(visibleTargets) > 1: posOptions += ["Examine"]
         else: posOptions += ["Examine -> " + visibleTargets[0].props["name"]]
 
-        if fighter.atrb["cur_sp"] > 0: posOptions += ["Blitz", "Move"]
+        posOptions += ["Blitz"]
+        if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
         
         if ("Inventory" in posOptions) and (ItemActions.getInventory(fighter)["Total"] == 1):
             posOptions += ["Inventory -> Access"]
@@ -36,10 +37,10 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     answer = Select.pickOption(posOptions, fighter.props["name"] + "'s positional action")
     if "Examine" in answer: answer = "Examine"
 
-    if answer in ["Blitz", "Move"]:
-        stationary = True
-        if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None)
-        if stationary: fighter.cndt["blitzing"] = True
+    if answer == "Blitz": fighter.cndt["blitzing"] = True
+    elif answer == "Move":
+        stationary = Movement.moveFighter(fighter, battleMap, None)
+        if stationary: MoveAbl.execute(fighter, groups, "Evade", battleMap)
     else: MoveAbl.execute(fighter, groups, answer, battleMap)
 
 

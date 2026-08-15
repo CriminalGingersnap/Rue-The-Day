@@ -42,7 +42,7 @@ class lich:
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Lich", rank, stats, type)
-        self.ch.atrb["cur_hp"] = self.ch.atrb["cur_hp"] = min(50, days + 15)
+        self.ch.atrb["base_hp"] = self.ch.atrb["cur_hp"] = min(50, days + 20)
 
 class vampire:
     def __init__(self, days) -> None:
@@ -58,7 +58,7 @@ class vampire:
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         self.ch = Characters.character(abl, cndt, dice, element, "Vampire", rank, stats, type)
-        self.ch.atrb["cur_hp"] = self.ch.atrb["cur_hp"] = min(50, days + 10)
+        self.ch.atrb["base_hp"] = self.ch.atrb["cur_hp"] = min(50, days + 15)
 
 
 class giant:

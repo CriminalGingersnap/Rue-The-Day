@@ -6,7 +6,7 @@ import random
 
 
 def findSpace(fighter, groups, range, source) -> list:
-    column, row = fighter.pos[1], fighter.pos[0]
+    row, column = fighter.pos[0], fighter.pos[1]
     leftEdge, rightEdge = max(0, (column - range)), min(11, (column + range))
     topEdge, bottomEdge = max(0, (row - range)), min(11, (row + range))
 
@@ -18,7 +18,7 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
     enemies, allies = groups["fightingEnemies"], groups["fightingAllies"]
     sightMap = fighter.sightMap
 
-    if (leftEdge == rightEdge) and (topEdge == bottomEdge): return [leftEdge, topEdge]
+    if (leftEdge == rightEdge) and (topEdge == bottomEdge): return [topEdge, leftEdge]
     else:
         optionsMap = [[], [], [], [], [], [], [], [], [], [], [], []]
         for row in range(12):
@@ -43,7 +43,7 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
                         setSpace(sightMap, optionsMap, row, column, counter)
                     elif source == "Slip":
                         counter += 1
-                        optionDict[str(counter)] = [row, column, 0]
+                        optionDict[str(counter)] = [row, column]
                         setSpace(sightMap, optionsMap, row, column, counter)
                     else:
                         height = mOpts.heightDict[sightMap[row][column][-1]]
@@ -69,7 +69,7 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
 def enemyInRange(row, column, height, enemies) -> bool:
     inRange = False
     for enemy in enemies:
-        if Movement.getSpaceDistance(enemy.pos[0], row, enemy.pos[1], column, enemy.pos[2], height) <= 3: 
+        if Movement.getSpaceDistance(enemy.pos[0], row, enemy.pos[1], column, enemy.pos[2], height) <= 1: 
             inRange = True
 
     return inRange

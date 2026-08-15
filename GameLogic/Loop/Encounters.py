@@ -30,8 +30,9 @@ def encounterLoop(playerGroup, enemyGroups, battleMap, biome, atmosphere, timePe
     if playerVictory:
         if timePermits: Loot.searchAll(playerGroup, result[1])
         takeRest = handleAftermath(players)
-        if takeRest: rest(playerGroup, biome)
-    else: 
+        if takeRest: playerVictory = rest(playerGroup, biome)
+
+    if not playerVictory: 
         Select.waitPrint("Reload a save or start a new game to continue.")
         playerGroup = Save.loadGroup(playerGroup["campaign"])
 
@@ -57,11 +58,18 @@ def handleAftermath(victorGroup) -> bool:
                 Select.waitPrint(fighter.props["name"] + " collapses from sickness!")
                 takeRest = True
 
-    if not takeRest: takeRest = Select.yesNo("Rest?")
+    if not takeRest:
+        takeRest = Select.yesNo("Rest?")
+        if not takeRest:
+            for fighter in victorGroup:
+                fighter.atrb["corruption"] = max(fighter.atrb["corruption"] - 1, 0)
+                fighter.atrb["fatigue"] = min(fighter.atrb["fatigue"], 1)
+                fighter.atrb["injury"] = max(fighter.atrb["injury"] - 1, 0)
+
     return takeRest
 
 
-def rest(group, biome) -> None:
+def rest(group, biome) -> bool:
     for fighter in group["members"]: refresh(fighter)
     world = group["world"]
 
@@ -69,11 +77,28 @@ def rest(group, biome) -> None:
     world.marker.lastCleared = deque([world.marker.pos,[],[],[],[],[],[]])
     world.ace = Environment.updateAce(world.ace, biome)
 
-    Select.waitPrint(str(group["days"]) + " days completed.")
-    Select.waitPrint(str(35 - group["days"]) + " days remain.")
+    if group["days"] == 1: Select.waitPrint("First day completed.")
+    else: Select.waitPrint(str(group["days"]) + " days completed.")
+    achievable = True
+
+    match group["campaign"]:
+        case "Avarice":
+            consequence, warning, remaining = "", "", 0
+            if world.events["Camp"]["complete"]: remaining, consequence = 45 - group["days"], "the duke escapes."
+            else: remaining, consequence = 35 - group["days"], "Willem's execution."
+
+            if remaining == 1: warning = str(remaining) + " day remains before " + consequence
+            elif remaining > 1: warning = str(remaining) + " days remain before " + consequence
+            else: warning, achievable = "Mission failed.", False
+            
+            Select.slowPrint(warning + "\n")
+
+        case "Benediction": Select.slowPrint("Disturbed dreams warn of a creeping evil.\n")
 
     Save.saveGroup(group)
     CustomEncounters.readJournal(group, world)
+
+    return achievable
         
 
 def refresh(fighter) -> None:

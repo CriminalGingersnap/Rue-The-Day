@@ -1,5 +1,5 @@
 from . import Boons_Apply as Boons, Hindrances_Apply as Hinder, AttackAbilities as Attacks
-from Systems import PlayerSelect as Select, Roll, Conditions, Damage
+from Systems import PlayerSelect as Select, Roll, Conditions, Damage, Sort
 from Actions import AttackActions
 from Maps import Movement
 import random
@@ -88,8 +88,9 @@ def applyRiposte(attacker, defender) -> None:
     guardDice = defender.effects["Guard"]["dice"]
 
     if (guardian != "None") and (guardDice > 0) and ("Riposte" in guardian.abl["reactions"]) :
-        guardDistance = Movement.getTargetDistance(guardian, attacker)
-        if guardDistance <= guardian.equip["weapon"]["reach"]: respond(guardian, guardDice, "Guard", attacker, defender)
+        reachable = Movement.getTargetDistance(guardian, attacker) <= guardian.equip["weapon"]["reach"]
+        visible = Sort.isVisible(attacker, guardian.sightMap)
+        if reachable and visible: respond(guardian, guardDice, "Guard", attacker, defender)
 
     confounder = attacker.effects["Confound"]["source"]
     ability = attacker.effects["Confound"]["additional"]
