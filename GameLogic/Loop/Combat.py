@@ -65,7 +65,7 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
         print()
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
-            Phases.abilityStage(fighter, foes, friends)
+            Phases.abilityStage(fighter, foes, friends, battleMap)
 
         if npcGroup: input("\nPress Enter to execute abilities.")
 

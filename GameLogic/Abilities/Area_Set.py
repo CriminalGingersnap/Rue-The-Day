@@ -5,12 +5,8 @@ from Maps import Map_Update as uMap
 areaAbilities = ["Bless", "Breath", "Screen", "Shroud", "Slip"]
 
 
-def execute(fighter, groups, ability, battleMap) -> str:
-    phrase, range = fighter.props["name"], 10
-    scale = fighter.atrb["cur_mag"] // 2
-    fighter.atrb["cur_mag"] = 0
-
-    article = "a "
+def execute(fighter, dice, groups, ability, battleMap) -> str:
+    article, phrase, range = "a", fighter.props["name"], 8
     if fighter.atrb["cur_elm"][0] in ["A", "E", "I", "O", "U"]: article = "an "
 
     match ability:
@@ -26,21 +22,29 @@ def execute(fighter, groups, ability, battleMap) -> str:
     Select.waitPrint(phrase)
     markedSpace, fighterRow, fighterColumn = [0, 0], fighter.pos[0], fighter.pos[1]
 
-    if ability == "Shroud": markedSpace = [fighterRow, fighterColumn]
+    if ability in ["Bless", "Shroud"]: markedSpace = [fighterRow, fighterColumn]
     else:
         if ability == "Slip": range = Roll.roll(fighter, fighter, fighter.atrb["base_mag"], "Slip", "magic") + 1
         markedSpace = Locate.findSpace(fighter, groups, range, ability)
 
     if markedSpace == "None": Select.waitPrint(fighter.props["name"] + " dispels an area ability before execution.")
-    elif ability == "Slip":
-        tossRow, tossColumn = markedSpace[0], markedSpace[1]
-        uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
     else:
-        affectSpace(markedSpace, fighter.atrb["cur_elm"], scale, battleMap)
-        if ability == "Shroud": battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
-        elif (ability == "Breath") and (scale > 1):
-            nextSpace = getNextSpace(markedSpace, fighterRow, fighterColumn)
-            affectSpace(nextSpace, fighter.atrb["cur_elm"], scale, battleMap)
+        match ability:
+            case "Bless" | "Shroud":
+                scale = min(1, dice // 2)
+                affectSpace(markedSpace, fighter.atrb["cur_elm"], scale, battleMap)
+                if ability == "Shroud": battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
+            case "Breath":
+                nextSpace = markedSpace
+                for spaceNum in range(dice):
+                    affectSpace(nextSpace, fighter.atrb["cur_elm"], 1, battleMap)
+                    nextSpace = getNextSpace(nextSpace, fighterRow, fighterColumn)
+            case "Screen":
+                leastAtmosphere = Apply.getAtmosphere(1, fighter.atrb["cur_elm"])
+                Apply.spreadAtmosphere(leastAtmosphere, dice, markedSpace[0], markedSpace[1], battleMap)
+            case "Slip":
+                tossRow, tossColumn = markedSpace[0], markedSpace[1]
+                uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
 
 def affectSpace(markSpace, dmgType, scale, battleMap) -> None:

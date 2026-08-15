@@ -79,17 +79,17 @@ def movementStage(fighter, enemies, allies, battleMap) -> None:
         Move.moveAction(fighter, groups, battleMap)
 
 
-def abilityStage(fighter, enemies, allies) -> None:
+def abilityStage(fighter, enemies, allies, battleMap) -> None:
     groups = Sort.getGroups(fighter, enemies, allies)
-    reachable, fightingEnemies = groups["reachable"], groups["fightingEnemies"]
+    fightingEnemies = groups["fightingEnemies"]
 
     if fighter.cndt["reposed"]: Select.waitPrint(fighter.props["name"] + " waits in repose.")
     elif (len(fightingEnemies) > 0) and ((fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0)):
-        if fighter.props["rank"] == "player": PlayerAbl.playerAction(fighter, reachable)
-        else: NPCAbl.npcAction(fighter, groups)
+        if fighter.props["rank"] == "player": PlayerAbl.playerAction(fighter, groups, battleMap)
+        else: NPCAbl.npcAction(fighter, groups, battleMap)
 
         if fighter.cndt["blitzing"] and ((fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0)):
             fighter.cndt["blitzing"] = False
-            abilityStage(fighter, enemies, allies)
+            abilityStage(fighter, enemies, allies, battleMap)
     else:
         Select.waitPrint("No ability options.")

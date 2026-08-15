@@ -1,16 +1,15 @@
 from Systems import PlayerSelect as Select
 from . import ItemActions, ItemActions_NPC, BoonActions as Boons, AttackActions as Attacks
-from Abilities import Move_Apply as Moves, Area_Set as Area
+from Abilities import Move_Apply as MoveAbl, Area_Set as Area
 from Maps import Movement
 import random, copy
 
 
 def moveAction(fighter, groups, battleMap) -> None:
-    posOptions = copy.deepcopy(fighter.abl["areas"])
-
+    posOptions = []
     if fighter.atrb["cur_sp"] > 0: posOptions += ["Evade"]
 
-    if ("Inventory" in posOptions) and not ItemActions.hasItems(fighter): posOptions.remove("Inventory")
+    if (fighter.props["type"] == "human") and ItemActions.hasItems(fighter): posOptions += ["Inventory"]
     if "spares" in fighter.inv:
         if (fighter.inv["spares"]["weapon"]["name"] != "None"): posOptions += ["Swap Weapon"]
         if (fighter.inv["spares"]["shield"]["name"] != "None"): posOptions += ["Swap Shield"]
@@ -41,10 +40,7 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
         stationary = True
         if answer == "Move": stationary = Movement.moveFighter(fighter, battleMap, None)
         if stationary: fighter.cndt["blitzing"] = True
-    elif answer in Moves.stationaryAbilities:
-        Moves.execute(fighter, groups, answer, battleMap)
-    elif answer in Area.areaAbilities:
-        Area.execute(fighter, groups, answer, battleMap)
+    else: MoveAbl.execute(fighter, groups, answer, battleMap)
 
 
 def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
@@ -78,7 +74,6 @@ def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
         if len(posOptions) == 0:
             Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")
             fighter.cndt["blitzing"] = True
-        else: choice = random.choice(posOptions)
-
-        if choice in Area.areaAbilities: Area.execute(fighter, groups, choice, battleMap)
-        elif choice in Moves.stationaryAbilities: Moves.execute(fighter, groups, choice, battleMap, itemSelection)
+        else:
+            choice = random.choice(posOptions)
+            MoveAbl.execute(fighter, groups, choice, battleMap, itemSelection)

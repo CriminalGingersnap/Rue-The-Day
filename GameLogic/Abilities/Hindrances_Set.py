@@ -1,4 +1,5 @@
 from Systems import PlayerSelect as Select
+from . import Boons_Set as Boons
 import random
 
 
@@ -7,28 +8,13 @@ magicHindrances = ["Compel", "Confound", "Seal", "Stun"]
 
 
 def commitDice(fighter, target, hindrance) -> None:
-    newDice, diceCap, dType = 0, 0, ""
-
+    dType = ""
     if hindrance in martialHindrances: dType = "cur_mar"
     elif hindrance in magicHindrances: dType = "cur_mag"
-    diceCap = fighter.atrb[dType]
 
-    if fighter.cndt["blitzing"]:
-        if (fighter.props["rank"] == "player"):
-            Select.waitPrint("Commit dice(" + str(diceCap) + "):")
-            newDice = Select.takeInput(1, diceCap)
-        else: newDice = random.randint(1, diceCap)
-    else: newDice = diceCap
-
+    newDice = Boons.blitzCommit(fighter, dType)
     trueHindrance = hindranceComment(fighter, target, hindrance)
-
-    if newDice > target.effects[trueHindrance]["dice"]:
-        fighter.commits[trueHindrance]["targets"] += [target]
-        target.effects[trueHindrance]["source"] = fighter
-        target.effects[trueHindrance]["ability"] = hindrance
-
-    target.effects[trueHindrance]["dice"] += newDice
-    fighter.atrb[dType] -= newDice
+    Boons.setBuff(fighter, target, newDice, hindrance, trueHindrance)
 
 
 def hindranceComment(fighter, target, hindrance) -> str:

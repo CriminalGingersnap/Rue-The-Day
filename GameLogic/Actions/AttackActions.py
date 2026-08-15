@@ -34,7 +34,7 @@ def pcSelectAttack(fighter, enemies) -> str:
         for option in range(len(attackOptions)):
             attackOptions[option] = attackOptions[option] + " -> " + enemies[0].props["name"]
 
-    answer = Select.pickOption(attackOptions, "attack", False).split(" -> ")[0]
+    answer = Select.pickOption(attackOptions, "attack ability", False).split(" -> ")[0]
     return answer
 
 

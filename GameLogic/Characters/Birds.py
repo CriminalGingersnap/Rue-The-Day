@@ -41,7 +41,7 @@ class eagle:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Claw"], "hindrances": ["Bind"]})
-        if rank == "Elder": abl["areas"] += ["Focus"]
+        if rank == "Elder": abl["boons"] += ["Focus"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Eagle", rank, stats, type)
 

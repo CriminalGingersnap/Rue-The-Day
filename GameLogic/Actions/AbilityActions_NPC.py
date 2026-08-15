@@ -1,12 +1,15 @@
 from Systems import PlayerSelect as Select
-from . import AttackActions, BoonActions, HindranceActions
-from Abilities import AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
+from . import AreaActions, AttackActions, BoonActions, HindranceActions
+from Abilities import Area_Set as Area, AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
 import random
 
 
-def npcAction(fighter, groups) -> None:
+def npcAction(fighter, groups, battleMap) -> None:
     reachable, fightingAllies, fightingEnemies = groups["reachable"], groups["fightingAllies"], groups["fightingEnemies"]
     actionOptions = []
+
+    areaChoice = AreaActions.npcSelectArea(fighter, fightingEnemies)
+    if areaChoice != "None": actionOptions += ["Area"]
 
     attackChoice, attackTarget = "None", AttackActions.npcSelectAttackTarget(fighter, reachable["attackReachable"], False)
     if attackTarget != "None":
@@ -25,6 +28,9 @@ def npcAction(fighter, groups) -> None:
 
     if len(actionOptions) > 0:
         match random.choice(actionOptions):
+            case "Area":
+                dice = Boons.blitzCommit(fighter, fighter.atrb["cur_mag"])
+                Area.execute(fighter, dice, groups, areaChoice, battleMap)
             case "Attack": Attacks.commitDice(attackChoice, fighter, attackTarget)
             case "Boon": Boons.commitDice(fighter, boonTarget, boonChoice)
             case "Hinder": Hinder.commitDice(fighter, hindranceTarget, hindranceChoice)

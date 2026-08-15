@@ -1,4 +1,4 @@
-from . import Attacks_Magic as Magic, Attacks_Martial as Martial
+from . import Attacks_Magic as Magic, Attacks_Martial as Martial, Boons_Set as Boons
 from Systems import PlayerSelect as Select, Conditions
 import random
 
@@ -12,22 +12,14 @@ magicAttack= ["Bring"]
 
 
 def commitDice(attack, fighter, attackTarget):
-    dice, diceCap, dType = 0, 0, ""
     attackComment(fighter, attackTarget, attack)
 
+    dType = ""
     if attack in martialAttack: dType = "cur_mar"
     elif attack in magicAttack: dType = "cur_mag"
-    diceCap = fighter.atrb[dType]
 
-    if fighter.cndt["blitzing"]:
-        if (fighter.props["rank"] == "player"):
-            Select.waitPrint("Commit dice(" + str(diceCap) + "):")
-            dice = Select.takeInput(1, diceCap)
-        else: dice = random.randint(1, diceCap)
-    else: dice = diceCap
-
-    fighter.attackQueue += [[attack, attackTarget, dice]]
-    fighter.atrb[dType] -= dice
+    newDice = Boons.blitzCommit(fighter, dType)
+    fighter.attackQueue += [[attack, attackTarget, newDice]]
 
 
 def execute(fighter, target, attack, dice) -> dict:

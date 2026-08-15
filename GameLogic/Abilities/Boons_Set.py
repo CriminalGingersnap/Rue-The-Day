@@ -6,12 +6,17 @@ magicBoons = ["Focus", "Heal", "Regenerate", "Veil", "Wreath"]
 
 
 def commitDice(fighter, principal, boon) -> None: 
-    newDice, diceCap, dType = 0, 0, ""
-
+    dType = ""
     if boon in martialBoons: dType = "cur_mar"
     elif boon in magicBoons: dType = "cur_mag"
-    diceCap = fighter.atrb[dType]
     
+    newDice = blitzCommit(fighter, dType)
+    trueBoon = boonComment(fighter, principal, boon)
+    setBuff(fighter, principal, newDice, boon, trueBoon)
+
+
+def blitzCommit(fighter, dType):
+    diceCap, newDice = fighter.atrb[dType], 0
     if fighter.cndt["blitzing"]:
         if (fighter.props["rank"] == "player"):
             Select.waitPrint("Commit dice(" + str(diceCap) + "):")
@@ -19,21 +24,20 @@ def commitDice(fighter, principal, boon) -> None:
         else: newDice = random.randint(1, diceCap)
     else: newDice = diceCap
 
-    trueBoon = boonComment(fighter, principal, boon)
-    setBoon(fighter, principal, newDice, boon, trueBoon)
     fighter.atrb[dType] -= newDice
+    return newDice
 
 
-def setBoon(fighter, principal, newDice, boon, trueBoon) -> None:
-    if newDice > principal.effects[trueBoon]["dice"]:
-        fighter.commits[trueBoon]["targets"] += [principal]
-        principal.effects[trueBoon]["source"] = fighter
-        principal.effects[trueBoon]["ability"] = boon
-        if boon == "Wreath":
-            dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], boon)
-            principal.effects["Wreath"]["additional"] = dmgType
+def setBuff(fighter, target, newDice, ability, trueAbility) -> None:
+    if newDice > target.effects[trueAbility]["dice"]:
+        fighter.commits[trueAbility]["targets"] += [target]
+        target.effects[trueAbility]["source"] = fighter
+        target.effects[trueAbility]["ability"] = ability
+        if ability == "Wreath":
+            dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], ability)
+            target.effects["Wreath"]["additional"] = dmgType
 
-    principal.effects[trueBoon]["dice"] += newDice
+    target.effects[trueAbility]["dice"] += newDice
 
 
 def boonComment(fighter, principal, boon) -> None:

@@ -15,7 +15,7 @@ def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None:
     match ability:
         case "Evade":
             trueBoon = Boons.boonComment(fighter, fighter, ability)
-            Boons.setBoon(fighter, fighter, 1, ability, trueBoon)
+            Boons.setBuff(fighter, fighter, 1, ability, trueBoon)
         case "Examine": applyExamine(visibleTargets, battleMap)
         case "Inventory -> Access": ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
         case "Inventory":

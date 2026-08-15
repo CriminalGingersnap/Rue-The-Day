@@ -12,7 +12,7 @@ def pcSelectBoon(fighter, allies):
         for option in range(len(boonOptions)):
             boonOptions[option] = boonOptions[option] + " -> " + allies[0].props["name"]
 
-    answer = Select.pickOption(boonOptions, "boon", False).split(" -> ")[0]
+    answer = Select.pickOption(boonOptions, "boon ability", False).split(" -> ")[0]
     return answer
 
 
@@ -27,32 +27,6 @@ def npcSelectBoon(fighter, enemies):
     else: return "None"
 
 
-def canWreath(fighter, dmgTypes) -> bool:
-    compatible = False
-
-    for enemyDmgType in dmgTypes:
-        if Boons_Apply.checkCompatibility(enemyDmgType, fighter.atrb["cur_elm"]):
-            compatible = True
-    return compatible
-
-def usefulBoons(fighter, enemies):
-    dmgTypes, boonPreferences = [], ["Bandage", "Fortify", "Heal", "Rally", "Regenerate"]
-    someFar, anyClose = False, False
-
-    for enemy in enemies:
-        dmgTypes += enemy.equip["weapon"]["dmgTypes"]
-        if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
-
-        distance = Movement.getTargetDistance(fighter, enemy)
-        if distance > 6: someFar = True
-        if distance < 3: anyClose = True
-
-    if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]): boonPreferences += ["Guard"]
-    if someFar and not anyClose: boonPreferences += ["Conceal", "Veil"]
-
-    return boonPreferences
-
-
 def usableBoons(fighter):
     affordableBoons, usableBoons = [], []
 
@@ -65,6 +39,37 @@ def usableBoons(fighter):
         if (boon in affordableBoons): usableBoons += [boon]
 
     return usableBoons
+
+
+def canWreath(fighter, dmgTypes) -> bool:
+    compatible = False
+    for enemyDmgType in dmgTypes:
+        if Boons_Apply.checkCompatibility(enemyDmgType, fighter.atrb["cur_elm"]):
+            compatible = True
+    return compatible
+
+def usefulBoons(fighter, enemies):
+    boonPreferences = ["Bandage", "Fortify", "Heal", "Rally", "Regenerate"]
+
+    dmgDist = getDmgAndDistance(fighter, enemies)
+    dmgTypes, someFar, anyClose = dmgDist[0], dmgDist[1], dmgDist[2]
+
+    if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]): boonPreferences += ["Guard"]
+    if someFar and not anyClose: boonPreferences += ["Conceal", "Veil"]
+    if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
+
+    return boonPreferences
+
+def getDmgAndDistance(fighter, enemies):
+    dmgTypes, someFar, anyClose = [], False, False
+    for enemy in enemies:
+        dmgTypes += enemy.equip["weapon"]["dmgTypes"]
+
+        distance = Movement.getTargetDistance(fighter, enemy)
+        if distance > 6: someFar = True
+        if distance < 3: anyClose = True
+
+    return [dmgTypes, someFar, anyClose]
 
 
 def npcSelectBoonTarget(fighter, allies, boon):
