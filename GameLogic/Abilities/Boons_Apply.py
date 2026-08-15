@@ -67,7 +67,7 @@ def applyVeil(principal):
     roll = apply(principal, "Veil")
 
     if roll > 0:
-        distance = max(10 - roll, 1)
+        distance = max(10 - roll, 2)
         principal.effects["Veil"]["additional"] = distance
         Select.waitPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.\n")
 

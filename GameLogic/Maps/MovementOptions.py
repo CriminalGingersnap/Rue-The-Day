@@ -5,7 +5,6 @@ heightDict = {Elevation.doubleUp: 5, Elevation.up: 4, Elevation.middle: 3,
 
 
 def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, mapHeight) -> list:
-    hazards = uMap.majorHazards + uMap.minorHazards
     movementMap = [[], [], [], [], [], [], [], [], [], [], [], []]
     if mapHeight == 24: movementMap = [[], [], [], [], [], [], [], [], [], [], [], [],
                                        [], [], [], [], [], [], [], [], [], [], [], []]
@@ -19,7 +18,7 @@ def instantiateMoveMap(fighter, fighterRow, fighterColumn, battleMap, sightMap, 
             
             if movementMap[row][column][-1] == "]": movementMap[row][column] = movementMap[row][column][:-1] + "|"
             
-            if (movementMap[row][column][0] in hazards) and (battleMap[fighterRow][fighterColumn][0] not in hazards):
+            if (movementMap[row][column][0] in uMap.hazards) and (battleMap[fighterRow][fighterColumn][0] not in uMap.hazards):
                 if fighter.props["rank"] != "player": movementMap[row][column] = iMap.pit
 
     movementMap[fighterRow][fighterColumn] = "_1:0"
@@ -115,7 +114,10 @@ def setMoveOptions(fighter, target, battleMap, mapHeight, mapName) -> list:
             elif ("~" in moveSpace) and (mapName == "world"): movementMap[row][column] = "~~~~" + elevation
 
     if not npc: movementMap[fighterRow][fighterColumn] = ".1:0" + sightMap[fighterRow][fighterColumn][-1]
-    elif not anyContact: movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]
+    elif not anyContact:
+        presentDanger = any(threat in movementMap[fighterRow][fighterColumn] for threat in uMap.majorHazards + uMap.minorHazards)
+        if (counter <= 2) or not presentDanger:
+            movementMap[fighterRow][fighterColumn] = "!1:0" + sightMap[fighterRow][fighterColumn][-1]
 
     return movementMap
     

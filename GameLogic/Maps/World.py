@@ -39,7 +39,7 @@ class AvariceMap:
                          "m": "Marshland", "o": "Outlaw Range", "O": "Outlaw Camp", "s": "Shoreline Dunes",
                           "b": "Borderlands Forest", "w": "Wildlands Pass", "W": "Wildlands Bay"}
 
-        self.ace = "Clubs"
+        self.ace = "Hearts"
         self.events = {"Escape": {"location": [14, 6], "complete": False},
                         "Threshold": {"location": [10, 5], "complete": False}, "Moose": {"location": [5, 10], "complete": False}, "Vines": {"location": [1, 7], "complete": False}, 
                          "Worm": {"location": [1, 11], "complete": False}, "Giant": {"location": [0, 5], "complete": False}, "Strider": {"location": [7, 1], "complete": False},

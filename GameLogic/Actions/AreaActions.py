@@ -24,7 +24,7 @@ def npcSelectArea(fighter, enemies):
 def usableAreas(fighter):
     affordableAreas = []
     if (fighter.atrb["cur_mag"] > 0) and Attacks.weaponAllows(fighter, "Bring"):
-        affordableAreas += Areas.areaAbilities
+        affordableAreas += fighter.abl["areas"]
 
     return affordableAreas
 
@@ -39,11 +39,11 @@ def usefulAreas(fighter, enemies):
         if enemy.atrb["cur_elm"] == "Rot": rotEnemies = True
     if rotEnemies: areaPreferences += ["Bless"]
 
-    if anyClose:
-        areaPreferences += ["Breath"]
-        if fighter.cndt["skittish"]: areaPreferences += ["Slip"]
-    if someFar:
-        areaPreferences += ["Shroud"]
-        if not fighter.cndt["skittish"]: areaPreferences += ["Slip"]
+    if anyClose or someFar:
+        areaPreferences += ["Infuse"]
+        if anyClose:
+            areaPreferences += ["Breath"]
+            if fighter.cndt["skittish"]: areaPreferences += ["Slip"]
+        if someFar and not fighter.cndt["skittish"]: areaPreferences += ["Slip"]
 
     return areaPreferences

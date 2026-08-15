@@ -28,7 +28,7 @@ def resetFighter(fighter) -> None:
     if fighter.atrb["cur_hp"] < fighter.atrb["base_hp"]: fighter.cndt["reposed"] = False
 
     if fighter.props["type"] == "human":
-        speedLoss = getSpeedLoss(fighter) - 2
+        speedLoss = getSpeedLoss(fighter) - 3
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
     match fighter.atrb["injury"]:

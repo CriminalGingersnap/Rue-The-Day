@@ -47,7 +47,7 @@ def selectSpace(fighter, groups, source, leftEdge, rightEdge, topEdge, bottomEdg
                         setSpace(sightMap, optionsMap, row, column, counter)
                     else:
                         height = mOpts.heightDict[sightMap[row][column][-1]]
-                        if enemyInRange(row, column, height, enemies) and ((source == "echo") or allyNotInRange(row, column, height, allies)):
+                        if enemyInRange(row, column, height, enemies) and ((source in ["echo", "Screen"]) or allyNotInRange(row, column, height, allies)):
                             counter += 1
                             optionDict[str(counter)] = [row, column]
                             setSpace(sightMap, optionsMap, row, column, counter)                    
@@ -77,7 +77,7 @@ def enemyInRange(row, column, height, enemies) -> bool:
 def allyNotInRange(row, column, height, allies):
     notInRange = True
     for ally in allies:
-        if Movement.getSpaceDistance(ally.pos[0], row, ally.pos[1], column, ally.pos[2], height) <= 3: 
+        if Movement.getSpaceDistance(ally.pos[0], row, ally.pos[1], column, ally.pos[2], height) <= 2: 
             notInRange = False
 
     return notInRange

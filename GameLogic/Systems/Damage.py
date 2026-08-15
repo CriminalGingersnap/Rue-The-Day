@@ -18,7 +18,6 @@ def identifyDamageType(element, ability) -> str:
 
 def applyResistance(damage, dmgType, target) -> int:
     tRes = target.atrb["cur_res"][dmgType]
-    armorMod = target.equip["armor"]["modifier"]
 
     multiplier = 1
     match tRes:
@@ -26,7 +25,9 @@ def applyResistance(damage, dmgType, target) -> int:
         case "immune": multiplier = 0
         case "vulnerable": multiplier = 2
 
-    if tRes != "normal": Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
+    if tRes != "normal":
+        Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
+        Select.waitPrint("Damage multiplier set to " +  str(multiplier) + ".")
 
     armorEnchantReduction, shieldEnchantReduction = 0, 0
     armorType = target.equip["armor"]["element"]
@@ -38,13 +39,17 @@ def applyResistance(damage, dmgType, target) -> int:
         if dmgType == shieldType:
             Select.waitPrint("Enchantments provide half protection against their own element.")
             shieldEnchantReduction = .25
+        Select.waitPrint("Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
-        Select.waitPrint("Target is wearing " + armorType + " armor!")
+        armorMod, armorName = target.equip["armor"]["modifier"], target.equip["armor"]["name"]
+
+        Select.waitPrint("Target is wearing " + armorName + " " + armorType + " armor!")
         armorEnchantReduction = armorMod * .1
         if dmgType == armorType:
             Select.waitPrint("Enchantments provide half protection against their own element.")
             armorEnchantReduction /= 2
+        Select.waitPrint("Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
 
     reduction = armorEnchantReduction + shieldEnchantReduction
     multiplier = max(0, multiplier - reduction)    

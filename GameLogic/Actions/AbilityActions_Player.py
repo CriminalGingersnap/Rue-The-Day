@@ -1,6 +1,6 @@
 from Systems import PlayerSelect as Select
 from . import AreaActions as Area, AttackActions as Attack, BoonActions as Boon, HindranceActions as Hindrance
-from Abilities import Area_Set as Area, AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
+from Abilities import Area_Set as Areas, AttackAbilities as Attacks, Boons_Set as Boons, Hindrances_Set as Hinder
 
 
 def playerAction(fighter, groups, battleMap) -> None:
@@ -16,7 +16,7 @@ def chooseAction(fighter, reachable) -> str:
 
     actionOptions = []
 
-    if len(usableAttacks) == 1: actionOptions += ["Area -> " + usableAreas[0]]
+    if len(usableAreas) == 1: actionOptions += ["Area -> " + usableAreas[0]]
     elif len(usableAreas) > 1: actionOptions += ["Area"]
 
     if len(usableAttacks) == 1:
@@ -48,8 +48,8 @@ def takeAction(fighter, actionChoice, groups, reachable, battleMap) -> None:
     match actionChoice:
         case "Area":
             areaChoice = Area.pcSelectArea(fighter)
-            dice = Boons.blitzCommit(fighter, fighter.atrb["cur_mag"])
-            Area.execute(fighter, dice, groups, areaChoice, battleMap)
+            dice = Boons.blitzCommit(fighter, "cur_mag")
+            Areas.execute(fighter, dice, groups, areaChoice, battleMap)
 
         case "Attack":
             attackChoice = Attack.pcSelectAttack(fighter, reachable["attackReachable"])

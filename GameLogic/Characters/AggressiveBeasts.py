@@ -27,7 +27,7 @@ class bear:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Claw"], "hindrances": ["Bind"]})
-        if rank == "Elder": abl["areas"] += ["Shroud"]
+        if rank == "Elder": abl["areas"] += ["Infuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Bear", rank, stats, type)
 

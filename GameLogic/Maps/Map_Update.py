@@ -7,7 +7,7 @@ import random
 majorHazards =     ["B", "C", "D", "F", "H", "I", "P", "R", "T"]
 minorHazards =     ["b", "c", "d", "f", "h", "i", "p", "r", "t"]
 lingeringHazards = [";",      "@", "#", "+", "%",      "}", "&"]
-hazards = majorHazards + minorHazards
+hazards = majorHazards + minorHazards + lingeringHazards
 
 
 def setMarker(fighter, space):
@@ -78,15 +78,16 @@ def hideTraps(fighter, sightMap):
 
 def identifyAtmosphere(atmosphere) -> str:
     dmgType = "None"
-    if atmosphere in ["b", "B", ";"]: dmgType = "Bleed"
-    if atmosphere in ["c", "C"]: dmgType = "Crush"
-    elif atmosphere in ["d", "D", "@"]: dmgType = "Dream"
-    if atmosphere in ["f", "F", "#"]: dmgType = "Flame"
-    elif atmosphere in ["h", "H", "+"]: dmgType = "Holy"
-    elif atmosphere in ["i", "I", "%"]: dmgType = "Ice"
-    elif atmosphere in ["r", "R", "}"]: dmgType = "Rot"
-    elif atmosphere in ["p", "P"]: dmgType == "Pierce"
-    elif atmosphere in ["t", "T", "&"]: dmgType == "Toxic"
+    match atmosphere:
+        case "b" | "B" | ";": dmgType = "Bleed"
+        case "c" | "C":       dmgType = "Crush"
+        case "d" | "D" | "@": dmgType = "Dream"
+        case "f" | "F" | "#": dmgType = "Flame"
+        case "h" | "H" | "+": dmgType = "Holy"
+        case "i" | "I" | "%": dmgType = "Ice"
+        case "r" | "R" | "}": dmgType = "Rot"
+        case "p" | "P":       dmgType = "Pierce"
+        case "t" | "T" | "&": dmgType = "Toxic"
 
     return dmgType
 
@@ -103,11 +104,12 @@ def activateHazards(fighter, battleMap):
     atmosphere = battleMap[row][column][0]
 
     if atmosphere in hazards:
+        print(fighter.props["name"] + " is standing in a hazard space!")
         points, dmgType = 0, identifyAtmosphere(atmosphere)
         scale = getScale(atmosphere)
 
         if (fighter.props["type"] in ["elemental", "echo"]) and (fighter.atrb["cur_elm"] == dmgType):
-            Select.waitPrint("\nMap causes " + str(points) + " healing for " + fighter.props["name"] + "!")
+            Select.waitPrint("\nThe map causes " + str(points) + " healing for " + fighter.props["name"] + "!")
             Conditions.recoverHP(fighter, scale)
         elif dmgType != "None":
             match scale:
@@ -118,7 +120,7 @@ def activateHazards(fighter, battleMap):
             absorption = Boons.applyWreath(fighter, dmgType)
             appliedDmg = max(0, points - absorption)
 
-            Select.waitPrint("\nMap inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
+            Select.waitPrint("\nThe map inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
             Conditions.takeDamage(fighter, dmgType, appliedDmg)
 
 
@@ -132,38 +134,38 @@ def updateHazards(battleMap):
                 scale = getScale(atmosphere)
 
                 match dmgType:
-                    case "Bleed": newAtmosphere = "="
+                    case "Bleed": newAtmosphere = random.choice([atmosphere] +  ["="])
                     case "Dream":
                         match scale:
-                            case 3: newAtmosphere = random.choice(majorHazards)
-                            case 2: newAtmosphere =  random.choice(minorHazards)
-                            case 1: newAtmosphere = random.choice(lingeringHazards)
+                            case 3: newAtmosphere = random.choice([atmosphere] + majorHazards)
+                            case 2: newAtmosphere = random.choice([atmosphere] + minorHazards)
+                            case 1: newAtmosphere = random.choice([atmosphere] + lingeringHazards)
                     case "Flame":
                         match scale:
-                            case 3: newAtmosphere = "f"
-                            case 2: newAtmosphere = random.choice(["F", "#", "#"])
-                            case 1: newAtmosphere = random.choice(["f", "_", "_"])
+                            case 3: newAtmosphere = random.choice([atmosphere] + ["f"])
+                            case 2: newAtmosphere = random.choice([atmosphere] + ["F", "#", "#"])
+                            case 1: newAtmosphere = random.choice([atmosphere] + ["f", "_", "_"])
                     case "Holy": 
                         match scale:
-                            case 3: newAtmosphere = "h"
-                            case 2: newAtmosphere = "+"
-                            case 1: newAtmosphere = random.choice(["H", "+", "_"])
+                            case 3: newAtmosphere = random.choice([atmosphere] + ["h"])
+                            case 2: newAtmosphere = random.choice([atmosphere] + ["+"])
+                            case 1: newAtmosphere = random.choice([atmosphere] + ["H", "+", "_"])
                     case "Ice":
                         match scale:
-                            case 3: newAtmosphere = random.choice(["I", "I", "i"])
-                            case 2: newAtmosphere = random.choice(["i", "i", "%"])
-                            case 1: newAtmosphere = random.choice(["%", "%", "%", "%", "%", "_"])
+                            case 3: newAtmosphere = random.choice([atmosphere] + ["I", "I", "i"])
+                            case 2: newAtmosphere = random.choice([atmosphere] + ["i", "i", "%"])
+                            case 1: newAtmosphere = random.choice([atmosphere] + ["%", "%", "%", "%", "%", "_"])
                     case "Rot": 
                         match scale:
-                            case 3: newAtmosphere = "r"
-                            case 2: newAtmosphere = "}"
-                            case 1: newAtmosphere = random.choice(["}", "}", "}", "}", "}", "_"])
+                            case 3: newAtmosphere = random.choice([atmosphere] + ["r"])
+                            case 2: newAtmosphere = random.choice([atmosphere] + ["}"])
+                            case 1: newAtmosphere = random.choice([atmosphere] + ["}", "}", "}", "}", "}", "_"])
                     case "Toxic": 
                         match scale:
-                            case 3: newAtmosphere = random.choice(["t", "&"])
-                            case 2: newAtmosphere = random.choice(["&", "-"])
-                            case 1: newAtmosphere = "-"
-                    case "Crush" | "Pierce": newAtmosphere = "_"
+                            case 3: newAtmosphere = random.choice([atmosphere] + ["t", "&"])
+                            case 2: newAtmosphere = random.choice([atmosphere] + ["&", "-"])
+                            case 1: newAtmosphere = random.choice([atmosphere] + ["-"])
+                    case "Crush" | "Pierce": newAtmosphere = random.choice([atmosphere] + ["_"])
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
 

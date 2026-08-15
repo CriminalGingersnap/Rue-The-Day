@@ -2,27 +2,27 @@ from Systems import PlayerSelect as Select, Roll
 from . import Area_Locate as Locate, Area_Apply as Apply
 from Maps import Map_Update as uMap
 
-areaAbilities = ["Bless", "Breath", "Screen", "Shroud", "Slip"]
+areaAbilities = ["Bless", "Breath", "Screen", "Infuse", "Slip"]
 
 
 def execute(fighter, dice, groups, ability, battleMap) -> str:
-    article, phrase, range = "a", fighter.props["name"], 8
+    article, phrase, range = "a ", fighter.props["name"], 8
     if fighter.atrb["cur_elm"][0] in ["A", "E", "I", "O", "U"]: article = "an "
 
     match ability:
         case "Breath":
             phrase += " exhales " + fighter.atrb["cur_elm"] + " breath"
-            range = 1
             if fighter.cndt["massive"]: range = 2
+            else: range = 1
         case "Bless": phrase += " blesses the ground!"
+        case "Infuse": phrase += " infuses the ground with " + fighter.atrb["cur_elm"] + " magic!"
         case "Screen": phrase += " raises " + article + fighter.atrb["cur_elm"] + " screen!"
-        case "Shroud": phrase += " emanates " + article + fighter.atrb["cur_elm"] + " shroud!"
         case "Slip": phrase += " slips between spaces! Rolling range."
 
     Select.waitPrint(phrase)
     markedSpace, fighterRow, fighterColumn = [0, 0], fighter.pos[0], fighter.pos[1]
 
-    if ability in ["Bless", "Shroud"]: markedSpace = [fighterRow, fighterColumn]
+    if ability in ["Bless", "Infuse"]: markedSpace = [fighterRow, fighterColumn]
     else:
         if ability == "Slip": range = Roll.roll(fighter, fighter, fighter.atrb["base_mag"], "Slip", "magic") + 1
         markedSpace = Locate.findSpace(fighter, groups, range, ability)
@@ -30,14 +30,15 @@ def execute(fighter, dice, groups, ability, battleMap) -> str:
     if markedSpace == "None": Select.waitPrint(fighter.props["name"] + " dispels an area ability before execution.")
     else:
         match ability:
-            case "Bless" | "Shroud":
-                scale = min(1, dice // 2)
-                affectSpace(markedSpace, fighter.atrb["cur_elm"], scale, battleMap)
-                if ability == "Shroud": battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
+            case "Bless" | "Infuse":
+                halfScale = max(1, dice // 2)
+                atmosphere = Apply.getAtmosphere(halfScale, fighter.atrb["cur_elm"])
+                Apply.spreadAtmosphere(atmosphere, 1, markedSpace[0], markedSpace[1], battleMap)
+                if ability == "Infuse": battleMap[fighterRow][fighterColumn] = "_" + battleMap[fighterRow][fighterColumn][1:]
             case "Breath":
-                nextSpace = markedSpace
+                atmosphere, nextSpace = Apply.getAtmosphere(2, fighter.atrb["cur_elm"]), markedSpace
                 for spaceNum in range(dice):
-                    affectSpace(nextSpace, fighter.atrb["cur_elm"], 1, battleMap)
+                    battleMap[nextSpace[0]][nextSpace[1]] = atmosphere + battleMap[fighterRow][fighterColumn][1:]
                     nextSpace = getNextSpace(nextSpace, fighterRow, fighterColumn)
             case "Screen":
                 leastAtmosphere = Apply.getAtmosphere(1, fighter.atrb["cur_elm"])
@@ -46,17 +47,6 @@ def execute(fighter, dice, groups, ability, battleMap) -> str:
                 tossRow, tossColumn = markedSpace[0], markedSpace[1]
                 uMap.updatePlacement(battleMap, fighter.sightMap, tossRow, tossColumn, fighter)
 
-
-def affectSpace(markSpace, dmgType, scale, battleMap) -> None:
-    effectRow, effectColumn = markSpace[0], markSpace[1]
-
-    atmosphere = Apply.getAtmosphere(scale, dmgType)
-    lesserAtmosphere = Apply.getAtmosphere(scale-1, dmgType)
-    leastAtmosphere = Apply.getAtmosphere(1, dmgType)
-
-    battleMap[effectRow][effectColumn] = atmosphere + battleMap[effectRow][effectColumn][1:]
-    Apply.spreadAtmosphere(leastAtmosphere, scale+1, effectRow, effectColumn, battleMap)
-    Apply.spreadAtmosphere(lesserAtmosphere, scale, effectRow, effectColumn, battleMap)
 
 def getNextSpace(markedSpace, fighterRow, fighterColumn) -> list:
     nextSpace = markedSpace[:]
@@ -82,3 +72,15 @@ def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
         potency = 2
         if category == "cores": potency = 3
         affectSpace(tossSpace, dmgType, potency, battleMap)
+
+
+def affectSpace(markSpace, dmgType, scale, battleMap) -> None:
+    effectRow, effectColumn = markSpace[0], markSpace[1]
+
+    atmosphere = Apply.getAtmosphere(scale, dmgType)
+    lesserAtmosphere = Apply.getAtmosphere(scale-1, dmgType)
+    leastAtmosphere = Apply.getAtmosphere(1, dmgType)
+
+    battleMap[effectRow][effectColumn] = atmosphere + battleMap[effectRow][effectColumn][1:]
+    Apply.spreadAtmosphere(leastAtmosphere, scale, effectRow, effectColumn, battleMap)
+    Apply.spreadAtmosphere(lesserAtmosphere, scale-1, effectRow, effectColumn, battleMap)

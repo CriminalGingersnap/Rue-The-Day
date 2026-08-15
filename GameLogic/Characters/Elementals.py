@@ -238,7 +238,7 @@ class obelisk:
         else: abl["specialty"] = [random.choice(["Bring", "Veil"])]
 
         if element == "Holy": abl["areas"] += ["Bless"]
-        else: abl["areas"] += ["Shroud"]
+        else: abl["areas"] += ["Infuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Obelisk", rank, stats, type)
 

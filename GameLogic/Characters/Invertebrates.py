@@ -18,7 +18,7 @@ class anemone:
 
         dice = {"martial": 2, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "areas": ["Shroud"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "areas": ["Infuse"], "hindrances": ["Bind"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Anemone", rank, stats, type)
 

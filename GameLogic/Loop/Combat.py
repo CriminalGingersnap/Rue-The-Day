@@ -45,14 +45,16 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
         if Select.yesNo("Disengage?"): return  [True, downedTargets]
     
     if len(validFighters) > 0:
-        for fighter in validFighters: Phases.resetFighter(fighter)
-
         friends, foes = validFighters, validTargets
+
         for fighter in validFighters:
+            Phases.resetFighter(fighter)
+            
             Hinder.applyCompel(fighter, "Compel")
             if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, validFighters
             Hinder.applyCompel(fighter, "Seal")
             if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
+
             uMap.activateHazards(fighter, battleMap)
 
         uMap.updateHazards(battleMap)

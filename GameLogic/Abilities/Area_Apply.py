@@ -31,7 +31,7 @@ def spreadAtmosphere(atmosphere, coverage, tossRow, tossColumn, battleMap) -> No
     leftColumn, rightColumn = tossColumn - 1, tossColumn + 1
     spaces = []
 
-    for step in range(coverage - 1):
+    for step in range(coverage):
         spaces += addSpaces(tossRow, upRow, downRow, tossColumn, leftColumn, rightColumn)
         upRow -= 1
         downRow += 1

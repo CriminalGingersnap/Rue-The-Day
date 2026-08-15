@@ -42,7 +42,7 @@ class camel:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Spit", "Kick"]})
-        if rank == "Elder": abl["areas"] += ["Shroud"]
+        if rank == "Elder": abl["areas"] += ["Screen"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Camel", rank, stats, type)
 

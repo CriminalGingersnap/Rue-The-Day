@@ -165,7 +165,7 @@ class mage:
             
             if rank in ["Adept", "Elite"]: specialtyLevel = "specialty"
             if rank in ["Elite", "Master"]:
-                abl["areas"] += ["Shroud"]
+                abl["areas"] += ["Infuse"]
                 if rank == "Master": specialtyLevel = "mastery"
 
         setSpecialty(abl, specialtyLevel)

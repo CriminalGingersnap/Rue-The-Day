@@ -40,11 +40,11 @@ class drake:
         cndt["massive"] = True
         stats["hp"] = "max"
 
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 2, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Gore"]})
-        if rank == "Elder": abl["areas"] += ["Breath"]
+        abl = Characters.setAbilities(type, {"areas": ["Breath"], "attacks": ["Bite"]})
+        if rank != "Juvenile": abl["attacks"] += ["Gore"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Drake", rank, stats, type)
 
@@ -59,7 +59,7 @@ class hydra:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
-        if rank == "Elder": abl["areas"] += ["Breath"]
+        if rank != "Juvenile": abl["areas"] += ["Breath"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Hydra", rank, stats, type)
 
@@ -89,7 +89,7 @@ class tortoise:
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
-        if rank == "Elder": abl["areas"] += ["Shroud"]
+        if rank == "Elder": abl["areas"] += ["Infuse"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Tortoise", rank, stats, type)
 

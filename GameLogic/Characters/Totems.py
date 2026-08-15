@@ -47,15 +47,15 @@ class impedance:
 
 
 class sentry:
-    def __init__(self, element, job) -> None:        
+    def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Bring"]})
+        abl = Characters.setAbilities(type, {"areas": ["Infuse"], "attacks": ["Bring"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Sentry", stats, type)
 
 class ward:
-    def __init__(self, element, job) -> None:        
+    def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"areas": ["Shroud"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"areas": ["Screen"], "boons": ["Wreath"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Ward", stats, type)

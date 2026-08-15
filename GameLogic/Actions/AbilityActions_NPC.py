@@ -29,7 +29,7 @@ def npcAction(fighter, groups, battleMap) -> None:
     if len(actionOptions) > 0:
         match random.choice(actionOptions):
             case "Area":
-                dice = Boons.blitzCommit(fighter, fighter.atrb["cur_mag"])
+                dice = Boons.blitzCommit(fighter, "cur_mag")
                 Area.execute(fighter, dice, groups, areaChoice, battleMap)
             case "Attack": Attacks.commitDice(attackChoice, fighter, attackTarget)
             case "Boon": Boons.commitDice(fighter, boonTarget, boonChoice)
