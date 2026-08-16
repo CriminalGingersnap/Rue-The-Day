@@ -31,7 +31,7 @@ def apply(principal, ability) -> int:
         if principal in source.commits[ability]["targets"]:
             element = ""
             if ability == "Wreath": element = principal.effects[ability]["additional"] + " "
-            if print: Select.waitPrint("\n" + element + specific + " triggered on " + principal.props["name"] + "!")
+            if print: Select.clearPrint(element + specific + " triggered on " + principal.props["name"] + "!")
 
             roll = expend(source, principal, dice, specific, dType)
             increase = roll[0]
@@ -42,12 +42,12 @@ def apply(principal, ability) -> int:
 
 def applyFocus(principal):
     bonus = apply(principal, "Focus")
-    if bonus > 0: Select.waitPrint(principal.props["name"] + "'s attempt increases by " + str(bonus) + ".\n")
+    if bonus > 0: Select.clearPrint(principal.props["name"] + "'s attempt increases by " + str(bonus) + ".")
     return bonus
 
 def applyGuard(principal):
     bonus = apply(principal, "Guard")
-    if bonus > 0: Select.waitPrint(principal.props["name"] + "'s AV increases by " + str(bonus) + ".\n")
+    if bonus > 0: Select.clearPrint(principal.props["name"] + "'s AV increases by " + str(bonus) + ".")
     return bonus
 
 def applyFortify(principal) -> str:
@@ -69,7 +69,7 @@ def applyVeil(principal):
     if roll > 0:
         distance = max(10 - roll, 2)
         principal.effects["Veil"]["additional"] = distance
-        Select.waitPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.\n")
+        Select.clearPrint(principal.props["name"] + " is concealed beyond " + str(distance) + " spaces.")
 
 
 def applyWreath(principal, attackDmgType) -> int:
@@ -85,7 +85,7 @@ def applyWreath(principal, attackDmgType) -> int:
             Select.waitPrint("Wreath provides half protection against it's own element!")
             Select.waitPrint("Total reduced to " + str(bonus) + "!")
 
-        Select.waitPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.\n")
+        Select.clearPrint(principal.props["name"] + " blocks " + str(bonus) + " " + attackDmgType + " damage.")
 
     return bonus
 

@@ -3,7 +3,7 @@ from . import PlayerSelect as Select
 
 def removeEffect(fighter, effect):
     if effect not in ["Drain", "Fortify", "Heal", "Rally"]:
-        Select.waitPrint("Effect " + fighter.effects[effect]["ability"] + " ends on " + fighter.props["name"] + ".\n")
+        Select.quickPrint("Effect " + fighter.effects[effect]["ability"] + " ends on " + fighter.props["name"] + ".")
     fighter.effects[effect] = {"dice": 0, "source": None, "ability": None, "additional": None}
 
 
@@ -17,7 +17,7 @@ def updateItemEffects(fighter):
 
 
 def removeItemEffect(fighter, effect) -> None:
-    Select.waitPrint(effect + " ends on " + fighter.props["name"] + ".")
+    Select.quickPrint(effect + " ends on " + fighter.props["name"] + ".")
 
     match effect:
         case "Imbue": removeImbue(fighter)

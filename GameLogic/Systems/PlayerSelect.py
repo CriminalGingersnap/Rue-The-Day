@@ -4,14 +4,6 @@ import time
 
 longWait, quickWait = .3, .07
 
-# make a fast print option for large blocks of text. let the player choose before it starts.
-def slowPrint(text):
-    for i in text:
-        quickPrint(i, '')
-        time.sleep(quickWait)
-    time.sleep(longWait)
-    quickPrint('', '')
-
 
 def readScene(title, campaign, skipPrompt=False) -> None:
     if skipPrompt or yesNo("\nRead '" + title + "' journal entry?"):
@@ -25,14 +17,18 @@ def readScene(title, campaign, skipPrompt=False) -> None:
             quickPrint(phrase[0], '')
             conversationPrint(phrase[1])
 
-        input("\nPress Enter to continue.\n")
+        pressEnter("continue")
 
 def conversationPrint(text):
     for i in text:
         quickPrint(i, '')
         if i in [".", ",", "?", "!", ":", ";"]: time.sleep(longWait)
-    slowPrint("\n")
+    time.sleep(longWait)
+    quickPrint("\n")
+    time.sleep(longWait)
 
+def clearPrint(text): waitPrint("\n" + text + "\n")
+def pressEnter(text): input("\nPress Enter to " + text +".\n")
 
 def quickPrint(text, ending: str | None = "\n"):
     time.sleep(quickWait)
@@ -40,7 +36,7 @@ def quickPrint(text, ending: str | None = "\n"):
 
 def waitPrint(text):
     time.sleep(longWait)
-    quickPrint(text, "\n")
+    quickPrint(text)
     time.sleep(longWait)
 
 

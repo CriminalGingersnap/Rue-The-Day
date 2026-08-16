@@ -122,6 +122,7 @@ def activateHazards(fighter, battleMap):
 
             Select.waitPrint("The map inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
             Conditions.takeDamage(fighter, dmgType, appliedDmg)
+            Conditions.setInjury(fighter)
 
 
 def updateHazards(battleMap):
@@ -174,5 +175,5 @@ def addHazards(battleMap, atmosphere):
     mapConditions = {"atmosphere": atmosphere,
                       "obstructions": {"wall": 0, "trap": 0, "pit": 0}}
     if any((atmosphere[atmo] > 0) for atmo in atmosphere):
-        Select.waitPrint("\nAdding atmospheric effects...")
+        Select.clearPrint("Adding atmospheric effects...")
         iMap.placeOcclusions(mapConditions, battleMap)

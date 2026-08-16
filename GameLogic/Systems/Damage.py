@@ -26,37 +26,37 @@ def applyResistance(damage, dmgType, target) -> int:
         case "vulnerable": multiplier = 2
 
     if tRes != "normal":
-        Select.waitPrint("Target is " + tRes + " to " + dmgType + "!")
-        Select.waitPrint("Damage multiplier set to " +  str(multiplier) + ".")
+        Select.waitPrint("  Target is " + tRes + " to " + dmgType + "!")
+        Select.waitPrint("  Damage multiplier set to " +  str(multiplier) + ".")
 
     armorEnchantReduction, shieldEnchantReduction = 0, 0
     armorType = target.equip["armor"]["element"]
     shieldType = target.equip["shield"]["element"]
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, shieldType):
-        Select.waitPrint("Target carries a talisman of " + target.equip["shield"]["element"] + "!")
+        Select.waitPrint("  Target carries a talisman of " + target.equip["shield"]["element"] + "!")
         shieldEnchantReduction = .5
         if dmgType == shieldType:
-            Select.quickPrint("Enchantments provide half protection against their own element.")
+            Select.quickPrint("  Enchantments provide half protection against their own element.")
             shieldEnchantReduction = .25
-        Select.waitPrint("Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
+        Select.waitPrint("  Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
         armorMod, armorName = target.equip["armor"]["modifier"], target.equip["armor"]["name"]
 
-        Select.waitPrint("Target is wearing " + armorName + " " + armorType + " armor!")
+        Select.waitPrint("  Target is wearing " + armorName + " " + armorType + " armor!")
         armorEnchantReduction = armorMod * .1
         if dmgType == armorType:
-            Select.quickPrint("Enchantments provide half protection against their own element.")
+            Select.quickPrint("  Enchantments provide half protection against their own element.")
             armorEnchantReduction /= 2
-        Select.waitPrint("Damage multiplier reduces by " + str(armorEnchantReduction) + ".")
+        Select.waitPrint("  Damage multiplier reduces by " + str(armorEnchantReduction) + ".")
 
     reduction = armorEnchantReduction + shieldEnchantReduction
     multiplier = max(0, multiplier - reduction)
     damage = int(damage * multiplier)
 
     if multiplier != 1:
-        Select.quickPrint("Final damage: ", ending = "")
+        Select.quickPrint("  Final damage: ", ending = "")
         Select.waitPrint(str(damage))
 
     return damage

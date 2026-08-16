@@ -33,7 +33,7 @@ def colorPrint(comparisonSpace, printingSpace) -> None:
 
 
 def printOptionsMap(instanceMap, mapName, mapHeight=12) -> None:
-    Select.waitPrint("\n" + mapName + ":\n")
+    Select.clearPrint(mapName + ":")
 
     for row in range(mapHeight):
         if "World" not in mapName:
@@ -55,7 +55,7 @@ def printOptionsMap(instanceMap, mapName, mapHeight=12) -> None:
 
 
 def printSightMap(battleMap, sightMap, mapName) -> None:
-    Select.waitPrint("\n" + mapName + ":\n")
+    Select.clearPrint(mapName + ":")
     for row in range(12):
         for column in range(12):
             sightSpace, battleSpace = sightMap[row][column], battleMap[row][column]
@@ -84,7 +84,7 @@ def printSightMap(battleMap, sightMap, mapName) -> None:
 def printWorldMap(world) -> None:
     displayList = []
 
-    Select.waitPrint("\nWorld Map:\n")
+    Select.clearPrint("World Map:")
     for row in range(24):
         for column in range(12):
             biome = world.marker.sightMap[row][column][0]

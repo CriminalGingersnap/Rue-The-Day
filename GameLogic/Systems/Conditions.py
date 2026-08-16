@@ -7,17 +7,15 @@ def decrementStamina(fighter, potency):
         elif fighter.atrb["stamina"] == 1:
             fighter.atrb["fatigue"] += 1
             fighter.atrb["stamina"] = fighter.atrb["endurance"]
-            Select.waitPrint(fighter.props["name"] + " gains a point of fatigue!")
+            Select.clearPrint(fighter.props["name"] + " gains a point of fatigue!")
 
 def decrementTolerance(fighter, potency) -> None:
     for point in range(potency):
         if fighter.atrb["tolerance"] > 1: fighter.atrb["tolerance"] -= 1
-        else:
-            if fighter.atrb["tolerance"] == 1:
-                fighter.atrb["corruption"] += 1
-                fighter.atrb["tolerance"] = fighter.atrb["endurance"]
-                Select.waitPrint(fighter.props["name"] + " gains a point of instability!")
-                Select.waitPrint("Magic rolls lose stability!")
+        elif fighter.atrb["tolerance"] == 1:
+            fighter.atrb["corruption"] += 1
+            fighter.atrb["tolerance"] = fighter.atrb["endurance"]
+            Select.clearPrint(fighter.props["name"] + " gains a point of instability!")
 
     corruption = fighter.atrb["corruption"]
     if corruption > 0:
@@ -29,17 +27,17 @@ def recoverHP(principal, points):
     if points > 0:
         cap = principal.atrb["base_hp"] + principal.atrb["half_hp"]
         principal.atrb["cur_hp"] = min(cap, principal.atrb["cur_hp"] + points)
-        Select.waitPrint(principal.props["name"] + " receives " + str(points) + " of healing.\n")
+        Select.clearPrint(principal.props["name"] + " receives " + str(points) + " of healing.")
 
 def recoverStamina(principal, points):
     if points > 0:
         principal.atrb["stamina"] = min(principal.atrb["base_hp"], principal.atrb["stamina"] + points)
-        Select.waitPrint(principal.props["name"] + " rallies for " + str(points) + " points of stamina.\n")
+        Select.clearPrint(principal.props["name"] + " rallies for " + str(points) + " points of stamina.")
 
 def recoverTolerance(principal, points):
     if points > 0:
         principal.atrb["tolerance"] = min(principal.atrb["base_hp"], principal.atrb["tolerance"] + points)
-        Select.waitPrint(principal.props["name"] + " fortifies for " + str(points) + " points of tolerance.\n")
+        Select.clearPrint(principal.props["name"] + " fortifies for " + str(points) + " points of tolerance.")
 
 
 def takeDamage(target, dmgType, damage) -> None:
@@ -106,4 +104,4 @@ def setInjury(target):
         Select.waitPrint(injuryPhrase)
         if target.atrb["base_sp"] > 0: Select.quickPrint(speedPhrase)
         Select.quickPrint(avPhrase)
-        Select.waitPrint(str(target.atrb["injury"]) + "-point penalty applied to rolls.\n")
+        Select.waitPrint(str(target.atrb["injury"]) + "-point penalty applied to rolls.")

@@ -9,26 +9,26 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     Select.waitPrint("\nCreating rooms...")
     setColumns([mainMap, secondMap, thirdMap])
     
-    Select.waitPrint("Placing PCs...")
+    Select.quickPrint("Placing PCs...")
     for fighter in playerGroup: pMap.firstPlacement(mainMap, 4, fighter)
-    Select.waitPrint("Placing Group 1 NPCs...")
+    Select.quickPrint("Placing Group 1 NPCs...")
     for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, 4, fighter)
-    Select.waitPrint("Placing Group 2 NPCs...")
+    Select.quickPrint("Placing Group 2 NPCs...")
     for fighter in enemyGroups[1]: pMap.firstPlacement(thirdMap, 4, fighter)
 
     battleMap = iMap.combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 
-    Select.waitPrint("Adjusting rooms...")
+    Select.quickPrint("Adjusting rooms...")
     carveTunnels(battleMap)
     fixCorners(battleMap)
     
-    Select.waitPrint("Placing occlusions...")
+    Select.quickPrint("Placing occlusions...")
     iMap.placeOcclusions(mapConditions, battleMap)
     
-    Select.waitPrint("Placing fate well...")
+    Select.quickPrint("Placing fate well...")
     pMap.placeObstruction(battleMap, iMap.fateWell, 1, 12)
          
-    Select.waitPrint("Adjusting elevation and atmosphere...")
+    Select.quickPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, "flat")
    
     return battleMap

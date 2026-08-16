@@ -41,7 +41,7 @@ def applyExamine(visibleTargets, battleMap) -> None:
     examinee = Select.targetSelect(visibleTargets)
 
     if examinee != "None":
-        Select.waitPrint("\n" + examinee.props["name"] + "'s base stats:")
+        Select.clearPrint(examinee.props["name"] + "'s base stats:")
         av, reach = Martial.getBaseAv("Stab", "Pierce", examinee), examinee.equip["weapon"]["reach"]
         hp, stamina, speed, tolerance = examinee.atrb["cur_hp"], examinee.atrb["stamina"],  examinee.atrb["base_sp"], examinee.atrb["tolerance"]
         strAV, strHP, strStamina, strSpeed, strTolerance, strReach = str(av), str(hp), str(stamina), str(speed), str(tolerance), str(reach)
@@ -108,6 +108,6 @@ def applyExamine(visibleTargets, battleMap) -> None:
 
         if Select.yesNo("\n\nView " + examinee.props["name"] + "'s sight map?"):
             Print.printSightMap(battleMap, examinee.sightMap, examinee.props["name"] + "'s Sight Map")
-            input("\n\nPress Enter to continue")
+            Select.pressEnter("continue")
 
         Select.waitPrint("")

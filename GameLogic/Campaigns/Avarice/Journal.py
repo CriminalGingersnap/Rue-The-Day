@@ -1,10 +1,10 @@
 
 
 scenes = {"Escape": [
-    ["> ", "This journal was the first object I ever stole."],
-    ["  ", "I snatched it from our warden's desk before helping myself to his armory."],
-    ["  ", "Laura wasn't amused by how much time I spent hunting for a quill,"],
-    ["  ", "  but she changed her tune when I found his core stash."],
+    ["> ", "This journal belonged to our warden."],
+    ["  ", "Snatching it off is desk was the first theft I'd ever committed. Several others followed."],
+    ["  ", "Laura wasn't amused by the time I 'wasted' hunting through his shelves for a quill,"],
+    ["  ", "  but she changed her tune when I also found his core stash."],
     ["  ", "Finally: proof that my hobbies are useful."],
     ["", ""],
     ["> ", "We have another's day's march before the fjord."],

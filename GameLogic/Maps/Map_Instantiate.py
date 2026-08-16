@@ -45,7 +45,7 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     placeOcclusions(mapConditions, secondMap, 4)
     placeOcclusions(mapConditions, thirdMap, 4)
 
-    Select.waitPrint("Placing PCs...")
+    Select.quickPrint("Placing PCs...")
     for fighter in playerGroup: pMap.firstPlacement(mainMap, 4, fighter)
     Select.quickPrint("Placing Group 1 NPCs...")
     for fighter in enemyGroups[0]: pMap.firstPlacement(secondMap, 4, fighter)
@@ -54,10 +54,10 @@ def createMap(playerGroup, enemyGroups, mapConditions, environment) -> list:
     
     battleMap = combineMaps(mainMap, secondMap, thirdMap, playerGroup, enemyGroups)
 
-    Select.waitPrint("Placing fate well...")
+    Select.quickPrint("Placing fate well...")
     pMap.placeObstruction(battleMap, fateWell, 1, 12)
 
-    Select.waitPrint("Adjusting elevation and atmosphere...")
+    Select.quickPrint("Adjusting elevation and atmosphere...")
     Elevation.setElevation(battleMap, environment, mapConditions["slope"])
     updateFighterHeight(playerGroup + enemyGroups[0] + enemyGroups[1], battleMap)
 

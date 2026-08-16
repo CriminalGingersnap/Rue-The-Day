@@ -109,7 +109,7 @@ def loadWorld(world, campaign, slot) -> None:
 
 
 def saveGroup(group) -> None:
-    Select.waitPrint("\nSelect a save slot to record progress (3 per campaign):")
+    Select.clearPrint("Select a save slot to record progress (3 per campaign):")
     slot = str(Select.takeInput(1, 3))
 
     memberNames = []
@@ -160,9 +160,9 @@ def loadGroup(campaign) -> dict:
         loadWorld(world, campaign, slot)
 
     except FileNotFoundError:
-        Select.waitPrint("New Save File")
-        Select.waitPrint("\nThis game does not save automatically. Save manually by resting between encounters.")
-        input("Press enter to acknowledge.\n")
+        Select.quickPrint("New Save File", "")
+        Select.clearPrint("This game does not save automatically. Save manually by resting between encounters.")
+        Select.pressEnter("acknowledge.")
 
         match campaign:
             case "Avarice":

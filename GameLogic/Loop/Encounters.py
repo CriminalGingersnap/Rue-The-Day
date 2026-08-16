@@ -96,9 +96,9 @@ def rest(group, biome) -> bool:
             elif remaining > 1: warning = str(remaining) + " days remain before " + consequence
             else: warning, achievable = "Mission failed.", False
             
-            Select.slowPrint(warning + "\n")
+            Select.conversationPrint(warning + "\n")
 
-        case "Benediction": Select.slowPrint("Disturbed dreams warn of a creeping evil.\n")
+        case "Benediction": Select.conversationPrint("Disturbed dreams warn of a creeping evil.\n")
 
     Save.saveGroup(group)
     CustomEncounters.readJournal(group, world)

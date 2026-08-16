@@ -23,11 +23,12 @@ def roll(fighter, target, dice, ability, dType) -> int:
         favoredType = (fighter.props["favored"] == target.props["type"]) and not (fighter == target)
         flanking = getFlanking(fighter, target)
         total += mods(fighter, distancePenalty, favoredType, flanking, ability, dType)
-        Conditions.decrementStamina(fighter, dice)
     
     Select.quickPrint("Total: ", '')
     time.sleep(Select.longWait * 2)
     Select.quickPrint(str(total) + "\n")
+
+    if fighter != None: Conditions.decrementStamina(fighter, dice)
 
     return total
 

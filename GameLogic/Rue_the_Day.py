@@ -53,6 +53,12 @@ def adventure(group):
                 Encounters.rest(group, biome)
                 Print.printWorldMap(world)
 
+    Select.clearPrint("Congratulations! You beat the game!")
+    if Select.yesNo("Would you like to load a save and continue playing?"):
+        group = Save.loadGroup(group["campaign"])
+        adventure(group)
+    else: Select.clearPrint("Thanks for playing! This window will remain open until you close it.")
+
 
 campaign = Select.pickOption(["Avarice", "Benediction"], "Campaign")
 group = Save.loadGroup(campaign)

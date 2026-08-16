@@ -79,7 +79,7 @@ def inflict(fighter, target, dmgType, baseDmg):
     physicalAbsorption = Boons.applyWreath(target, dmgType)
     appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-    Select.waitPrint("\n" + fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
     Conditions.takeDamage(target, dmgType, appliedDmg)
 
 

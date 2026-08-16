@@ -14,7 +14,7 @@ def setFoes(biome, budgets, luckCard) -> list:
     Select.waitPrint("Applying luck card:")
     Cards.printDeck([luckCard])
     roll2 += Cards.findValue(luckCard)
-    Select.waitPrint("Modified second roll: " + str(roll2) + "\n")
+    Select.clearPrint("Modified second roll: " + str(roll2))
     Select.waitPrint("")
 
     rolls = [roll1, roll2]

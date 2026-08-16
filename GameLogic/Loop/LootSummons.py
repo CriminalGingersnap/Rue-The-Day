@@ -17,7 +17,7 @@ def lootStandards(players, standards):
 
                 player.inv["standard"] = standard
                 
-                del standards[standard]
+                standards.remove(standard)
 
 
 def lootEchos(players, creatures) -> None:
@@ -28,7 +28,11 @@ def lootEchos(players, creatures) -> None:
     if len(recentDead) > 0:
         Select.waitPrint("Echos of the slain linger within their fallen bodies.")
         for player in players:
-            if Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
+            if len(recentDead) > 1: phrase = "Bind a new echo to " + player.props["name"] + "?"
+            elif len(recentDead) == 1: phrase = "Bind the remaining echo to " + player.props["name"] + "?"
+            else: break
+
+            if Select.yesNo(phrase):
                 echo = Select.targetSelect(recentDead)
                 if echo != "None":
                     Inventory.setLifeless(echo)
@@ -40,5 +44,5 @@ def lootEchos(players, creatures) -> None:
 
                     player.inv["echo"] = echo
                     
-                    del creatures[echo]
-                    del recentDead[echo]
+                    creatures.remove(echo)
+                    recentDead.remove(echo)

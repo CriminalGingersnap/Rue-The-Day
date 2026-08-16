@@ -5,7 +5,7 @@ from Maps import Map_Update as uMap
 
 
 def engage(playerGroup, enemyGroups, battleMap, atmosphere) -> list:
-    input("\nPress Enter to begin combat.")
+    Select.pressEnter("begin combat")
 
     playerVictory, playerDefeat, result = False, False, []
     group1, group2, group3 = playerGroup, enemyGroups[0], enemyGroups[1]
@@ -32,13 +32,12 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
     if any(((fighter.props["rank"] == "player") and (fighter.props["type"] not in ["echo", "totem"])) for fighter in downedFighters):
         return [False, None]
     elif any(((target.props["rank"] == "player") and (target.props["type"] not in ["echo", "totem"])) for target in downedTargets):
-        Select.slowPrint("\nBattle lost.\n")
-        input("Press Enter to resolve.")
+        Select.clearPrint("Battle lost.")
+        Select.pressEnter("resolve")
         return [True, None]
     elif len(validTargets) == 0:
-        Select.waitPrint("\nControl established over fate spring.\n")
-        Select.waitPrint("Saving enabled.\n")
-        input("Press Enter to resolve.\n")
+        Select.clearPrint("Control established over fate spring. Saving enabled.")
+        Select.pressEnter("resolve")
         return [True, downedTargets]
     elif (not npcGroup) and (len(validTargets) == len(pacifistTargets)):
         Select.waitPrint("Remaining enemies will allow combat to end.")
@@ -73,12 +72,12 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
             Phases.abilityStage(fighter, foes, friends, battleMap)
 
         if npcGroup and any((len(fighter.attackQueue) > 0) for fighter in validFighters):
-            input("\nPress Enter to execute abilities.")
+            Select.pressEnter("execute abilities")
 
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:
                 Commitments.checkReach(fighter)
-                Select.waitPrint("\n\nExecuting " + fighter.props["name"] + "'s attacks:")
+                Select.clearPrint("Executing " + fighter.props["name"] + "'s attacks:")
 
                 for attack in fighter.attackQueue:
                     ability, target, dice = attack[0], attack[1], attack[2]
@@ -88,5 +87,5 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
                         Attacks.execute(fighter, target, ability, dice)
 
             Phases.outro(fighter)
-        input("\nPress Enter to advance combat to the next round.\n\n")
+        Select.pressEnter("advance combat to the next round")
     return [False, None]

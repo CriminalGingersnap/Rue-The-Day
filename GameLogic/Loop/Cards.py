@@ -71,7 +71,7 @@ def pickCard(hand, picks) -> list:
     autoSelect = True
 
     if autoSelect:
-        Select.waitPrint("\nAuto-select enabled. Flipping first five cards.")
+        Select.clearPrint("Auto-select enabled. Flipping first five cards.")
         for cardNum in range(picks):
             backs[cardNum] = hand[cardNum]
             drawn += [cardNum]
@@ -79,7 +79,7 @@ def pickCard(hand, picks) -> list:
     
     else:
         for pick in range(picks):
-            Select.waitPrint("\nChoose a card(1-" + str(len(hand)) + "):")
+            Select.clearPrint("Choose a card(1-" + str(len(hand)) + "):")
             
             while True:
                 answer = int(Select.takeInput(1, len(hand))) - 1

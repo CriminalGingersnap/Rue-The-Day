@@ -16,7 +16,7 @@ def getStock(party) -> dict:
 
 
 def updateStones(player, stock, cap):
-    phrase = player.props["name"] + " can carry " + cap + " more "
+    phrase = player.props["name"] + " can carry " + str(cap) + " more "
     if cap == 1: Select.waitPrint(phrase + "item.")
     else: Select.waitPrint(phrase + "items.")
 

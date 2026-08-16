@@ -78,7 +78,7 @@ def setMapConditions(ace, biome):
     slopeOptions = ["right", "lr", "up", "down", "ud", "craters", "hills", "ruin"] 
     obstructions = {"wall": 0, "trap": 0, "pit": 0}
     
-    Select.waitPrint("\nDraw five numbered cards.")   
+    Select.clearPrint("Draw five numbered cards.")   
     Select.quickPrint("The first three determine topographical slope, obstruction density, and atmospheric density.")   
     Select.quickPrint("The next pair determines enemy dice budgets.")
     Select.waitPrint("The final face-down card modifies enemy type.")
