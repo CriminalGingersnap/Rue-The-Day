@@ -71,13 +71,15 @@ def canReachAny(fighter, group, ability):
     return reachAny
 
 def canReach(fighter, target, ability) -> bool:
-    reachable, weaponReach = False, fighter.equip["weapon"]["reach"]
-    abilityReach = min(getReach(ability), weaponReach)
+    if fighter == target: return True
+    else:
+        reachable, weaponReach = False, fighter.equip["weapon"]["reach"]
+        abilityReach = min(getReach(ability), weaponReach)
 
-    distance = Movement.getTargetDistance(fighter, target)
-    if distance <= abilityReach: reachable = True
+        distance = Movement.getTargetDistance(fighter, target)
+        if distance <= abilityReach: reachable = True
 
-    return reachable
+        return reachable
 
 
 def sortReachable(fighter, fightingEnemies, fightingAllies) -> list:
@@ -109,11 +111,11 @@ def sortReachable(fighter, fightingEnemies, fightingAllies) -> list:
 def getReach(ability) -> int:
     twoReach = Attacks.closeMartialAttack + Boons.martialBoons + Hinder.martialHindrances
     fourReach = Attacks.midMartialAttack
-    eight = Attacks.farMartialAttack + Attacks.magicAttack + Boons.magicBoons + Hinder.magicHindrances
+    eightReach = Attacks.farMartialAttack + Attacks.magicAttack + Boons.magicBoons + Hinder.magicHindrances
+
     reach = 0
-    
     if ability in twoReach: reach = 2
     elif ability in fourReach: reach = 4
-    elif ability in eight: reach = 8
+    elif ability in eightReach: reach = 8
 
     return reach

@@ -7,7 +7,7 @@ import random
 def weaponAllows(fighter, ability) -> bool:
     compatible = True
     
-    if fighter.props["type"] in ["human", "undead"]:
+    if fighter.props["type"] == "human":
         dmgType = Damage.identifyDamageType(fighter.atrb["cur_elm"], ability)
         weaponDmgTypes = fighter.equip["weapon"]["dmgTypes"]
         if dmgType not in weaponDmgTypes: compatible = False   

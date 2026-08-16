@@ -95,16 +95,17 @@ def applyExamine(visibleTargets, battleMap) -> None:
         Select.waitPrint("\nCommitments: ")
         for commitment in examinee.commits:
             if len(examinee.commits[commitment]["targets"]) > 0:
-                Select.quickPrint(commitment + " -> ")
+                Select.quickPrint(commitment, ending = " -> ")
                 for target in examinee.commits[commitment]["targets"]:
                     Select.quickPrint(target.props["name"], ending = " | ")
+                print()
 
         Select.waitPrint("\nConditions: ")
         for condition in examinee.cndt:
             if examinee.cndt[condition] == True:
                 Select.quickPrint(condition, ending = " | ")
 
-        if Select.yesNo("View " + examinee.props["name"] + "'s sight map?"):
+        if Select.yesNo("\n\nView " + examinee.props["name"] + "'s sight map?"):
             Print.printSightMap(battleMap, examinee.sightMap, examinee.props["name"] + "'s Sight Map")
             input("\n\nPress Enter to continue")
 

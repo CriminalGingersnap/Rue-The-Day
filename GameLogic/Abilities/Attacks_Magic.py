@@ -9,5 +9,5 @@ def attack(fighter, target, attack, dice) -> None:
     baseDmg = Roll.roll(fighter, target, dice, attack, "magic")
     appliedDmg = max(0, baseDmg - absorption)
 
-    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + target.props["name"] + "!")
+    Select.waitPrint("\n" + fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + target.props["name"] + "!")
     Conditions.takeDamage(target, dmgType, appliedDmg)

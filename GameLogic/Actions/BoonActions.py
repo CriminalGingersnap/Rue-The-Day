@@ -49,13 +49,15 @@ def canWreath(fighter, dmgTypes) -> bool:
     return compatible
 
 def usefulBoons(fighter, enemies):
-    boonPreferences = ["Bandage", "Fortify", "Heal", "Rally", "Regenerate"]
+    boonPreferences = ["Bandage", "Heal", "Regenerate"]
 
     dmgDist = getDmgAndDistance(fighter, enemies)
     dmgTypes, someFar, anyClose = dmgDist[0], dmgDist[1], dmgDist[2]
 
     if any(dType in dmgTypes for dType in ["Pierce", "Crush", "Toxic"]): boonPreferences += ["Guard"]
-    if someFar and not anyClose: boonPreferences += ["Conceal", "Veil"]
+    if not anyClose:
+        if fighter.atrb["cur_hp"] > fighter.atrb["quart_hp"]: boonPreferences += ["Fortify", "Rally"]
+        if someFar: boonPreferences += ["Conceal", "Veil"]
     if canWreath(fighter, dmgTypes): boonPreferences += ["Wreath"]
 
     return boonPreferences

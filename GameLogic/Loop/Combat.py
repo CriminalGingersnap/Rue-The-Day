@@ -36,9 +36,9 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
         input("Press Enter to resolve.")
         return [True, None]
     elif len(validTargets) == 0:
-        Select.slowPrint("\nControl established over a wellspring of fate.\n")
-        Select.waitPrint("Saving enabled.")
-        input("Press Enter to resolve.")
+        Select.slowPrint("\nControl established over fate spring.\n")
+        Select.waitPrint("Saving enabled.\n")
+        input("Press Enter to resolve.\n")
         return [True, downedTargets]
     elif (not npcGroup) and (len(validTargets) == len(pacifistTargets)):
         Select.waitPrint("Remaining enemies will allow combat to end.")
@@ -64,12 +64,16 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.movementStage(fighter, foes, friends, battleMap)
 
+        for target in validTargets:
+            target.sightMap = Phases.setSight(target, friends, foes, battleMap, False)
+
         print()
         for fighter in validFighters:
             fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
             Phases.abilityStage(fighter, foes, friends, battleMap)
 
-        if npcGroup: input("\nPress Enter to execute abilities.")
+        if npcGroup and any((len(fighter.attackQueue) > 0) for fighter in validFighters):
+            input("\nPress Enter to execute abilities.")
 
         for fighter in validFighters:
             if len(fighter.attackQueue) > 0:

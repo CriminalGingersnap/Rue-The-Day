@@ -37,7 +37,7 @@ def applyResistance(damage, dmgType, target) -> int:
         Select.waitPrint("Target carries a talisman of " + target.equip["shield"]["element"] + "!")
         shieldEnchantReduction = .5
         if dmgType == shieldType:
-            Select.waitPrint("Enchantments provide half protection against their own element.")
+            Select.quickPrint("Enchantments provide half protection against their own element.")
             shieldEnchantReduction = .25
         Select.waitPrint("Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
 
@@ -47,14 +47,19 @@ def applyResistance(damage, dmgType, target) -> int:
         Select.waitPrint("Target is wearing " + armorName + " " + armorType + " armor!")
         armorEnchantReduction = armorMod * .1
         if dmgType == armorType:
-            Select.waitPrint("Enchantments provide half protection against their own element.")
+            Select.quickPrint("Enchantments provide half protection against their own element.")
             armorEnchantReduction /= 2
         Select.waitPrint("Damage multiplier reduces by " + str(armorEnchantReduction) + ".")
 
     reduction = armorEnchantReduction + shieldEnchantReduction
-    multiplier = max(0, multiplier - reduction)    
+    multiplier = max(0, multiplier - reduction)
+    damage = int(damage * multiplier)
 
-    return int(damage * multiplier)
+    if multiplier != 1:
+        Select.quickPrint("Final damage: ", ending = "")
+        Select.waitPrint(str(damage))
+
+    return damage
 
 
 def modifyResistance(target, dmgType, potency, direction):

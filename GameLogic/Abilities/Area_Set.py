@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select, Roll
+from Systems import PlayerSelect as Select, Roll, Conditions
 from . import Area_Locate as Locate, Area_Apply as Apply
 from Maps import Map_Update as uMap
 
@@ -28,6 +28,8 @@ def execute(fighter, dice, groups, ability, battleMap) -> str:
 
     if markedSpace == "None": Select.waitPrint(fighter.props["name"] + " dispels an area ability before execution.")
     else:
+        Conditions.decrementStamina(fighter, dice)
+        
         match ability:
             case "Bless" | "Infuse":
                 halfScale = max(1, dice // 2)

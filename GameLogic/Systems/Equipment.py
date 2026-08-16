@@ -1,4 +1,4 @@
-from . import Damage
+from . import Damage, Sort
 import random, copy
 
 nullKit = {"name": "None", "modifier": 0,  "element": "Basic"}
@@ -18,18 +18,16 @@ def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
         updateKit(equipment, job, rank)
 
     else:
-        equipment["weapon"]["modifier"] = 1
-        equipment["weapon"]["dmgTypes"] = [element]
+        equipment["weapon"]["modifier"], equipment["weapon"]["dmgTypes"] = 1, [element]
+
+        if cndt["armored"]: equipment["armor"]["modifier"] = 2
+        if cndt["massive"]: equipment["weapon"]["reach"] = equipment["weapon"]["modifier"] = 2
+        if type == "elemental": equipment["weapon"]["reach"], equipment["weapon"]["modifier"] = 8, 2
+
         for attack in attacks:
             attackDmg = Damage.identifyDamageType(element, attack)
             if attackDmg not in equipment["weapon"]["dmgTypes"]: equipment["weapon"]["dmgTypes"] += [attackDmg]
-        if cndt["armored"]: equipment["armor"]["modifier"] = 2
-        if cndt["massive"]:
-            equipment["weapon"]["reach"] = 2
-            equipment["weapon"]["modifier"] = 2
-        if type in ["elemental", "totem"]:
-            equipment["weapon"]["reach"] = 8
-            if type == "elemental": equipment["weapon"]["modifier"] = 2
+            equipment["weapon"]["reach"] = max(equipment["weapon"]["reach"], Sort.getReach(attack))
 
     return equipment
 

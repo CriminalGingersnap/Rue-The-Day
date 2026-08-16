@@ -45,7 +45,7 @@ def lootFoes(groupInv, players, enemies):
         if enemy.props["type"] == "human": humans += [enemy]
         elif enemy.props["job"] == "standard": standards += [enemy]
         elif enemy.props["rank"] == "Ascendant": boss = enemy
-        else: creatures += enemy
+        else: creatures += [enemy]
     
     if len(humans) > 0:
         Select.waitPrint("Searching enemies for useful items.")

@@ -79,7 +79,7 @@ def inflict(fighter, target, dmgType, baseDmg):
     physicalAbsorption = Boons.applyWreath(target, dmgType)
     appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+    Select.waitPrint("\n" + fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
     Conditions.takeDamage(target, dmgType, appliedDmg)
 
 
@@ -102,19 +102,18 @@ def applyRiposte(attacker, defender) -> None:
 
 
 def respond(source, dice, ability, target, principal):
-    expense, proceed = 0, True
+    expense = 0
 
     if source.props["rank"] == "player":
-        proceed = Select.yesNo("Trigger riposte?")
-
-        if proceed:
-            attackChoice = AttackActions.pcSelectAttack(source)
-            Select.waitPrint("Expend dice (" + str(dice) + "):")
-            expense = Select.takeInput(1, dice)
+        Select.waitPrint("Expend dice (" + str(dice) + ") to riposte:")
+        expense = Select.takeInput(0, dice)
+        source.atrb["cur_mar"] = expense
+        attackChoice = AttackActions.pcSelectAttack(source, [target])
     else:
-        attackChoice = AttackActions.npcSelectAttack(source, target)
         expense = random.randint(1, dice)
+        source.atrb["cur_mar"] = expense
+        attackChoice = AttackActions.npcSelectAttack(source, target)
 
-    if proceed:
+    if expense > 0:
         Attacks.execute(source, target, attackChoice, expense)
         principal.effects[ability]["dice"] -= expense
