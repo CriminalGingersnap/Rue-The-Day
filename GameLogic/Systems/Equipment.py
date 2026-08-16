@@ -27,7 +27,6 @@ def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
         for attack in attacks:
             attackDmg = Damage.identifyDamageType(element, attack)
             if attackDmg not in equipment["weapon"]["dmgTypes"]: equipment["weapon"]["dmgTypes"] += [attackDmg]
-            equipment["weapon"]["reach"] = max(equipment["weapon"]["reach"], Sort.getReach(attack))
 
     return equipment
 

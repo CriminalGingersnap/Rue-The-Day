@@ -7,8 +7,7 @@ def lootStandards(players, standards):
     for player in players:
         carryWeight = player.atrb["base_sp"] - Phases.getSpeedLoss(player)
 
-        if carryWeight > 2:
-            Select.waitPrint("Equip a new standard to " + player.props["name"] + ".")
+        if (carryWeight > 2) and Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):
             standard = Select.targetSelect(standards)
             if standard != "None":
                 standard.cndt["planted"], standard.cndt["reposed"] = False, False
@@ -22,24 +21,24 @@ def lootStandards(players, standards):
 
 
 def lootEchos(players, creatures) -> None:
-    recentDead = ["None"]
+    recentDead = []
     for enemy in creatures:
         if not (enemy.cndt["lifeless"] or (enemy.props["type"] in ["insect", "invertebrate"])): recentDead += [enemy]
 
     if len(recentDead) > 0:
         Select.waitPrint("Echos of the slain linger within their fallen bodies.")
         for player in players:
-            Select.waitPrint("Bind a new echo to " + player.props["name"] + ".")
-            echo = Select.targetSelect(recentDead)
-            if echo != "None":
-                Inventory.setLifeless(echo)
-                echo.cndt["reposed"] = False
-                echo.props["initials"] = player.props["name"][0] + "e"
-                echo.props["name"] = player.props["name"] + "'s Echo"
-                echo.props["rank"] = "player"
-                echo.props["type"] = "echo"
+            if Select.yesNo("Bind a new echo to " + player.props["name"] + "?"):
+                echo = Select.targetSelect(recentDead)
+                if echo != "None":
+                    Inventory.setLifeless(echo)
+                    echo.cndt["reposed"] = False
+                    echo.props["initials"] = player.props["name"][0] + "e"
+                    echo.props["name"] = player.props["name"] + "'s Echo"
+                    echo.props["rank"] = "player"
+                    echo.props["type"] = "echo"
 
-                player.inv["echo"] = echo
-                
-                del creatures[enemy]
-                del recentDead[enemy]
+                    player.inv["echo"] = echo
+                    
+                    del creatures[echo]
+                    del recentDead[echo]

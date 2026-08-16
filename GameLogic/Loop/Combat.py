@@ -36,7 +36,7 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
         input("Press Enter to resolve.")
         return [True, None]
     elif len(validTargets) == 0:
-        Select.slowPrint("\nControl established over fate spring.\n")
+        Select.waitPrint("\nControl established over fate spring.\n")
         Select.waitPrint("Saving enabled.\n")
         input("Press Enter to resolve.\n")
         return [True, downedTargets]

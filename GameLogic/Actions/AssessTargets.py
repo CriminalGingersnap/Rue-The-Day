@@ -30,7 +30,7 @@ def findHighestAtrb(targets, key):
     return highestRanked
 
 def findLowestAtrb(fighter, targets, key, includeSelf=True):
-    lowestRanked = random.choice(targets)
+    lowestRanked = None
     prevLow = 100
 
     for target in targets:        
@@ -38,12 +38,12 @@ def findLowestAtrb(fighter, targets, key, includeSelf=True):
             if target.atrb[key] < prevLow:
                 lowestRanked = target
                 prevLow = target.atrb[key]
-    
+
     return lowestRanked
 
 
 def findLowestAV(fighter, targets, includeSelf=True):
-    lowestAVtarget = random.choice(targets)
+    lowestAVtarget = None
     prevLow, dmgType = 100, "Crush"
 
     if any(attack in Damage.pierceAttacks for attack in fighter.abl["attacks"]): dmgType = "Pierce"
@@ -60,7 +60,7 @@ def findLowestAV(fighter, targets, includeSelf=True):
 
 
 def findLowestRes(fighter, targets, dmgType, includeSelf=True):
-    lowestResTarget = random.choice(targets)
+    lowestResTarget = None
     prevResLow = 100
 
     for target in targets:
@@ -84,8 +84,8 @@ def rankRes(target, dmgType) -> int:
         case "resistant": resInt = 6
         case "immune": resInt = 9
 
-    if Boons.checkCompatibility(dmgType, target.equip["armor"]["element"]):
-        resInt += target.equip["armor"]["modifier"]
+    if Boons.checkCompatibility(dmgType, target.equip["shield"]["element"]): resInt += target.equip["shield"]["modifier"]
+    if Boons.checkCompatibility(dmgType, target.equip["armor"]["element"]): resInt += target.equip["armor"]["modifier"]
 
     return resInt
 

@@ -73,8 +73,12 @@ def canReachAny(fighter, group, ability):
 def canReach(fighter, target, ability) -> bool:
     if fighter == target: return True
     else:
-        reachable, weaponReach = False, fighter.equip["weapon"]["reach"]
-        abilityReach = min(getReach(ability), weaponReach)
+        reachable, abilityReach = False, 0
+
+        if ability in Attacks.midMartialAttack: abilityReach = 4
+        else:
+            weaponReach = fighter.equip["weapon"]["reach"]
+            abilityReach = min(getReach(ability), weaponReach)
 
         distance = Movement.getTargetDistance(fighter, target)
         if distance <= abilityReach: reachable = True

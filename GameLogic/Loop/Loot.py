@@ -12,10 +12,12 @@ def searchAll(playersGroup, enemies) -> None:
 
 def sortItems(players):
     playerStock = LootStones.getStock(players)
-    standards = ["None"]
+    standards = []
+
+    Select.waitPrint("Items not selected by any party member will be lost.")
+
     for player in players:
         Select.waitPrint("Assign stones to " + player.props["name"] + ".")
-        Select.quickPrint("Items not selected by any party member will be lost.")
         player.inv["cores"] = copy.deepcopy(Inventory.cores)
         player.inv["pearls"] = copy.deepcopy(Inventory.pearls)
         cap = player.inv["Capacity"]
@@ -28,18 +30,15 @@ def sortItems(players):
         player.inv["standard"] = "None"
         carryWeight = player.atrb["base_sp"] - Phases.getSpeedLoss(player)
 
-        if (len(standards) > 0) and (carryWeight > 2):
-            Select.waitPrint("Assign a standard to " + player.props["name"])
-            Select.quickPrint("Items not selected by any party member will be lost.")
-
+        if (len(standards) > 0) and (carryWeight > 2) and Select.yesNo("Assign a standard to " + player.props["name"] + "?"):
             standard = Select.targetSelect(standards)
             player.inv["standard"] = standard
             
-            del standard[standard]
+            del standards[standard]
 
 
 def lootFoes(groupInv, players, enemies):
-    humans, standards, creatures, boss = [], ["None"], [], None
+    humans, standards, creatures, boss = [], [], [], None
 
     for enemy in enemies:
         if enemy.props["type"] == "human": humans += [enemy]
