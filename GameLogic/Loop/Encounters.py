@@ -83,9 +83,14 @@ def rest(group, biome) -> bool:
 
     match group["campaign"]:
         case "Avarice":
-            consequence, warning, remaining = "", "", 0
-            if world.events["Camp"]["complete"]: remaining, consequence = 45 - group["days"], "the duke escapes."
-            else: remaining, consequence = 35 - group["days"], "Willem's execution."
+            consequence, warning, allowance = "", "", 35
+            if group["doubleDays"]: allowance *= 2
+            if world.events["Camp"]["complete"]:
+                remaining = (allowance + 10) - group["days"]
+                consequence = "the duke escapes."
+            else:
+                remaining = allowance - group["days"]
+                consequence = "Willem's execution."
 
             if remaining == 1: warning = str(remaining) + " day remains before " + consequence
             elif remaining > 1: warning = str(remaining) + " days remain before " + consequence

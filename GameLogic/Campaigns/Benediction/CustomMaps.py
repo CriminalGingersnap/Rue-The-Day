@@ -198,7 +198,7 @@ def manorMap(players, days) -> list:
     players[0].pos, players[1].pos, players[2].pos, players[3].pos = [8, 0, 0], [7, 0, 0], [9, 0, 0], [6, 0, 0]
 
     Vampire = Bosses.vampire(days).ch
-    Vampire.atrb["injury"], Vampire.cndt["reposed"] = 1, True
+    Vampire.atrb["injury"] = 1
     placeFighter(Vampire, "01", [1, 9])
 
     Door1, Door2, Door3, Door4 = Totems.impedance("Dream", "Gate").ch, Totems.ward("Flame", "Door").ch, Totems.ward("Ice", "Door").ch, Totems.ward("Rot", "Door").ch
@@ -214,7 +214,6 @@ def manorMap(players, days) -> list:
     placeFighter(Ghoul3, "13", [8, 5])
     placeFighter(Ghoul4, "14", [10, 7])
     placeFighter(Ghoul5, "15", [4, 2])
-    Ghoul1.cndt["reposed"], Ghoul2.cndt["reposed"], Ghoul3.cndt["reposed"], Ghoul4.cndt["reposed"], Ghoul5.cndt["reposed"] = True, True, True, True, True
     Ghoul1.atrb["injury"], Ghoul2.atrb["injury"], Ghoul3.atrb["injury"], Ghoul4.atrb["injury"], Ghoul5.atrb["injury"] = 1, 0, 1, 1, 1
 
     Ghoul6, Ghoul7, Ghoul8, Ghoul9 = Humans.archer("Rot", "Adept").ch, Humans.mage("Rot", "Novice").ch, Humans.knight("Rot", "Master").ch, Humans.knight("Rot", "Novice").ch    

@@ -26,8 +26,8 @@ def archerMap(players) -> list:
     Standard = Totems.ward("Ice", "Standard").ch
 
     Archer.atrb["fatigue"], Archer.atrb["injury"] = 1, 0
-    Hound1.atrb["fatigue"], Archer.atrb["injury"] = 1, 0
-    Hound2.atrb["fatigue"], Archer.atrb["injury"] = 1, 0
+    Hound1.atrb["fatigue"], Hound1.atrb["injury"] = 1, 0
+    Hound2.atrb["fatigue"], Hound2.atrb["injury"] = 1, 0
     Standard.cndt["reposed"] = False
 
     B_Maps.placeFighter(Archer, "01", [5, 9])

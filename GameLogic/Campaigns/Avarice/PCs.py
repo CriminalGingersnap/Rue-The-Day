@@ -3,13 +3,14 @@ from Campaigns.Benediction import PCs as B_PCs
 from Maps import World
 
 
-def getAvariceGroup() -> list:
+def getAvariceGroup(doubleDays) -> list:
     Laura, Martin = getLaura(), getMartin()
     avaWorld = World.AvariceMap()
 
     return {
         "campaign": "Avarice",
         "days": 0,
+        "doubleDays": doubleDays,
         "inventory": [],
         "members": [Laura, Martin],
         "world": avaWorld

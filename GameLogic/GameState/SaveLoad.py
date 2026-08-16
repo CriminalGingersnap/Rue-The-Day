@@ -165,7 +165,10 @@ def loadGroup(campaign) -> dict:
         input("Press enter to acknowledge.\n")
 
         match campaign:
-            case "Avarice": group = A_PCs.getAvariceGroup()
+            case "Avarice":
+                Select.waitPrint("\nThis campaign includes a time-pressure mechanic which limits the number of times you can rest/save.")
+                answer = Select.yesNo("Would you like to double your allowance (35 -> 70) for this new game?")
+                group = A_PCs.getAvariceGroup(answer)
             case "Benediction": group = B_PCs.getBenedictionGroup()
 
     return group

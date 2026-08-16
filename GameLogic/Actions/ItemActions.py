@@ -53,12 +53,11 @@ def getTarget(fighter, groups, application) -> list:
     if (application == "Extract") and (fighter.props["rank"] == "player"):
         reachable = []
 
-        for target in  groups["fightingAllies"]:
-            distance = Movement.getTargetDistance(fighter, target)
-            if distance <= 1: reachable += [target]
+        for targetOption in groups["fightingAllies"]:
+            distance = Movement.getTargetDistance(fighter, targetOption)
+            if distance <= 1: reachable += [targetOption]
 
-        if len(reachable) > 1:
-            target = Select.targetSelect(reachable)
+        if len(reachable) > 1: target = Select.targetSelect(reachable)
 
     return target
 

@@ -1,8 +1,8 @@
 from Systems import Damage, PlayerSelect as Select, Conditions
 from . import Area_Set as Set, Area_Locate as Locate, Area_Apply as Apply
-from Maps import Map_Update as uMap
+from Maps import Map_Update as uMap, Map_Instantiate as iMap
 from Loop import CombatPhases as Phases
-
+import copy
 
 def execute(fighter, category, element, application, groups, battleMap) -> None:
     end = "a condensed " + element + " " + category.split("s")[0] + "!"
@@ -28,15 +28,18 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
 
 
 def animate(fighter, groups, battleMap) -> None:
-    echo = fighter.inv["echo"]
+    echo = copy.deepcopy(fighter.inv["echo"])
     tossSpace = Locate.findSpace(fighter, groups, 4, "echo")
     
     if tossSpace == "None": Select.waitPrint(fighter.props["name"] + " cancels a throw before animation.")
     else:
         echo.itemEffects["Animate"]["duration"] = 3
-        echo.sightMap + Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
-        uMap.updatePlacement(battleMap, echo.sightMap, tossSpace[0], tossSpace[1], echo)
         fighter.inv["echo"] = "None"
+
+        echo.pos = [tossSpace[0], tossSpace[1], 0]
+        iMap.updateFighterHeight([echo], battleMap)
+        echo.sightMap = Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
+        uMap.updatePlacement(battleMap, echo.sightMap, tossSpace[0], tossSpace[1], echo)
 
 
 def plant(fighter, groups, battleMap) -> None:

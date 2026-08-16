@@ -17,6 +17,9 @@ def resetPlayer(player) -> None:
     player.equip = Equipment.setEquipment(player.abl["attacks"], player.cndt, player.atrb["base_elm"], player.props["job"],
                                            player.props["rank"], player.abl["specialty"] + player.abl["mastery"], "human")
 
+    if player.inv["echo"] != "None": player.inv["echo"].props["rank"] = "player"
+    if player.inv["standard"] != "None": player.inv["standard"].props["rank"] = "player"
+
 
 def getBenedictionGroup() -> list:
     Fadia, Hassan, Layth = getFadia(), getHassan(), getLayth()

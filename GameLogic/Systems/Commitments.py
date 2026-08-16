@@ -6,18 +6,16 @@ from . import Effects, PlayerSelect as Select, Sort
 def checkReach(fighter) -> None:
     for commitment in fighter.commits:
         if len(fighter.commits[commitment]["targets"]) > 0:
-            targets = fighter.commits[commitment]["targets"]
+            targets, reachableTargets = fighter.commits[commitment]["targets"], []
             
             uMap.hideVeiled(fighter, targets, fighter.sightMap)
             reachable = Sort.sortReachable(fighter, targets, targets)
-            
-            if commitment in Boons.magicBoons + Boons.martialBoons:
-                reachable = reachable["boonReachable"]
-            elif commitment in Hinder.magicHindrances + Hinder.martialHindrances:
-                reachable = reachable["hinderReachable"]
+
+            if commitment in Boons.magicBoons + Boons.martialBoons: reachableTargets = reachable["boonReachable"] + [fighter]
+            elif commitment in Hinder.magicHindrances + Hinder.martialHindrances: reachableTargets = reachable["hinderReachable"]
 
             for target in targets:
-                if target not in reachable:
+                if target not in reachableTargets:
                     Select.waitPrint("\n" + target.props["name"] + " is out of reach.")
                     removeCommitment(fighter, target, commitment)
                 

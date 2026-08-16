@@ -28,7 +28,7 @@ def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None:
 
 def rummageInventory(fighter, groups, battleMap, itemSelection):    
     searchIntensity = ""
-    if fighter.type == "player": searchIntensity = Select.pickOption(["Access", "Rummage"], "search intensity")
+    if fighter.props["rank"] == "player": searchIntensity = Select.pickOption(["Access", "Rummage"], "search intensity")
     else: searchIntensity = random.choice(["Access", "Access", "Rummage"])
     
     ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
@@ -74,8 +74,9 @@ def applyExamine(visibleTargets, battleMap) -> None:
             weaponStatement = "Wielding " + article + examinee.equip["weapon"]["name"] + ". "
 
         Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + " " + shieldStatement)
-        Select.quickPrint("Health:    " + strHP + " | Speed:     " + strSpeed)
         Select.quickPrint("Reach:     " + strReach + " | "  + weaponStatement)
+        Select.quickPrint("Speed:     " + strSpeed)
+        Select.quickPrint("Health:    " + strHP + " | Injury: " + str(examinee.atrb["injury"]))
         Select.quickPrint("Stamina:   " + strStamina + " | Fatigue: " + str(examinee.atrb["fatigue"]))
         Select.quickPrint("Tolerance: " + strTolerance + " | Corruption: " + str(examinee.atrb["corruption"]))
         Select.quickPrint("Magic Dice: " + str(examinee.atrb["base_mag"]) + " | Martial Dice: " + str(examinee.atrb["base_mar"]))

@@ -24,8 +24,6 @@ def moveFighter(fighter, battleMap, target, mapHeight=12, mapName="") -> None:
         if stepCount > fighter.atrb["cur_sp"] // 2: Conditions.decrementStamina(fighter, 1)
         fighter.atrb["cur_sp"] -= stepCount
 
-    elif not player: Select.waitPrint(fighter.props["name"] + " sets in place and may use two abilities.")
-
     else: stationary = True
     return stationary
 
