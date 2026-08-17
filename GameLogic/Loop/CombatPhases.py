@@ -4,15 +4,21 @@ from Systems import PlayerSelect as Select, Sort, Conditions, Effects, Commitmen
 from Abilities import Items_Use as Items, Boons_Apply as Boons, Hindrances_Apply as Hindrances
 
 
-def getSpeedLoss(fighter):
-        armorLoss, shieldLoss, spareLoss = 0, 0, 0
-        if fighter.equip["armor"]["element"] != "Dream": armorLoss = fighter.equip["armor"]["modifier"]
-        if fighter.equip["shield"]["element"] != "Dream": shieldLoss = fighter.equip["shield"]["modifier"]
-        if fighter.inv["spares"]["shield"]["element"] != "Dream": spareLoss = fighter.inv["spares"]["shield"]["modifier"]
+def getEquipLoad(equipment) -> int:
+    if ("element" in equipment) and (equipment["element"] == "Dream"): return 0
+    else:
+        equipLoad = equipment["modifier"]
+        if equipment["tier"] == "Masterwork": equipLoad /= 2
+        return equipLoad
 
-        speedLoss = (armorLoss + shieldLoss + spareLoss 
-                     + fighter.equip["weapon"]["modifier"] + fighter.inv["spares"]["weapon"]["modifier"])
-
+def getSpeedLoss(fighter) -> int:
+        armorLoss = getEquipLoad(fighter.equip["armor"])
+        shieldLoss = getEquipLoad(fighter.equip["shield"])
+        spareLoss = getEquipLoad(fighter.inv["spares"]["shield"])
+        weaponLoss = getEquipLoad(fighter.equip["weapon"])
+        weaponSpareLoss = getEquipLoad(fighter.inv["spares"]["weapon"])
+        
+        speedLoss = (armorLoss + shieldLoss + spareLoss + weaponLoss + weaponSpareLoss)
         if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
 
         return speedLoss

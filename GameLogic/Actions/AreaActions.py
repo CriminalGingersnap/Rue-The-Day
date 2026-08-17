@@ -10,9 +10,9 @@ def pcSelectArea(fighter):
     return answer
 
 
-def npcSelectArea(fighter, enemies):
+def npcSelectArea(fighter, allies, enemies):
     areaOptions = []
-    useful, usable = usefulAreas(fighter, enemies), usableAreas(fighter)
+    useful, usable = usefulAreas(fighter, allies, enemies), usableAreas(fighter)
 
     for option in useful:
         if (option in usable) and (option not in areaOptions): areaOptions += [option]
@@ -29,21 +29,23 @@ def usableAreas(fighter):
     return affordableAreas
 
 
-def usefulAreas(fighter, enemies):
-    areaPreferences = ["Screen"]
-    dmgDist = Boons.getDmgAndDistance(fighter, enemies)
-    someFar, anyClose = dmgDist[1], dmgDist[2]
+def usefulAreas(fighter, allies, enemies):
+    areaPreferences = []
+    enemiesDist, alliesDist = Boons.getDmgAndDistance(fighter, enemies), Boons.getDmgAndDistance(fighter, allies)
+    alliesFar, alliesClose = alliesDist[1], alliesDist[2]
+    enemiesFar, enemiesClose = enemiesDist[1], enemiesDist[2]
     
     rotEnemies = False
     for enemy in enemies:
         if enemy.atrb["cur_elm"] == "Rot": rotEnemies = True
-    if rotEnemies: areaPreferences += ["Bless"]
+    if rotEnemies and enemiesClose: areaPreferences += ["Bless"]
 
-    if anyClose or someFar:
-        areaPreferences += ["Infuse"]
-        if anyClose:
-            areaPreferences += ["Breath"]
-            if fighter.cndt["skittish"]: areaPreferences += ["Slip"]
-        if someFar and not fighter.cndt["skittish"]: areaPreferences += ["Slip"]
+    unconcerned = not (fighter.cndt["social"] or fighter.cndt["sapient"])
+    if unconcerned or not alliesClose:
+        if enemiesClose: areaPreferences += ["Breath", "Infuse"]
+        if enemiesFar: areaPreferences += ["Screen"]
+
+    if fighter.cndt["skittish"] and enemiesClose: areaPreferences += ["Slip"]
+    elif enemiesFar and not fighter.cndt["skittish"]: areaPreferences += ["Slip"]
 
     return areaPreferences

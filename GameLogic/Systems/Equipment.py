@@ -1,8 +1,14 @@
 from . import Damage, Sort
 import random, copy
 
-nullKit = {"name": "None", "modifier": 0,  "element": "Basic"}
-nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1}
+nullKit = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
+nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1, "tier": "Standard"}
+
+noviceLong, noviceShort = ["Fishing Spear", "Plank", "Scythe", "Stick"], ["Dagger", "Hand Wrap", "Rock", "Wood Axe"]
+noviceBlunt, noviceSharp = ["Hand Wrap", "Plank", "Rock", "Stick"], ["Dagger", "Fishing Spear", "Scythe", "Wood Axe"]
+proLong, proShort = ["Spear", "Staff"], ["Axe", "Club", "Mace", "Sword"]
+proBlunt, proSharp = ["Club", "Mace", "Staff"], ["Axe", "Spear", "Sword"]
+
 
 def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
     global nullKit, nullWeapon
@@ -22,7 +28,7 @@ def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
 
         if cndt["armored"]: equipment["armor"]["modifier"] = 2
         if cndt["massive"]: equipment["weapon"]["reach"] = equipment["weapon"]["modifier"] = 2
-        if type == "elemental": equipment["weapon"]["reach"], equipment["weapon"]["modifier"] = 8, 2
+        if type == "elemental": equipment["weapon"]["reach"], equipment["weapon"]["modifier"] = 8, 3
 
         for attack in attacks:
             attackDmg = Damage.identifyDamageType(element, attack)
@@ -58,13 +64,17 @@ def updateKit(equipment, job, rank):
     if job == "Paladin": equipment["armor"]["element"] = "Holy"
     elif rank in ["Adept", "Elite", "Master"]:
         equipment["armor"]["element"] = random.choice(["Dream", "Flame", "Ice", "Rot"])
-
+        equipment["armor"]["tier"] = random.choice(["Standard", "Standard", "Standard", "Standard", "Standard", "Masterwork"])
+        equipment["weapon"]["tier"] = random.choice(["Standard", "Standard", "Standard", "Standard", "Standard", "Masterwork"])
+        
         if equipment["shield"]["name"] != "None": equipment["shield"]["element"] = "Dream"
-
         elif not equipment["weapon"]["twoHanded"]:
             equipment["shield"]["name"] = "Talisman"
             equipment["shield"]["element"] = random.choice(["Holy", "Flame", "Ice", "Rot"])
+            equipment["shield"]["tier"] = random.choice(["Standard", "Standard", "Standard", "Standard", "Standard", "Masterwork"])
 
+        for tool in [equipment["armor"], equipment["shield"], equipment["weapon"]]:
+            if tool["tier"] == "Masterwork": tool["modifier"] *= 2
 
 def setWeapon(job, element, rank, specialties) -> list:
     weapon = {"name": "", "twoHanded": False, "modifier": 1, "dmgTypes": [], "reach": 1}
@@ -94,11 +104,11 @@ def setWeapon(job, element, rank, specialties) -> list:
             longMelee, shortMelee, bluntMelee, sharpMelee = [], [], [], []
 
             if rank == "Novice":
-                longMelee, shortMelee = ["Fishing Spear", "Plank", "Scythe", "Stick"], ["Dagger", "Hand Wrap", "Rock", "Wood Axe"]
-                bluntMelee, sharpMelee = ["Hand Wrap", "Plank", "Rock", "Stick"], ["Dagger", "Fishing Spear", "Scythe", "Wood Axe"]
+                longMelee, shortMelee = noviceLong, noviceShort
+                bluntMelee, sharpMelee = noviceBlunt, noviceSharp
             else:
-                longMelee, shortMelee = ["Spear", "Staff"], ["Axe", "Club", "Mace", "Sword"]
-                bluntMelee, sharpMelee = ["Club", "Mace", "Staff"], ["Axe", "Spear", "Sword"]
+                longMelee, shortMelee = proLong, proShort
+                bluntMelee, sharpMelee = proBlunt, proSharp
 
             meleeOptions = []
             if "Bash" in specialties: meleeOptions += bluntMelee

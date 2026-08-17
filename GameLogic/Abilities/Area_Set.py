@@ -64,7 +64,7 @@ def getNextSpace(markedSpace, fighterRow, fighterColumn) -> list:
 
 def throwStone(fighter, category, dmgType, groups, battleMap) -> None:
     range = 4
-    if "Sling" == fighter.equip["weapon"]["name"]: range = fighter.equip["weapon"]["reach"]
+    if "Sling" in fighter.equip["weapon"]["name"]: range = fighter.equip["weapon"]["reach"]
     tossSpace = Locate.findSpace(fighter, groups, range, "stone")
 
     if tossSpace == "None":

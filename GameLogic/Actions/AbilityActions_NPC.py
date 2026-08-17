@@ -8,7 +8,7 @@ def npcAction(fighter, groups, battleMap) -> None:
     reachable, fightingAllies, fightingEnemies = groups["reachable"], groups["fightingAllies"], groups["fightingEnemies"]
     actionOptions = []
 
-    areaChoice = AreaActions.npcSelectArea(fighter, fightingEnemies)
+    areaChoice = AreaActions.npcSelectArea(fighter, fightingAllies, fightingEnemies)
     if areaChoice != "None": actionOptions += ["Area"]
 
     attackChoice, attackTarget = "None", AttackActions.npcSelectAttackTarget(fighter, reachable["attackReachable"], False)

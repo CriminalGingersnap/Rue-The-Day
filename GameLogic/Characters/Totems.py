@@ -5,28 +5,27 @@ def setCommon(job) -> list:
     type = "totem"
 
     traits = Characters.setTraits()
-    traits[1].update({"Pierce": "resistant", "Flame": "vulnerable"})
-    stats = {"avoidance": "min", "hp": "low", "resist": traits[1], "speed": "min"}
     cndt = traits[0]
     cndt["lifeless"], cndt["planted"], cndt["reposed"], cndt["skittish"], cndt["social"] = True, True, True, True, True
-    
-    dice = {"martial": 0, "magic": 1}
+    stats = {"avoidance": "min", "hp": "low", "resist": traits[1], "speed": "min"}
+    stats["resist"]["Pierce"] = "resistant"
 
-    if job in ["Door", "Gate", "Monument"]:
-        if job in ["Gate", "Monument"]:
-            cndt["massive"] = True
-            stats["hp"] = "max"
+    dice = {"martial": 0, "magic": 2}
+
+    if job in ["Gate", "Monument"]: cndt["massive"], stats["hp"] = True, "max"
+
+    match job:
+        case "Standard": stats["resist"]["Flame"] = "vulnerable"
+        case "Door":
+            dice["magic"] = 3
+            stats["hp"] = "mid"
             stats["resist"]["Flame"] = "normal"
-
-        match job:
-            case "Door":
-                dice["magic"] = 2
-                stats["hp"] = "mid"
-            case "Gate":
-                dice["magic"] = 3
-            case "Monument":
-                dice["magic"] = 5
-                stats["resist"]["Pierce"] = "immune"
+        case "Gate":
+            dice["magic"] = 4
+            stats["resist"]["Flame"] = "resistant"
+        case "Monument":
+            dice["magic"] = 5
+            stats["resist"]["Flame"], stats["resist"]["Pierce"] = "immune", "immune"
 
     return [stats, cndt, type, dice]
 
@@ -50,12 +49,12 @@ class sentry:
     def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"areas": ["Infuse"], "attacks": ["Bring"]})
+        abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Bring"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Sentry", stats, type)
 
 class ward:
     def __init__(self, element, job) -> None:
         common = setCommon(job)
         stats, cndt, type, dice,  = common[0], common[1], common[2], common[3]
-        abl = Characters.setAbilities(type, {"areas": ["Screen"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(type, {"areas": ["Infuse"], "boons": ["Wreath"]})
         self.ch = Characters.character(abl, cndt, dice, element, job, "Ward", stats, type)

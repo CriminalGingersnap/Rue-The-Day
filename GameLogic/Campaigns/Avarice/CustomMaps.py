@@ -201,14 +201,14 @@ def campMap(players) -> list:
 
 
 def portMap(players, element) -> list:
-    row1  = ["////↑","__L.|","____|","____|","////|","_*01|","____|","__08|","__05|","__03|","__13|","__18|"]
-    row2  = ["____↑","__M.|","____|","____|","////|","____|","____|","____|","____|","__07|","____|","____|"]
-    row3  = ["////↑","__W.↑","____|","____|","////|","____|","____|","____|","____|","////|","____|","____|"]
-    row4  = ["~~~~⇓","////↑","____|","____|","////|","____|","__09|","____|","____|","////|","____|","____|"]
-    row5  = ["~~~~⇓","____↑","____|","____|","__04|","____|","____|","____|","____|","////|","____|","____|"]
-    row6  = ["~~~~⇓","////↑","____|","__11|","__02|","____|","__06|","____|","__19|","////|","____|","____|"]
-    row7  = ["~~~~⇓","__16↑","____|","____|","////|","____|","____|","____|","__12|","////|","____|","__14|"]
-    row8  = ["~~~~⇓","////↑","____|","____|","////|","////|","////|","////|","////|","////|","____|","____|"]
+    row1  = ["////↑","__L.|","____|","____|","////↑","_*01|","____|","__02|","__07|","__03|","__13|","__18|"]
+    row2  = ["____↑","__M.|","____|","____|","////↑","____|","____|","____|","____|","__05|","____|","____|"]
+    row3  = ["////↑","__W.↑","____|","____|","////↑","____|","____|","____|","____|","////↑","____|","____|"]
+    row4  = ["~~~~⇓","////↑","____|","____|","////↑","____|","__04|","____|","____|","////↑","____|","____|"]
+    row5  = ["~~~~⇓","____↑","____|","____|","__08|","____|","____|","____|","____|","////↑","__19|","____|"]
+    row6  = ["~~~~⇓","////↑","____|","__11|","__09|","____|","__06|","____|","____|","////↑","____|","____|"]
+    row7  = ["~~~~⇓","__16↑","____|","____|","////↑","____|","____|","____|","__12|","////↑","____|","__14|"]
+    row8  = ["~~~~⇓","////↑","____|","____|","////↑","////↑","////↑","////↑","____↑","////↑","____|","____|"]
     row9  = ["~~~~⇓","____↑","____|","____|","____|","____|","____|","____|","____|","____|","____|","____|"]
     row10 = ["~~~~⇓","////↑","__17↑","____|","____|","____|","____|","____|","____|","__15|","____|","____|"]
     row11 = ["~~~~⇓","~~~~⇓","////↑","____↑","////↑","____↑","////↑","____↑","////↑","____↑","////↑","____↑"]
@@ -229,16 +229,16 @@ def portMap(players, element) -> list:
 
     Knight1, Knight2, Knight3 = Humans.knight("Basic", "Elite").ch, Humans.knight("Basic", "Master").ch, Humans.knight("Basic", "Adept").ch    
     Mage1, Mage2 = Humans.mage("Ice", "Adept").ch, Humans.mage("Flame", "Adept").ch   
-    Archer1, Archer2, Archer3 = Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Elite").ch, Humans.archer("Basic", "Adept").ch    
+    Archer, Door1, Door2 = Humans.brute("Basic", "Proficient").ch, Totems.impedance("Dream", "Door").ch, Totems.impedance("Dream", "Door").ch    
     B_Maps.placeFighter(Duke, "01", [3, 10])
-    B_Maps.placeFighter(Knight1, "02", [4, 1])
-    B_Maps.placeFighter(Knight2, "03", [2, 2])
-    B_Maps.placeFighter(Knight3, "04", [4, 2])
-    B_Maps.placeFighter(Mage1, "05", [11, 0])
-    B_Maps.placeFighter(Mage2, "06", [0, 9])
-    B_Maps.placeFighter(Archer1, "07", [4, 4])
-    B_Maps.placeFighter(Archer2, "08", [8, 5])
-    B_Maps.placeFighter(Archer3, "09", [4, 9])
+    B_Maps.placeFighter(Knight1, "02", [0, 7])
+    B_Maps.placeFighter(Knight2, "03", [0, 9])
+    B_Maps.placeFighter(Knight3, "04", [3, 6])
+    B_Maps.placeFighter(Mage1, "05", [1, 9])
+    B_Maps.placeFighter(Mage2, "06", [5, 6])
+    B_Maps.placeFighter(Archer, "07", [0, 8])
+    B_Maps.placeFighter(Door1, "08", [4, 4])
+    B_Maps.placeFighter(Door2, "09", [5, 4])
 
     Elemental1, Elemental2, Elemental3 = Elementals.wisp(element, "Random").ch, Elementals.wisp(element, "Random").ch, Elementals.wisp(element, "Random").ch
     Elemental4, Elemental5, Elemental6, Elemental7, Elemental8, Elemental9 = None, None, None, None, None, None, None, None, None
@@ -269,9 +269,9 @@ def portMap(players, element) -> list:
     B_Maps.placeFighter(Elemental6, "16", [6, 1])
     B_Maps.placeFighter(Elemental7, "17", [9, 2])
     B_Maps.placeFighter(Elemental8, "18", [0, 11])
-    B_Maps.placeFighter(Elemental9, "19", [5, 8])
+    B_Maps.placeFighter(Elemental9, "19", [4, 10])
 
-    group1 = [Duke, Knight1, Knight2, Knight3, Mage1, Mage2, Archer1, Archer2, Archer3]
+    group1 = [Duke, Knight1, Knight2, Knight3, Mage1, Mage2, Archer, Door1, Door2]
     group2 = [Elemental1, Elemental2, Elemental3, Elemental4, Elemental5, Elemental6, Elemental7, Elemental8, Elemental9]
     iMap.updateFighterHeight(players + group1 + group2, battleMap)
 

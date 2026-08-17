@@ -62,14 +62,16 @@ def usefulBoons(fighter, enemies):
 
     return boonPreferences
 
-def getDmgAndDistance(fighter, enemies):
+def getDmgAndDistance(fighter, others):
     dmgTypes, someFar, anyClose = [], False, False
-    for enemy in enemies:
-        dmgTypes += enemy.equip["weapon"]["dmgTypes"]
+    for other in others:
+        if fighter == other: continue
+        else:
+            dmgTypes += other.equip["weapon"]["dmgTypes"]
 
-        distance = Movement.getTargetDistance(fighter, enemy)
-        if distance > 6: someFar = True
-        if distance < 3: anyClose = True
+            distance = Movement.getTargetDistance(fighter, other)
+            if distance > 6: someFar = True
+            if distance < 3: anyClose = True
 
     return [dmgTypes, someFar, anyClose]
 

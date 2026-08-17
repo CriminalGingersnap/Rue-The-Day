@@ -58,20 +58,29 @@ def applyExamine(visibleTargets, battleMap) -> None:
         if (examinee.cndt["armored"]):
             armorStatement = "Naturally armored. "
         elif examinee.equip["armor"]["name"] != "None":
-            armorName = examinee.equip["armor"]["name"]
+            armorName, armorTier = examinee.equip["armor"]["name"], ""
             if examinee.equip["armor"]["element"] != "Basic": armorName += " " + examinee.equip["armor"]["element"]
-            armorStatement = "Wearing " + armorName + " armor. "
+            if examinee.equip["armor"]["tier"] == "Masterwork": shieldTier = "Masterwork "
+
+            armorStatement = "Wearing " + armorTier + armorName + " armor. "
         else: armorStatement = "Unarmored."
 
         if examinee.equip["shield"]["name"] != "None":
-            shieldName = examinee.equip["shield"]["name"]
+            shieldName, shieldTier = examinee.equip["shield"]["name"], ""
             if shieldName == "Talisman": shieldName += " of " + examinee.equip["shield"]["element"] + " Protection"
             else: shieldName += " shield"
-            shieldStatement = "Carrying a " + shieldName + ". "
+            if examinee.equip["shield"]["tier"] == "Masterwork": shieldTier = "Masterwork "
+
+            shieldStatement = "Carrying a " + shieldTier + shieldName + ". "
+
         if examinee.equip["weapon"]["name"] != "None":
-            article = "a "
-            if examinee.equip["weapon"]["name"][0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
-            weaponStatement = "Wielding " + article + examinee.equip["weapon"]["name"] + ". "
+            article, weaponTier, element = "a ", "", ""
+            if examinee.equip["weapon"]["tier"] == "Masterwork": weaponTier = "Masterwork "
+            if examinee.equip["weapon"]["dmgTypes"][0] != "Basic": element = examinee.equip["weapon"]["dmgTypes"][0] + " "
+
+            weaponStatement = weaponTier + element + examinee.equip["weapon"]["name"] + ". "
+            if weaponStatement[0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
+            weaponStatement = "Wielding " + article + weaponStatement
 
         Select.waitPrint("Avoidance: " + strAV + " | " + armorStatement + " " + shieldStatement)
         Select.quickPrint("Reach:     " + strReach + " | "  + weaponStatement)

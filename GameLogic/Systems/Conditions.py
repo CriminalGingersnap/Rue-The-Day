@@ -49,7 +49,7 @@ def takeDamage(target, dmgType, damage) -> None:
 
 
 def setInjury(target):
-    injuryPhrase, speedPhrase, avPhrase = "\n" + target.props["name"] + " is ", "Speed reduced ", "Avoidance reduced "
+    injuryPhrase, speedPhrase, avPhrase = "\n" + target.props["name"] + " is ", "  Speed reduced ", "  Avoidance reduced "
     print = False
 
     if target.atrb["half_hp"] < target.atrb["cur_hp"] <= (target.atrb["half_hp"] + target.atrb["quart_hp"]):
@@ -104,4 +104,4 @@ def setInjury(target):
         Select.waitPrint(injuryPhrase)
         if target.atrb["base_sp"] > 0: Select.quickPrint(speedPhrase)
         Select.quickPrint(avPhrase)
-        Select.waitPrint(str(target.atrb["injury"]) + "-point penalty applied to rolls.")
+        Select.waitPrint("  " + str(target.atrb["injury"]) + "-point penalty applied to rolls.")
