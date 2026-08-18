@@ -90,10 +90,10 @@ def customLoop(playerGroup, biome, event) -> bool:
         if result or deathPermitted:
             Select.readScene("Post " + event, playerGroup["campaign"])
             if event == "Leviathan":
-                playerGroup["members"][0].equip["weapon"] = {"name": "Rag", "twoHanded": False, "modifier": 0, "dmgTypes": ["Dream"], "reach": 8}
-                playerGroup["members"][1].equip["weapon"] = {"name": "Plank", "twoHanded": True, "modifier": 0, "dmgTypes": ["Crush"], "reach": 2}
-                playerGroup["members"][0].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic"}
-                playerGroup["members"][1].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic"}
+                playerGroup["members"][0].equip["weapon"] = {"name": "Rag", "twoHanded": False, "modifier": 0, "dmgTypes": ["Dream"], "reach": 8, "tier": "Standard"}
+                playerGroup["members"][1].equip["weapon"] = {"name": "Plank", "twoHanded": True, "modifier": 0, "dmgTypes": ["Crush"], "reach": 2, "tier": "Standard"}
+                playerGroup["members"][0].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
+                playerGroup["members"][1].equip["shield"] = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
 
         return result or deathPermitted
 

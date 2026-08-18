@@ -5,7 +5,8 @@ from Abilities import Items_Use as Items, Boons_Apply as Boons, Hindrances_Apply
 
 
 def getEquipLoad(equipment) -> int:
-    if ("element" in equipment) and (equipment["element"] == "Dream"): return 0
+    if equipment["name"] == "None": return 0
+    elif ("element" in equipment) and (equipment["element"] == "Dream"): return 0
     else:
         equipLoad = equipment["modifier"]
         if equipment["tier"] == "Masterwork": equipLoad /= 2

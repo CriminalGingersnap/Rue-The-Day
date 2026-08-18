@@ -76,7 +76,8 @@ def applyExamine(visibleTargets, battleMap) -> None:
         if examinee.equip["weapon"]["name"] != "None":
             article, weaponTier, element = "a ", "", ""
             if examinee.equip["weapon"]["tier"] == "Masterwork": weaponTier = "Masterwork "
-            if examinee.equip["weapon"]["dmgTypes"][0] != "Basic": element = examinee.equip["weapon"]["dmgTypes"][0] + " "
+            if examinee.equip["weapon"]["dmgTypes"][0] not in ["Basic", "Crush", "Pierce"]:
+                element = examinee.equip["weapon"]["dmgTypes"][0] + " "
 
             weaponStatement = weaponTier + element + examinee.equip["weapon"]["name"] + ". "
             if weaponStatement[0] in ["A", "E", "I", "O", "U", "Y"]: article = "an "
@@ -115,7 +116,7 @@ def applyExamine(visibleTargets, battleMap) -> None:
             if examinee.cndt[condition] == True:
                 Select.quickPrint(condition, ending = " | ")
 
-        if Select.yesNo("\n\nView " + examinee.props["name"] + "'s sight map?"):
+        if (examinee.props["rank"] != "player") and Select.yesNo("\n\nView " + examinee.props["name"] + "'s sight map?"):
             Print.printSightMap(battleMap, examinee.sightMap, examinee.props["name"] + "'s Sight Map")
             Select.pressEnter("continue")
 

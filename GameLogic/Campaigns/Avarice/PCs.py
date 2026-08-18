@@ -24,7 +24,7 @@ def getLaura():
     Laura.abl["mastery"] = ["Bring"]
     
     B_PCs.resetPlayer(Laura)
-    Laura.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic"}
+    Laura.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
     return Laura
 
 def getMartin():
@@ -34,7 +34,7 @@ def getMartin():
     Martin.abl["mastery"] = ["Guard"]
 
     B_PCs.resetPlayer(Martin)
-    Martin.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic"}
+    Martin.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
     return Martin
 
 def getWillem():
@@ -44,6 +44,6 @@ def getWillem():
     Willem.abl["mastery"] = ["Bodkin"]
     
     B_PCs.resetPlayer(Willem)
-    Willem.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic"}
+    Willem.equip["armor"] = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
 
     return Willem

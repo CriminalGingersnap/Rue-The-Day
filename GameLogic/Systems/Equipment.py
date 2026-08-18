@@ -2,7 +2,7 @@ from . import Damage, Sort
 import random, copy
 
 nullKit = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
-nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1, "tier": "Standard"}
+nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1, "twoHanded": False, "tier": "Standard"}
 
 noviceLong, noviceShort = ["Fishing Spear", "Plank", "Scythe", "Stick"], ["Dagger", "Hand Wrap", "Rock", "Wood Axe"]
 noviceBlunt, noviceSharp = ["Hand Wrap", "Plank", "Rock", "Stick"], ["Dagger", "Fishing Spear", "Scythe", "Wood Axe"]
@@ -76,20 +76,21 @@ def updateKit(equipment, job, rank):
         for tool in [equipment["armor"], equipment["shield"], equipment["weapon"]]:
             if tool["tier"] == "Masterwork": tool["modifier"] *= 2
 
+
 def setWeapon(job, element, rank, specialties) -> list:
-    weapon = {"name": "", "twoHanded": False, "modifier": 1, "dmgTypes": [], "reach": 1}
-    isTwoHanded = random.choice([True, False])
+    weapon = copy.deepcopy(nullWeapon)
+    weapon["twoHanded"] = random.choice([True, False])
 
     match job:
         case "Mage" | "Witch":
-            weapon.update({"reach": 8, "name": element, "dmgTypes": [element]})
+            weapon.update({"reach": 8, "dmgTypes": [element]})
 
-            if isTwoHanded:
-                if rank == "Novice": weapon["name"] += " Rag on Stick"
-                else: weapon["name"] += " Banner"
+            if weapon["twoHanded"]:
+                if rank == "Novice": weapon["name"] = "Rag on Stick"
+                else: weapon["name"] = "Banner"
             else:
-                if rank == "Novice": weapon["name"] += " Rag"
-                else: weapon["name"] += " Flag"
+                if rank == "Novice": weapon["name"] = "Rag"
+                else: weapon["name"] = "Flag"
 
         case "Archer" | "Dragonslayer":
             weapon.update({"reach": 8, "twoHanded": True, "dmgTypes": ["Pierce"]})
@@ -115,7 +116,7 @@ def setWeapon(job, element, rank, specialties) -> list:
             elif "Stab" in specialties: meleeOptions += sharpMelee
             else: meleeOptions = bluntMelee + sharpMelee
 
-            if isTwoHanded:
+            if weapon["twoHanded"]:
                 longOptions = list(set(meleeOptions).intersection(longMelee))
                 weapon.update({"name": random.choice(longOptions), "reach": 2})
             else:
@@ -127,7 +128,7 @@ def setWeapon(job, element, rank, specialties) -> list:
 
         case "Doctor": weapon["name"] = "Bag"
 
-        case "Paladin": weapon.update({"reach": 8, "name": "Sling", "dmgTypes": ["Crush", "Holy"]})
+        case "Paladin": weapon.update({"reach": 8, "name": "Sling", "dmgTypes": ["Crush"]})
 
     if rank == "Novice": weapon["modifier"] = 0
     elif weapon["twoHanded"]: weapon["modifier"] += 1

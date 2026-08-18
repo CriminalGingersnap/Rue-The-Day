@@ -36,7 +36,7 @@ def getBenedictionGroup() -> list:
 
 
 def getAkeem():
-    Akeem = Humans.paladin("Elite").ch
+    Akeem = Humans.paladin("Holy", "Elite").ch
     Akeem.props["name"], Akeem.props["initials"], Akeem.props["favored"] = "Akeem", "A.", "human"
     Akeem.atrb["base_av"], Akeem.atrb["base_hp"], Akeem.atrb["base_sp"] = 9, 16, 4
     Akeem.abl["specialty"] = ["Bless"]

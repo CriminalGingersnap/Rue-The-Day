@@ -87,6 +87,8 @@ def villageMap(players) -> list:
     placeFighter(Zombie8, "08", [0, 8])
     placeFighter(Zombie9, "09", [9, 9])
 
+    Zombie1.equip["weapon"]["tier"] = "Masterwork"
+
     Crow1, Crow2, Vulture = Birds.crow("Basic", "Juvenile").ch, Birds.crow("Basic", "Adult").ch, Birds.vulture("Basic", "Adult").ch
     Dog1, Dog2 = Beasts.hound("Basic", "Juvenile").ch, Beasts.hound("Basic", "Adult").ch
     placeFighter(Crow1, "11", [5, 3])
@@ -156,6 +158,11 @@ def cryptMap(players, events, days) -> list:
     Lich.atrb["injury"], Lich.cndt["planted"] = 1, True
     placeFighter(Lich, "01", [0, 5])
 
+    Lich.equip["armor"]["tier"] = "Masterwork"
+    Lich.equip["armor"]["name"] = "Heavy"
+    Lich.equip["armor"]["element"] = "Rot"
+    Lich.equip["armor"]["modifier"] = 6
+
     if events["Ally"]["complete"]:
         Sphinx = Elementals.sphinx("Holy", "Greater").ch
         placeFighter(Sphinx, "31", [8, 4])
@@ -200,6 +207,15 @@ def manorMap(players, days) -> list:
     Vampire = Bosses.vampire(days).ch
     Vampire.atrb["injury"] = 1
     placeFighter(Vampire, "01", [1, 9])
+
+    Vampire.equip["weapon"]["tier"] = "Masterwork"
+    Vampire.equip["weapon"]["modifier"] *= 2
+    if Vampire.equip["armor"]["name"] != "None": 
+        Vampire.equip["armor"]["tier"] = "Masterwork"
+        Vampire.equip["armor"]["modifier"] *= 2
+    if Vampire.equip["shield"]["name"] != "None":
+        Vampire.equip["shield"]["tier"] = "Masterwork"
+        Vampire.equip["shield"]["modifier"] *= 2
 
     Door1, Door2, Door3, Door4 = Totems.impedance("Dream", "Gate").ch, Totems.ward("Flame", "Door").ch, Totems.ward("Ice", "Door").ch, Totems.ward("Rot", "Door").ch
     placeFighter(Door1, "02", [3, 10])

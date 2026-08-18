@@ -43,7 +43,7 @@ class AvariceMap:
         self.events = {"Escape": {"location": [14, 6], "complete": False},
                         "Threshold": {"location": [10, 5], "complete": False}, "Moose": {"location": [5, 10], "complete": False}, "Vines": {"location": [1, 7], "complete": False}, 
                          "Worm": {"location": [1, 11], "complete": False}, "Giant": {"location": [0, 5], "complete": False}, "Strider": {"location": [7, 1], "complete": False},
-                          "Breakout": {"location": [16, 7], "complete": False}, "Camp": {"location": [15, 11], "complete": False}, "Finale": {"location": [21, 4], "complete": False},
+                          "Breakout": {"location": [16, 7], "complete": False}, "Camp": {"location": [18, 11], "complete": False}, "Finale": {"location": [21, 4], "complete": False},
                            "Strange Fruit": {"location": [23, 2], "complete": False},}
         self.marker = mapMarker(self.worldMap, [14, 7, 4])
 
