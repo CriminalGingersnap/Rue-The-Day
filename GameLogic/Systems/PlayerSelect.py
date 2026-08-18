@@ -6,7 +6,7 @@ longWait, quickWait = .3, .07
 
 
 def readScene(title, campaign, skipPrompt=False) -> None:
-    if skipPrompt or yesNo("\nRead '" + title + "' journal entry?"):
+    if skipPrompt or yesNo("Read '" + title + "' journal entry?"):
         phraseList = ""
         match campaign:
             case "Avarice": phraseList = A_Journal.scenes[title]
@@ -57,16 +57,19 @@ def pickOption(options, category, alwaysPrint=True):
     else: return options[0]
 
 def makeSelection(options):
-    for option in options:
-        quickPrint(str(options.index(option)+1) + ": " + str(option))
+    sortedUnique = list(set(options))
+    sortedUnique.sort()
 
-    selection = takeInput(1, len(options))
+    for option in sortedUnique:
+        quickPrint(str(sortedUnique.index(option)+1) + ": " + str(option))
+
+    selection = takeInput(1, len(sortedUnique))
     print()
-    return options[selection - 1]
+    return sortedUnique[selection - 1]
 
 
 def yesNo(prompt) -> bool:
-    waitPrint(prompt)
+    waitPrint("\n" + prompt)
     answer = makeSelection(["Yes", "No"])
     if answer == "Yes": return True
     else: return False
@@ -92,37 +95,36 @@ def takeInput(floor, ceiling):
 
 def listSelection(options, cap, prompt):
     ceiling, selection = len(options), []
-    waitPrint(prompt)
+    waitPrint("\n" + prompt)
 
-    if cap <= 0: waitPrint("Action skipped. Limit reached.")
-    elif ceiling == 0: waitPrint("Action skipped. No options in category.")
+    if cap <= 0: clearPrint("Action skipped. Limit reached.")
+    elif ceiling == 0: clearPrint("Action skipped. No options in category.")
     else:
-        quickPrint("Enter a comma separated list without spaces (Ex: 1,4,9).")
+        waitPrint("\nEnter a comma separated list without spaces (Ex: 1,4,9).")
         if cap > 2: quickPrint("The list may include dashed sections (Ex: 1-4,9).")
-        
+
+        index = 1
         for option in options:
-            quickPrint(str(options.index(option)+1) + ": " + str(option))
+            quickPrint(str(index) + ": " + str(option))
+            index += 1
 
         while True:
             try:
-                answerList = input("-> ").split(",")
-                for answer in answerList:
+                interimList, answerList = input("-> ").split(","), []
+                for answer in interimList:
                     if "-" in answer:
-                        answerList.remove(answer)
                         start, end = int(answer.split("-")[0]), int(answer.split("-")[1])
-                        for inclusion in range(start, end):
-                            answerList += [inclusion]
+                        for inclusion in range(start, end): answerList += [inclusion]
+                    else: answerList += [int(answer)]
 
                 if len(answerList) > cap: raise SyntaxError
                 elif not all((1 <= answer <= ceiling) for answer in answerList): raise ValueError
                 else:
                     for answer in answerList: selection += [options[answer - 1]]
+                    break
             
-            except SyntaxError:
-                print("Quantity of selected values cannot exceed " + str(cap) + ".")
-            except ValueError:
-                print("All values must be numbers between 1 and ", str(ceiling) + ".")
-            except TypeError:
-                print("All values must be numeric.")
-    
+            except SyntaxError: print("Quantity of selected values cannot exceed " + str(cap) + ".")
+            except ValueError: print("All values must be numbers between 1 and ", str(ceiling) + ".")
+            except TypeError: print("All values must be numeric.")
+        print()
     return selection

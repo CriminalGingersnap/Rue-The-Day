@@ -17,7 +17,6 @@ def sortItems(players):
     Select.waitPrint("Items not selected by any party member will be lost.")
 
     for player in players:
-        Select.waitPrint("Assign stones to " + player.props["name"] + ".")
         player.inv["cores"] = copy.deepcopy(Inventory.cores)
         player.inv["pearls"] = copy.deepcopy(Inventory.pearls)
         cap = player.inv["Capacity"]

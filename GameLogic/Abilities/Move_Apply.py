@@ -116,7 +116,7 @@ def applyExamine(visibleTargets, battleMap) -> None:
             if examinee.cndt[condition] == True:
                 Select.quickPrint(condition, ending = " | ")
 
-        if (examinee.props["rank"] != "player") and Select.yesNo("\n\nView " + examinee.props["name"] + "'s sight map?"):
+        if (examinee.props["rank"] != "player") and Select.yesNo("View " + examinee.props["name"] + "'s sight map?"):
             Print.printSightMap(battleMap, examinee.sightMap, examinee.props["name"] + "'s Sight Map")
             Select.pressEnter("continue")
 

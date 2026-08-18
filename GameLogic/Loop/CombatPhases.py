@@ -1,6 +1,6 @@
 from Actions import MoveActions as Move, AbilityActions_Player as PlayerAbl, AbilityActions_NPC as NPCAbl
 from Maps import Visibility, Map_Update as uMap, Map_Print as Print
-from Systems import PlayerSelect as Select, Sort, Conditions, Effects, Commitments
+from Systems import PlayerSelect as Select, Sort, Effects, Commitments
 from Abilities import Items_Use as Items, Boons_Apply as Boons, Hindrances_Apply as Hindrances
 
 
@@ -15,11 +15,9 @@ def getEquipLoad(equipment) -> int:
 def getSpeedLoss(fighter) -> int:
         armorLoss = getEquipLoad(fighter.equip["armor"])
         shieldLoss = getEquipLoad(fighter.equip["shield"])
-        spareLoss = getEquipLoad(fighter.inv["spares"]["shield"])
         weaponLoss = getEquipLoad(fighter.equip["weapon"])
-        weaponSpareLoss = getEquipLoad(fighter.inv["spares"]["weapon"])
         
-        speedLoss = (armorLoss + shieldLoss + spareLoss + weaponLoss + weaponSpareLoss)
+        speedLoss = (armorLoss + shieldLoss + weaponLoss)
         if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
 
         return speedLoss
@@ -98,5 +96,5 @@ def abilityStage(fighter, enemies, allies, battleMap) -> None:
         if fighter.cndt["blitzing"] and ((fighter.atrb["cur_mag"] > 0) or (fighter.atrb["cur_mar"] > 0)):
             fighter.cndt["blitzing"] = False
             abilityStage(fighter, enemies, allies, battleMap)
-    else:
-        Select.waitPrint("No ability options.")
+
+    else: Select.waitPrint(fighter.props["name"] + " has no remaining time to act.")

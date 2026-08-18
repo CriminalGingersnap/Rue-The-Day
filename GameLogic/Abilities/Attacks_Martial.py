@@ -76,11 +76,12 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
 
 
 def inflict(fighter, target, dmgType, baseDmg):
-    physicalAbsorption = Boons.applyWreath(target, dmgType)
-    appliedDmg = max(0, baseDmg - physicalAbsorption)
+    if baseDmg > 0:
+        physicalAbsorption = Boons.applyWreath(target, dmgType)
+        appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
-    Conditions.takeDamage(target, dmgType, appliedDmg)
+        Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+        Conditions.takeDamage(target, dmgType, appliedDmg)
 
 
 def applyRiposte(attacker, defender) -> None:

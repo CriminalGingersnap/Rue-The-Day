@@ -16,19 +16,23 @@ def getStock(party) -> dict:
 
 
 def updateStones(player, stock, cap):
-    phrase = player.props["name"] + " can carry " + str(cap) + " more "
-    if cap == 1: Select.waitPrint(phrase + "item.")
-    else: Select.waitPrint(phrase + "items.")
+    printCap(player, cap)
 
     if cap > 0:
-        pearlUpdates = Select.listSelection(stock["pearls"], cap, "Assign pearls to " + player.props["name"] + ".")
+        pearlUpdates = Select.listSelection(stock["pearls"], cap, "Assign pearls to " + player.props["name"] + " from the party inventory.")
         for pearl in pearlUpdates:
             player.inv["pearls"][pearl] += 1
-            stock.remove(pearl)
+            stock["pearls"].remove(pearl)
             cap -= 1
 
     if cap > 0:
-        coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"] + ".")
+        printCap(player, cap)
+        coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"] + " from the party inventory.")
         for core in coreUpdates:
             player.inv["cores"][core] += 1
-            stock.remove(core)
+            stock["cores"].remove(core)
+
+def printCap(player, cap):
+    phrase = player.props["name"] + " can carry " + str(cap) + " more "
+    if cap == 1: Select.clearPrint(phrase + "stone.")
+    else: Select.clearPrint(phrase + "stones.")

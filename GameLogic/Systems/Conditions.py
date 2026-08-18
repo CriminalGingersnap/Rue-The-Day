@@ -15,11 +15,11 @@ def decrementTolerance(fighter, potency) -> None:
         elif fighter.atrb["tolerance"] == 1:
             fighter.atrb["corruption"] += 1
             fighter.atrb["tolerance"] = fighter.atrb["endurance"]
-            Select.clearPrint(fighter.props["name"] + " gains a point of instability!")
+            Select.clearPrint(fighter.props["name"] + " gains a point of corruption!")
 
     corruption = fighter.atrb["corruption"]
     if corruption > 0:
-        Select.waitPrint(fighter.props["name"] + " takes " + str(corruption) + " Bleed damage!")
+        Select.waitPrint(fighter.props["name"] + " takes " + str(corruption) + " Bleed damage from overdose!")
         takeDamage(fighter, "Bleed", corruption)
 
 

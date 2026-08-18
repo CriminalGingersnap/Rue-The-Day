@@ -157,10 +157,9 @@ scenes = {"Escape": [
     ["> ", "Willem's health has improved. He can walk again."],
     ["  ", "We saw him strolling around the camp with a guard on each arm."],
     ["  ", "They never let him within twelve paces of anyone carrying a bow or loose cloth."],
-    ["  ", "We'll need to craft what he needs and get it into his hands before the killing starts."],
-    ["  ", "As much as he loves watching his juniors work, I know he hates feeling left out."],
+    ["  ", "We'll need to craft what he needs ourselves."],
     ["", ""],
-    ["> ", "Laura almost convinced we should just strike now, but we agreed to follow the plan."],
+    ["> ", "Laura's almost convinced we should just strike now, but we agreed to follow the plan."],
     ["  ", "Let the duke's two-faced pet think we've brought his ransom."],
     ["  ", "As soon as Willem's in front of us, the highwayman dies."]
 ], "Post Camp": [

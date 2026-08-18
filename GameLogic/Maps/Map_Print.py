@@ -27,7 +27,9 @@ def colorPrint(comparisonSpace, printingSpace) -> None:
         else: console.print("[cyan]" + printingSpace + "[/cyan]", end = "")
     elif "/" in comparisonSpace: console.print("[gray]" + printingSpace + "[/gray]", end = "")
     elif ")" in comparisonSpace: console.print("[purple]" + printingSpace + "[/purple]", end = "")
-    elif "*" in comparisonSpace: console.print("[green]" + printingSpace + "[/green]" , end = "")
+    elif "*" in comparisonSpace:
+        if "]" in comparisonSpace: console.print("[green]" + printingSpace[:-1] + "|" + "[/green]" , end = "")
+        else: console.print("[green]" + printingSpace + "[/green]" , end = "")
     elif "]" in comparisonSpace: print(printingSpace[:-1] + "|", end = "")
     else: print(printingSpace, end = "")
 

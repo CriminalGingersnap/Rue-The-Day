@@ -52,7 +52,7 @@ def selectWeapon(player, weaponList, carryWeight) -> int:
         weaponChoice = Select.pickOption(weaponList, player.props["name"] + "'s primary weapon")
         updateWeapon(player, "equipment", weaponChoice)
 
-        weaponList.remove(player.equip["weapon"])
+        weaponList.remove(player.equip["weapon"]["tier"] + " " + player.equip["weapon"]["dmgTypes"][0] + " " + player.equip["weapon"]["name"])
         if len(weaponList) > 1:
             weaponChoice = Select.pickOption(["None"] + weaponList, player.props["name"] + "'s spare weapon")
             updateWeapon(player, "inventory", weaponChoice)
@@ -62,25 +62,29 @@ def selectWeapon(player, weaponList, carryWeight) -> int:
 
 def selectDefense(player, armorList, shieldList, carryWeight) -> None:
     for armor in armorList:
-        if Phases.getEquipLoad(armor) > carryWeight: armorList.remove[armor]
+        updateKit(player, "equipment", armor, "armor")
+        if Phases.getEquipLoad(player.equip["armor"]) > carryWeight: armorList.remove[armor]
     if len(armorList) > 0:
         armorChoice = Select.pickOption(["None"] + armorList, player.props["name"] + "'s armor")
         updateKit(player, "equipment", armorChoice, "armor")
         carryWeight -= Phases.getEquipLoad(player.equip["armor"])
     
-    if player.equip["weapon"]["twoHanded"]: shieldList = []
-    else:
-        for shield in shieldList:
-            if Phases.getEquipLoad(shield) > carryWeight: shieldList.remove[shield]
+    for shield in shieldList:
+        updateKit(player, "equipment", shield, "shield")
+        if Phases.getEquipLoad(shield) > carryWeight: shieldList.remove[shield]
 
     if len(shieldList) == 0:
         Select.clearPrint("No usable shields.")
         updateKit(player, "equipment", "None", "shield")
     else:
-        shieldChoice = Select.pickOption(["None"] + shieldList, player.props["name"] + "'s primary shield")
-        updateKit(player, "equipment", shieldChoice, "shield")
-                
-        shieldList.remove(player.equip["shield"])
+        if not player.equip["weapon"]["twoHanded"]:
+            shieldChoice = Select.pickOption(["None"] + shieldList, player.props["name"] + "'s primary shield")
+            updateKit(player, "equipment", shieldChoice, "shield")
+
+            if shieldChoice != "None":
+                carryWeight -= Phases.getEquipLoad(player.equip["shield"])
+                shieldList.remove(player.equip["shield"]["tier"] + " " + player.equip["shield"]["name"] + " " + player.equip["shield"]["element"])
+
         if len(shieldList) > 0:
             spareChoice = Select.pickOption(["None"] + shieldList, player.props["name"] + "'s spare shield")
             updateKit(player, "inventory", spareChoice, "shield")

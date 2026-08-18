@@ -10,7 +10,7 @@ def npcSelectItem(fighter, groups, inventory) -> str:
     if fighter.props["job"] == "Paladin": allowList = []
     elif fighter.atrb["base_mag"] > 0:
         blockList.remove(fighter.equip["weapon"]["dmgTypes"][0])
-        allowList.remove(blockList)
+        allowList = [dmgType for dmgType in allowList if dmgType not in blockList]
 
     for enemy in groups["fightingEnemies"]:
         enemyDmgTypes += enemy.equip["weapon"]["dmgTypes"]
