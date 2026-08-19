@@ -109,7 +109,7 @@ def loadWorld(world, campaign, slot) -> None:
 
 
 def saveGroup(group) -> None:
-    Select.clearPrint("Select a save slot to record progress (3 per campaign):")
+    Select.waitPrint("Select a save slot to record progress (3 per campaign):")
     slot = str(Select.takeInput(1, 3))
 
     memberNames = []
@@ -142,8 +142,9 @@ def loadGroup(campaign) -> dict:
         "world": world
     }
 
-    Select.waitPrint("Select a save slot (1-3) to load the " + campaign + " campaign:")
-    slot = str(Select.takeInput(1, 3))
+    Select.waitPrint("Select a save slot (1-3) to load the " + campaign + " campaign.")
+    Select.quickPrint("Enter 0 or any unused slot to start a new game:")
+    slot = str(Select.takeInput(0, 3))
 
     try:
         with open(setFilePath(campaign, slot, "Group"), 'r') as jsonFile:
@@ -160,14 +161,13 @@ def loadGroup(campaign) -> dict:
         loadWorld(world, campaign, slot)
 
     except FileNotFoundError:
-        Select.quickPrint("New Save File", "")
-        Select.clearPrint("This game does not save automatically. Save manually by resting between encounters.")
-        Select.pressEnter("acknowledge.")
+        Select.waitPrint("New Save File.")
+        Select.waitPrint("This game does not save automatically. Save manually by resting between encounters.")
+        Select.pressEnter("acknowledge")
 
         match campaign:
             case "Avarice":
-                Select.waitPrint("\nThis campaign includes a time-pressure mechanic which limits the number of times you can rest/save.")
-                answer = Select.yesNo("Would you like to double your allowance (35 -> 70) for this new game?")
+                answer = Select.yesNo("This campaign includes a time-pressure mechanic which limits the number of times you can rest/save.\nWould you like to double your allowance (35 -> 70) for this new game?")
                 group = A_PCs.getAvariceGroup(answer)
             case "Benediction": group = B_PCs.getBenedictionGroup()
 

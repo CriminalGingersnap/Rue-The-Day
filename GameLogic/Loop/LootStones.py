@@ -19,7 +19,7 @@ def updateStones(player, stock, cap):
     printCap(player, cap)
 
     if cap > 0:
-        pearlUpdates = Select.listSelection(stock["pearls"], cap, "Assign pearls to " + player.props["name"] + " from the party inventory.")
+        pearlUpdates = Select.listSelection(stock["pearls"], cap, "Assign pearls to " + player.props["name"])
         for pearl in pearlUpdates:
             player.inv["pearls"][pearl] += 1
             stock["pearls"].remove(pearl)
@@ -27,7 +27,7 @@ def updateStones(player, stock, cap):
 
     if cap > 0:
         printCap(player, cap)
-        coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"] + " from the party inventory.")
+        coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"])
         for core in coreUpdates:
             player.inv["cores"][core] += 1
             stock["cores"].remove(core)

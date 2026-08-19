@@ -120,7 +120,8 @@ def activateHazards(fighter, battleMap):
             absorption = Boons.applyWreath(fighter, dmgType)
             appliedDmg = max(0, points - absorption)
 
-            Select.waitPrint("The map inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
+            Select.quickPrint("The map inflicts: ", "")
+            Select.waitPrint(str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
             Conditions.takeDamage(fighter, dmgType, appliedDmg)
             Conditions.setInjury(fighter)
 

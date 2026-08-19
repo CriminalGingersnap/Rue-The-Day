@@ -1,65 +1,31 @@
-from Systems import PlayerSelect as Select, Inventory
+from Systems import PlayerSelect as Select
 from Actions import ItemActions as Items
-from . import LootEquipment, LootStones, LootSummons, CombatPhases as Phases
-import copy
+from . import LootEquipment, LootStones, LootSummons
 
 
 def searchAll(playersGroup, enemies) -> None:
     groupInv, players = playersGroup["inventory"], playersGroup["members"]
-    if Select.yesNo("Reorganize party inventory?"): sortItems(players)
-    if Select.yesNo("Loot enemies?"): lootFoes(groupInv, players, enemies)
-
-
-def sortItems(players):
-    playerStock = LootStones.getStock(players)
-    standards = []
-
-    Select.waitPrint("Items not selected by any party member will be lost.")
-
-    for player in players:
-        player.inv["cores"] = copy.deepcopy(Inventory.cores)
-        player.inv["pearls"] = copy.deepcopy(Inventory.pearls)
-        cap = player.inv["Capacity"]
-        LootStones.updateStones(player, playerStock, cap)
-
-        standard = player.inv["standard"] 
-        if standard != "None": standards += [standard]
-
-    for player in players:
-        player.inv["standard"] = "None"
-        carryWeight = player.atrb["base_sp"] - Phases.getSpeedLoss(player)
-
-        if (len(standards) > 0) and (carryWeight > 2) and Select.yesNo("Assign a standard to " + player.props["name"] + "?"):
-            standard = Select.targetSelect(standards)
-            player.inv["standard"] = standard
-            
-            del standards[standard]
-
-
-def lootFoes(groupInv, players, enemies):
-    humans, standards, creatures, boss = [], [], [], None
-
-    for enemy in enemies:
-        if enemy.props["type"] == "human": humans += [enemy]
-        elif enemy.props["job"] == "standard": standards += [enemy]
-        elif enemy.props["rank"] == "Ascendant": boss = enemy
-        else: creatures += [enemy]
     
-    if len(humans) > 0:
-        Select.waitPrint("Searching enemies for useful items.")
+    if Select.yesNo("Loot enemies?"):
+        humans, standards, creatures, boss = [], [], [], None
+
+        for player in players:
+            if  player.inv["standard"] != "None": standards +=  player.inv["standard"] 
+
+        for enemy in enemies:
+            if enemy.props["type"] == "human": humans += [enemy]
+            elif enemy.props["job"] == "standard": standards += [enemy]
+            elif enemy.props["rank"] == "Ascendant": boss = enemy
+            else: creatures += [enemy]
+        
         if Select.yesNo("Swap equipment?"): LootEquipment.lootEquipment(players, humans)
-    if len(standards) > 1: LootSummons.lootStandards(players, standards)
-    if len(creatures) > 0: LootSummons.lootEchos(players, creatures)
-    if boss != None: groupInv += [boss.inv["shards"]]
+        if len(standards) > 1: LootSummons.lootStandards(players, standards)
+        if len(creatures) > 0: LootSummons.lootEchos(players, creatures)
+        if boss != None: groupInv += [boss.inv["shards"]]
 
-    lootSimple(players, humans + standards + creatures)
+        stock = LootStones.getStock(players + humans + standards + creatures)
+        for player in players:
+            inventory = Items.getInventory(player)
+            allowance = player.inv["Capacity"] - inventory["Total"]
 
-
-def lootSimple(players, enemies) -> None:
-    Select.waitPrint("Carve and pry open those foes which are not human. Rob those which are.")
-    stock = LootStones.getStock(enemies)
-    for player in players:
-        inventory = Items.getInventory(player)
-        allowance = player.inv["Capacity"] - inventory["Total"]
-
-        LootStones.updateStones(player, stock, allowance)
+            LootStones.updateStones(player, stock, allowance)

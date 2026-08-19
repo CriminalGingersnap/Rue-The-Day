@@ -87,16 +87,16 @@ def imbue(fighter, category, element, battleMap) -> None:
 
 
 def invigorate(fighter) -> None:
-    healing, potency = 0, fighter.itemEffects["Invigorate"]["potency"]
+    potency, healing = fighter.itemEffects["Invigorate"]["potency"], 0
+
+    match potency:
+        case 1: healing = fighter.atrb["quart_hp"]
+        case 2: healing = fighter.atrb["half_hp"]
+        case 3: healing = fighter.atrb["half_hp"] + fighter.atrb["quart_hp"]
+        case 4: healing = fighter.atrb["base_hp"]
 
     if healing > 0:
-        match potency:
-            case 1: healing = fighter.atrb["quart_hp"]
-            case 2: healing = fighter.atrb["half_hp"]
-            case 3: healing = fighter.atrb["half_hp"] + fighter.atrb["quart_hp"]
-            case 4: healing = fighter.atrb["base_hp"]
-
-        Select.waitPrint("Blood essence activates!")
+        Select.clearPrint("Blood essence activates!")
         Conditions.recoverHP(fighter, healing)
         Conditions.recoverStamina(fighter, healing)
 

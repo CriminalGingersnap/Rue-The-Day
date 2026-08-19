@@ -130,7 +130,7 @@ def setWeapon(job, element, rank, specialties) -> list:
 
         case "Paladin": weapon.update({"reach": 8, "name": "Sling", "dmgTypes": ["Crush"]})
 
-    if rank == "Novice": weapon["modifier"] = 0
+    if rank == "Novice": weapon["modifier"], weapon["tier"] = 0, "Junk"
     elif weapon["twoHanded"]: weapon["modifier"] += 1
 
     return weapon

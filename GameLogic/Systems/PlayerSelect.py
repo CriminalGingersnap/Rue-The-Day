@@ -95,7 +95,7 @@ def takeInput(floor, ceiling):
 
 def listSelection(options, cap, prompt):
     ceiling, selection = len(options), []
-    waitPrint("\n" + prompt)
+    waitPrint("\n" + prompt + ":")
 
     if cap <= 0: clearPrint("Action skipped. Limit reached.")
     elif ceiling == 0: clearPrint("Action skipped. No options in category.")
@@ -114,7 +114,7 @@ def listSelection(options, cap, prompt):
                 for answer in interimList:
                     if "-" in answer:
                         start, end = int(answer.split("-")[0]), int(answer.split("-")[1])
-                        for inclusion in range(start, end): answerList += [inclusion]
+                        for inclusion in range(start, end+1): answerList += [inclusion]
                     else: answerList += [int(answer)]
 
                 if len(answerList) > cap: raise SyntaxError
@@ -123,8 +123,8 @@ def listSelection(options, cap, prompt):
                     for answer in answerList: selection += [options[answer - 1]]
                     break
             
-            except SyntaxError: print("Quantity of selected values cannot exceed " + str(cap) + ".")
-            except ValueError: print("All values must be numbers between 1 and ", str(ceiling) + ".")
-            except TypeError: print("All values must be numeric.")
+            except SyntaxError: clearPrint("Quantity of selected values cannot exceed " + str(cap) + ".")
+            except ValueError: clearPrint("All values must be numbers between 1 and ", str(ceiling) + ".")
+            except TypeError: clearPrint("All values must be numeric.")
         print()
     return selection
