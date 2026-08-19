@@ -57,18 +57,19 @@ def pickOption(options, category, alwaysPrint=True):
     else: return options[0]
 
 def makeSelection(options):
-    sortedUnique = list(set(options))
-    sortedUnique.sort()
-    if "None" in sortedUnique:
-        sortedUnique.remove("None")
-        sortedUnique.insert(0, "None")
+    options.sort()
+    if "None" in options:
+        options.remove("None")
+        options.insert(0, "None")
 
-    for option in sortedUnique:
-        quickPrint(str(sortedUnique.index(option)+1) + ": " + str(option))
+    index = 1
+    for option in options:
+        quickPrint(str(index) + ": " + str(option))
+        index += 1
 
-    selection = takeInput(1, len(sortedUnique))
+    selection = takeInput(1, len(options))
     print()
-    return sortedUnique[selection - 1]
+    return options[selection - 1]
 
 
 def yesNo(prompt) -> bool:
@@ -108,7 +109,8 @@ def listSelection(options, cap, prompt):
 
         index = 1
         for option in options:
-            quickPrint(str(index) + ": " + str(option))
+            if index < 10: quickPrint(str(index) + ":  " + str(option))
+            else: quickPrint(str(index) + ": " + str(option))
             index += 1
 
         while True:

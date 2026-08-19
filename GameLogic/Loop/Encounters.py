@@ -1,4 +1,4 @@
-from Systems import PlayerSelect as Select, Commitments
+from Systems import PlayerSelect as Select
 from GameState import SaveLoad as Save
 from Biomes import Biomes
 from Maps import Map_Instantiate as iMap, Dungeon_Instantiate as dMap
@@ -46,16 +46,14 @@ def handleAftermath(victorGroup) -> bool:
         if fighter.props["rank"] != "player": victorGroup.remove(fighter)
 
         else:
-            Commitments.clearCommitments(fighter)
-            
             if fighter.atrb["cur_hp"] <= 0:
-                Select.waitPrint(fighter.props["name"] + " requires immediate resuscitation!")
+                Select.clearPrint(fighter.props["name"] + " collapses from injury!")
                 takeRest = True
             elif fighter.atrb["fatigue"] >=  fighter.atrb["endurance"]:
-                Select.waitPrint(fighter.props["name"] + " collapses from exhaustion!")
+                Select.clearPrint(fighter.props["name"] + " collapses from exhaustion!")
                 takeRest = True
             elif fighter.atrb["corruption"] >=  fighter.atrb["endurance"]:
-                Select.waitPrint(fighter.props["name"] + " collapses from sickness!")
+                Select.clearPrint(fighter.props["name"] + " collapses from sickness!")
                 takeRest = True
 
     if not takeRest:

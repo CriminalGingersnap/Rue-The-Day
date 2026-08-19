@@ -137,6 +137,7 @@ def loadGroup(campaign) -> dict:
     group = {
         "campaign": "",
         "days": 0,
+        "doubleDays": False,
         "inventory": [],
         "members": [],
         "world": world

@@ -8,7 +8,7 @@ def lootEquipment(players, humans) -> None:
     setOptions(players + humans, armorList, shieldList, weaponList)
 
     for player in players:
-        carryWeight = player.atrb["base_sp"] - 1
+        carryWeight = player.atrb["base_sp"]
         if player.inv["standard"] != "None": carryWeight -= 2
         
         compatibleWeapons = []
@@ -36,15 +36,18 @@ def selectWeapon(player, weaponList, carryWeight, compatibleWeapons) -> int:
 
     if (len(weaponOptions) == 0): Select.clearPrint("No compatible weapons are available for " + player.props["name"] + ".")
 
-    elif len(weaponOptions) > 1:
+    elif len(weaponOptions) > 0:
         weaponChoice = Select.pickOption(weaponOptions, player.props["name"] + "'s primary weapon")
         updateWeapon(player, "equipment", weaponChoice)
-        weaponOptions.remove(setWeaponName(player.equip["weapon"]))
-        weaponList.remove(setWeaponName(player.equip["weapon"]))
+        weaponOptions.remove(weaponChoice)
+        weaponList.remove(weaponChoice)
 
-        if len(weaponOptions) > 1:
+        if len(weaponOptions) > 0:
             weaponChoice = Select.pickOption(["None"] + weaponOptions, player.props["name"] + "'s spare weapon")
             updateWeapon(player, "inventory", weaponChoice)
+            if weaponChoice != "None":
+                weaponOptions.remove(weaponChoice)
+                weaponList.remove(weaponChoice)
 
     return carryWeight - (Phases.getEquipLoad(player.equip["weapon"]) + Phases.getEquipLoad(player.inv["spares"]["weapon"]))
 
@@ -56,7 +59,10 @@ def selectDefense(player, armorList, shieldList, carryWeight) -> None:
     if len(armorList) > 0:
         armorChoice = Select.pickOption(["None"] + armorList, player.props["name"] + "'s armor")
         updateKit(player, "equipment", armorChoice, "armor")
-        carryWeight -= Phases.getEquipLoad(player.equip["armor"])
+
+        if armorChoice != "None":
+            carryWeight -= Phases.getEquipLoad(player.equip["armor"])
+            armorList.remove(armorChoice)
     
     for shield in shieldList:
         updateKit(player, "equipment", shield, "shield")
@@ -72,11 +78,12 @@ def selectDefense(player, armorList, shieldList, carryWeight) -> None:
 
             if shieldChoice != "None":
                 carryWeight -= Phases.getEquipLoad(player.equip["shield"])
-                shieldList.remove(setKitName(player.equip["shield"]))
+                shieldList.remove(shieldChoice)
 
         if len(shieldList) > 0:
             spareChoice = Select.pickOption(["None"] + shieldList, player.props["name"] + "'s spare shield")
             updateKit(player, "inventory", spareChoice, "shield")
+            if shieldChoice != "None": shieldList.remove(spareChoice)
 
 
 def updateKit(player, storage, kitChoice, kitType):

@@ -30,7 +30,6 @@ def setInventory(element, hp, job, rank, type) -> dict:
 
 def humanInventory(element, rank) -> dict:
     inventory = {
-        "Capacity": 10,
         "cores": copy.deepcopy(cores),
         "pearls": copy.deepcopy(pearls),
         "shards": {
@@ -86,7 +85,7 @@ def setLifeless(echo):
 
 
 def beastInventory(hp, element, rank, type) -> dict:
-    drop = {"cores": {element: 0}, "pearls": {element: 0}, "shards": {element: 0}}
+    drop = {"cores": {element: 0}, "pearls": {"Bleed": 0, element: 0}, "shards": {element: 0}}
     vitaVolume = 0
 
     if element == "Rot":
@@ -100,7 +99,7 @@ def beastInventory(hp, element, rank, type) -> dict:
             case "high": vitaVolume = 3
             case "max": vitaVolume = 4
     else:
-        drop["pearls"]["Dream"] = 1
+        drop["pearls"]["Dream"] = random.choice([0, 1])
         match hp:
             case "min": vitaVolume = 1
             case "low": vitaVolume = 2

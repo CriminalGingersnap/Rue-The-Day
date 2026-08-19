@@ -41,7 +41,7 @@ def setAbilities(type, additions) -> dict:
 
 def setAttributes(stats, cndt, elm, dice, type):
     av_range = {"min": random.randint(0,5), "low": random.randint(6,11), "mid": random.randint(12,17), "high": random.randint(18,23), "max": random.randint(24,29)}
-    hp_range = {"min": 6, "low": random.randint(7,12), "mid": random.randint(13,18), "high": random.randint(19,24), "max": random.randint(25,30), "boss": 36}
+    hp_range = {"min": random.randint(7,12), "low": random.randint(13,18), "mid": random.randint(19,24), "high": random.randint(25,30), "max": random.randint(31,36), "boss": 42}
     sp_range = {"min": 0, "low": random.randint(2,3), "mid": random.randint(4,5), "high": random.randint(6,7), "max": random.randint(8,9)}
 
     av, hp, sp = av_range[stats["avoidance"]], hp_range[stats["hp"]], sp_range[stats["speed"]]

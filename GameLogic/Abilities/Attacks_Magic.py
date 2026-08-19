@@ -9,5 +9,5 @@ def attack(fighter, target, attack, dice) -> None:
     absorption = Boons.applyWreath(target, dmgType)
     appliedDmg = max(0, baseDmg - absorption)
 
-    Select.waitPrint("  " + fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + target.props["name"] + "!")
+    Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage against " + target.props["name"] + "!")
     Conditions.takeDamage(target, dmgType, appliedDmg)

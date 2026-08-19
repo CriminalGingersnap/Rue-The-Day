@@ -1,4 +1,5 @@
 from Systems import PlayerSelect as Select, Inventory
+import copy
 
 
 def getStock(party) -> dict:    
@@ -17,13 +18,14 @@ def getStock(party) -> dict:
 
 def updateStones(player, stock):
     cap = 10
-    player.inv["cores"], player.inv["pearls"] = Inventory.cores, Inventory.pearls
+    player.inv["cores"], player.inv["pearls"] = copy.deepcopy(Inventory.cores), copy.deepcopy(Inventory.pearls)
     
     printCap(player, cap)
     coreUpdates = Select.listSelection(stock["cores"], cap, "Assign cores to " + player.props["name"])
     for core in coreUpdates:
         player.inv["cores"][core] += 1
         stock["cores"].remove(core)
+        cap -= 1
 
     if cap > 0:
         printCap(player, cap)
@@ -31,7 +33,6 @@ def updateStones(player, stock):
         for pearl in pearlUpdates:
             player.inv["pearls"][pearl] += 1
             stock["pearls"].remove(pearl)
-            cap -= 1
 
 
 def printCap(player, cap):

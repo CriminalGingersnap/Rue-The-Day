@@ -177,7 +177,7 @@ def campMap(players) -> list:
     players[0].pos, players[1].pos, players[2].pos = [2, 0, 0], [3, 0, 0], [3, 2, 0]
 
     Bandit1, Bandit2, Bandit3 = Humans.brute("Basic", "Elite").ch, Humans.brute("Basic", "Adept").ch, Humans.brute("Basic", "Adept").ch    
-    Bandit4, Bandit5, Bandit6 = Humans.archer("Basic", "Proficient").ch, Humans.mage("Flame", "Proficient").ch, Humans.brute("Basic", "Novice").ch    
+    Bandit4, Bandit5, Bandit6 = Humans.archer("Basic", "Proficient").ch, Humans.mage("Flame", "Elite").ch, Humans.brute("Basic", "Novice").ch    
     Bandit7, Bandit8, Bandit9 = Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Elite").ch, Humans.archer("Basic", "Novice").ch    
     B_Maps.placeFighter(Bandit1, "01", [4, 1])
     B_Maps.placeFighter(Bandit2, "02", [2, 2])

@@ -35,17 +35,18 @@ def applyResistance(damage, dmgType, target) -> int:
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, shieldType):
         Select.waitPrint("  Target carries a talisman of " + target.equip["shield"]["element"] + "!")
-        shieldEnchantReduction = .5
+        shieldEnchantReduction = .6
+        if target.equip["shield"]["tier"] == "Masterwork": shieldEnchantReduction = 1.2
         if dmgType == shieldType:
             Select.quickPrint("  Enchantments provide half protection against their own element.")
-            shieldEnchantReduction = .25
+            shieldEnchantReduction /= 2
         Select.waitPrint("  Damage multiplier reduces by " + str(shieldEnchantReduction) + ".")
 
     if (multiplier > 0) and Boons.checkCompatibility(dmgType, armorType):
         armorMod, armorName = target.equip["armor"]["modifier"], target.equip["armor"]["name"]
 
         Select.waitPrint("  Target is wearing " + armorName + " " + armorType + " armor!")
-        armorEnchantReduction = armorMod * .1
+        armorEnchantReduction = armorMod * .2
         if dmgType == armorType:
             Select.quickPrint("  Enchantments provide half protection against their own element.")
             armorEnchantReduction /= 2

@@ -49,7 +49,7 @@ def attack(fighter, target, attack, dice) -> None:
 
 
 def contact(fighter, target, dmgType, baseDmg, attempt, av):
-    phrase = " against " + target.props["name"] + "!"
+    phrase = " against " + target.props["name"] + "! (Effective AV: " + str(av) + ")"
     if attempt >= (av // 4):
         if attempt >= (av * 2):
             baseDmg *= 6
