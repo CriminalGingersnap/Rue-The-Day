@@ -36,7 +36,7 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
         Select.pressEnter("resolve")
         return [True, None]
     elif len(validTargets) == 0:
-        Select.clearPrint("Control established over fate-spring. Saving enabled.")
+        Select.quickPrint("Control established over fate-spring. Saving enabled.", "")
         Select.pressEnter("resolve")
         return [True, downedTargets]
     elif (not npcGroup) and (len(validTargets) == len(pacifistTargets)):

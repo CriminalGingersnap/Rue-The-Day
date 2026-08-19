@@ -10,14 +10,15 @@ def lootEquipment(players, humans) -> None:
     for player in players:
         carryWeight = player.atrb["base_sp"] - 1
         if player.inv["standard"] != "None": carryWeight -= 2
+        
+        compatibleWeapons = []
+        if player.props["job"] in ["Archer", "Dragonslayer"]: compatibleWeapons = ["Training-Bow", "Long-Bow", "Pennant-Bow"]
+        elif player.props["job"] in ["Brute", "Knight"]: compatibleWeapons = Equipment.noviceBlunt + Equipment.noviceSharp + Equipment.proSharp + Equipment.proBlunt
+        elif player.props["job"] in ["Mage", "Witch"]: compatibleWeapons = ["Banner", "Flag", "Rag-on-Stick", "Rag"]
+        elif player.props["job"] == "Paladin": compatibleWeapons = ["Sling"]
+        elif player.props["job"] == "Doctor": compatibleWeapons = ["Bag"]
 
-        compatibleJobs = []
-        if player.props["job"] in ["Archer", "Dragonslayer"]: compatibleJobs += ["Archer", "Dragonslayer"]
-        elif player.props["job"] in ["Brute", "Knight"]: compatibleJobs += ["Brute", "Knight"]
-        elif player.props["job"] in ["Mage", "Witch"]: compatibleJobs += ["Mage", "Witch"]
-        else: compatibleJobs += [player.props["job"]]
-
-        carryWeight = selectWeapon(player, weaponList, carryWeight)
+        carryWeight = selectWeapon(player, weaponList, carryWeight, compatibleWeapons)
         selectDefense(player, armorList, shieldList, carryWeight)
 
 def setOptions(humans, armorList, shieldList, weaponList) -> None:    
@@ -26,23 +27,23 @@ def setOptions(humans, armorList, shieldList, weaponList) -> None:
         if human.equip["shield"]["name"] != "None": shieldList += [setKitName(human.equip["shield"])]
         if human.equip["weapon"]["name"] != "None": weaponList += [setWeaponName(human.equip["weapon"])]
 
-        if human.inv["spares"]["shield"]["name"] != "None": shieldList += [setKitName(human.inv["spares"]["shield"])]
         if human.inv["spares"]["weapon"]["name"] != "None": weaponList += [setWeaponName(human.inv["spares"]["weapon"])]
+        if human.inv["spares"]["shield"]["name"] != "None": shieldList += [setKitName(human.inv["spares"]["shield"])]
 
 
-def selectWeapon(player, weaponList, carryWeight) -> int:
-    if len(weaponList) == 1:
-        updateWeapon(player, "inventory", weaponList[0])
-        weaponName = player.equip["weapon"]["tier"] + " " + player.equip["weapon"]["dmgTypes"][0] + " " + player.equip["weapon"]["name"]
-        Select.clearPrint(weaponName + " selected for " + player.props["name"] + " due to being the only compatible option.")
+def selectWeapon(player, weaponList, carryWeight, compatibleWeapons) -> int:
+    weaponOptions = [weapon for weapon in weaponList if any(compatibleNames in weapon for compatibleNames in compatibleWeapons)]
 
-    elif len(weaponList) > 1:
-        weaponChoice = Select.pickOption(weaponList, player.props["name"] + "'s primary weapon")
+    if (len(weaponOptions) == 0): Select.clearPrint("No compatible weapons are available for " + player.props["name"] + ".")
+
+    elif len(weaponOptions) > 1:
+        weaponChoice = Select.pickOption(weaponOptions, player.props["name"] + "'s primary weapon")
         updateWeapon(player, "equipment", weaponChoice)
+        weaponOptions.remove(setWeaponName(player.equip["weapon"]))
         weaponList.remove(setWeaponName(player.equip["weapon"]))
 
-        if len(weaponList) > 1:
-            weaponChoice = Select.pickOption(["None"] + weaponList, player.props["name"] + "'s spare weapon")
+        if len(weaponOptions) > 1:
+            weaponChoice = Select.pickOption(["None"] + weaponOptions, player.props["name"] + "'s spare weapon")
             updateWeapon(player, "inventory", weaponChoice)
 
     return carryWeight - (Phases.getEquipLoad(player.equip["weapon"]) + Phases.getEquipLoad(player.inv["spares"]["weapon"]))
@@ -62,7 +63,7 @@ def selectDefense(player, armorList, shieldList, carryWeight) -> None:
         if Phases.getEquipLoad(player.equip["shield"]) > carryWeight: shieldList.remove(shield)
 
     if len(shieldList) == 0:
-        Select.clearPrint("No usable shields.")
+        Select.clearPrint("No usable shields are available for " + player.props["name"] + ".")
         updateKit(player, "equipment", "None", "shield")
     else:
         if not player.equip["weapon"]["twoHanded"]:
@@ -79,15 +80,11 @@ def selectDefense(player, armorList, shieldList, carryWeight) -> None:
 
 
 def updateKit(player, storage, kitChoice, kitType):
-    kit = None
-    match storage:
-        case "equipment": kit = player.equip[kitType]
-        case "inventory": kit = player.inv["spares"][kitType]
+    kit = copy.deepcopy(Equipment.nullKit)
 
-    if kitChoice == "None": kit = copy.deepcopy(Equipment.nullKit)
-    else:
+    if kitChoice != "None":
         kit["tier"] = kitChoice.split(" ")[0]
-        kit["name"] = kitChoice.split(" ")[1]
+        kit["name"] = kitChoice.split(" ")[1].split(":")[0]
         kit["element"] = kitChoice.split(": ")[1]
 
         match kit["name"]:
@@ -97,26 +94,34 @@ def updateKit(player, storage, kitChoice, kitType):
 
         if kit["tier"] == "Masterwork": kit["modifier"] *= 2
 
+    match storage:
+        case "equipment": player.equip[kitType] = kit
+        case "inventory": player.inv["spares"][kitType] = kit
+
 
 def updateWeapon(player, storage, weaponChoice):
-    weapon = None
-    match storage:
-        case "equipment": weapon = player.equip["weapon"]
-        case "inventory": weapon = player.inv["spares"]["weapon"]
+    weapon = copy.deepcopy(Equipment.nullWeapon)
 
-    if weaponChoice == "None": weapon = copy.deepcopy(Equipment.nullWeapon)
-    else:
+    if weaponChoice != "None":
         weapon["tier"] = weaponChoice.split(" ")[0]
-        weapon["name"] = weaponChoice.split(" ")[1]
+        weapon["name"] = weaponChoice.split(" ")[1].split(":")[0]
         weapon["dmgTypes"] = [weaponChoice.split(": ")[1]]
 
-        if any(twoHanded in weaponChoice for twoHanded in ["Banner", "Long Bow", "Pennant Bow"] + Equipment.proLong):
+        if any(twoHanded in weaponChoice for twoHanded in ["Banner", "Long-Bow", "Pennant-Bow"] + Equipment.proLong):
             weapon["modifier"] = 2
+            weapon["twoHanded"] = True
         elif any(oneHanded in weaponChoice for oneHanded in ["Bag", "Flag", "Sling"] + Equipment.proShort):
             weapon["modifier"] = 1
-        else: weapon["modifier"] = 0
+        else:
+            weapon["modifier"] = 0
+            if any(twoHanded in weaponChoice for twoHanded in ["Rag-on-Stick", "Training-Bow"] + Equipment.noviceLong):
+                weapon["twoHanded"] = True
 
         if weapon["tier"] == "Masterwork": weapon["modifier"] *= 2
+
+    match storage:
+        case "equipment": player.equip["weapon"] = weapon
+        case "inventory": player.inv["spares"]["weapon"] = weapon
 
 
 def setKitName(kit) -> str: return kit["tier"] + " " + kit["name"] + ": " + kit["element"]

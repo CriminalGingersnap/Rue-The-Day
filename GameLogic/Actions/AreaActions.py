@@ -17,8 +17,8 @@ def npcSelectArea(fighter, allies, enemies):
     for option in useful:
         if (option in usable) and (option not in areaOptions): areaOptions += [option]
 
-    if areaOptions != []: return random.choice(areaOptions)
-    else: return "None"
+    if len(areaOptions) == 0: return "None"
+    else: return random.choice(areaOptions)
 
 
 def usableAreas(fighter):

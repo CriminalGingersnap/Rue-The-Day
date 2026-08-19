@@ -123,51 +123,51 @@ def activateHazards(fighter, battleMap):
             Select.quickPrint("The map inflicts: ", "")
             Select.waitPrint(str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
             Conditions.takeDamage(fighter, dmgType, appliedDmg)
-            Conditions.setInjury(fighter)
 
 
 def updateHazards(battleMap):
     for row in range(12):
         for column in range(12):
             atmosphere = battleMap[row][column][0]
+            static = [atmosphere, atmosphere]
 
             if atmosphere != "/":
                 dmgType, newAtmosphere = identifyAtmosphere(atmosphere), atmosphere
                 scale = getScale(atmosphere)
 
                 match dmgType:
-                    case "Bleed": newAtmosphere = random.choice([atmosphere] +  ["="])
+                    case "Bleed": newAtmosphere = random.choice(static + ["="])
                     case "Dream":
                         match scale:
-                            case 3: newAtmosphere = random.choice([atmosphere] + majorHazards)
-                            case 2: newAtmosphere = random.choice([atmosphere] + minorHazards)
-                            case 1: newAtmosphere = random.choice([atmosphere] + lingeringHazards)
+                            case 3: newAtmosphere = random.choice(static + majorHazards)
+                            case 2: newAtmosphere = random.choice(static + minorHazards)
+                            case 1: newAtmosphere = random.choice(static + lingeringHazards)
                     case "Flame":
                         match scale:
-                            case 3: newAtmosphere = random.choice([atmosphere] + ["f"])
-                            case 2: newAtmosphere = random.choice([atmosphere] + ["F", "#", "#"])
-                            case 1: newAtmosphere = random.choice([atmosphere] + ["f", "_", "_"])
+                            case 3: newAtmosphere = random.choice(static + ["f"])
+                            case 2: newAtmosphere = random.choice(static + ["F", "#", "#"])
+                            case 1: newAtmosphere = random.choice(static + ["f", "_", "_"])
                     case "Holy": 
                         match scale:
-                            case 3: newAtmosphere = random.choice([atmosphere] + ["h"])
-                            case 2: newAtmosphere = random.choice([atmosphere] + ["+"])
-                            case 1: newAtmosphere = random.choice([atmosphere] + ["H", "+", "_"])
+                            case 3: newAtmosphere = random.choice(static + ["h"])
+                            case 2: newAtmosphere = random.choice(static + ["+"])
+                            case 1: newAtmosphere = random.choice(static + ["H", "+", "_"])
                     case "Ice":
                         match scale:
-                            case 3: newAtmosphere = random.choice([atmosphere] + ["I", "I", "i"])
-                            case 2: newAtmosphere = random.choice([atmosphere] + ["i", "i", "%"])
-                            case 1: newAtmosphere = random.choice([atmosphere] + ["%", "%", "%", "%", "%", "_"])
+                            case 3: newAtmosphere = random.choice(static + ["I", "I", "i"])
+                            case 2: newAtmosphere = random.choice(static + ["i", "i", "%"])
+                            case 1: newAtmosphere = random.choice(static + ["%", "%", "%", "%", "%", "_"])
                     case "Rot": 
                         match scale:
-                            case 3: newAtmosphere = random.choice([atmosphere] + ["r"])
-                            case 2: newAtmosphere = random.choice([atmosphere] + ["}"])
-                            case 1: newAtmosphere = random.choice([atmosphere] + ["}", "}", "}", "}", "}", "_"])
+                            case 3: newAtmosphere = random.choice(static + ["r"])
+                            case 2: newAtmosphere = random.choice(static + ["}"])
+                            case 1: newAtmosphere = random.choice(static + ["}", "}", "}", "}", "}", "_"])
                     case "Toxic": 
                         match scale:
-                            case 3: newAtmosphere = random.choice([atmosphere] + ["t", "&"])
-                            case 2: newAtmosphere = random.choice([atmosphere] + ["&", "-"])
-                            case 1: newAtmosphere = random.choice([atmosphere] + ["-"])
-                    case "Crush" | "Pierce": newAtmosphere = random.choice([atmosphere] + ["_"])
+                            case 3: newAtmosphere = random.choice(static + ["t", "&"])
+                            case 2: newAtmosphere = random.choice(static + ["&", "-"])
+                            case 1: newAtmosphere = random.choice(static + ["-"])
+                    case "Crush" | "Pierce": newAtmosphere = random.choice(static + ["_"])
 
                 battleMap[row][column] = newAtmosphere + battleMap[row][column][1:]
 

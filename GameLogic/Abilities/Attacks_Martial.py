@@ -50,7 +50,7 @@ def attack(fighter, target, attack, dice) -> None:
 
 def contact(fighter, target, dmgType, baseDmg, attempt, av):
     phrase = " against " + target.props["name"] + "!"
-    if attempt >= (av // 2):
+    if attempt >= (av // 4):
         if attempt >= (av * 2):
             baseDmg *= 6
             Select.waitPrint("Devastating blow" + phrase)
@@ -60,6 +60,9 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
         elif attempt >= av:
             baseDmg *= 4
             Select.waitPrint("Contact" + phrase)
+        elif attempt >= av // 2:
+            baseDmg *= 2
+            Select.waitPrint("Partial hit" + phrase)
         else: Select.waitPrint("Glancing blow" + phrase)
 
         if dmgType == fighter.atrb["cur_elm"]:
@@ -67,10 +70,9 @@ def contact(fighter, target, dmgType, baseDmg, attempt, av):
             inflict(fighter, target, dmgType, baseDmg)
         else:
             inflict(fighter, target, dmgType, baseDmg)
-            if target.atrb["cur_hp"] > -target.atrb["half_hp"]:
-                bonusDmgType = fighter.atrb["cur_elm"]
-                if fighter.atrb["cur_elm"] == "Basic": bonusDmgType = "Bleed"
-                inflict(fighter, target, bonusDmgType, fighter.equip["weapon"]["modifier"])
+            bonusDmgType = fighter.atrb["cur_elm"]
+            if fighter.atrb["cur_elm"] == "Basic": bonusDmgType = "Bleed"
+            inflict(fighter, target, bonusDmgType, fighter.equip["weapon"]["modifier"])
 
     else: Select.waitPrint("Attack misses" + phrase)
 
@@ -80,7 +82,7 @@ def inflict(fighter, target, dmgType, baseDmg):
         physicalAbsorption = Boons.applyWreath(target, dmgType)
         appliedDmg = max(0, baseDmg - physicalAbsorption)
 
-        Select.waitPrint(fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
+        Select.waitPrint(" " + fighter.props["name"] + " inflicts " + str(appliedDmg) + " " + dmgType + " damage!")
         Conditions.takeDamage(target, dmgType, appliedDmg)
 
 

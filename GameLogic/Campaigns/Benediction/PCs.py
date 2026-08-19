@@ -38,7 +38,7 @@ def getBenedictionGroup() -> list:
 def getAkeem():
     Akeem = Humans.paladin("Holy", "Elite").ch
     Akeem.props["name"], Akeem.props["initials"], Akeem.props["favored"] = "Akeem", "A.", "human"
-    Akeem.atrb["base_av"], Akeem.atrb["base_hp"], Akeem.atrb["base_sp"] = 9, 16, 4
+    Akeem.atrb["base_av"], Akeem.atrb["base_hp"], Akeem.atrb["base_sp"] = 17, 16, 4
     Akeem.abl["specialty"] = ["Bless"]
 
     resetPlayer(Akeem)
@@ -47,7 +47,7 @@ def getAkeem():
 def getFadia():
     Fadia = Humans.witch("Dream", "Adept").ch
     Fadia.props["name"], Fadia.props["initials"], Fadia.props["favored"] = "Fadia", "F.", "bird"
-    Fadia.atrb["base_av"], Fadia.atrb["base_hp"], Fadia.atrb["base_sp"] = 7, 14, 3
+    Fadia.atrb["base_av"], Fadia.atrb["base_hp"], Fadia.atrb["base_sp"] = 14, 14, 3
     Fadia.abl["specialty"] = ["Compel"]
 
     resetPlayer(Fadia)
@@ -56,7 +56,7 @@ def getFadia():
 def getHassan():
     Hassan = Humans.brute("Basic", "Adept").ch
     Hassan.props["name"], Hassan.props["initials"], Hassan.props["favored"] = "Hassan", "H.", "invertebrate"
-    Hassan.atrb["base_av"], Hassan.atrb["base_hp"], Hassan.atrb["base_sp"] = 8, 18, 5
+    Hassan.atrb["base_av"], Hassan.atrb["base_hp"], Hassan.atrb["base_sp"] = 15, 18, 5
     Hassan.abl["specialty"] = ["Bash"]
 
     resetPlayer(Hassan)

@@ -59,6 +59,9 @@ def pickOption(options, category, alwaysPrint=True):
 def makeSelection(options):
     sortedUnique = list(set(options))
     sortedUnique.sort()
+    if "None" in sortedUnique:
+        sortedUnique.remove("None")
+        sortedUnique.insert(0, "None")
 
     for option in sortedUnique:
         quickPrint(str(sortedUnique.index(option)+1) + ": " + str(option))
@@ -124,7 +127,7 @@ def listSelection(options, cap, prompt):
                     break
             
             except SyntaxError: clearPrint("Quantity of selected values cannot exceed " + str(cap) + ".")
-            except ValueError: clearPrint("All values must be numbers between 1 and ", str(ceiling) + ".")
+            except ValueError: clearPrint("All values must be numbers between 1 and " + str(ceiling) + ".")
             except TypeError: clearPrint("All values must be numeric.")
         print()
     return selection

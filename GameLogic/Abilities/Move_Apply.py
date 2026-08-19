@@ -33,6 +33,7 @@ def rummageInventory(fighter, groups, battleMap, itemSelection):
     
     ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
     if searchIntensity == "Rummage":
+        Select.quickPrint(fighter.props["name"] + " accesses a second item.")
         ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
         fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = 0, 0
 
@@ -47,7 +48,7 @@ def applyExamine(visibleTargets, battleMap) -> None:
         strAV, strHP, strStamina, strSpeed, strTolerance, strReach = str(av), str(hp), str(stamina), str(speed), str(tolerance), str(reach)
         
         if av < 10: strAV += " "
-        if hp < 10: strHP += " "
+        if -10 < hp < 10: strHP += " "
         if reach < 10: strReach += " "
         if speed < 10: strSpeed += " "
         if stamina < 10: strStamina += " "

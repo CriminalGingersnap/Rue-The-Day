@@ -40,12 +40,12 @@ def resistCompulsion(attempt, target, ability) -> list:
 
 def applyStun(target) -> int:
     reduction = Boons.apply(target, "Stun")
-    if reduction > 0: Select.waitPrint(target.props["name"] + "'s AV temporarily decreases by " + str(reduction) + ".")
+    if reduction > 0: Select.clearPrint(target.props["name"] + "'s AV temporarily decreases by " + str(reduction) + ".")
     return reduction
 
 def applyConfound(target) -> int:
     reduction = Boons.apply(target, "Confound")
-    if reduction > 0: Select.waitPrint(target.props["name"] + "'s attempt decreases by " + str(reduction) + ".")
+    if reduction > 0: Select.clearPrint(target.props["name"] + "'s attempt decreases by " + str(reduction) + ".")
     return reduction
 
 

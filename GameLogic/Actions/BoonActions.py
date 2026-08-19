@@ -17,14 +17,11 @@ def pcSelectBoon(fighter, allies):
 
 
 def npcSelectBoon(fighter, enemies):
-    boonOptions = []
     useful, usable = usefulBoons(fighter, enemies), usableBoons(fighter)
-
-    for option in useful:
-        if (option in usable) and (option not in boonOptions): boonOptions += [option]
-
-    if boonOptions != []: return random.choice(boonOptions)
-    else: return "None"
+    boonOptions = [option for option in usable if option in useful]
+    
+    if len(boonOptions) == 0: return "None"
+    else: return random.choice(boonOptions)
 
 
 def usableBoons(fighter):

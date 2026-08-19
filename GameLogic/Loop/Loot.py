@@ -24,8 +24,4 @@ def searchAll(playersGroup, enemies) -> None:
         if boss != None: groupInv += [boss.inv["shards"]]
 
         stock = LootStones.getStock(players + humans + standards + creatures)
-        for player in players:
-            inventory = Items.getInventory(player)
-            allowance = player.inv["Capacity"] - inventory["Total"]
-
-            LootStones.updateStones(player, stock, allowance)
+        for player in players: LootStones.updateStones(player, stock)

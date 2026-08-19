@@ -24,7 +24,7 @@ def npcAction(fighter, groups, battleMap) -> None:
     hindranceTarget, hindranceChoice = "None", HindranceActions.npcSelectHindrance(fighter, reachable["hinderReachable"], fightingAllies)
     if hindranceChoice != "None":
         hindranceTarget = AttackActions.npcSelectAttackTarget(fighter, reachable["hinderReachable"], False)
-        if hindranceTarget != "None": actionOptions += ["Hindrance"]
+        if hindranceTarget != "None": actionOptions += ["Hinder"]
 
     if len(actionOptions) > 0:
         match random.choice(actionOptions):

@@ -1,18 +1,17 @@
-from . import Damage, Sort
+from . import Damage
 import random, copy
+
 
 nullKit = {"name": "None", "modifier": 0,  "element": "Basic", "tier": "Standard"}
 nullWeapon = {"name": "None", "modifier": 0, "dmgTypes": [], "reach": 1, "twoHanded": False, "tier": "Standard"}
 
-noviceLong, noviceShort = ["Fishing Spear", "Plank", "Scythe", "Stick"], ["Dagger", "Hand Wrap", "Rock", "Wood Axe"]
-noviceBlunt, noviceSharp = ["Hand Wrap", "Plank", "Rock", "Stick"], ["Dagger", "Fishing Spear", "Scythe", "Wood Axe"]
+noviceLong, noviceShort = ["Fishing-Spear", "Plank", "Scythe", "Stick"], ["Dagger", "Hand-Wrap", "Rock", "Wood-Axe"]
+noviceBlunt, noviceSharp = ["Hand-Wrap", "Plank", "Rock", "Stick"], ["Dagger", "Fishing-Spear", "Scythe", "Wood-Axe"]
 proLong, proShort = ["Spear", "Staff"], ["Axe", "Club", "Mace", "Sword"]
 proBlunt, proSharp = ["Club", "Mace", "Staff"], ["Axe", "Spear", "Sword"]
 
 
 def setEquipment(attacks, cndt, element, job, rank, specialties, type) -> list:
-    global nullKit, nullWeapon
-
     equipment = {"armor": copy.deepcopy(nullKit),
                   "shield": copy.deepcopy(nullKit),
                    "weapon": copy.deepcopy(nullWeapon)}
@@ -86,7 +85,7 @@ def setWeapon(job, element, rank, specialties) -> list:
             weapon.update({"reach": 8, "dmgTypes": [element]})
 
             if weapon["twoHanded"]:
-                if rank == "Novice": weapon["name"] = "Rag on Stick"
+                if rank == "Novice": weapon["name"] = "Rag-on-Stick"
                 else: weapon["name"] = "Banner"
             else:
                 if rank == "Novice": weapon["name"] = "Rag"
@@ -95,10 +94,10 @@ def setWeapon(job, element, rank, specialties) -> list:
         case "Archer" | "Dragonslayer":
             weapon.update({"reach": 8, "twoHanded": True, "dmgTypes": ["Pierce"]})
 
-            if rank == "Novice": weapon["name"] = "Training Bow"
-            elif job == "Archer": weapon["name"] = "Long Bow"
+            if rank == "Novice": weapon["name"] = "Training-Bow"
+            elif job == "Archer": weapon["name"] = "Long-Bow"
             else:
-                weapon["name"] = "Pennant Bow"
+                weapon["name"] = "Pennant-Bow"
                 weapon["dmgTypes"] += [element]
 
         case "Brute" | "Knight":

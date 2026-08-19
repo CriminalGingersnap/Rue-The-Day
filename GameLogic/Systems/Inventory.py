@@ -29,8 +29,6 @@ def setInventory(element, hp, job, rank, type) -> dict:
 
 
 def humanInventory(element, rank) -> dict:
-    global cores, pearls
-    
     inventory = {
         "Capacity": 10,
         "cores": copy.deepcopy(cores),

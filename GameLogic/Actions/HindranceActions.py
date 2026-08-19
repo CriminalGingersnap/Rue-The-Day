@@ -16,11 +16,8 @@ def pcSelectHindrance(fighter, enemies) -> str:
 
 
 def npcSelectHindrance(fighter, enemies, allies):
-    hindranceOptions = []
     useful, usable = usefulHindrances(fighter, enemies, allies), usableHindrances(fighter, enemies)
-
-    for option in usable:
-        if option in useful: hindranceOptions += [option]
+    hindranceOptions = [option for option in usable if option in useful]
 
     if len(hindranceOptions) == 0: return "None"
     else: return random.choice(hindranceOptions)
