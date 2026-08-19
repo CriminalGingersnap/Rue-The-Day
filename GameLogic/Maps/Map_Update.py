@@ -65,7 +65,7 @@ def hideVeiled(fighter, contingent, sightMap):
 
         if (visibleDistance != None) and (visibleDistance > 0):
             if Movement.getTargetDistance(fighter, other) > visibleDistance:
-                sightMap[other.pos[0]][other.pos[1]][0] = str(fighter.effects["Veil"]["additional"])
+                sightMap[other.pos[0]][other.pos[1]] = str(fighter.effects["Veil"]["additional"]) + sightMap[other.pos[0]][other.pos[1]][1:]
 
 def hideTraps(fighter, sightMap):
     for row in range(12):
@@ -121,7 +121,7 @@ def activateHazards(fighter, battleMap):
             appliedDmg = max(0, points - absorption)
 
             Select.quickPrint("The map inflicts: ", "")
-            Select.waitPrint(str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!")
+            Select.waitPrint(str(appliedDmg) + " " + dmgType + " damage against " + fighter.props["name"] + "!\n")
             Conditions.takeDamage(fighter, dmgType, appliedDmg)
 
 

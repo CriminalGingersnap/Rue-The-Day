@@ -11,7 +11,7 @@ def warriors(warriorType, element, majorBiome, diceBudget) -> list:
 
     if diceBudget > 4:
         beast = None
-        match random.choice["hawk", "hound"]:
+        match random.choice(["hawk", "hound"]):
             case "hawk": beast = Birds.hawk(element, random.choice(["Adult", "Juvenile"])).ch
             case "hound": beast = AggressiveBeasts.hound(element, random.choice(["Adult", "Juvenile"])).ch
         diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])

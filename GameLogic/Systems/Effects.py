@@ -9,20 +9,20 @@ def removeEffect(fighter, effect):
 
 def updateItemEffects(fighter):
     for effect in fighter.itemEffects:
-        duration = fighter.itemEffects[effect]["duration"]
+        if fighter.itemEffects[effect]["duration"] > 0:
+            fighter.itemEffects[effect]["duration"] -= 1
 
-        if duration == 0:
-            if fighter.itemEffects[effect]["potency"] != 0: removeItemEffect(fighter, effect)
-        else: fighter.itemEffects[effect]["duration"] -= 1
+            if fighter.itemEffects[effect]["potency"] > 1:
+                fighter.itemEffects[effect]["potency"] -= 1
+                Select.clearPrint("Item effect: " + effect + " loses potency on " + fighter.props["name"] + ".")
+
+        elif fighter.itemEffects[effect]["potency"] != 0: removeItemEffect(fighter, effect)
 
 
 def removeItemEffect(fighter, effect) -> None:
-    Select.quickPrint(effect + " ends on " + fighter.props["name"] + ".")
-
-    match effect:
-        case "Imbue": removeImbue(fighter)
-
-    fighter.itemEffects.update({"duration": 0, "potency": 0, "additional": None})
+    Select.clearPrint("Item effect: " + effect + " ends on " + fighter.props["name"] + ".")
+    fighter.itemEffects["effect"] = {"duration": 0, "potency": 0, "additional": None}
+    if effect == "Imbue": removeImbue(fighter)
 
 
 def removeImbue(fighter) -> None:
