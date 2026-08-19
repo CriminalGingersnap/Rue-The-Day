@@ -22,7 +22,7 @@ def roll(fighter, target, dice, ability, dType) -> int:
         distancePenalty = Movement.getTargetDistance(fighter, target) // 2
         favoredType = (fighter.props["favored"] == target.props["type"]) and not (fighter == target)
         flanking = getFlanking(fighter, target)
-        total += mods(fighter, distancePenalty, favoredType, flanking, ability, dType)
+        total = max(0, total + mods(fighter, distancePenalty, favoredType, flanking, ability, dType))
     
     Select.quickPrint("Total: ", '')
     time.sleep(Select.longWait * 2)

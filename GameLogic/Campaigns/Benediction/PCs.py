@@ -17,14 +17,19 @@ def resetPlayer(player) -> None:
     player.equip = Equipment.setEquipment(player.abl["attacks"], player.cndt, player.atrb["base_elm"], player.props["job"],
                                            player.props["rank"], player.abl["specialty"] + player.abl["mastery"], "human")
 
-    if player.inv["echo"] != "None":
-        player.inv["echo"].props["rank"] = "player"
-        player.inv["echo"].props["name"] = player.props["name"] + "'s Echo"
-        player.inv["echo"].props["initials"] = player.props["name"][0] + "e"
-    if player.inv["standard"] != "None":
-        player.inv["standard"].props["rank"] = "player"
-        player.inv["standard"].props["name"] = player.props["name"] + "'s Standard"
-        player.inv["standard"].props["initials"] = player.props["name"][0] + "s"
+    if player.props["type"] == "human":
+        if player.inv["echo"] != "None":
+            player.inv["echo"].props["rank"] = "player"
+            player.inv["echo"].props["name"] = player.props["name"] + "'s Echo"
+            player.inv["echo"].props["initials"] = player.props["name"][0] + "e"
+            player.inv["echo"].cndt["reposed"] = False
+
+        if player.inv["standard"] != "None":
+            player.inv["standard"].props["rank"] = "player"
+            player.inv["standard"].props["name"] = player.props["name"] + "'s Standard"
+            player.inv["standard"].props["initials"] = player.props["name"][0] + "s"
+            player.inv["standard"].cndt["reposed"] = False
+            player.inv["standard"].cndt["planted"] = False
 
 
 def getBenedictionGroup() -> list:

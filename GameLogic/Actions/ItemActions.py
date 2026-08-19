@@ -96,7 +96,7 @@ def getInventory(fighter) -> dict:
     if len(items["Cores"]) == 0: del items["Cores"]
     if len(items["Pearls"]) == 0: del items["Pearls"]
 
-    if echo != "None":
+    if (echo != "None") and (echo.itemEffects["Animate"]["additional"] != "used"):
         items["Echo"] = [echo.props["rank"] + " " + echo.props["job"]]
         items["Total"] += 1
     else: del items["Echo"]

@@ -56,6 +56,10 @@ def handleAftermath(victorGroup) -> bool:
                 Select.clearPrint(fighter.props["name"] + " collapses from sickness!")
                 takeRest = True
 
+            if fighter.props["type"] == "human":
+                if fighter.inv["echo"] != "None": fighter.inv["echo"].itemEffects["Animate"].update({"duration": 0, "additional": None})
+                if fighter.inv["standard"] != "None": fighter.inv["standard"].cndt["planted"] = False
+
     if not takeRest:
         takeRest = Select.yesNo("Rest?")
         if not takeRest:
@@ -115,5 +119,6 @@ def refresh(fighter) -> None:
     fighter.atrb["cur_hp"] = fighter.atrb["base_hp"]
     fighter.atrb["injury"] = 0
 
-    if ("echo" in fighter.inv) and (fighter.inv["echo"] != "None"): refresh(fighter.inv["echo"])
-    if ("standard" in fighter.inv) and (fighter.inv["standard"] != "None"): refresh(fighter.inv["standard"])
+    if fighter.props["type"] == "human":
+        if fighter.inv["echo"] != "None": refresh(fighter.inv["echo"])
+        if fighter.inv["standard"] != "None": refresh(fighter.inv["standard"])

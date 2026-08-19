@@ -34,9 +34,9 @@ def animate(fighter, groups, battleMap) -> None:
     if tossSpace == "None": Select.waitPrint(fighter.props["name"] + " cancels a throw before animation.")
     else:
         echo.itemEffects["Animate"]["duration"] = 3
-        fighter.inv["echo"] = "None"
+        echo.itemEffects["Animate"]["additional"] = "used"
 
-        echo.pos = [tossSpace[0], tossSpace[1], 0]
+        echo.pos = tossSpace + [0]
         iMap.updateFighterHeight([echo], battleMap)
         echo.sightMap = Phases.setSight(echo, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)
         uMap.updatePlacement(battleMap, echo.sightMap, tossSpace[0], tossSpace[1], echo)
@@ -48,7 +48,8 @@ def plant(fighter, groups, battleMap) -> None:
 
     if plantSpace == "None":  Select.waitPrint(fighter.props["name"] + " defers planting a standard.")
     else:
-        standard.pos = plantSpace
+        standard.pos = plantSpace + [0]
+        iMap.updateFighterHeight([standard], battleMap)
         standard.cndt["planted"] = True
 
         standard.sightMap = Phases.setSight(standard, groups["fightingEnemies"], groups["fightingAllies"], battleMap, False)

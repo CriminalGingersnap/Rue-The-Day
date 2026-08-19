@@ -25,13 +25,12 @@ def lootEchos(players, creatures) -> None:
 
     if len(recentDead) > 0:
         for player in players:
-            if len(recentDead) > 1: phrase = "Bind a new echo to " + player.props["name"] + "?"
-            elif len(recentDead) == 1: phrase = "Bind the remaining echo to " + player.props["name"] + "?"
-            else: break
+            playerEcho = []
+            if player.inv["echo"] != "None": playerEcho = [player.inv["echo"]]
 
-            if Select.yesNo(phrase):
-                echo = Select.targetSelect(recentDead)
-                if echo != "None":
+            if Select.yesNo("Bind an echo to " + player.props["name"] + "?"):
+                echo = Select.targetSelect(recentDead + playerEcho)
+                if echo != player.inv["echo"]:
                     Inventory.setLifeless(echo)
                     echo.cndt["reposed"] = False
                     echo.props["initials"] = player.props["name"][0] + "e"
@@ -40,6 +39,5 @@ def lootEchos(players, creatures) -> None:
                     echo.props["type"] = "echo"
 
                     player.inv["echo"] = echo
-                    
                     creatures.remove(echo)
                     recentDead.remove(echo)

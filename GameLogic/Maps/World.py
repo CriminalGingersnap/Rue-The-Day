@@ -88,18 +88,21 @@ class benedictionMap:
                          "Ally": {"location": [2, 3], "complete": False}, "Lich": {"location": [1, 0], "complete": False},
                           "Raft": {"location": [10, 3], "complete": False}, "Dragon": {"location": [0, 11], "complete": False},
                            "Finale": {"location": [23, 11], "complete": False}}
-        self.marker = mapMarker(self.worldMap, [7, 11, 1])
+        self.marker = mapMarker(self.worldMap, [7, 11, 1], False)
 
 
 class mapMarker:
-    def __init__(self, worldMap, start):
+    def __init__(self, worldMap, start, saveStart=True):
         self.pos = start
 
         self.atrb = {"base_sp": 3, "cur_sp": 3}
         self.cndt = {"aquatic": False, "skittish": False, "winged": False}
         self.props = {"initials": "..", "name": "World", "rank": "world", "type": "marker"}
 
-        self.lastCleared = deque([self.pos,[],[],[],[],[],[]])
+        self.lastCleared = deque([[],[],[],[],[],[],[]])
+        if saveStart:
+            self.lastCleared.appendleft(self.pos)
+            self.lastCleared.pop()
         self.sightMap = setMarkerSight(worldMap, self.pos)
 
         Select.waitPrint("World marker instantiated!")

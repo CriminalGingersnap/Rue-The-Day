@@ -11,12 +11,13 @@ threeDice_Inv = ["anemone", "spider"]
 
 
 def creatures(creatureType, element, majorBiome, diceBudget) -> list:
-    beastList, firstCreature = [], True
+    beastList, firstCreature, onlyOne = [], True, False
 
     if creatureType == "random":
         if diceBudget == 2: creatureType = random.choice(oneDie_Vrt)
         elif diceBudget > 2: creatureType = random.choice(twoDice_Vrt)
         if creatureType in ["lizard", "wyrm"]: element == "Toxic"
+        onlyOne = True
 
     while diceBudget > 0:
         rankOptions = getAnimalRankOptions(majorBiome, diceBudget, creatureType, firstCreature)
@@ -68,6 +69,7 @@ def creatures(creatureType, element, majorBiome, diceBudget) -> list:
     
         diceBudget -= (beast.atrb["base_mag"] + beast.atrb["base_mar"])
         beastList += [beast]
+        if onlyOne: break
 
     return beastList
 

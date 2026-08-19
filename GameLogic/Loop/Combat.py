@@ -44,48 +44,58 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
         if Select.yesNo("Disengage?"): return  [True, downedTargets]
     
     if len(validFighters) > 0:
-        friends, foes = validFighters, validTargets
+        positionalPhase(validFighters, validTargets, battleMap, atmosphere)
+        abilityPhase(offenseGroup, validFighters, validTargets, battleMap)
+        executionPhase(validFighters, npcGroup)
 
-        for fighter in validFighters:
-            Phases.resetFighter(fighter)
-            
-            Hinder.applyCompel(fighter, "Compel")
-            if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, validFighters
-            Hinder.applyCompel(fighter, "Seal")
-            if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
-
-            uMap.activateHazards(fighter, battleMap)
-
-        uMap.updateHazards(battleMap)
-        uMap.addHazards(battleMap, atmosphere)
-
-        for fighter in validFighters:
-            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
-            Phases.movementStage(fighter, foes, friends, battleMap)
-
-        for target in validTargets:
-            target.sightMap = Phases.setSight(target, friends, foes, battleMap, False)
-
-        print()
-        for fighter in validFighters:
-            fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
-            Phases.abilityStage(fighter, foes, friends, battleMap)
-
-        if npcGroup and any((len(fighter.attackQueue) > 0) for fighter in validFighters):
-            Select.pressEnter("execute abilities")
-
-        for fighter in validFighters:
-            if len(fighter.attackQueue) > 0:
-                Commitments.checkReach(fighter)
-                Select.clearPrint("Executing " + fighter.props["name"] + "'s attacks:")
-
-                for attack in fighter.attackQueue:
-                    ability, target, dice = attack[0], attack[1], attack[2]
-                    if target.cndt["dead"]: Select.waitPrint("Attack canceled against slain target.")
-                    else:
-                        Select.waitPrint(ability + " triggers against " + target.props["name"] + "!")
-                        Attacks.execute(fighter, target, ability, dice)
-
-            Phases.outro(fighter)
         Select.pressEnter("advance combat to the next round")
     return [False, None]
+
+
+def positionalPhase(validFighters, validTargets, battleMap, atmosphere) -> None:
+    for fighter in validFighters:
+        Phases.resetFighter(fighter)
+        uMap.activateHazards(fighter, battleMap)
+    uMap.updateHazards(battleMap)
+    uMap.addHazards(battleMap, atmosphere)
+
+    for fighter in validFighters:
+        fighter.sightMap = Phases.setSight(fighter, validTargets, validFighters, battleMap, True)
+        Phases.movementStage(fighter, validTargets, validFighters, battleMap)
+
+    for target in validTargets: target.sightMap = Phases.setSight(target, validFighters, validTargets, battleMap, False)
+
+
+def abilityPhase(offenseGroup, validFighters, validTargets, battleMap) -> None:
+    friends, foes = validFighters, validTargets
+
+    validFighters = Sort.sortLiving(offenseGroup, battleMap)[0]
+    for fighter in validFighters:            
+        Hinder.applyCompel(fighter, "Compel")
+        if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, validFighters
+        Hinder.applyCompel(fighter, "Seal")
+        if fighter.effects["Seal"]["additional"]: fighter.atrb["cur_mar"], fighter.atrb["cur_mag"] = 0, 0
+
+    print()
+    for fighter in validFighters:
+        fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
+        Phases.abilityStage(fighter, foes, friends, battleMap)
+
+
+def executionPhase(validFighters, npcGroup) -> None:
+    if npcGroup and any((len(fighter.attackQueue) > 0) for fighter in validFighters):
+        Select.pressEnter("execute abilities")
+    
+    for fighter in validFighters:
+        if len(fighter.attackQueue) > 0:
+            Commitments.checkReach(fighter)
+            Select.clearPrint("Executing " + fighter.props["name"] + "'s attacks:")
+
+            for attack in fighter.attackQueue:
+                ability, target, dice = attack[0], attack[1], attack[2]
+                if target.cndt["dead"]: Select.waitPrint("Attack canceled against slain target.")
+                else:
+                    Select.waitPrint(ability + " triggers against " + target.props["name"] + "!")
+                    Attacks.execute(fighter, target, ability, dice)
+
+        Phases.outro(fighter)

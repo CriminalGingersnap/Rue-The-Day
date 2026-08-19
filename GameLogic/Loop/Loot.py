@@ -4,7 +4,7 @@ from . import LootEquipment, LootStones, LootSummons
 
 
 def searchAll(playersGroup, enemies) -> None:
-    groupInv, players = playersGroup["inventory"], playersGroup["members"]
+    groupInv, players = playersGroup["inventory"], [player for player in playersGroup["members"] if player.props["type"] == "human"]
     
     if Select.yesNo("Loot enemies?"):
         humans, standards, creatures, boss = [], [], [], None

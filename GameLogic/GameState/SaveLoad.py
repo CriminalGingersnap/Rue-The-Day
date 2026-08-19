@@ -4,7 +4,7 @@ from Characters import Characters
 from Maps import World
 from Systems import PlayerSelect as Select
 from pathlib import Path
-import json
+import json, copy
 
 
 class nullCharacter:
@@ -32,26 +32,28 @@ class nullWorld:
 
 
 def saveCharacter(fighter, campaign, slot, name) -> None:
+    copiedInventory = copy.deepcopy(fighter.inv)
+    
     if "echo" in fighter.inv:
         if fighter.inv["echo"] == "None":
             setFilePath(campaign, slot, name + "sEcho").unlink(missing_ok = True)
         else:
             saveCharacter(fighter.inv["echo"], campaign, slot, name + "sEcho")
-            fighter.inv["echo"] = "None"
+            copiedInventory["echo"] = "None"
 
     if "standard" in fighter.inv:
         if fighter.inv["standard"] == "None":
             setFilePath(campaign, slot, name + "sStandard").unlink(missing_ok = True)
         else:
             saveCharacter(fighter.inv["standard"], campaign, slot, name + "sStandard")
-            fighter.inv["standard"] = "None"
+            copiedInventory["standard"] = "None"
     
     save = {
         "abl": fighter.abl,
         "atrb": fighter.atrb,
         "cndt": fighter.cndt,
         "equip": fighter.equip,
-        "inv": fighter.inv,
+        "inv": copiedInventory,
         "props": fighter.props
     }
     

@@ -1,7 +1,7 @@
 
 from Systems import PlayerSelect as Select
 from . import Attacks_Martial as Martial, Boons_Set as Boons
-from Actions import ItemActions
+from Actions import ItemActions, ItemActions_NPC
 from Maps import Map_Print as Print
 import random
 
@@ -26,15 +26,21 @@ def execute(fighter, groups, ability, battleMap, itemSelection="None") -> None:
     fighter.atrb["cur_sp"] = 0
 
 
-def rummageInventory(fighter, groups, battleMap, itemSelection):    
-    searchIntensity = ""
+def rummageInventory(fighter, groups, battleMap, itemSelection):
+    searchIntensity, secondItem = "", "None"
     if fighter.props["rank"] == "player": searchIntensity = Select.pickOption(["Access", "Rummage"], "search intensity")
-    else: searchIntensity = random.choice(["Access", "Access", "Rummage"])
-    
+
     ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
+
+    if fighter.props["rank"] != "player":
+        inventory = ItemActions.getInventory(fighter)
+        del inventory["Total"]
+        secondItem = ItemActions_NPC.npcSelectItem(fighter, groups, inventory)
+        if secondItem != "None": searchIntensity = random.choice(["Access", "Access", "Rummage"])
+
     if searchIntensity == "Rummage":
         Select.quickPrint(fighter.props["name"] + " accesses a second item.")
-        ItemActions.itemAction(fighter, groups, battleMap, itemSelection)
+        ItemActions.itemAction(fighter, groups, battleMap, secondItem)
         fighter.atrb["cur_mag"], fighter.atrb["cur_mar"] = 0, 0
 
 
