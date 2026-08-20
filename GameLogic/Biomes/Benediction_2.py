@@ -50,7 +50,7 @@ def lowlandEncounters(roll, budget) -> list:
 
     match roll:
         case 1: members = RandomElementals.elementals("ooze", element, majorBiome, budget)
-        case 2: members = RandomElementals.elementals("puffer", element, majorBiome, budget)
+        case 2: members = RandomElementals.elementals("balloon", element, majorBiome, budget)
         case 3: members = RandomElementals.elementals("wisp", element, majorBiome, budget)
         case 4: members = RandomCreatures.creatures("drake", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("lion", element, majorBiome, budget)
@@ -72,7 +72,7 @@ def highlandEncounters(roll, budget) -> list:
 
     match roll:
         case 1: members = RandomElementals.elementals("dancer", element, majorBiome, budget)
-        case 2: members = RandomElementals.elementals("hulk", element, majorBiome, budget)
+        case 2: members = RandomElementals.elementals("tripod", element, majorBiome, budget)
         case 3: members = RandomElementals.elementals("wisp", element, majorBiome, budget)
         case 4: members = RandomCreatures.creatures("lion", element, majorBiome, budget)
         case 6: members = RandomCreatures.creatures("camel", element, majorBiome, budget)

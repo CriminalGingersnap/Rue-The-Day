@@ -23,7 +23,7 @@ class ant:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["social"] = True
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
 
@@ -36,7 +36,7 @@ class beetle:
         cndt["winged"] = True
         stats["hp"] = "mid"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spray"]})
 
@@ -47,7 +47,7 @@ class centipede:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
 
@@ -58,9 +58,9 @@ class hornet:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["social"], cndt["winged"] = True, True
-        stats["avoidance"], stats["hp"], stats["speed"] = "max", "min", "mid"
+        stats["avoidance"], stats["hp"], stats["speed"] = "high", "min", "mid"
         
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Harry"]})
 
@@ -73,7 +73,7 @@ class isopod:
         cndt["massive"], cndt["reposed"] = True, True
         stats["hp"]= "max"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
@@ -86,7 +86,7 @@ class spider:
         cndt["massive"], cndt["reposed"] = True, True
         stats["hp"]= "max"
 
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 4, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Drain"]})
 

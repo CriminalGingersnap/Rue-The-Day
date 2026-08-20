@@ -65,8 +65,8 @@ def glacierMap(players) -> list:
     Worm = Bosses.worm().ch
     B_Maps.placeFighter(Worm, "01", [1, 10])
     
-    Elemental1, Elemental2, Elemental3, Elemental4 = Elementals.dancer("Ice", "Greater").ch, Elementals.hulk("Ice", "Greater").ch, Elementals.wraith("Ice", "Greater").ch, Reptiles.wraith("Ice", "Random").ch
-    Elemental5, Elemental6, Elemental7, Elemental8 = Elementals.dancer("Ice", "Random").ch, Elementals.hulk("Ice", "Random").ch, Elementals.wisp("Ice", "Random").ch, Reptiles.wisp("Ice", "Random").ch
+    Elemental1, Elemental2, Elemental3, Elemental4 = Elementals.dancer("Ice", "Greater").ch, Elementals.tripod("Ice", "Greater").ch, Elementals.wraith("Ice", "Greater").ch, Reptiles.wraith("Ice", "Random").ch
+    Elemental5, Elemental6, Elemental7, Elemental8 = Elementals.dancer("Ice", "Random").ch, Elementals.tripod("Ice", "Random").ch, Elementals.wisp("Ice", "Random").ch, Reptiles.wisp("Ice", "Random").ch
     Elemental9 = Elementals.wisp("Ice", "Random").ch
     B_Maps.placeFighter(Elemental1, "11", [5, 10])
     B_Maps.placeFighter(Elemental2, "12", [2, 7])
@@ -260,11 +260,11 @@ def portMap(players, element) -> list:
             atmo = "#"
             Elemental4, Elemental5 = Elementals.ooze("Flame", "Random"), Elementals.ooze("Flame", "Random")
             Elemental6, Elemental7 = Elementals.hive("Flame", "Random"), Elementals.hive("Flame", "Random")
-            Elemental8, Elemental9 = Elementals.puffer("Flame", "Random"), Elementals.puffer("Flame", "Random")
+            Elemental8, Elemental9 = Elementals.balloon("Flame", "Random"), Elementals.balloon("Flame", "Random")
         case "Ice":
             atmo = "%"
             Elemental4, Elemental5 = Elementals.dancer("Ice", "Random"), Elementals.dancer("Ice", "Random")
-            Elemental6, Elemental7 = Elementals.hulk("Ice", "Random"), Elementals.hulk("Ice", "Random")
+            Elemental6, Elemental7 = Elementals.tripod("Ice", "Random"), Elementals.tripod("Ice", "Random")
             Elemental8, Elemental9 = Elementals.wraith("Ice", "Random"), Elementals.wraith("Ice", "Random")
 
     B_Maps.placeFighter(Elemental1, "11", [5, 3])

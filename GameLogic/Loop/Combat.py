@@ -45,7 +45,7 @@ def battle(offenseGroup, targetGroup, battleMap, atmosphere) -> bool:
     
     if len(validFighters) > 0:
         positionalPhase(validFighters, validTargets, battleMap, atmosphere)
-        abilityPhase(offenseGroup, validFighters, validTargets, battleMap)
+        validFighters = abilityPhase(offenseGroup, validTargets, battleMap)
         executionPhase(validFighters, npcGroup)
 
         Select.pressEnter("advance combat to the next round")
@@ -66,10 +66,10 @@ def positionalPhase(validFighters, validTargets, battleMap, atmosphere) -> None:
     for target in validTargets: target.sightMap = Phases.setSight(target, validFighters, validTargets, battleMap, False)
 
 
-def abilityPhase(offenseGroup, validFighters, validTargets, battleMap) -> None:
+def abilityPhase(offenseGroup, validTargets, battleMap) -> list:
+    validFighters = Sort.sortLiving(offenseGroup, battleMap)[0]
     friends, foes = validFighters, validTargets
 
-    validFighters = Sort.sortLiving(offenseGroup, battleMap)[0]
     for fighter in validFighters:            
         Hinder.applyCompel(fighter, "Compel")
         if fighter.effects["Compel"]["additional"]: friends, foes = validTargets, validFighters
@@ -80,6 +80,8 @@ def abilityPhase(offenseGroup, validFighters, validTargets, battleMap) -> None:
     for fighter in validFighters:
         fighter.sightMap = Phases.setSight(fighter, foes, friends, battleMap, True)
         Phases.abilityStage(fighter, foes, friends, battleMap)
+
+    return validFighters
 
 
 def executionPhase(validFighters, npcGroup) -> None:

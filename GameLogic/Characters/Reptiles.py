@@ -25,7 +25,7 @@ class crocodile:
         cndt["aquatic"] = True
         stats["hp"], stats["speed"] = "max", "high"
 
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 4, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
@@ -40,7 +40,7 @@ class drake:
         cndt["massive"] = True
         stats["hp"] = "max"
 
-        dice = {"martial": 2, "magic": 1}
+        dice = {"martial": 3, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"areas": ["Breath"], "attacks": ["Bite"]})
@@ -55,7 +55,7 @@ class hydra:
         cndt["massive"] = True
         stats["hp"] = "max"
 
-        dice = {"martial": 1, "magic": 2}
+        dice = {"martial": 1, "magic": 3}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
@@ -70,7 +70,7 @@ class lizard:
         cndt["armored"], cndt["skittish"] = False, True
         stats["speed"] = "high"
 
-        dice = {"martial": 0, "magic": 1}
+        dice = {"martial": 0, "magic": 2}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
@@ -85,7 +85,7 @@ class tortoise:
         cndt["massive"], cndt["reposed"], cndt["skittish"] = True, True, True
         stats["hp"], stats["speed"] = "max", "low"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
@@ -100,7 +100,7 @@ class turtle:
         cndt["aquatic"] = True
         stats["hp"], stats["speed"] = "high", "low"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Guard"]})
 
@@ -114,7 +114,7 @@ class wyrm:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["armored"], cndt["winged"] = False, True
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Spray"]})

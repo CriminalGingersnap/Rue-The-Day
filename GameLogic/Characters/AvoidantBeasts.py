@@ -21,9 +21,9 @@ class bat:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["winged"] = True
-        stats["avoidance"], stats["hp"] = "max", "min"
+        stats["avoidance"], stats["hp"] = "high", "min"
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Drain"]})
@@ -38,7 +38,7 @@ class camel:
         stats["avoidance"], stats["hp"] = "mid", "max"
         cndt["social"], cndt["massive"] = True, True
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Spit", "Kick"]})
@@ -51,7 +51,7 @@ class deer:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": [random.choice(["Kick", "Gore"])], "boons": ["Conceal"]})
@@ -66,7 +66,7 @@ class mole:
         stats["avoidance"], stats["speed"] = "low", "low"
         stats["hp"] = "high"
 
-        dice = {"martial": 1, "magic": 1}
+        dice = {"martial": 2, "magic": 2}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Wreath"], "hindrances": ["Confound"]})
 
@@ -78,7 +78,7 @@ class seal:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         cndt["aquatic"] = True
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Harry"]})

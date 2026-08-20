@@ -58,7 +58,7 @@ def peninsulaEncounters(roll, budget) -> list:
 
     match roll:
         case 1: members = RandomElementals.elementals("ooze", element, majorBiome, budget)
-        case 2: members = RandomElementals.elementals("puffer", element, majorBiome, budget)
+        case 2: members = RandomElementals.elementals("balloon", element, majorBiome, budget)
         case 3: members = RandomCreatures.creatures("drake", element, majorBiome, budget)
         case 4: members = RandomCreatures.creatures("wyrm", "Toxic", majorBiome, budget)
         case 5: members = RandomCreatures.creatures("centipede", element, majorBiome, budget)
@@ -84,7 +84,7 @@ def volcanoEncounters(roll, budget) -> list:
     match roll:
         case 1: members = RandomElementals.elementals("hive", element, majorBiome, budget)
         case 2: members = RandomElementals.elementals("ooze", element, majorBiome, budget)
-        case 3: members = RandomElementals.elementals("puffer", element, majorBiome, budget)
+        case 3: members = RandomElementals.elementals("balloon", element, majorBiome, budget)
         case 4: members = RandomCreatures.creatures("drake", element, majorBiome, budget)      
         case 5: members = RandomCreatures.creatures("wyrm", "Toxic", majorBiome, budget)
         case 6: members = RandomCreatures.creatures("centipede", element, majorBiome, budget)
@@ -106,7 +106,7 @@ def fjordEncounter(roll, budget) -> list:
 
     match roll:
         case 1: members = RandomElementals.elementals("dancer", element, majorBiome, budget)
-        case 2: members = RandomElementals.elementals("hulk", element, majorBiome, budget)
+        case 2: members = RandomElementals.elementals("tripod", element, majorBiome, budget)
         case 3: members = RandomElementals.elementals("wisp", "Dream", majorBiome, budget)
         case 4: members = RandomCreatures.creatures("bear", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("moose", "Dream", majorBiome, budget)
@@ -131,7 +131,7 @@ def glacierEncounters(roll, budget) -> list:
     match roll:
         case 1: members = RandomElementals.elementals("wraith", element, majorBiome, budget)
         case 2: members = RandomElementals.elementals("dancer", element, majorBiome, budget)
-        case 3: members = RandomElementals.elementals("hulk", element, majorBiome, budget)
+        case 3: members = RandomElementals.elementals("tripod", element, majorBiome, budget)
         case 4: members = RandomElementals.elementals("wisp", element, majorBiome, budget)
         case 5: members = RandomCreatures.creatures("bear", element, majorBiome, budget)
         case 6: members = RandomCreatures.creatures("ferret", "Flame", majorBiome, budget)

@@ -28,7 +28,7 @@ def execute(fighter, category, element, application, groups, battleMap) -> None:
 
 
 def animate(fighter, groups, battleMap) -> None:
-    echo = copy.deepcopy(fighter.inv["echo"])
+    echo = fighter.inv["echo"]
     tossSpace = Locate.findSpace(fighter, groups, 4, "echo")
     
     if tossSpace == "None": Select.waitPrint(fighter.props["name"] + " cancels a throw before animation.")

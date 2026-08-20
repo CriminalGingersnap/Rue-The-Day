@@ -12,16 +12,21 @@ def getEquipLoad(equipment) -> int:
         if equipment["tier"] == "Masterwork": equipLoad /= 2
         return equipLoad
 
-def getSpeedLoss(fighter) -> int:
+def getEquipmentLoss(fighter) -> int:
         armorLoss = getEquipLoad(fighter.equip["armor"])
         shieldLoss = getEquipLoad(fighter.equip["shield"])
         weaponLoss = getEquipLoad(fighter.equip["weapon"])
         
-        speedLoss = (armorLoss + shieldLoss + weaponLoss)
-        if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: speedLoss += 2
+        equipLoss = (armorLoss + shieldLoss + weaponLoss)
+        if (fighter.inv["standard"] != "None") and not fighter.inv["standard"].cndt["planted"]: equipLoss += 2
+        return equipLoss
 
-        return speedLoss
-        
+def getHinderLoss(fighter) -> int:
+    bindLoss, harryLoss = 0,  0
+    if fighter.effects["Confound"]["ability"] == "Bind": bindLoss = fighter.effects["Confound"]["dice"]
+    if fighter.effects["Stun"]["ability"] == "Harry": harryLoss = fighter.effects["Stun"]["dice"]
+    return bindLoss + harryLoss
+
 
 def resetFighter(fighter) -> None:
     fighter.attackQueue = []
@@ -33,7 +38,7 @@ def resetFighter(fighter) -> None:
     if fighter.atrb["cur_hp"] < fighter.atrb["base_hp"]: fighter.cndt["reposed"] = False
 
     if fighter.props["type"] == "human":
-        speedLoss = getSpeedLoss(fighter) - 3
+        speedLoss = (getEquipmentLoss(fighter) - 3) + getHinderLoss(fighter)
         if speedLoss > 0: fighter.atrb["cur_sp"] -= speedLoss
 
     match fighter.atrb["injury"]:

@@ -23,7 +23,7 @@ class crow:
         cndt["skittish"], cndt["social"] = True, True
         stats["avoidance"] = "high"
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Peck"], "boons": ["Rally"]})
@@ -37,7 +37,7 @@ class eagle:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["hp"] = "low"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Claw"], "hindrances": ["Bind"]})
@@ -51,7 +51,7 @@ class hawk:
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
         stats["speed"] = "max"
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Kick", "Peck"]})
@@ -66,7 +66,7 @@ class ostrich:
         cndt["winged"] = False
         stats["avoidance"], stats["hp"] = "low", "high"
 
-        dice = {"martial": 2, "magic": 0}
+        dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Kick"], "boons": ["Guard"]})
@@ -81,7 +81,7 @@ class terrorBird:
         cndt["winged"] = False
         stats["hp"] = "high"
 
-        dice = {"martial": 3, "magic": 0}
+        dice = {"martial": 4, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Kick", "Peck"]})
@@ -96,7 +96,7 @@ class vulture:
         cndt["skittish"] = True
         stats["avoidance"], stats["hp"], stats["speed"] = "mid", "low", "mid"
 
-        dice = {"martial": 1, "magic": 0}
+        dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Peck", "Spit"]})

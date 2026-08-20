@@ -21,7 +21,7 @@ class leviathan:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["armored"], cndt["aquatic"] = True, True
 
-        dice = {"martial": 6, "magic": 0}
+        dice = {"martial": 7, "magic": 0}
         abl = Characters.setAbilities(type, {"attacks": ["Ram", "Bite", "Spray"], "hindrances": ["Bind"]})
 
         Animals.makeUpdates(element, cndt, rank, stats, dice)
@@ -36,7 +36,7 @@ class lich:
         cndt["massive"], cndt["sapient"] = False, True
         stats["avoidance"] = "min"
 
-        dice = {"martial": 0, "magic": 5}
+        dice = {"martial": 0, "magic": 6}
         abl = Characters.setAbilities(type, {"areas": ["Screen"], "attacks": ["Bring"], "boons": ["Wreath"], "hindrances": ["Seal"]})
         abl["mastery"] = ["Wreath"]
 
@@ -52,7 +52,7 @@ class vampire:
         cndt["massive"], cndt["sapient"] = False, True
         stats["avoidance"], stats["speed"] = "mid", "max"
 
-        dice = {"martial": 3, "magic": 2}
+        dice = {"martial": 3, "magic": 3}
         abl = Characters.setAbilities(type, {"attacks": ["Claw", "Bite"], "hindrances": ["Compel", "Drain", "Stun"]})
         abl["mastery"] = ["Drain"]
 
@@ -69,7 +69,7 @@ class giant:
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["sapient"], cndt["skittish"] = True, True
 
-        dice = {"martial": 2, "magic": 4}
+        dice = {"martial": 3, "magic": 4}
         abl = Characters.setAbilities(type, {"areas": ["Breath"], "attacks": ["Bash"], "boons": ["Veil"], "hindrances": ["Confound"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Giant", rank, stats, type)
@@ -83,7 +83,7 @@ class worm:
         cndt["reposed"] = True  
         stats["avoidance"], stats["speed"]  = "min", "low"
 
-        dice = {"martial": 3, "magic": 3}
+        dice = {"martial": 4, "magic": 3}
         abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Ram", "Spit"], "boons": ["Wreath"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Worm", rank, stats, type)
@@ -95,9 +95,9 @@ class strider:
 
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["armored"], cndt["winged"] = True, True
-        stats["speed"]  = "high"
+        stats["speed"] = "high"
 
-        dice = {"martial": 6, "magic": 0}
+        dice = {"martial": 7, "magic": 0}
         abl = Characters.setAbilities(type, {"attacks": ["Bite", "Kick", "Sting"], "boons": ["Guard"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Strider", rank, stats, type)

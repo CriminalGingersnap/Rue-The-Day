@@ -4,7 +4,7 @@ from . import CombatPhases as Phases
 
 def lootStandards(players, standards):
     for player in players:
-        carryWeight = player.atrb["base_sp"] - Phases.getSpeedLoss(player)
+        carryWeight = player.atrb["base_sp"] - Phases.getEquipmentLoss(player)
 
         if (carryWeight > 2) and Select.yesNo("Equip a new standard to " + player.props["name"] + "?"):
             standard = Select.targetSelect(standards)

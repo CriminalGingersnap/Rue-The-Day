@@ -22,6 +22,7 @@ def moveAction(fighter, groups, battleMap) -> None:
 
         posOptions += ["Blitz"]
         if fighter.atrb["cur_sp"] > 0: posOptions += ["Move"]
+        else: posOptions += ["None"]
         
         if ("Inventory" in posOptions) and (ItemActions.getInventory(fighter)["Total"] == 1):
             posOptions += ["Inventory -> Access"]
@@ -41,7 +42,7 @@ def movePlayer(fighter, groups, posOptions, battleMap) -> None:
     elif answer == "Move":
         stationary = Movement.moveFighter(fighter, battleMap, None)
         if stationary: MoveAbl.execute(fighter, groups, "Evade", battleMap)
-    else: MoveAbl.execute(fighter, groups, answer, battleMap)
+    elif answer != "None": MoveAbl.execute(fighter, groups, answer, battleMap)
 
 
 def moveNPC(fighter, groups, posOptions, battleMap) -> bool:
