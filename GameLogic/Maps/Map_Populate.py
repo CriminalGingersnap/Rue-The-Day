@@ -63,7 +63,7 @@ def walk(instanceMap, rowCount, startingRow, startingColumn, rightStop) -> bool:
 
 
 def placeObstruction(instanceMap, obsSpace, obsRange, mapHeight) -> None:
-    spaceOptions, colStart, colStop = [], random.randint(0, 4), random.randint(8, 12)
+    spaceOptions, colStart, colStop = [], random.randint(0, 3), random.randint(9, 12)
     for row in range(mapHeight):
         for column in range(colStart, colStop):
             if instanceMap[row][column] == iMap.emptySpace: spaceOptions += [[row, column]]

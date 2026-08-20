@@ -85,8 +85,7 @@ def updateFighterHeight(group, battleMap) -> None:
         space = battleMap[fighter.pos[0]][fighter.pos[1]]
         fighter.pos[2] = mOpts.heightDict[space[-1]]
         
-        if fighter.cndt["winged"]: fighter.pos[2] += 1
-        elif(battleMap[row][column][1] == "~"):
+        if(battleMap[row][column][1] == "~"):
             fighter.pos[2] = waterLine
             fighter.cndt["submerged"] = True
         else: fighter.cndt["submerged"] = False

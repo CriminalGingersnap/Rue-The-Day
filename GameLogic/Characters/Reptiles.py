@@ -70,7 +70,7 @@ class lizard:
         cndt["armored"], cndt["skittish"] = False, True
         stats["speed"] = "high"
 
-        dice = {"martial": 0, "magic": 2}
+        dice = {"martial": 1, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
         abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
