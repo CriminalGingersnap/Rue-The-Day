@@ -3,7 +3,7 @@
 scenes = {"Leviathan": [
     ["> ", "A strange woman bought passage at our last port."],
     ["  ", "Dark-skinned, from south of the great desert, but speaks our language without accent."],
-    ["  ", "She didn't care where we were going and seemed convinced I'd turn her away despite generous payment."],
+    ["  ", "She didn't care where we came from or ask what we carried. Just wanted to know our heading."],
     ["  ", "Wasn't at all bothered about being the only woman on board."],
     ["", ""],
     ["> ", "My crew immediately distrusted her. I don't trust her either, but coin is coin."],

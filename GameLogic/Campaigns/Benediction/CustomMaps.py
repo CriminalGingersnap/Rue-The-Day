@@ -29,19 +29,16 @@ def shipMap(players) -> list:
     placeFighter(Leviathan, "01", [10, 10])
 
     Sailor1, Sailor2, Sailor3 = Humans.knight("Basic", "Proficient").ch, Humans.brute("Basic", "Proficient").ch, Humans.archer("Basic", "Novice").ch 
-    Sailor1.props["name"], Sailor2.props["name"], Sailor3.props["name"] = "Sailor", "Sailor", "Sailor"
     placeFighter(Sailor1, "31", [6, 3])
     placeFighter(Sailor2, "32", [5, 6])
     placeFighter(Sailor3, "33", [6, 2])
 
     Pirate1, Pirate2, Pirate3 = Humans.archer("Basic", "Proficient").ch, Humans.archer("Basic", "Novice").ch, Humans.archer("Basic", "Novice").ch    
-    Pirate1.props["name"], Pirate2.props["name"], Pirate3.props["name"] = "Pirate", "Pirate", "Pirate"
     placeFighter(Pirate1, "11", [10, 3])
     placeFighter(Pirate2, "12", [9, 6])
     placeFighter(Pirate3, "13", [10, 4])
 
     Pirate4, Pirate5, Pirate6, Pirate7 = Humans.brute("Basic", "Proficient").ch, Humans.brute("Basic", "Novice").ch, Humans.brute("Basic", "Novice").ch, Humans.brute("Basic", "Novice").ch    
-    Pirate4.props["name"], Pirate5.props["name"], Pirate6.props["name"], Pirate7.props["name"] = "Pirate", "Pirate", "Pirate", "Pirate"
     placeFighter(Pirate4, "14", [10, 5])
     placeFighter(Pirate5, "15", [6, 5])
     placeFighter(Pirate6, "16", [6, 6])

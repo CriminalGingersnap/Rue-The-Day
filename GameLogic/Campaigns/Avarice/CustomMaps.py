@@ -189,7 +189,7 @@ def campMap(players) -> list:
     B_Maps.placeFighter(Bandit8, "08", [4, 9])
     B_Maps.placeFighter(Bandit9, "09", [3, 10])
 
-    Bandit1.props["name"] = "Bandit Lord"
+    Bandit1.props["name"] = "Bandit Lord(Elite)[01]"
     Bandit1.atrb["injury"], Bandit1.atrb["fatigue"] = 0, 0
     Bandit1.equip["weapon"]["tier"] = "Masterwork"
     Bandit1.equip["weapon"]["modifier"] *= 2
@@ -229,14 +229,14 @@ def portMap(players, element) -> list:
     players[0].pos, players[1].pos, players[2].pos = [0, 1, 0], [1, 1, 0], [2, 1, 0]
 
     Duke = Humans.doctor("Basic", "Adept")
-    Duke.props["name"] = "Usurper Duke"
+    B_Maps.placeFighter(Duke, "01", [3, 10])
+    Duke.props["name"] = "Usurper Duke(Adept)[01]"
     Duke.equip["armor"]["tier"] = "Masterwork"
     Duke.equip["armor"]["modifier"] *= 2
 
     Knight1, Knight2, Knight3 = Humans.knight("Basic", "Elite").ch, Humans.knight("Basic", "Master").ch, Humans.knight("Basic", "Adept").ch    
     Mage1, Mage2 = Humans.mage("Ice", "Adept").ch, Humans.mage("Flame", "Adept").ch   
     Archer, Door1, Door2 = Humans.brute("Basic", "Proficient").ch, Totems.impedance("Dream", "Door").ch, Totems.impedance("Dream", "Door").ch    
-    B_Maps.placeFighter(Duke, "01", [3, 10])
     B_Maps.placeFighter(Knight1, "02", [0, 7])
     B_Maps.placeFighter(Knight2, "03", [0, 9])
     B_Maps.placeFighter(Knight3, "04", [3, 6])
