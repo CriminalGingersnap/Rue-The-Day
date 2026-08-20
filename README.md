@@ -5,7 +5,7 @@
 - 40 combat abilities divided between: support, hindrance, area-effect, and direct-damage categories.
 
 
-- Dynamic vision based on terrain differences and obstructions.
+- Dynamic vision and movement based on terrain differences and obstructions.
 
 - Two adventure campaigns with stories delivered as journal entries.
 
