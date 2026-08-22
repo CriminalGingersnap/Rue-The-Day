@@ -4,7 +4,7 @@ import random
 
 def setCommon(element, rank) -> list:
     type = "insect"
-    if rank == "Random": rank = random.choice(["Small", "Large"])
+    if rank == "Random": rank = random.choice(["Small", "Small", "Large"])
 
     traits = Characters.setTraits()
     cndt = traits[0]
@@ -25,7 +25,7 @@ class ant:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Ant", rank, stats, type)
 
@@ -38,7 +38,7 @@ class beetle:
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Ram", "Spray"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Ram", "Spray"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Beetle", rank, stats, type)
 
@@ -49,7 +49,7 @@ class centipede:
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "hindrances": ["Bind"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Centipede", rank, stats, type)
 
@@ -62,7 +62,7 @@ class hornet:
         
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Sting"], "hindrances": ["Harry"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Hornet", rank, stats, type)
 
@@ -75,19 +75,30 @@ class isopod:
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Isopod", rank, stats, type)
+
+class scorpion:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+
+        dice = {"martial": 3, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Pinch", "Sting"]})
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Scorpion", rank, stats, type)
 
 class spider:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["massive"], cndt["reposed"] = True, True
+        cndt["massive"], cndt["skittish"] = True, True
         stats["hp"]= "max"
 
         dice = {"martial": 4, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "hindrances": ["Drain"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "boons": ["Conceal"], "hindrances": ["Drain"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Spider", rank, stats, type)

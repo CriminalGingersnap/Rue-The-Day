@@ -46,11 +46,11 @@ def customLoop(playerGroup, biome, event) -> bool:
                     worldMap[17][7], worldMap[16][7] = "s_..↓", letter + "/!!↑"
                 case "Camp":
                     worldMap[18][11] = "o_..↑"
-                    worldMap[21][4] = "K***↑"
+                    worldMap[18][4] = "K***↑"
                     encounter = A_Maps.campMap(playerGroup["members"])
-                case "Port":
+                case "Finale":
                     element = getElement(playerGroup["inventory"])
-                    worldMap[21][4] = letter + "_..↑"
+                    worldMap[18][4] = letter + "_..↑"
                     encounter = A_Maps.portMap(playerGroup["members"], element)
 
         case "Benediction":

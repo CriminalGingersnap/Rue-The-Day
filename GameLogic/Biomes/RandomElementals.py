@@ -11,27 +11,32 @@ def elementals(elementalType, element, majorBiome, diceBudget):
         rankChoice, elemental, elementalType = random.choice(rankOptions[0]), None, rankOptions[1]
 
         match elementalType:
-            case "dancer": elemental = Elementals.dancer(element, rankChoice).ch
-            case "tripod": elemental = Elementals.tripod(element, rankChoice).ch
-            case "wraith": elemental = Elementals.wraith(element, rankChoice).ch
+            case "dancer": elemental = Elementals.dancer(rankChoice, element).ch
+            case "tripod": elemental = Elementals.tripod(rankChoice, element).ch
+            case "wraith": elemental = Elementals.wraith(rankChoice, element).ch
 
-            case "balloon": elemental = Elementals.balloon(element, rankChoice).ch
-            case "hive": elemental = Elementals.hive(element, rankChoice).ch
-            case "ooze": elemental = Elementals.ooze(element, rankChoice).ch
+            case "balloon": elemental = Elementals.balloon(rankChoice, element).ch
+            case "hive": elemental = Elementals.hive(rankChoice, element).ch
+            case "ooze": elemental = Elementals.ooze(rankChoice, element).ch
 
-            case "satyr": elemental = Elementals.satyr(element, rankChoice).ch
-            case "ogre": elemental = Elementals.ogre(element, rankChoice).ch
-            case "nymph": elemental = Elementals.nymph(element, rankChoice).ch
+            case "satyr": elemental = Elementals.satyr(rankChoice, element).ch
+            case "ogre": elemental = Elementals.ogre(rankChoice, element).ch
+            case "nymph": elemental = Elementals.nymph(rankChoice, element).ch
 
-            case "bull": elemental = Elementals.bull(element, rankChoice).ch
-            case "obelisk": elemental = Elementals.obelisk(element, rankChoice).ch
-            case "sphinx": elemental = Elementals.sphinx(element, rankChoice).ch
+            case "bull": elemental = Elementals.bull(rankChoice, element).ch
+            case "obelisk": elemental = Elementals.obelisk(rankChoice, element).ch
+            case "sphinx": elemental = Elementals.sphinx(rankChoice, element).ch
 
-            case "wisp": elemental = Elementals.wisp(element, rankChoice).ch
+            case "wisp": elemental = Elementals.wisp(rankChoice, element).ch
 
-            case "grotesquery": elemental = Elementals.grotesquery(element, rankChoice).ch
-            case "shadow": elemental = Elementals.shadow(element, rankChoice).ch
-            case "slime": elemental = Elementals.slime(element, rankChoice).ch
+            case "grotesquery": elemental = Elementals.grotesquery(rankChoice, element).ch
+            case "shadow": elemental = Elementals.shadow(rankChoice, element).ch
+            case "slime": elemental = Elementals.slime(rankChoice, element).ch
+
+            case "mask": elemental = Elementals.mask(rankChoice, element).ch
+            case "naga": elemental = Elementals.naga(rankChoice, element).ch
+            case "rakshasa": elemental = Elementals.rakshasa(rankChoice, element).ch
+            case "yogi": elemental = Elementals.yogi(rankChoice, element).ch
 
         diceBudget -= (elemental.atrb["base_mag"] + elemental.atrb["base_mar"])
         elementalList += [elemental]

@@ -52,7 +52,7 @@ class archer:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
         
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Broadhead"]})
         specialtyLevel = "None"
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -73,7 +73,7 @@ class brute:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bash", "Stab"]})
         specialtyLevel = "None"
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -94,7 +94,7 @@ class dragonslayer:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bodkin"]})
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -115,7 +115,7 @@ class doctor:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"boons": ["Bandage"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Bandage"]})
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -136,7 +136,7 @@ class knight:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Guard"]})
         specialtyLevel = "None"
         
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -157,7 +157,7 @@ class mage:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Wreath"]})
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -178,7 +178,7 @@ class paladin:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Sling"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Sling"]})
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:
@@ -199,7 +199,7 @@ class witch:
         cndt, dice, stats, type = common[0], common[1], common[2], common[3]
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"boons": ["Focus"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Focus"]})
         specialtyLevel = "None"
 
         if rank in ["Proficient", "Adept", "Elite", "Master"]:

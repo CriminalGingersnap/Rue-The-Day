@@ -21,9 +21,10 @@ def setCommon(element, rank) -> list:
 
     traits = Characters.setTraits()
     traits[1].update({"Pierce": "resistant", "Rot": "immune"})
-    stats = {"avoidance": "mid", "hp": "high", "resist": traits[1], "speed": "mid"}
+
     cndt = traits[0]
-    cndt["lifeless"], cndt["sapient"] = True, True
+    cndt["armored"], cndt["lifeless"], cndt["sapient"] = True, True, True
+    stats = {"avoidance": "mid", "hp": "high", "resist": traits[1], "speed": "mid"}
 
     if rank == "Greater": cndt["reposed"] = random.choice([True, False, False])
     else: cndt["reposed"] = random.choice([True, False, False, False, False, False])
@@ -34,13 +35,13 @@ def setCommon(element, rank) -> list:
 
 
 class dancer:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Ice") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         stats["avoidance"], stats["resist"]["Crush"], stats["speed"] = "high", "vulnerable", "max"
 
         dice = {"martial": 4, "magic": 0}
-        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Stab"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -50,14 +51,14 @@ class dancer:
         self.ch = Characters.character(abl, cndt, dice, element, "Dancer", rank, stats, type)
         
 class tripod:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Ice") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"] = True
         stats["avoidance"], stats["hp"], stats["speed"] = "low", "max", "low"
 
         dice = {"martial": 3, "magic": 1}
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Ram"], "boons": ["Guard", "Wreath"]})
         
         if rank == "Greater":
             dice["magic"] += 2
@@ -67,13 +68,13 @@ class tripod:
         self.ch = Characters.character(abl, cndt, dice, element, "Tripod", rank, stats, type)
 
 class wraith:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Ice") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["winged"] = True
 
         dice = {"martial": 0, "magic": 4}
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "boons": ["Heal"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bring"], "boons": ["Heal"]})
         
         if rank == "Greater":
             dice["magic"] += 2
@@ -87,14 +88,14 @@ class wraith:
         
 
 class balloon:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Flame") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["winged"] = True
         stats["resist"]["Pierce"] = "vulnerable"
 
         dice = {"martial": 4, "magic": 0}
-        abl = Characters.setAbilities(type, {"boons": ["Guard"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Guard"], "hindrances": ["Bind"], "reactions": ["Riposte"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -104,14 +105,14 @@ class balloon:
         self.ch = Characters.character(abl, cndt, dice, element, "Balloon", rank, stats, type)
 
 class hive:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Flame") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"], cndt["planted"] = True, True
         stats["avoidance"], stats["hp"], stats["speed"] = "min", "max", "min"
 
         dice = {"martial": 3, "magic": 1}
-        abl = Characters.setAbilities(type, {"attacks": ["Bodkin", "Broadhead"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bodkin", "Broadhead"], "boons": ["Wreath"]})
 
         if rank == "Greater":
             dice["martial"] += 1
@@ -122,13 +123,13 @@ class hive:
         self.ch = Characters.character(abl, cndt, dice, element, "Sprite Hive", rank, stats, type)
 
 class ooze:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Flame") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         stats["avoidance"], stats["speed"] = "low", "low"
 
         dice = {"martial": 2, "magic": 2}
-        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Pinch"], "boons": ["Regenerate"], "hindrances": ["Harry"]})
 
         if rank == "Greater":
             dice["magic"] += 2
@@ -139,13 +140,13 @@ class ooze:
 
 
 class satyr:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Dream") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         stats["avoidance"], stats["speed"] = "high", "high"
 
         dice = {"martial": 4, "magic": 0}
-        abl = Characters.setAbilities(type, {"attacks": ["Broadhead", "Sling"], "boons": ["Conceal"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Broadhead", "Sling"], "boons": ["Conceal"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -155,14 +156,14 @@ class satyr:
         self.ch = Characters.character(abl, cndt, dice, element, "Satyr", rank, stats, type)
 
 class ogre:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Dream") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"] = True
         stats["avoidance"], stats["hp"] = "low", "max"
 
         dice = {"martial": 3, "magic": 1}
-        abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Bash"], "boons": ["Regenerate"]})
+        abl = Characters.setAbilities(rank, type, {"areas": ["Slip"], "attacks": ["Bash"], "boons": ["Regenerate"]})
 
         if rank == "Greater": 
             dice["magic"] += 2
@@ -172,13 +173,13 @@ class ogre:
         self.ch = Characters.character(abl, cndt, dice, element, "Ogre", rank, stats, type)
 
 class nymph:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Dream") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["aquatic"] = True
 
         dice = {"martial": 0, "magic": 4}
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"], "hindrances": ["Compel", "Confound"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Wreath"], "hindrances": ["Compel", "Confound"]})
 
         if rank == "Greater":
             dice["magic"] += 2
@@ -189,12 +190,12 @@ class nymph:
 
 
 class bull:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Holy") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
 
         dice = {"martial": 4, "magic": 0}
-        abl = Characters.setAbilities(type, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Gore", "Kick"], "hindrances": ["Bind"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -204,14 +205,14 @@ class bull:
         self.ch = Characters.character(abl, cndt, dice, element, "Bull", rank, stats, type)
 
 class obelisk:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Holy") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"], cndt["planted"] = True, True
         stats["avoidance"], stats["hp"], stats["speed"] = "min", "max", "min"
 
         dice = {"martial": 0, "magic": 4}
-        abl = Characters.setAbilities(type, {"areas": ["Slip"], "attacks": ["Bring"], "boons": ["Veil"]})
+        abl = Characters.setAbilities(rank, type, {"areas": ["Slip"], "attacks": ["Bring"], "boons": ["Veil"]})
 
         if rank == "Greater":
             dice["magic"] += 2
@@ -224,14 +225,14 @@ class obelisk:
         self.ch = Characters.character(abl, cndt, dice, element, "Obelisk", rank, stats, type)
 
 class sphinx:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Holy") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"], cndt["winged"] = True, True
         stats["hp"] = "max"
 
         dice = {"martial": 2, "magic": 2}
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bash", "Claw"], "boons": ["Wreath"]})
 
         if rank == "Greater":
             dice["magic"] += 1
@@ -243,14 +244,14 @@ class sphinx:
 
 
 class wisp:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Dream") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["sapient"], cndt["winged"] = False, True
         stats["avoidance"], stats["hp"], stats["speed"] = "max", "low", "max"
 
         dice = {"martial": 0, "magic": 2}
-        abl = Characters.setAbilities(type, {"hindrances": ["Compel", "Confound", "Seal"]})
+        abl = Characters.setAbilities(rank, type, {"hindrances": ["Compel", "Confound", "Seal"]})
 
         if rank == "Greater":
             dice["magic"] += 3
@@ -260,16 +261,15 @@ class wisp:
         self.ch = Characters.character(abl, cndt, dice, element, "Wisp", rank, stats, type)
 
 
-
 class grotesquery:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Rot") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         cndt["massive"] = True        
         stats["avoidance"], stats["hp"], stats["speed"] = "low", "max", "low"
 
         dice = {"martial": 4, "magic": 0}
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bash", "Stab"], "boons": ["Guard"]})
 
         if rank == "Greater":
             dice["martial"] += 2
@@ -279,13 +279,13 @@ class grotesquery:
         self.ch = Characters.character(abl, cndt, dice, element, "Grotesquery", rank, stats, type)
 
 class shadow:
-    def __init__(self, element, rank) -> None:        
+    def __init__(self, rank, element="Rot") -> None:        
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         stats["avoidance"],  stats["speed"] = "max", "low"
 
         dice = {"martial": 0, "magic": 4}
-        abl = Characters.setAbilities(type, {"attacks": ["Bring"], "hindrances": ["Confound", "Stun"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bring"], "hindrances": ["Confound", "Stun"]})
         
         if rank == "Greater":
             dice["magic"] += 2
@@ -298,13 +298,13 @@ class shadow:
         self.ch = Characters.character(abl, cndt, dice, element, "Shadow", rank, stats, type)
         
 class slime:
-    def __init__(self, element, rank) -> None:
+    def __init__(self, rank, element="Rot") -> None:
         common = setCommon(element, rank)
         stats, cndt, type, rank = common[0], common[1], common[2], common[3]
         stats["avoidance"], stats["speed"] = "min", "low"
 
         dice = {"martial": 1, "magic": 3}
-        abl = Characters.setAbilities(type, {"attacks": ["Spit"], "boons": ["Wreath"], "hindrances": ["Drain"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Spit"], "boons": ["Wreath"], "hindrances": ["Drain"]})
 
         if rank == "Greater":
             dice["martial"] += 1
@@ -313,3 +313,72 @@ class slime:
         else: abl["specialty"] = [random.choice(["Drain", "Spit", "Wreath"])]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Slime", rank, stats, type)
+
+
+class naga:
+    def __init__(self, rank, element=random.choice(["Dream", "Holy"])) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        stats["speed"] = "high"
+
+        dice = {"martial": 2, "magic": 2}
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bash"], "hindrances": ["Bind", "Compel"]})
+
+        if rank == "Greater":
+            dice["magic"] += 1
+            dice["martial"] += 1
+            abl["mastery"] = [random.choice(["Bash", "Bind", "Compel"])]
+        else: abl["specialty"] = [random.choice(["Bash", "Bind", "Compel"])]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Naga", rank, stats, type)
+
+class rakshasa:
+    def __init__(self, rank, element=random.choice(["Flame", "Rot"])) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["massive"] = True
+        stats["hp"] = "max"
+
+        dice = {"martial": 4, "magic": 0}
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
+
+        if rank == "Greater":
+            dice["martial"] += 2
+            abl["mastery"] = [random.choice(["Guard", "Stab", "Riposte"])]
+        else: abl["specialty"] = [random.choice(["Guard", "Stab", "Riposte"])]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Rakshasa", rank, stats, type)
+
+class mask:
+    def __init__(self, rank, element=random.choice(["Flame", "Ice"])) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["winged"] = True
+        stats["avoidance"], stats["speed"] = "high", "min"
+
+        dice = {"martial": 3, "magic": 1}
+        abl = Characters.setAbilities(rank, type, {"areas": ["Slip"], "attacks": ["Bring"], "boons": ["Guard"]})
+        
+        if rank == "Greater":
+            dice["magic"] += 2
+            abl["mastery"] = [random.choice(["Bring", "Slip", "Veil"])]
+        else: abl["specialty"] = [random.choice(["Bring", "Slip", "Veil"])]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Mask", rank, stats, type)
+
+class yogi:
+    def __init__(self, rank, element=random.choice(["Ice", "Holy"])) -> None:        
+        common = setCommon(element, rank)
+        stats, cndt, type, rank = common[0], common[1], common[2], common[3]
+        cndt["massive"], cndt["social"] = True, True
+        stats["avoidance"], stats["hp"], stats["speed"] = "high", "max", "low"
+
+        dice = {"martial": 0, "magic": 4}
+        abl = Characters.setAbilities(rank, type, {"boons": ["Focus", "Veil"], "hindrances": ["Confound"]})
+
+        if rank == "Greater":
+            dice["magic"] += 2
+            abl["mastery"] = [random.choice(["Bring", "Confound", "Focus"])]
+        else: abl["specialty"] = [random.choice(["Bring", "Confound", "Focus"])]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Yogi", rank, stats, type)

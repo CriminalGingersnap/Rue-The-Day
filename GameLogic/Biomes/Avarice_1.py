@@ -1,7 +1,6 @@
 from . import RandomCreatures, RandomElementals, RandomHumans
 
 
-# the low pass is a valley between two mountains. It crosses from the dry starting prairie into a lush bay.
 def passEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Basic", False
 
@@ -24,7 +23,6 @@ def passEncounters(roll, budget) -> list:
 
     return members
 
-# Deep wild lowlands between the mountains and the fjord. Coniferous trees. Pervasive light mist.
 def bayEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Basic", True
 
@@ -48,11 +46,6 @@ def bayEncounters(roll, budget) -> list:
     return members
 
 
-# The peninsula is a humid jungle. The volcano's magic warms the area, and the humid sea breeze carries frequent rain.
-# These factors create a biome that feels wholly out of place in its environment. To Laura and Martin, it looks like another world.
-
-# Slow rivers of lava flow down the mountain side, impeding their hike.
-# They observe some of the native animals dashing across the narrowest sections.
 def peninsulaEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Flame", False
 
@@ -76,8 +69,6 @@ def peninsulaEncounters(roll, budget) -> list:
     return members
 
 
-# The volcano boss fight has an expanded map with rivers of lava it can dash across
-# It ambushes the players when they try to initiate its fight
 def volcanoEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Flame", True
 
@@ -123,8 +114,6 @@ def fjordEncounter(roll, budget) -> list:
 
     return members
 
-# Glacier tube battleMaps have the highest obstruction count in the game. 17?
-# Glacier boss map changes as the worm carves new tunnels
 def glacierEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Ice", True
 

@@ -29,12 +29,13 @@ class character:
         Select.quickPrint(self.props["name"] + " instantiated!")
 
      
-def setAbilities(type, additions) -> dict:
+def setAbilities(rank, type, additions) -> dict:
     abilities = {"areas": [], "attacks": [], "boons": [], "hindrances": [], "reactions": [], "specialty": [], "mastery": []}
     abilities.update(additions)
 
     abilityList = abilities["areas"] + abilities["attacks"] + abilities["boons"] + abilities["hindrances"]
-    if type not in ["human", "elemental"]: abilities["specialty"] = [random.choice(abilityList)]
+    if (type not in ["human", "elemental"]) and (rank not in ["Fresh", "Juvenile", "Small"]):
+        abilities["specialty"] = [random.choice(abilityList)]
 
     return abilities
 

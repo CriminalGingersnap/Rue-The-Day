@@ -4,16 +4,14 @@ import random
 
 def setCommon(element, rank) -> list:
     type = "reptile"
-    if rank == "Random": rank = random.choice(["Juvenile", "Juvenile", "Juvenile", "Adult", "Adult", "Elder"])
+    if rank == "Random": rank = random.choice(["Juvenile", "Juvenile", "Adult", "Adult", "Elder"])
 
     traits = Characters.setTraits()
     cndt = traits[0]
     cndt["armored"] = True
-    stats = {"hp": "mid", "resist": traits[1]}
 
+    stats = {"avoidance": "mid", "hp": "mid", "resist": traits[1], "speed": "mid"}
     Animals.setAnimalResistance(element, rank, stats)
-    stats["avoidance"] = "mid"
-    stats["speed"] = "mid"
 
     return [stats, cndt, rank, type]
 
@@ -28,7 +26,7 @@ class crocodile:
         dice = {"martial": 4, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Conceal"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "boons": ["Conceal"]})
         if rank == "Elder": abl["hindrances"] += ["Stun"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Crocodile", rank, stats, type)
@@ -43,7 +41,7 @@ class drake:
         dice = {"martial": 3, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"areas": ["Breath"], "attacks": ["Bite"]})
+        abl = Characters.setAbilities(rank, type, {"areas": ["Breath"], "attacks": ["Bite"]})
         if rank != "Juvenile": abl["attacks"] += ["Gore"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Drake", rank, stats, type)
@@ -58,10 +56,23 @@ class hydra:
         dice = {"martial": 1, "magic": 3}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
         if rank != "Juvenile": abl["areas"] += ["Breath"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Hydra", rank, stats, type)
+
+class komodo:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+
+        dice = {"martial": 1, "magic": 2}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "hindrances": ["Stun"]})
+        if rank != "Juvenile": abl["areas"] += ["Breath"]
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Komodo", rank, stats, type)
 
 class lizard:
     def __init__(self, element, rank) -> None:        
@@ -73,7 +84,7 @@ class lizard:
         dice = {"martial": 1, "magic": 1}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "boons": ["Regenerate"]})
         if rank == "Elder": abl["areas"] += ["Slip"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Lizard", rank, stats, type)
@@ -87,7 +98,7 @@ class tortoise:
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Ram"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Ram"], "boons": ["Guard"]})
 
         if rank == "Elder": abl["areas"] += ["Infuse"]
 
@@ -102,7 +113,7 @@ class turtle:
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "boons": ["Guard"]})
 
         if rank == "Elder": abl["boons"] += ["Wreath"]
 
@@ -117,7 +128,7 @@ class wyrm:
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
 
-        abl = Characters.setAbilities(type, {"attacks": ["Bite", "Spray"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite", "Spray"]})
         if rank == "Elder": abl["hindrances"] += ["Focus"]
 
         self.ch = Characters.character(abl, cndt, dice, element, "Wyrm", rank, stats, type)

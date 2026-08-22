@@ -15,29 +15,6 @@ def strongholdEncounters(roll, rollNumber, type, budget) -> list:
     return members
 
 
-def marshEncounters(roll, budget) -> list:
-    members, element, majorBiome = [], "Basic", False
-
-    match roll:
-        case 1: members = RandomHumans.warriors("Outlaw", element, majorBiome, budget)
-        case 2: members = RandomCreatures.creatures("crocodile", element, majorBiome, budget)
-        case 3: members = RandomCreatures.creatures("wyrm", "Toxic", majorBiome, budget)
-        case 4: members = RandomCreatures.creatures("turtle", element, majorBiome, budget)
-        case 5: members = RandomCreatures.creatures("crab", element, majorBiome, budget)
-        case 6: members = RandomCreatures.creatures("leech", "Toxic", majorBiome, budget)
-        case 7: members = RandomCreatures.creatures("tortoise", element, majorBiome, budget)
-        case 8: members = RandomCreatures.creatures("hawk", element, majorBiome, budget)
-        case 9: members = RandomCreatures.creatures("hornet", "Toxic", majorBiome, budget)
-        case 10: members = RandomCreatures.creatures("deer", element, majorBiome, budget)
-        case 11: members = RandomCreatures.creatures("worm", element, majorBiome, budget)        
-        case 12: members = RandomCreatures.creatures("turtle", "Rot", majorBiome, budget)
-        case 13: members = RandomCreatures.creatures("wyrm", "Rot", majorBiome, budget)
-        case 14: members = RandomCreatures.creatures("crocodile", "Rot", majorBiome, budget)
-        case 15: members = RandomHumans.warriors("Outlaw", "Rot", majorBiome, budget)
-
-    return members
-
-
 def forestEncounters(roll, budget) -> list:
     members, element, majorBiome = [], "Basic", False
 

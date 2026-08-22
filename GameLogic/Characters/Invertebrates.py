@@ -18,7 +18,7 @@ class anemone:
 
         dice = {"martial": 2, "magic": 2}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Sting"], "areas": ["Infuse"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Sting"], "areas": ["Infuse"], "hindrances": ["Bind"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Anemone", rank, stats, type)
 
@@ -26,12 +26,12 @@ class crab:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
         stats, cndt, rank, type = common[0], common[1], common[2], common[3]
-        cndt["aquatic"], cndt["armored"] = True, True
+        cndt["aquatic"], cndt["armored"], cndt["reposed"] = True, True, False
         stats["hp"] = "high"
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Pinch"], "boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Pinch"], "boons": ["Guard"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Crab", rank, stats, type)
 
@@ -43,7 +43,7 @@ class leech:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bite"], "hindrances": ["Drain"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bite"], "hindrances": ["Drain"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Leech", rank, stats, type)
 
@@ -56,7 +56,7 @@ class mussel:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"boons": ["Guard"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Guard"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Mussel", rank, stats, type)
 
@@ -69,10 +69,34 @@ class octopus:
 
         dice = {"martial": 3, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Bash", "Peck"], "hindrances": ["Bind"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Bash", "Peck"], "hindrances": ["Bind"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Octopus", rank, stats, type)
-    
+
+class slug:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+
+        dice = {"martial": 1, "magic": 1}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Spray"], "boons": ["Wreath"]})
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Slug", rank, stats, type)
+
+class starfish:
+    def __init__(self, element, rank) -> None:
+        common = setCommon(element, rank)
+        stats, cndt, rank, type = common[0], common[1], common[2], common[3]
+        cndt["massive"] = True
+        stats["hp"]= "max"
+
+        dice = {"martial": 3, "magic": 0}
+        Animals.makeUpdates(element, cndt, rank, stats, dice)
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Spit"], "boons": ["Guard"], "reactions": ["Riposte"]})
+
+        self.ch = Characters.character(abl, cndt, dice, element, "Starfish", rank, stats, type)
+
 class urchin:
     def __init__(self, element, rank) -> None:
         common = setCommon(element, rank)
@@ -81,7 +105,7 @@ class urchin:
 
         dice = {"martial": 2, "magic": 0}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
+        abl = Characters.setAbilities(rank, type, {"attacks": ["Stab"], "boons": ["Guard"], "reactions": ["Riposte"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Urchin", rank, stats, type)
 
@@ -92,6 +116,6 @@ class worm:
 
         dice = {"martial": 0, "magic": 2}
         Animals.makeUpdates(element, cndt, rank, stats, dice)
-        abl = Characters.setAbilities(type, {"boons": ["Wreath"]})
+        abl = Characters.setAbilities(rank, type, {"boons": ["Wreath"]})
 
         self.ch = Characters.character(abl, cndt, dice, element, "Worm", rank, stats, type)
