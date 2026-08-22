@@ -105,8 +105,9 @@ def setMapConditions(ace, biome):
 def setAtmosphere(ace, biome, extent) -> dict:
     atmosphere = {"}": 0, "@": 0, "=": 0, "-": 0, "&": 0, "%": 0, "+": 0, ";": 0, "#": 0}
 
-    if biome in ["Dreamwood Depths", "Flame Volcano", "Holy Desert", "Ice Glacier", "Ice Peak", "Rot Locus"]: extent += 3
-    
+    if biome in ["Ashen Forest", "Dormant Volcano", "Dreamwood Depths", "Flame Volcano", "Holy Desert",
+                  "Ice Glacier", "Ice Peak", "Mystic Forest", "Rot Locus", "Transcendent Peak"]: extent += 3
+
     match biome:
         case "Dreamwood Periphery" | "Dreamwood Depths" | "Dream Sea-Cave": atmosphere["@"] = extent
         case "Flame Volcano" | "Flame Peninsula" | "Flame Lowland": atmosphere["#"] = extent
@@ -114,10 +115,13 @@ def setAtmosphere(ace, biome, extent) -> dict:
         case "Ice Glacier" | "Ice Fjord" | "Ice Highland": atmosphere["%"] = extent
         case "Marsh": atmosphere["&"] = extent
         case "Rot Locus" | "Rot Encroachment": atmosphere["}"] = extent
+        case "Dormant Volcano": atmosphere["%"], atmosphere["#"] = extent, extent
+        case "Mystic Forest" | "Mystic Shore": atmosphere["@"], atmosphere["+"] = extent, extent
+        case "Transcendent Highland" | "Transcendent Peak": atmosphere["%"], atmosphere["+"] = extent, extent
 
     match ace:
         case "Hearts": atmosphere["="] = 4
         case "Diamonds": atmosphere["="], atmosphere["-"] = 1, 2
         case "Clubs": atmosphere["-"] = 5
-    
+
     return atmosphere

@@ -38,14 +38,20 @@ def resistCompulsion(attempt, target, ability) -> list:
     return attempt > threshold
 
 
-def applyStun(target) -> int:
-    reduction = Boons.apply(target, "Stun")
-    if reduction > 0: Select.clearPrint(target.props["name"] + "'s AV temporarily decreases by " + str(reduction) + ".")
-    return reduction
-
 def applyConfound(target) -> int:
     reduction = Boons.apply(target, "Confound")
     if reduction > 0: Select.clearPrint(target.props["name"] + "'s attempt decreases by " + str(reduction) + ".")
+    return reduction
+
+def applyIntoxicate(target) -> None:
+    reduction = Boons.apply(target, "Intoxicate")
+    if reduction > 0:
+        Select.clearPrint(target.props["name"] + "'s tolerance decreases by " + str(reduction) + ".")
+        Conditions.decrementTolerance(target, reduction)
+
+def applyStun(target) -> int:
+    reduction = Boons.apply(target, "Stun")
+    if reduction > 0: Select.clearPrint(target.props["name"] + "'s AV temporarily decreases by " + str(reduction) + ".")
     return reduction
 
 

@@ -29,7 +29,7 @@ def usefulHindrances(fighter, enemies, allies):
 
     for enemy in enemies:
         if any(attack in Attacks.martialAttack for attack in enemy.abl["attacks"]): hindrancePreferences += ["Bind", "Confound"]
-        if canCompel(fighter, enemy, "Compel"): hindrancePreferences += ["Compel"]
+        if canCompel(fighter, enemy, "Compel"): hindrancePreferences += ["Compel", "Intoxicate"]
         if canCompel(fighter, enemy, "Seal"): hindrancePreferences += ["Seal"]
         if enemy.atrb["cur_hp"] < enemy.atrb["base_hp"]: hindrancePreferences += ["Drain"]
 

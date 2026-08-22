@@ -3,7 +3,7 @@ from . import Boons_Set as Boons
 import random
 
 
-martialHindrances = ["Bind", "Drain", "Harry"]
+martialHindrances = ["Bind", "Drain", "Harry", "Intoxicate"]
 magicHindrances = ["Compel", "Confound", "Seal", "Stun"]
 
 
@@ -31,6 +31,7 @@ def hindranceComment(fighter, target, hindrance) -> str:
         case "Harry":
             phrase += " harries " + end
             trueHindrance = "Stun"
+        case "Intoxicate": phrase += " intoxicates " + end
         case "Seal": 
             phrase += " attempts to seal " + end
             trueHindrance = "Compel"
